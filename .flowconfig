@@ -1,0 +1,22 @@
+[ignore]
+.*/.git/.*
+.*/build/.*
+.*/coverage/.*
+.*/node_modules/fbjs/lib/.*
+.*/node_modules/react-motion/src/.*
+.*/node_modules/react-side-effect/node_modules/.*
+.*/static/.*
+.*/*.css
+
+[include]
+
+[libs]
+./flow/declares/
+./flow/stubs/css-module.js
+
+[options]
+module.name_mapper.extension='css' -> 'empty/object'
+module.use_strict=true
+
+[version]
+^0.31.0

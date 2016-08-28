@@ -1,0 +1,114 @@
+/* include normalize before everything
+  Use tachyons for now
+  @import '../../node_modules/normalize.css/normalize.css';
+ */
+
+
+/* GLOBAL STYLES */
+html {
+
+  /*
+  @media (max-width: $screenMdMax) {
+    font-size: 18px;
+  }
+  @media (max-width: $screenSmMax) {
+    font-size: 16px;
+  }
+  @media (max-width: $screenXsMax) {
+    font-size: 16px;
+  }
+  */
+
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  outline: none;
+  font-family: $fontFamily;
+  font-weight: $fontWeight;
+}
+
+button {
+  cursor: pointer;
+}
+
+body {
+  color: $colorDark;
+}
+
+h1, h2, h3, h4, h5 {
+  line-height: 1.25em;
+  color: $colorThemeSecondary;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+h3 {
+  font-size: 1.875rem;
+}
+
+h4 {
+  font-size: .8rem;
+}
+
+h5 {
+}
+
+p, li {
+  font-size: 1.25em;
+  line-height: 1.5em;
+
+  @media (max-width: $screenSmMax) {
+    font-size: 1em;
+  }
+}
+
+ul {
+  list-style: none;
+
+  li {
+    list-style-position: inside;
+    text-indent: -1.5em;
+    padding-left: 1em;
+    padding-bottom: 1em;
+  }
+
+  li:before {
+    padding-right: .5em;
+    content: '\1f310';
+    color: $colorThemeTertiary;
+    fill: $colorThemeTertiary;
+  }
+}
+
+a {
+  cursor: pointer;
+  color: $colorThemeTertiary;
+  text-decoration: none;
+
+  &:hover {
+    color: $colorThemeSecondary;
+  }
+
+  &:focus, &:active {
+    color: $colorThemeTertiary;
+    outline: none;
+    text-decoration: none;
+  }
+}
+
+input {
+
+  &::placeholder {
+    /* IE equivalent */
+    opacity: .5;
+  }
+}

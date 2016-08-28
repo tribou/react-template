@@ -1,0 +1,8 @@
+{
+  "ignore": [
+    ".eslintcache",
+    "build/*",
+    "src/*"
+  ],
+  "verbose": true
+}

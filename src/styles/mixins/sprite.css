@@ -1,0 +1,16 @@
+@define-mixin sprite $name, $width, $height, $ratio: .5 {
+  @media (max-resolution: 1dppx) {
+    background-image: url(../pages/images/$(name).png);
+  }
+  background-image: url(../pages/images/$(name)@2x.png);
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  background-size: calc($width * $ratio) calc($height * 2 * $ratio);
+  width: calc($width * $ratio);
+  height: calc($height * $ratio);
+  display: inline-block;
+
+  &:hover {
+    background-position: 0px calc($height * -$(ratio));
+  }
+}

@@ -1,0 +1,58 @@
+/* GLOBAL MIXINS */
+
+@define-mixin image $name, $width, $height, $ratio: .5 {
+  @media (max-resolution: 1dppx) {
+    background-image: url(../pages/images/$(name).png);
+  }
+  background-image: url(../pages/images/$(name)@2x.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: calc($width * $ratio);
+  height: calc($height * $ratio);
+  display: inline-block;
+}
+
+
+@define-mixin image-jpg $name, $width, $height, $ratio: .5 {
+  @media (max-resolution: 1dppx) {
+    background-image: url(../pages/images/$(name).jpg);
+  }
+  background-image: url(../pages/images/$(name)@2x.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: calc($width * $ratio);
+  height: calc($height * $ratio);
+  display: inline-block;
+}
+
+
+@define-mixin image-url $url, $width, $height, $ratio: .5 {
+  background-image: url($url);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: calc($width * $ratio);
+  height: calc($height * $ratio);
+  display: inline-block;
+}
+
+
+@define-mixin splash $name {
+  @media (max-resolution: 1dppx) {
+    background-image: url(../pages/images/$(name).png);
+  }
+  background-image: url(../pages/images/$(name)@2x.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+@define-mixin splash-url $url {
+  background-image: url($url);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

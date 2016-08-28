@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "tribou"
+  ],
+  "rules": {
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": false
+    }
+  },
+  "globals": {
+  }
+}
