@@ -127,6 +127,7 @@ if (ENV === 'development') {
       open: false,
       logFileChanges: true,
       logLevel: 'info',
+      reloadOnRestart: true,
     })
   )
 
