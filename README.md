@@ -7,8 +7,11 @@ React boilerplate with Hapi server-side rendering. Uses browser-sync refreshing 
 Runs on Node v6+
 
 ```sh
+# Install yarn
+npm install -g yarn
+
 # Install dependencies and build assets
-npm install
+yarn
 
 # Serve production server
 NODE_ENV=production npm start
