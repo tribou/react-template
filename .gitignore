@@ -31,3 +31,4 @@ node_modules
 .env*
 .eslintcache
 state.json
+build
