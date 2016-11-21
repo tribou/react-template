@@ -1,6 +1,6 @@
 // @flow
 import { combineReducers } from 'redux'
-import init from './init.js'
+import init from './init'
 
 const rootReducer = combineReducers({
   init,

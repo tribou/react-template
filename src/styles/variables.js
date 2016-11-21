@@ -1,4 +1,5 @@
 // @flow
+
 'use strict'
 
 // Global CSS variables passed via precss > postcss-custom-properties

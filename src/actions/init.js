@@ -3,7 +3,7 @@ import {
   INIT_LOAD_FAIL,
   INIT_LOAD_START,
   INIT_LOAD_SUCCESS,
-} from '../constants/actions.js'
+} from '../constants/actions'
 
 
 export function loadStart (): InitAction {

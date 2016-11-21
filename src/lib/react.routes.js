@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Route } from 'react-router'
-import App from '../components/App.js'
+import App from '../components/App'
 // import Walkie from './components/Walkie.js'
 
 const routes = (

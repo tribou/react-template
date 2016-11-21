@@ -30,15 +30,24 @@ const plugins = [
     register: Good,
     options: {
       ops: {
-        interval: 5000,
+        interval: 10000,
       },
       reporters: {
         console: [{
           module: 'good-squeeze',
           name: 'Squeeze',
-          args: [{ log: '*', request: '*', response: '*', error: '*' }],
+          args: [{
+            // ops: '*',
+            log: '*',
+            request: '*',
+            response: '*',
+            error: '*',
+          }],
         }, {
           module: 'good-console',
+          args: [{
+            format: 'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
+          }],
         }, 'stdout'],
       },
     },

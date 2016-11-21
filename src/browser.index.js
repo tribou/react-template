@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 // import OfflineRuntime from 'offline-plugin/runtime'
-import routes from './lib/react.routes.js'
-import configureStore from './lib/configureStore.js'
-import { INIT_LOAD_START } from './constants/actions.js'
+import routes from './lib/react.routes'
+import configureStore from './lib/configureStore'
+import { INIT_LOAD_START } from './constants/actions'
 
 // OfflineRuntime.install()
 

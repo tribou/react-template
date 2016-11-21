@@ -1,7 +1,7 @@
 // @flow
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadSuccess } from '../actions/init.js'
+import { loadSuccess } from '../actions/init'
 
 type Props = {
   children: any,

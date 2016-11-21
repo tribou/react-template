@@ -47,6 +47,13 @@ const cssLoader = 'css/locals?minimize&modules&camelCase'
 
 
 // WEBPACK loaders
+const preLoaders = [
+  {
+    test: /\.js$/,
+    exclude: /node_modules/,
+    loader: 'eslint-loader',
+  },
+]
 const loaders = [
   {
     test: /\.js$/,
@@ -91,7 +98,13 @@ module.exports = {
   ],
 
   module: {
+    preLoaders,
     loaders,
+  },
+
+  eslint: {
+    cache: true,
+    configFile: '.eslintrc',
   },
 
 }

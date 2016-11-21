@@ -192,6 +192,13 @@ if (ENV === 'production') {
 
 
 // WEBPACK loaders
+const preLoaders = [
+  {
+    test: /\.js$/,
+    exclude: /node_modules/,
+    loader: 'eslint-loader',
+  },
+]
 const loaders = [
   {
     test: /\.js$/,
@@ -242,7 +249,13 @@ module.exports = {
   output,
 
   module: {
+    preLoaders,
     loaders,
+  },
+
+  eslint: {
+    cache: true,
+    configFile: '.eslintrc',
   },
 
   postcss,

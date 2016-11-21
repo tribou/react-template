@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import Root from '../containers/Root.js'
+import Root from '../containers/Root'
 
 
 const App = (props: { children: any }): Function => {
