@@ -32,22 +32,25 @@ function init (
 
 
     case INIT_LOAD_SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false,
         loaded: true,
-      })
+      }
 
     case INIT_LOAD_START:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: true,
         loaded: false,
-      })
+      }
 
     case INIT_LOAD_FAIL:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isLoading: false,
         loaded: false,
-      })
+      }
 
 
     default:

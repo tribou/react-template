@@ -5,8 +5,8 @@ import {
   INIT_LOAD_FAIL,
   INIT_LOAD_START,
   INIT_LOAD_SUCCESS,
-} from '../constants/actions.js'
-import reducer, { initialState } from './init.js'
+} from '../constants/actions'
+import reducer, { initialState } from './init'
 
 
 test('reducer init returns state by default', (t: Object) => {

@@ -3,7 +3,7 @@
 import test from 'tape'
 import React from 'react'
 import { shallow } from 'enzyme'
-import Html from './Html.js'
+import Html from './Html'
 
 
 test('<Html> embeds preloadedState prop in app-state script tag', (t: Object) => {
@@ -50,32 +50,6 @@ test('<Html> embeds css prop in style tag', (t: Object) => {
     />
   )
   const actual = wrapper.find('head style').props().dangerouslySetInnerHTML.__html
-
-  t.equals(actual, expected)
-  t.end()
-
-})
-
-
-test('<Html> sets title to title prop', (t: Object) => {
-
-  const title = 'myTitle'
-  const expected = `<title>${title}</title>`
-  const wrapper = shallow(
-    <Html
-      css=""
-      assets={{
-        vendor: {
-          js: '',
-        },
-        bundle: {
-          js: '',
-        },
-      }}
-      title={title}
-    />
-  )
-  const actual = wrapper.find('title').html()
 
   t.equals(actual, expected)
   t.end()

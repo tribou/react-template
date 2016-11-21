@@ -1,6 +1,7 @@
 // @flow
+/* eslint-disable react/no-danger */
 import React, { Component, PropTypes } from 'react'
-import styles from '../../src/styles/variables.js'
+import styles from '../../src/styles/variables'
 
 
 const propTypes = {
@@ -15,13 +16,12 @@ const propTypes = {
   css: PropTypes.string.isRequired,
   children: PropTypes.any,
   preloadedState: PropTypes.object,
-  title: PropTypes.string,
 }
 
 
 class Html extends Component {
 
-  generatePreloadScript (preloadedState: Object): string {
+  static generatePreloadScript (preloadedState: Object): string {
 
     return `window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}`
 
@@ -29,8 +29,8 @@ class Html extends Component {
 
   render (): React$Element<any> {
 
+    const title = 'MyApp'
     const themeColor = styles.colorTheme
-    const { title } = this.props
     const bundle = this.props.assets.bundle.js
     const vendor = this.props.assets.vendor.js
 
@@ -40,7 +40,7 @@ class Html extends Component {
       />
     )
 
-    const preloadScript = this.generatePreloadScript(this.props.preloadedState)
+    const preloadScript = Html.generatePreloadScript(this.props.preloadedState)
 
     return (
       <html lang="en">

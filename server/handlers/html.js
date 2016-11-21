@@ -6,9 +6,10 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'
 import { match, RouterContext } from 'react-router'
-import routes from '../../src/lib/react.routes.js'
-import { getAssets } from '../utils.js'
-import configureStore from '../../src/lib/configureStore.js'
+import routes from '../../src/lib/react.routes'
+import { getAssets } from '../utils'
+import configureStore from '../../src/lib/configureStore'
+import env from '../env'
 
 
 // Default render options for react templates
@@ -94,7 +95,9 @@ const routedHtml = (request: Object, reply: Function) => {
         }
 
       }
-      const store = configureStore(initialState)
+
+      // Pass initial state to store along with server ENV vars
+      const store = configureStore({ ...initialState, env })
 
       // Get rendered router context
       const children = renderToString(
@@ -112,7 +115,6 @@ const routedHtml = (request: Object, reply: Function) => {
         children,
         css,
         preloadedState,
-        title: 'MyApp',
       }
 
       // Render the layout with props

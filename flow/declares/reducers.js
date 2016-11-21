@@ -11,4 +11,5 @@ type InitAction = {
 
 type GlobalReducerState = {
   init: InitState,
+  env: Object,
 }

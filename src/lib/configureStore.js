@@ -40,7 +40,7 @@ function configureStore (initialState: ?GlobalReducerState): Object {
       typeof window === 'object'
         && typeof window.devToolsExtension !== 'undefined'
         ? window.devToolsExtension()
-        : (f: void) => f
+        : (f: any) => f
 
     )
   )
