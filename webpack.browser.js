@@ -1,14 +1,17 @@
 /* eslint-disable flowtype/require-valid-file-annotation */
 /* eslint-disable flowtype/require-parameter-type */
+/* eslint-disable flowtype/require-return-type */
 /* eslint-disable global-require */
+
 'use strict'
+
 // Webpack and plugins
 const Webpack = require('webpack')
 const AssetsPlugin = require('assets-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-// const OfflinePlugin = require('offline-plugin')
+const OfflinePlugin = require('offline-plugin')
 const postcss = require('./postcss.config.js')
 
 const ENV = process.env.NODE_ENV
@@ -35,7 +38,7 @@ const entry = {
     'react-redux',
     // 'react-motion',
     'react-router',
-    // 'react-router-redux',
+    'react-router-redux',
     // 'react-tap-event-plugin',
     'redux',
     'redux-logger',
@@ -158,35 +161,33 @@ if (ENV === 'production') {
   )
 
   // Keep OfflinePlugin last
-  // plugins.push(
-  //   new OfflinePlugin({
-  //     publicPath: '/',
-  //     relativePaths: false,
-  //     caches: {
-  //       main: [
-  //         // '/',
-  //         // '/walkie',
-  //         '*.{css,eot,ico,jpg,jpeg,js,json,otf,png,svg,ttf,txt,woff,woff2}',
-  //       ],
-  //     },
-  //     externals: [
-  //       // '/',
-  //       // '/walkie',
-  //     ],
-  //     excludes: [
-  //       '**/*.',
-  //       '**/*.map',
-  //       'styles.css',
-  //       'robots.txt',
-  //     ],
-  //     // If publicPath is a subdirectory
-  //     rewrites: (asset) => {
+  plugins.push(
+    new OfflinePlugin({
+      publicPath: '/',
+      relativePaths: false,
+      caches: {
+        main: [
+          // '/',
+          '*.{css,eot,ico,jpg,jpeg,js,json,otf,png,svg,ttf,txt,woff,woff2}',
+        ],
+      },
+      externals: [
+        // '/',
+      ],
+      excludes: [
+        '**/*.',
+        '**/*.map',
+        'styles.css',
+        'robots.txt',
+      ],
+      // If publicPath is a subdirectory
+      rewrites: (asset) => {
 
-  //       return asset === '/' ? asset : `/static/${asset}`
+        return asset === '/' ? asset : `/static/${asset}`
 
-  //     },
-  //   })
-  // )
+      },
+    })
+  )
 
 }
 
