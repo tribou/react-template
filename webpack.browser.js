@@ -12,7 +12,8 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
-const postcss = require('./postcss.config.js')
+const postcss = require('./postcss.config')
+const { version } = require('./package.json')
 
 const ENV = process.env.NODE_ENV
 
@@ -161,29 +162,35 @@ if (ENV === 'production') {
   )
 
   // Keep OfflinePlugin last
+  const cachedPages = [
+    '/',
+    '/test',
+  ]
+
   plugins.push(
     new OfflinePlugin({
+      AppCache: false,
+      version: `v${version}-[hash]`,
       publicPath: '/',
       relativePaths: false,
       caches: {
         main: [
-          // '/',
-          '*.{css,eot,ico,jpg,jpeg,js,json,otf,png,svg,ttf,txt,woff,woff2}',
-        ],
+          '*.{css,eot,ico,jpg,jpeg,js,json,mp4,otf,png,svg,ttf,txt,woff,woff2}',
+        ].concat(cachedPages),
       },
-      externals: [
-        // '/',
-      ],
+      externals: cachedPages,
       excludes: [
-        '**/*.',
+        '**/.*',
         '**/*.map',
-        'styles.css',
         'robots.txt',
       ],
       // If publicPath is a subdirectory
       rewrites: (asset) => {
 
-        return asset === '/' ? asset : `/static/${asset}`
+        // prefix with /static/ unless webpack asset is a page route
+        return cachedPages.indexOf(asset) === -1
+          ? `/static/${asset}`
+          : asset
 
       },
     })

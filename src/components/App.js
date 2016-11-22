@@ -10,7 +10,7 @@ const App = (props: { children: any }): React$Element<any> => {
       <div
         className="pt7 tc"
       >
-        This is the app.
+        This is the offline app.
         {props.children}
       </div>
     </Root>
