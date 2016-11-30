@@ -1,8 +1,7 @@
 // @flow
 import {
-  INIT_LOAD_FAIL,
   INIT_LOAD_START,
-  INIT_LOAD_SUCCESS,
+  INIT_LOAD_COMPLETE,
 } from '../constants/actions'
 
 
@@ -14,18 +13,10 @@ export function loadStart (): InitAction {
 
 }
 
-export function loadSuccess (): InitAction {
+export function loadComplete (): InitAction {
 
   return {
-    type: INIT_LOAD_SUCCESS,
-  }
-
-}
-
-export function loadFail (): InitAction {
-
-  return {
-    type: INIT_LOAD_FAIL,
+    type: INIT_LOAD_COMPLETE,
   }
 
 }

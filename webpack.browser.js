@@ -30,7 +30,7 @@ const entry = {
   // Bundle vendor libraries in a separate chunk
   vendor: [
     // 'classnames',
-    // 'debug',
+    'debug',
     // 'immutable',
     // 'jquery',
     // 'key-mirror',
@@ -155,13 +155,18 @@ if (ENV === 'production') {
 
   // Keep OfflinePlugin last
   const cachedPages = [
-    '/',
-    '/test',
+    // '/',
+    // '/test',
   ]
 
   plugins.push(
     new OfflinePlugin({
-      AppCache: false,
+      AppCache: {
+        events: true,
+      },
+      ServiceWorker: {
+        events: true,
+      },
       version: `v${version}-[hash]`,
       publicPath: '/',
       externals: cachedPages,
@@ -248,7 +253,6 @@ module.exports = {
   },
 
   eslint: {
-    cache: true,
     configFile: '.eslintrc.yml',
   },
 

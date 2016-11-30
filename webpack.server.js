@@ -105,7 +105,6 @@ module.exports = {
   },
 
   eslint: {
-    cache: true,
     configFile: '.eslintrc.yml',
   },
 

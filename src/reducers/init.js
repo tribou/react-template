@@ -1,9 +1,9 @@
 // @flow
 import {
-  INIT_LOAD_FAIL,
+  INIT_LOAD_COMPLETE,
   INIT_LOAD_START,
-  INIT_LOAD_SUCCESS,
 } from '../constants/actions'
+
 // import { Map } from 'immutable'
 // import Debug from 'debug'
 
@@ -24,24 +24,17 @@ function init (
   switch (action.type) {
 
 
-    case INIT_LOAD_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        loaded: true,
-      }
-
     case INIT_LOAD_START:
       return {
         ...state,
         isLoading: true,
       }
 
-    case INIT_LOAD_FAIL:
+    case INIT_LOAD_COMPLETE:
       return {
         ...state,
         isLoading: false,
-        loaded: false,
+        loaded: true,
       }
 
 

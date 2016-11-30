@@ -1,4 +1,5 @@
 // @flow
+import Debug from 'debug'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
@@ -7,13 +8,27 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import OfflineRuntime from 'offline-plugin/runtime'
 import routes from './lib/react.routes'
 import configureStore from './lib/configureStore'
-import { INIT_LOAD_START } from './constants/actions'
+import { loadStart, loadComplete } from './actions/init'
 
-
+const log = Debug('my-app:browser:index')
 const store = configureStore(window.__PRELOADED_STATE__)
+store.dispatch(loadStart())
 const history = syncHistoryWithStore(browserHistory, store)
 
-store.dispatch({ type: INIT_LOAD_START })
+window.onload = () => {
+
+  store.dispatch(loadComplete())
+  // Can replace with API/store call checks in the future:
+  // {
+  //   loadedChannels: true,
+  //   loadedMessages: true,
+  // }
+
+  // Reset this handler when we're done
+  window.onload = null
+
+
+}
 
 ReactDOM.render(
 
@@ -24,4 +39,14 @@ ReactDOM.render(
   document.getElementById('react-mount')
 )
 
-OfflineRuntime.install()
+// Progressively apply ServiceWorker updates so browser can simply be refreshed
+// to reflect changes (window.location.reload())
+// TODO: Fire redux action
+OfflineRuntime.install({
+  onUpdateReady: () => {
+
+    log('onUpdateReady')
+    OfflineRuntime.applyUpdate()
+
+  },
+})
