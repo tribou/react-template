@@ -63,13 +63,6 @@ const output = {
   publicPath: '/static/',
 }
 
-if (ENV === 'development') {
-
-  // output.publicPath = 'http://localhost:8000/static/'
-  // entry.bundle.unshift('webpack-hot-middleware/client')
-
-}
-
 
 // WEBPACK plugins
 const plugins = [
@@ -87,13 +80,6 @@ const plugins = [
   // new Webpack.EnvironmentPlugin([
   //   'ENV_VAR',
   // ]),
-  new CompressionPlugin({
-    asset: '[path].gz[query]',
-    algorithm: 'gzip',
-    test: /\.(js|css|html|json|ico|map|xml|txt|svg|eot|otf|ttf|woff|woff2)$/,
-    threshold: 10240,
-    minRatio: 0.8,
-  }),
   new CopyPlugin([
     { from: 'static' },
   ]),
@@ -135,10 +121,6 @@ if (ENV === 'development') {
     })
   )
 
-//   plugins.push(
-//     new Webpack.HotModuleReplacementPlugin()
-//   )
-
 }
 
 
@@ -152,6 +134,16 @@ if (ENV === 'production') {
   cssLoader = ExtractTextPlugin.extract('css'
             + '?minimize&importLoaders=1'
             + '!postcss')
+
+  plugins.push(
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.(js|css|html|json|ico|map|xml|txt|svg|eot|otf|ttf|woff|woff2)$/,
+      threshold: 10240,
+      minRatio: 0.8,
+    })
+  )
 
   plugins.push(
     new Webpack.optimize.UglifyJsPlugin({
@@ -172,12 +164,6 @@ if (ENV === 'production') {
       AppCache: false,
       version: `v${version}-[hash]`,
       publicPath: '/',
-      relativePaths: false,
-      caches: {
-        main: [
-          '*.{css,eot,ico,jpg,jpeg,js,json,mp4,otf,png,svg,ttf,txt,woff,woff2}',
-        ].concat(cachedPages),
-      },
       externals: cachedPages,
       excludes: [
         '**/.*',
@@ -263,7 +249,7 @@ module.exports = {
 
   eslint: {
     cache: true,
-    configFile: '.eslintrc',
+    configFile: '.eslintrc.yml',
   },
 
   postcss,

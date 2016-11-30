@@ -1,6 +1,8 @@
 /* eslint-disable flowtype/require-valid-file-annotation */
 /* eslint-disable flowtype/require-parameter-type */
+
 'use strict'
+
 const Glob = require('glob')
 const NodeExternals = require('webpack-node-externals')
 const Webpack = require('webpack')
@@ -104,7 +106,7 @@ module.exports = {
 
   eslint: {
     cache: true,
-    configFile: '.eslintrc',
+    configFile: '.eslintrc.yml',
   },
 
 }

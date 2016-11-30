@@ -21,13 +21,6 @@ function init (
   action: InitAction
 ): ?InitState {
 
-  // TODO: use global error reducer to catch all failure actions
-  // if (action.error) {
-
-  //   log('error:', action.error)
-
-  // }
-
   switch (action.type) {
 
 
@@ -42,7 +35,6 @@ function init (
       return {
         ...state,
         isLoading: true,
-        loaded: false,
       }
 
     case INIT_LOAD_FAIL:

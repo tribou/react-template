@@ -10,7 +10,7 @@ pipelines:
     - step:
         script: # Modify the commands below to build your repository.
           - npm install -g yarn
-          - yarn install
+          - yarn install --ignore-scripts
           - npm run lint
           - npm run flow
           - npm run test:tape

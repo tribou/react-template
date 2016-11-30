@@ -10,8 +10,11 @@ const App = (props: { children: any }): React$Element<any> => {
       <div
         className="pt7 tc"
       >
-        This is the offline app.
+        This is the offline app...
         {props.children}
+        <ul>
+          <li>This is an item</li>
+        </ul>
       </div>
     </Root>
   )

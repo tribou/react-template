@@ -1,15 +1,20 @@
 /* eslint-disable flowtype/require-valid-file-annotation */
 /* eslint-disable flowtype/require-parameter-type */
+const log = require('debug')('my-app:server:dev')
+
+log('css-modules-require-hook')
 require('css-modules-require-hook')({
   generateScopedName: '[path]__[name]__[local]__[hash:base64:3]',
 })
+
+log('babel-register')
 require('babel-register')()
-const log = require('debug')('my-app:server:dev')
+
 const Webpack = require('webpack')
 const config = require('../webpack.browser.js')
 const start = require('./index.js').default
 
-log('starting')
+log('starting server')
 start(() => {
 
   log('started')
