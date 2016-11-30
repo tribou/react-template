@@ -2,9 +2,8 @@
 /* eslint-disable max-len */
 import test from 'tape'
 import {
-  INIT_LOAD_FAIL,
   INIT_LOAD_START,
-  INIT_LOAD_SUCCESS,
+  INIT_LOAD_COMPLETE,
 } from '../constants/actions'
 import reducer, { initialState } from './init'
 
@@ -49,30 +48,14 @@ test('reducer init on INIT_LOAD_START sets isLoading true', (t: Object) => {
 })
 
 
-test('reducer init on INIT_LOAD_SUCCESS sets isLoading false, loaded true', (t: Object) => {
+test('reducer init on INIT_LOAD_COMPLETE sets isLoading false, loaded true', (t: Object) => {
 
   const expected = {
     loaded: true,
     isLoading: false,
   }
   const actual = reducer(initialState, {
-    type: INIT_LOAD_SUCCESS,
-  })
-
-  t.deepEqual(actual, expected)
-  t.end()
-
-})
-
-
-test('reducer init on INIT_LOAD_FAIL sets isLoading false, loaded false', (t: Object) => {
-
-  const expected = {
-    loaded: false,
-    isLoading: false,
-  }
-  const actual = reducer(initialState, {
-    type: INIT_LOAD_FAIL,
+    type: INIT_LOAD_COMPLETE,
   })
 
   t.deepEqual(actual, expected)

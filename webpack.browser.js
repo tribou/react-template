@@ -6,6 +6,7 @@
 'use strict'
 
 // Webpack and plugins
+const Path = require('path')
 const Webpack = require('webpack')
 const AssetsPlugin = require('assets-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
@@ -22,6 +23,20 @@ const ENV = process.env.NODE_ENV
 const devtool = ENV === 'production'
               ? 'source-map'
               : 'cheap-module-eval-source-map'
+
+// WEBPACK resolve
+const resolve = {
+  root: [
+    Path.resolve(__dirname, './src'),
+    Path.resolve(__dirname, './server'),
+    Path.resolve(__dirname, './static'),
+  ],
+  extensions: [
+    '',
+    '.js',
+    '.web.js',
+  ],
+}
 
 
 // WEBPACK entry
@@ -244,7 +259,7 @@ module.exports = {
   devtool,
   entry,
   plugins,
-
+  resolve,
   output,
 
   module: {

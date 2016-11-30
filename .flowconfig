@@ -2,19 +2,23 @@
 .*/.git/.*
 .*/build/.*
 .*/coverage/.*
-.*/static/.*
-.*/*.css
+
 
 [include]
 
+
 [libs]
-./flow/declares/
-./flow/stubs/css-module.js
+flow/
+
 
 [options]
-module.name_mapper.extension='css' -> '<PROJECT_ROOT>/flow/stubs/css-module.js'
-module.name_mapper.extension='.*\.\(svg\|png\|jpg\|gif\)$' -> '<PROJECT_ROOT>/flow/stubs/url-loader.js'
+module.name_mapper.extension='.*\.css$' -> '<PROJECT_ROOT>/flow/stubs/css-module.js'
+module.name_mapper.extension='.*\.\(eot\|gif\|jpg\|jpeg\|mp4\|otf\|png\|svg\|ttf\|woff\|woff2\)$' -> '<PROJECT_ROOT>/flow/stubs/url-loader.js'
 module.use_strict=true
+module.file_ext=.js
+module.file_ext=.json
+module.file_ext=.web.js
+
 
 [version]
 ^0.33.0

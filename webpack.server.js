@@ -4,6 +4,7 @@
 'use strict'
 
 const Glob = require('glob')
+const Path = require('path')
 const NodeExternals = require('webpack-node-externals')
 const Webpack = require('webpack')
 
@@ -13,12 +14,37 @@ const ENV = process.env.NODE_ENV || 'production'
 // WEBPACK devtool
 const devtool = 'source-map'
 
+
+// WEBPACK resolve
+const resolve = {
+  root: [
+    Path.resolve(__dirname, './src'),
+    Path.resolve(__dirname, './server'),
+    Path.resolve(__dirname, './static'),
+  ],
+  extensions: [
+    '',
+    '.js',
+    '.web.js',
+  ],
+}
+
+
 // WEBPACK entry
 // construction inspired by:
 // https://github.com/webpack/webpack/issues/1189#issuecomment-156576084
 const entry = {
   'build/server.js': './server/index.js',
 }
+
+
+// WEBPACK output
+const output = {
+  path: './',
+  filename: '[name]',
+  libraryTarget: 'commonjs2',
+}
+
 
 // Get server layouts and web components for compilation
 // and place at build/layouts and build/components
@@ -88,12 +114,8 @@ module.exports = {
   devtool,
   entry,
   plugins,
-
-  output: {
-    path: './',
-    filename: '[name]',
-    libraryTarget: 'commonjs2',
-  },
+  resolve,
+  output,
 
   externals: [
     NodeExternals(),
