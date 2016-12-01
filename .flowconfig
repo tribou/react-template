@@ -3,6 +3,9 @@
 .*/build/.*
 .*/coverage/.*
 
+.*/node_modules/fbjs/lib/.*
+.*/node_modules/react-side-effect/node_modules/.*
+
 
 [include]
 

@@ -3,7 +3,12 @@ import { connect } from 'react-redux'
 import Root from './Root'
 
 
-function mapStateToProps (state: GlobalReducerState): Object {
+type RootStateProps = {
+  init: InitState,
+}
+
+
+function mapStateToProps (state: GlobalReducerState): RootStateProps {
 
   const { init } = state
 

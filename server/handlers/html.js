@@ -3,6 +3,7 @@ import Boom from 'boom'
 import Fs from 'fs'
 import Path from 'path'
 import React from 'react'
+import Helmet from 'react-helmet'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'
 import { match, RouterContext } from 'react-router'
@@ -110,11 +111,15 @@ const routedHtml = (request: Object, reply: Function) => {
       // Get resulting store state
       const preloadedState = store.getState()
 
+      // Get resulting head info
+      const head = Helmet.rewind()
+
       // Inject the RouterContext into the props sent to the layout
       const htmlProps = {
         assets,
         children,
         css,
+        head,
         preloadedState,
         rollbarScript: rollbarScript(env),
       }
