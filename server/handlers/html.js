@@ -10,6 +10,7 @@ import routes from '../../src/lib/react.routes'
 import { getAssets } from '../utils'
 import configureStore from '../../src/lib/configureStore'
 import env from '../env'
+import rollbarScript from '../../src/lib/rollbar'
 
 
 // Default render options for react templates
@@ -115,6 +116,7 @@ const routedHtml = (request: Object, reply: Function) => {
         children,
         css,
         preloadedState,
+        rollbarScript: rollbarScript(env),
       }
 
       // Render the layout with props

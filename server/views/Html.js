@@ -1,21 +1,15 @@
 // @flow
 /* eslint-disable react/no-danger */
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import styles from '../../src/styles/variables'
 
 
-const propTypes = {
-  assets: PropTypes.shape({
-    bundle: PropTypes.shape({
-      js: PropTypes.string.isRequired,
-    }),
-    vendor: PropTypes.shape({
-      js: PropTypes.string.isRequired,
-    }),
-  }),
-  css: PropTypes.string.isRequired,
-  children: PropTypes.any,
-  preloadedState: PropTypes.object,
+type Props = {
+  assets: BuildAssets,
+  css: string,
+  children: any,
+  preloadedState: Object,
+  rollbarScript: string,
 }
 
 
@@ -26,6 +20,8 @@ class Html extends Component {
     return `window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}`
 
   }
+
+  props: Props
 
   render (): React$Element<any> {
 
@@ -81,6 +77,12 @@ class Html extends Component {
             dangerouslySetInnerHTML={{ __html: this.props.children }}
           />
           <script
+            id="rollbar"
+            async
+            type="application/javascript"
+            dangerouslySetInnerHTML={{ __html: this.props.rollbarScript }}
+          />
+          <script
             id="app-state"
             type="application/javascript"
             dangerouslySetInnerHTML={{ __html: preloadScript }}
@@ -100,8 +102,6 @@ class Html extends Component {
   }
 
 }
-
-Html.propTypes = propTypes
 
 
 export default Html
