@@ -1,4 +1,6 @@
 .notFound {
+  background: #8e9eab; /* fallback for old browsers */
+  background: linear-gradient(to left, $colorThemeFaded, $colorGrayLight);
   display: flex;
   flex-direction: column;
   width: 100vw;

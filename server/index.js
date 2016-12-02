@@ -1,4 +1,5 @@
 // @flow
+import 'babel-polyfill'
 import Hapi from 'hapi'
 import HapiReactViews from 'hapi-react-views'
 import Good from 'good'
@@ -15,6 +16,7 @@ server.connection({
   port: process.env.PORT || 8000,
   routes: {
     cors: true,
+    security: true,
   },
 })
 

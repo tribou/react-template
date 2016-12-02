@@ -1,4 +1,5 @@
 // @flow
+import 'babel-polyfill'
 import Debug from 'debug'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -39,7 +40,7 @@ ReactDOM.render(
 )
 
 // Progressively apply ServiceWorker updates so browser can simply be refreshed
-// to reflect changes (window.location.reload())
+// to reflect changes with window.location.reload()
 // TODO: Fire redux action
 OfflineRuntime.install({
   onUpdateReady: () => {

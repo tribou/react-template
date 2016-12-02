@@ -44,6 +44,8 @@ const entry = {
   // include CSS files here where order of precedence is needed
   // Bundle vendor libraries in a separate chunk
   vendor: [
+    'axios',
+    'babel-polyfill',
     // 'classnames',
     'debug',
     // 'immutable',
@@ -60,7 +62,6 @@ const entry = {
     'redux',
     'redux-logger',
     'redux-thunk',
-    // 'superagent',
   ],
   bundle: [
     './node_modules/tachyons/css/tachyons.css',

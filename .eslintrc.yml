@@ -7,6 +7,10 @@ plugins:
 
 rules:
   flowtype-errors/show-errors: 2
+  quote-props:
+    - error
+    - as-needed
+    - numbers: true
 
 settings:
   flowtype:
