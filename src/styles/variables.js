@@ -3,6 +3,7 @@
 'use strict'
 
 // Global CSS variables passed via precss > postcss-custom-properties
+// Also used throughout JS files in the site
 // https://github.com/postcss/postcss-custom-properties#variables
 
 const variables = {
@@ -21,14 +22,10 @@ const variables = {
   fontFamily: 'MyApp, Verdana, Sans-Serif',
   fontWeight: 400,
 
-  imageLogoLgWidth: '519px',
-  imageLogoLgHeight: '537px',
-  imageMenuSettingsWidth: '60px',
-  imageMenuSettingsHeight: '75px',
-  imageNavMenuWidth: '51px',
-  imageNavMenuHeight: '66px',
-  imageTabAddWhiteWidth: '72px',
-  imageTabAddWhiteHeight: '75px',
+  imgLogoSmWidth: '64px',
+  imgLogoSmHeight: '64px',
+
+  navMenuHeight: '70px',
 
   screenLgMax: '1199px',
   screenLgMaxHeight: '800px',
