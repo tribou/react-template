@@ -40,7 +40,7 @@ body {
 
 h1, h2, h3, h4, h5 {
   line-height: 1.25em;
-  color: $colorThemeSecondary;
+  color: $colorDark;
 }
 
 h1 {
@@ -91,7 +91,7 @@ ul {
 
 a {
   cursor: pointer;
-  color: $colorThemeTertiary;
+  color: $colorTheme;
   text-decoration: none;
 
   &:hover {
@@ -99,7 +99,7 @@ a {
   }
 
   &:focus, &:active {
-    color: $colorThemeTertiary;
+    color: $colorTheme;
     outline: none;
     text-decoration: none;
   }

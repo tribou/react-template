@@ -7,14 +7,14 @@
 
 const variables = {
 
-  colorDark: '#000000',
-  colorDarkFaded: 'rgba(0, 0, 0, 0.5)',
-  colorTheme: '#9F26B5',
-  colorThemeFaded: 'RGBA(159, 38, 181, 0.5)',
-  colorThemeSecondary: '#F38B00',
-  colorThemeTertiary: '#57C1E8',
-  colorGrayDark: '#e4e4e4',
-  colorGrayLight: '#f6f6f6',
+  colorDark: '#353535',
+  colorDarkFaded: 'rgba(53, 53, 53, 0.5)',
+  colorTheme: '#33c5ff',
+  colorThemeFaded: 'RGBA(81, 180, 242, 0.5)',
+  colorThemeSecondary: '#d89e41',
+  colorThemeTertiary: '#4fc949',
+  colorGrayDark: '#c4c4c4',
+  colorGrayLight: '#e6eae6',
   colorWhite: '#ffffff',
   colorWhiteFaded: 'rgba(255, 255, 255, 0.5)',
 
