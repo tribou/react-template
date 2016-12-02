@@ -30,7 +30,7 @@ npm run dev
 
 ```sh
 # Build and start prod server (shortcut)
-npm run start:prod
+npm run start-prod
 ```
 
 Ignore any initial errors for files that can't be found. Once the builds
@@ -62,7 +62,7 @@ npm run deploy:prod
 npm run test
 
 # Run only unit tests
-npm run test:tape
+npm run test-tape
 ```
 
 [Tape](https://www.npmjs.com/package/tape) is used for simplified testing with

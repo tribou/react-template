@@ -13,4 +13,4 @@ pipelines:
           - yarn install --ignore-scripts
           - npm run lint
           - npm run flow
-          - npm run test:tape
+          - npm run test-tape
