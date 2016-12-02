@@ -51,6 +51,7 @@ const entry = {
     // 'key-mirror',
     'react',
     'react-dom',
+    'react-helmet',
     'react-redux',
     // 'react-motion',
     'react-router',

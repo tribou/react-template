@@ -6,6 +6,18 @@ import { shallow } from 'enzyme'
 import Html from './Html'
 
 
+// react-helmet mocks
+const mockComponent = {
+  toComponent: () => {},
+}
+const mockHead = {
+  htmlAttributes: mockComponent,
+  link: mockComponent,
+  meta: mockComponent,
+  title: mockComponent,
+}
+
+
 test('<Html> embeds preloadedState prop in app-state script tag', (t: Object) => {
 
   const state = { mystate: 'this' }
@@ -21,6 +33,7 @@ test('<Html> embeds preloadedState prop in app-state script tag', (t: Object) =>
           js: '',
         },
       }}
+      head={mockHead}
       preloadedState={state}
     />
   )
@@ -47,6 +60,7 @@ test('<Html> embeds css prop in style tag', (t: Object) => {
           js: '',
         },
       }}
+      head={mockHead}
     />
   )
   const actual = wrapper.find('head style').props().dangerouslySetInnerHTML.__html
@@ -72,6 +86,7 @@ test('<Html> embeds the vendor asset script', (t: Object) => {
           js: '',
         },
       }}
+      head={mockHead}
     />
   )
   const actual = wrapper.find('body script').contains(
@@ -102,6 +117,7 @@ test('<Html> embeds the bundle asset script', (t: Object) => {
           js: asset,
         },
       }}
+      head={mockHead}
     />
   )
   const actual = wrapper.find('body script').contains(

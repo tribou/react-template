@@ -8,11 +8,10 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import OfflineRuntime from 'offline-plugin/runtime'
 import routes from './lib/react.routes'
 import configureStore from './lib/configureStore'
-import { loadStart, loadComplete } from './actions/init'
+import { loadComplete } from './actions/init'
 
 const log = Debug('my-app:browser:index')
 const store = configureStore(window.__PRELOADED_STATE__)
-store.dispatch(loadStart())
 const history = syncHistoryWithStore(browserHistory, store)
 
 window.onload = () => {

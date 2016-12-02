@@ -11,7 +11,7 @@ import {
 
 
 export const initialState = {
-  isLoading: false,
+  isLoading: true,
   loaded: false,
 }
 
