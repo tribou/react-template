@@ -2,7 +2,7 @@
 
 const { NODE_ENV, WEBPACK_ENV } = process.env
 
-const cssLoaders = require('./module/css')[NODE_ENV][WEBPACK_ENV]
+const cssLoaders = require('./css')[NODE_ENV][WEBPACK_ENV]
 
 
 const loaders = [

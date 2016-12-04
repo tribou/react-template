@@ -10,9 +10,11 @@ require('css-modules-require-hook')({
 log('babel-register')
 require('babel-register')()
 
+process.env.WEBPACK_ENV = 'client'
+
 const Webpack = require('webpack')
-const config = require('../webpack.browser.js')
-const start = require('./index.js').default
+const config = require('../config/webpack')
+const start = require('./index').default
 
 log('starting server')
 start(() => {

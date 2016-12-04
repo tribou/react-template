@@ -16,6 +16,7 @@ const variables = {
   colorThemeTertiary: '#4fc949',
   colorGrayDark: '#c4c4c4',
   colorGrayLight: '#e6eae6',
+  colorPurple: 'rebeccapurple',
   colorWhite: '#ffffff',
   colorWhiteFaded: 'rgba(255, 255, 255, 0.5)',
 

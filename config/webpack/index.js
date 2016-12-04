@@ -32,7 +32,7 @@ module.exports = {
   module: webpackModule,
 
   eslint: {
-    configFile: '../../.eslintrc.yml',
+    configFile: '.eslintrc.yml',
   },
 
   postcss,
