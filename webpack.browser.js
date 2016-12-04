@@ -171,7 +171,7 @@ if (ENV === 'production') {
   )
 
   // Keep OfflinePlugin last
-  const cachedPages = [
+  const offlineRoutes = [
     // '/',
     // '/test',
   ]
@@ -186,7 +186,7 @@ if (ENV === 'production') {
       },
       version: `v${version}-[hash]`,
       publicPath: '/',
-      externals: cachedPages,
+      externals: offlineRoutes,
       excludes: [
         '**/.*',
         '**/*.map',
@@ -196,7 +196,7 @@ if (ENV === 'production') {
       rewrites: (asset) => {
 
         // prefix with /static/ unless webpack asset is a page route
-        return cachedPages.indexOf(asset) === -1
+        return offlineRoutes.indexOf(asset) === -1
           ? `/static/${asset}`
           : asset
 
