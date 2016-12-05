@@ -6,7 +6,7 @@
 // Also used throughout JS files in the site
 // https://github.com/postcss/postcss-custom-properties#variables
 
-const variables = {
+const variables: Object = {
 
   colorDark: '#353535',
   colorDarkFaded: 'rgba(53, 53, 53, 0.5)',
@@ -43,5 +43,6 @@ const variables = {
   zModalBackdrop: 40,
 
 }
+
 
 module.exports = variables

@@ -9,14 +9,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
-const { version } = require('../../package.json')
-
-
-// offline-plugin config
-const offlineRoutes = [
-  // '/',
-  // '/test',
-]
+const offlinePluginConfig = require('../offline')
 
 
 const client = [
@@ -80,31 +73,7 @@ const prodClient = client.concat([
   }),
 
   // Keep OfflinePlugin last
-  new OfflinePlugin({
-    AppCache: {
-      events: true,
-    },
-    ServiceWorker: {
-      events: true,
-    },
-    version: `v${version}-[hash]`,
-    publicPath: '/',
-    externals: offlineRoutes,
-    excludes: [
-      '**/.*',
-      '**/*.map',
-      'robots.txt',
-    ],
-    // If publicPath is a subdirectory
-    rewrites: (asset) => {
-
-      // prefix with /static/ unless webpack asset is a page route
-      return offlineRoutes.indexOf(asset) === -1
-        ? `/static/${asset}`
-        : asset
-
-    },
-  }),
+  new OfflinePlugin(offlinePluginConfig),
 
 ])
 

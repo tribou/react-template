@@ -2,9 +2,9 @@
 
 @define-mixin image $name, $width, $height, $ratio: .5 {
   @media (max-resolution: 1dppx) {
-    background-image: url(../pages/images/$(name).png);
+    background-image: url(images/$(name).png);
   }
-  background-image: url(../pages/images/$(name)@2x.png);
+  background-image: url(images/$(name)@2x.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -16,9 +16,9 @@
 
 @define-mixin image-jpg $name, $width, $height, $ratio: .5 {
   @media (max-resolution: 1dppx) {
-    background-image: url(../pages/images/$(name).jpg);
+    background-image: url(images/$(name).jpg);
   }
-  background-image: url(../pages/images/$(name)@2x.jpg);
+  background-image: url(images/$(name)@2x.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -41,9 +41,9 @@
 
 @define-mixin splash $name {
   @media (max-resolution: 1dppx) {
-    background-image: url(../pages/images/$(name).png);
+    background-image: url(images/$(name).png);
   }
-  background-image: url(../pages/images/$(name)@2x.png);
+  background-image: url(images/$(name)@2x.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

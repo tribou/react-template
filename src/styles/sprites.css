@@ -1,0 +1,21 @@
+
+/* Sprites */
+.facebookIcon {
+  @mixin sprite facebook-icon, 90px, 90px;
+}
+
+.instagramIcon {
+  @mixin sprite instagram-icon, 90px, 90px;
+}
+
+.pinterestIcon {
+  @mixin sprite pinterest-icon, 90px, 90px;
+}
+
+.twitterIcon {
+  @mixin sprite twitter-icon, 90px, 90px;
+}
+
+.youtubeIcon {
+  @mixin sprite youtube-icon, 90px, 90px;
+}

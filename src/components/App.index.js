@@ -3,12 +3,14 @@ import { connect } from 'react-redux'
 import App from './App'
 
 
-type AppStateProps = {
+type StateProps = {
   env: EnvState,
 }
 
+export type ReduxProps = StateProps
 
-function mapStateToProps (state: GlobalReducerState): AppStateProps {
+
+function mapStateToProps (state: GlobalReducerState): StateProps {
 
   const { env } = state
 

@@ -4,9 +4,10 @@ import Helmet from 'react-helmet'
 import vars from '../styles/variables'
 
 
-type Props = {
-  env: EnvState,
-  children: any,
+import type { ReduxProps } from './App.index'
+
+type Props = ReduxProps & {
+  children: React$Element<any>,
 }
 
 
