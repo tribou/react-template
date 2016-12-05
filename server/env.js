@@ -1,5 +1,14 @@
 // @flow
 
+export type EnvState = {
+  NODE_ENV: string,
+  API_URL: string,
+  ROOT_URL: string,
+  ROLLBAR_ENV: string,
+  ROLLBAR_TOKEN: string,
+}
+
+
 // Grab from env vars if they are set
 const {
 
@@ -17,7 +26,7 @@ const {
 
 
 // Set defaults
-const env = {
+const env: EnvState = {
 
   // Since NODE_ENV is automatically used by many plugins, we can't ensure it
   // will produce dev/prod parity by itself. Consequently, we need to use
@@ -32,7 +41,7 @@ const env = {
   ROLLBAR_ENV: ROLLBAR_ENV || 'development',
   ROLLBAR_TOKEN: ROLLBAR_TOKEN || '95a94db7f6d64680b1c971f63e322f10',
 
-
 }
+
 
 export default env

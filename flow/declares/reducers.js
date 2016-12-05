@@ -1,23 +1,10 @@
 /* eslint-disable */
 
-type EnvState = {
-  NODE_ENV: string,
-  API_URL: string,
-  ROOT_URL: string,
-  ROLLBAR_ENV: string,
-  ROLLBAR_TOKEN: string,
-}
+import type { EnvState } from '../../src/redux/modules/env'
+import type { InitState } from '../../src/redux/modules/init'
 
-type InitState = {
-  isLoading: boolean,
-  loaded: boolean,
-}
-
-type InitAction = {
-  type: ?string,
-}
 
 type GlobalReducerState = {
-  init: InitState,
   env: EnvState,
+  init: InitState,
 }

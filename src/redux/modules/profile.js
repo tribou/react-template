@@ -1,8 +1,4 @@
 // @flow
-import {
-  INIT_LOAD_COMPLETE,
-  INIT_LOAD_START,
-} from '../constants/actions'
 
 // import { Map } from 'immutable'
 // import Debug from 'debug'
@@ -10,7 +6,7 @@ import {
 // const log = Debug('my-app')
 
 
-export const initialState = {
+export const initialState: Object = {
   me: [1, 2, 3, 4, 5, 6, 7],
   list: {
     '1': {
@@ -53,27 +49,10 @@ export const initialState = {
 }
 
 
-function init (
-  state: ?InitState = initialState,
-  action: InitAction
-): ?InitState {
+function reducer (state: ?Object = initialState, action: Object)
+  : ?Object {
 
   switch (action.type) {
-
-
-    case INIT_LOAD_START:
-      return {
-        ...state,
-        isLoading: true,
-      }
-
-    case INIT_LOAD_COMPLETE:
-      return {
-        ...state,
-        isLoading: false,
-        loaded: true,
-      }
-
 
     default:
       return state
@@ -83,4 +62,4 @@ function init (
 }
 
 
-export default init
+export default reducer

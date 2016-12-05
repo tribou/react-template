@@ -1,23 +1,15 @@
 // @flow
 /* eslint-disable arrow-body-style */
-// import Debug from 'debug'
-// import { browserHistory } from 'react-router'
-// import { routerMiddleware } from 'react-router-redux'
-import {
-  applyMiddleware,
-  createStore,
-  compose,
-} from 'redux'
+import { applyMiddleware, createStore, compose } from 'redux'
 import createLogger from 'redux-logger'
 import thunk from 'redux-thunk'
-import rootReducer from '../reducers/index'
+import rootReducer from './modules'
 
 
 function configureStore (initialState: ?GlobalReducerState): Object {
 
   // only log redux actions in development
   const middleware = [
-    // routerMiddleware(browserHistory),
     thunk,
   ]
 

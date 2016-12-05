@@ -8,8 +8,8 @@ import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import OfflineRuntime from 'offline-plugin/runtime'
 import routes from './lib/react.routes'
-import configureStore from './lib/configureStore'
-import { loadComplete } from './actions/init'
+import configureStore from './redux/store'
+import { loadSuccess } from './redux/modules/init'
 
 const log = Debug('my-app:browser:index')
 const store = configureStore(window.__PRELOADED_STATE__)
@@ -17,7 +17,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 window.onload = () => {
 
-  store.dispatch(loadComplete())
+  store.dispatch(loadSuccess())
   // Can replace with API/store call checks in the future:
   // {
   //   loadedChannels: true,

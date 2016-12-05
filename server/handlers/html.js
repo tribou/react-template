@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import { match, RouterContext } from 'react-router'
 import routes from '../../src/lib/react.routes'
 import { getAssets } from '../utils'
-import configureStore from '../../src/lib/configureStore'
+import configureStore from '../../src/redux/store'
 import env from '../env'
 import rollbarScript from '../../src/lib/rollbar'
 
