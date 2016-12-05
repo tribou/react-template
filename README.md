@@ -179,11 +179,12 @@ ways.
 First for browser builds, Webpack transforms any relative path for file
 extensions that use the `file-loader` into a hashed, cache-proof filename
 deposited at the root of the `build/public` directory. This enables you to
-`import myPNG from '../../static/images/myPng.png'` in a JavaScript file, and
-Webpack will produce a JS reference to the final hashed filename in the
-`build/public` directory so that it appears as if you imported an absolute PNG
-filepath. Webpack does the same thing in CSS files for relative `url()` paths
-and in JS files for server builds (needed for server-side rendering).
+`import myPNG from '../../static/images/myPng.png'` in a JavaScript file (not
+implemented until server dev flow switches from babel to webpack), and Webpack
+will produce a JS reference to the final hashed filename in the `build/public`
+directory so that it appears as if you imported an absolute PNG filepath.
+Webpack does the same thing in CSS files for relative `url()` paths and in JS
+files for server builds (needed for server-side rendering).
 
 Second for browser builds, all the contents of the `static` directory are
 copied as-is to the `build/public` directory. Although this duplicates static

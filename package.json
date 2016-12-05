@@ -63,7 +63,7 @@
     "nodemon": "^1.10.2",
     "offline-plugin": "^4.5.2",
     "postcss-calc": "^5.3.1",
-    "postcss-loader": "^1.1.1",
+    "postcss-loader": "^0.13.0",
     "precss": "^1.4.0",
     "react-addons-test-utils": "^15.3.1",
     "rimraf": "^2.5.4",

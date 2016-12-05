@@ -1,11 +1,18 @@
 /* Requires images to be named according to mixins */
 
 /* PNGs */
+/*
 .imageName {
   @mixin image image-name, 120px, 120px;
 }
+ */
+
+.logo {
+  @mixin image-url images/logo.png 64px 64px 1;
+}
 
 /* Sprites */
+/*
 .facebookIcon {
   @mixin sprite facebook-icon, 90px, 90px;
 }
@@ -25,8 +32,10 @@
 .youtubeIcon {
   @mixin sprite youtube-icon, 90px, 90px;
 }
+*/
 
 /* JPGs */
+/*
 .jpgImage {
   @mixin image-jpg jpg-image, 2560px, 1786px;
 
@@ -35,3 +44,4 @@
     background-size: cover;
   }
 }
+ */

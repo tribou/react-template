@@ -2,6 +2,8 @@
 import React from 'react'
 import css from './Home.style.css'
 
+import img from '../../styles/images.css'
+
 
 type Props = {
 }
@@ -15,6 +17,7 @@ const Home = (props: Props): React$Element<any> => {
       <ul>
         <li>This is a test item</li>
       </ul>
+      <div className={img.logo} />
     </div>
   )
 
