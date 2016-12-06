@@ -3,10 +3,10 @@
 import { applyMiddleware, createStore, compose } from 'redux'
 import createLogger from 'redux-logger'
 import thunk from 'redux-thunk'
-import rootReducer from './modules'
+import reducers from './modules'
 
 
-function configureStore (initialState: ?GlobalReducerState): Object {
+function configureStore (preloadedState: GlobalReducerState): Object {
 
   // only log redux actions in development
   const middleware = [
@@ -20,22 +20,20 @@ function configureStore (initialState: ?GlobalReducerState): Object {
 
   }
 
-  const store = createStore(
-    rootReducer,
-    initialState,
+  // https://github.com/zalmoxisus/redux-devtools-extension
+  // Only run in the browser
+  const isBrowser = typeof window === 'object'
+    && typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ !== 'undefined'
 
-    compose(
+  // Don't run in production
+  const composeEnhancers = (process.env.NODE_ENV !== 'production' && isBrowser)
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : compose
 
-      applyMiddleware(...middleware),
+  const enhancer = composeEnhancers(applyMiddleware(...middleware))
 
-      // https://github.com/zalmoxisus/redux-devtools-extension
-      typeof window === 'object'
-        && typeof window.devToolsExtension !== 'undefined'
-        ? window.devToolsExtension()
-        : (f: any) => f
+  const store = createStore(reducers, preloadedState, enhancer)
 
-    )
-  )
 
   // Enable Webpack hot module replacement for reducers
   // if (module.hot) {

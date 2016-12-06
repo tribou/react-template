@@ -82,6 +82,7 @@
     "good-squeeze": "^5.0.1",
     "hapi": "^16.0.0",
     "hapi-react-views": "^9.1.1",
+    "immutable": "^3.8.1",
     "inert": "^4.0.2",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",

@@ -7,4 +7,5 @@ import type { InitState } from '../../src/redux/modules/init'
 type GlobalReducerState = {
   env: EnvState,
   init: InitState,
+  routing: Object,
 }
