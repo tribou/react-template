@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import OfflineRuntime from 'offline-plugin/runtime'
-import routes from './lib/react.routes'
+import routes from './routes'
 import configureStore from './redux/store'
 import { loadSuccess } from './redux/modules/init'
 

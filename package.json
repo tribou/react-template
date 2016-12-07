@@ -110,7 +110,7 @@
     "deploy-prod": "heroku pipelines:promote -a my-app-staging",
     "lsp": "heroku releases -a my-app",
     "lss": "heroku releases -a my-app-staging",
-    "dev": "yarn --ignore-scripts && cross-env DEBUG=my-app* NODE_ENV=development nodemon -e css,js,json -w server -w src/lib/react.routes.js -w src/styles -w config -i *~ -i build -i .eslintcache -x node server/dev.index.js",
+    "dev": "yarn --ignore-scripts && cross-env DEBUG=my-app* NODE_ENV=development nodemon -e css,js,json -w server -w src/routes.js -w src/styles -w config -i *~ -i build -i .eslintcache -x node server/dev.index.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "eslint": "eslint --ignore-path .gitignore flow src server config",
     "lint": "npm run eslint -- --rule 'flowtype-errors/show-errors: 0'",
