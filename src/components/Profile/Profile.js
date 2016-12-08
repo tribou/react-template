@@ -17,7 +17,7 @@ const Profile = (props: Props): React$Element<any> => {
     <div className={`${css.profile} pt7 tc`}>
       Profile page
       <ul>
-        <li>{ me.get('city') }</li>
+        <li>{me.get('city')}</li>
       </ul>
       <Link to="/">Back</Link>
     </div>

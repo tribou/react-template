@@ -1,10 +1,16 @@
 // @flow
 import { Map, Record } from 'immutable'
+import { Observable } from 'rxjs/Observable'
+import axios from 'axios'
 
-export const LOAD: string = 'my-app/profile/LOAD'
-export const LOAD_SUCCESS: string = 'my-app/profile/LOAD_SUCCESS'
+
+export const FETCH_PROFILE: string = 'my-app/profile/FETCH_PROFILE'
+export const FETCH_PROFILE_SUCCESS: string = 'my-app/profile/FETCH_PROFILE_SUCCESS'
+export const FETCH_PROFILE_ERROR: string = 'my-app/profile/FETCH_PROFILE_ERROR'
+
 
 // Flow type for this model
+// add "T" to the end if there is a naming colision
 type ProfileT = Record<{
   id: number,
   firstName: string,
@@ -23,10 +29,13 @@ export type ProfileState = Record<{
 }>
 
 // Flow type for this reducer's action
-type ProfileAction = {
-  type?: string,
+// Use Flux Standard Action (FSA) notation
+// https://github.com/acdlite/flux-standard-action
+// However we alway pass the payload. If empty, pass {} to avoid runtime errors
+type PayloadFSA = {}
+type FetchPayloadFSA = {
+  url: string,
 }
-
 
 // Profile model with default values
 export const Profile = Record({
@@ -54,8 +63,11 @@ export const initialState = new InitialState()
 // Now we can retrieve city with initialState.getIn(['list', 1, 'city'])
 // Or my city with initialState.getIn(['list', initialState.get('me'), 'city'])
 
-function reducer (state?: ProfileState = initialState, action: ProfileAction)
-  : ProfileState {
+
+function reducer (
+  state?: ProfileState = initialState,
+  action: GlobalFSA<PayloadFSA>
+): ProfileState {
 
   switch (action.type) {
 
@@ -63,6 +75,53 @@ function reducer (state?: ProfileState = initialState, action: ProfileAction)
       return state
 
   }
+
+}
+
+
+// Action Creators
+export const fetchProfile = (payload: PayloadFSA): GlobalFSA<PayloadFSA> => {
+
+  return {
+    type: FETCH_PROFILE,
+    payload,
+  }
+
+}
+
+const fetchProfileSuccess = (): GlobalFSA<PayloadFSA> => {
+
+  return {
+    type: FETCH_PROFILE_SUCCESS,
+    payload: {},
+  }
+
+}
+
+const fetchProfileError = (): GlobalFSA<PayloadFSA> => {
+
+  return {
+    type: FETCH_PROFILE_ERROR,
+    payload: {},
+    error: true,
+  }
+
+}
+// Always append error: true for redux action error types
+
+
+// Redux-Observable Epics
+// variable$ notation indicates an event stream
+export const fetchProfileEpic = (action$: Observable) => {
+
+  action$.ofType(FETCH_PROFILE)
+    .mergeMap((action: GlobalFSA<FetchPayloadFSA>) => {
+
+      axios.get(action.payload.url)
+
+    })
+    .map(fetchProfileSuccess)
+    .catch(fetchProfileError)
 
 }
 

@@ -11,3 +11,9 @@ type GlobalReducerState = {
   profile: ProfileState,
   routing: Object,
 }
+
+type GlobalFSA<Payload> = {
+  type: string,
+  payload: Payload,
+  error?: boolean,
+}
