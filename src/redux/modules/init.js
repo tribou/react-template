@@ -1,18 +1,13 @@
 // @flow
-export const LOAD = 'my-app/init/LOAD'
-export const LOAD_SUCCESS = 'my-app/init/LOAD_SUCCESS'
-
-// import { Map } from 'immutable'
-// import Debug from 'debug'
-
-// const log = Debug('my-app')
+export const LOAD: string = 'my-app/init/LOAD'
+export const LOAD_SUCCESS: string = 'my-app/init/LOAD_SUCCESS'
 
 
 type InitAction = {
-  type: ?string,
+  type?: string,
 }
 
-type InitState = {
+export type InitState = {
   isLoading: boolean,
   loaded: boolean,
 }
@@ -24,8 +19,8 @@ export const initialState: InitState = {
 }
 
 
-function reducer (state: ?InitState = initialState, action: InitAction)
-  : ?InitState {
+function reducer (state?: InitState = initialState, action: InitAction)
+  : InitState {
 
   switch (action.type) {
 

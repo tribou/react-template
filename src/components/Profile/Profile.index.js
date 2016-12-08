@@ -3,16 +3,20 @@ import { connect } from 'react-redux'
 import Profile from './Profile'
 
 
-type ProfileStateProps = {
+type StateProps = {
+  me: Map<>,
 }
 
+export type ReduxProps = StateProps
 
-function mapStateToProps (state: GlobalReducerState): ProfileStateProps {
 
-  const { init } = state
+function mapStateToProps (state: GlobalReducerState): StateProps {
 
+  const { profile } = state
+
+  // Let's imagine this component only needs my profile
   return {
-    init,
+    me: profile.getIn(['list', profile.get('me')]),
   }
 
 }

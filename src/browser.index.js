@@ -1,18 +1,19 @@
 // @flow
 import 'babel-polyfill'
 import Debug from 'debug'
+import OfflineRuntime from 'offline-plugin/runtime'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
-import OfflineRuntime from 'offline-plugin/runtime'
+import Transit from 'transit-immutable-js'
 import routes from './routes'
 import configureStore from './redux/store'
 import { loadSuccess } from './redux/modules/init'
 
 const log = Debug('my-app:browser:index')
-const store = configureStore(window.__PRELOADED_STATE__)
+const store = configureStore(Transit.fromJSON(window.__PRELOADED_STATE__))
 const history = syncHistoryWithStore(browserHistory, store)
 
 window.onload = () => {

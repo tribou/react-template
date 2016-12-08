@@ -2,6 +2,7 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable jsx-a11y/html-has-lang */
 import React, { Component } from 'react'
+import Transit from 'transit-immutable-js'
 
 
 type Props = {
@@ -18,7 +19,7 @@ class Html extends Component {
 
   static generatePreloadScript (preloadedState: Object): string {
 
-    return `window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}`
+    return `window.__PRELOADED_STATE__ = '${Transit.toJSON(preloadedState)}'`
 
   }
 

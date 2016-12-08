@@ -24,7 +24,7 @@ test('reducer init returns state by default', (t: Object) => {
 test('reducer init returns correct initial state', (t: Object) => {
 
   const expected = initialState
-  const actual = reducer(undefined, { type: undefined })
+  const actual = reducer(undefined, {})
 
   t.deepEqual(actual, expected)
   t.end()

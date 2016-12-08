@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { Link } from 'react-router'
 import css from './Home.style.css'
 
 import img from '../../styles/images.css'
@@ -14,7 +15,9 @@ const Home = (): React$Element<any> => {
       <ul>
         <li>This is a test item</li>
       </ul>
-      <div className={img.logo} />
+      <Link to="/profile">
+        <div className={img.logo} />
+      </Link>
       <div className="pt2">
         <div className={sprites.facebookIcon} />
       </div>
