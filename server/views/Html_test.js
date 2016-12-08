@@ -1,5 +1,9 @@
 /* eslint-disable flowtype/require-valid-file-annotation */
 /* eslint-disable max-len */
+
+// Enzyme docs:
+// http://airbnb.io/enzyme/docs/api/index.html
+
 import test from 'tape'
 import React from 'react'
 import Transit from 'transit-immutable-js'

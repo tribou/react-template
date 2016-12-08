@@ -29,7 +29,7 @@ type ProfileAction = {
 
 
 // Profile model with default values
-const Profile = Record({
+export const Profile = Record({
   id: 1,
   firstName: '',
   lastName: '',
