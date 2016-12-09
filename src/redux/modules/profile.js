@@ -1,41 +1,14 @@
 // @flow
 import { Map, Record } from 'immutable'
-import { Observable } from 'rxjs/Observable'
 import axios from 'axios'
 
-
-export const FETCH_PROFILE: string = 'my-app/profile/FETCH_PROFILE'
-export const FETCH_PROFILE_SUCCESS: string = 'my-app/profile/FETCH_PROFILE_SUCCESS'
-export const FETCH_PROFILE_ERROR: string = 'my-app/profile/FETCH_PROFILE_ERROR'
+import type { Observable } from 'rxjs'
 
 
-// Flow type for this model
-// add "T" to the end if there is a naming colision
-type ProfileT = Record<{
-  id: number,
-  firstName: string,
-  lastname: string,
-  email: string,
-  city: string,
-  dob: string,
-  notifications: boolean,
-  picture: string,
-}>
+export const FETCH_PROFILE = 'my-app/profile/FETCH_PROFILE'
+export const FETCH_PROFILE_SUCCESS = 'my-app/profile/FETCH_PROFILE_SUCCESS'
+export const FETCH_PROFILE_ERROR = 'my-app/profile/FETCH_PROFILE_ERROR'
 
-// Flow type for this reducer's state
-export type ProfileState = Record<{
-  me: number,
-  list: Map<[[number, ProfileT]]>,
-}>
-
-// Flow type for this reducer's action
-// Use Flux Standard Action (FSA) notation
-// https://github.com/acdlite/flux-standard-action
-// However we alway pass the payload. If empty, pass {} to avoid runtime errors
-type PayloadFSA = {}
-type FetchPayloadFSA = {
-  url: string,
-}
 
 // Profile model with default values
 export const Profile = Record({
@@ -48,6 +21,13 @@ export const Profile = Record({
   notifications: true,
   picture: '',
 })
+
+
+// Flow type for this reducer's state
+export type ProfileState = Record<{
+  me: number,
+  list: Map<>,
+}>
 
 
 // Initial state with default values
@@ -64,10 +44,7 @@ export const initialState = new InitialState()
 // Or my city with initialState.getIn(['list', initialState.get('me'), 'city'])
 
 
-function reducer (
-  state?: ProfileState = initialState,
-  action: GlobalFSA<PayloadFSA>
-): ProfileState {
+function reducer (state: ProfileState = initialState, action: GlobalFSA<*>) {
 
   switch (action.type) {
 
@@ -80,7 +57,13 @@ function reducer (
 
 
 // Action Creators
-export const fetchProfile = (payload: PayloadFSA): GlobalFSA<PayloadFSA> => {
+// Use Flux Standard Action (FSA) notation
+// https://github.com/acdlite/flux-standard-action
+type FetchPayload = {
+  url: string
+}
+
+export const fetchProfile = (payload: GlobalFSA<FetchPayload>) => {
 
   return {
     type: FETCH_PROFILE,
@@ -89,20 +72,18 @@ export const fetchProfile = (payload: PayloadFSA): GlobalFSA<PayloadFSA> => {
 
 }
 
-const fetchProfileSuccess = (): GlobalFSA<PayloadFSA> => {
+const fetchProfileSuccess = () => {
 
   return {
     type: FETCH_PROFILE_SUCCESS,
-    payload: {},
   }
 
 }
 
-const fetchProfileError = (): GlobalFSA<PayloadFSA> => {
+const fetchProfileError = () => {
 
   return {
     type: FETCH_PROFILE_ERROR,
-    payload: {},
     error: true,
   }
 
@@ -115,7 +96,7 @@ const fetchProfileError = (): GlobalFSA<PayloadFSA> => {
 export const fetchProfileEpic = (action$: Observable) => {
 
   action$.ofType(FETCH_PROFILE)
-    .mergeMap((action: GlobalFSA<FetchPayloadFSA>) => {
+    .mergeMap((action) => {
 
       axios.get(action.payload.url)
 

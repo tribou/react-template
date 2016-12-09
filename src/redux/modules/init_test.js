@@ -10,21 +10,10 @@ import reducer, {
 
 test('reducer init returns state by default', (t: Object) => {
 
-  const expected = { isLoading: false, loaded: false }
+  const expected = initialState
   const actual = reducer(expected, {
     type: 'SOME_UNKNOWN_ACTION',
   })
-
-  t.deepEqual(actual, expected)
-  t.end()
-
-})
-
-
-test('reducer init returns correct initial state', (t: Object) => {
-
-  const expected = initialState
-  const actual = reducer(undefined, {})
 
   t.deepEqual(actual, expected)
   t.end()

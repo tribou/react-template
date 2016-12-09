@@ -4,7 +4,7 @@ export const LOAD_SUCCESS: string = 'my-app/init/LOAD_SUCCESS'
 
 
 type InitAction = {
-  type?: string,
+  type: string,
 }
 
 export type InitState = {
@@ -19,8 +19,10 @@ export const initialState: InitState = {
 }
 
 
-function reducer (state?: InitState = initialState, action: InitAction)
-  : InitState {
+function reducer (
+  state?: InitState = initialState,
+  action: InitAction
+): InitState {
 
   switch (action.type) {
 

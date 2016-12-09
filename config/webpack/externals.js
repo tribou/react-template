@@ -1,3 +1,5 @@
+// @flow
+
 'use strict'
 
 const NodeExternals = require('webpack-node-externals')

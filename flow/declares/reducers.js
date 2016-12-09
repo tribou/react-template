@@ -12,8 +12,8 @@ type GlobalReducerState = {
   routing: Object,
 }
 
-type GlobalFSA<Payload> = {
+type GlobalFSA<T> = {
   type: string,
-  payload: Payload,
+  payload: T,
   error?: boolean,
 }

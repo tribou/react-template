@@ -1,4 +1,4 @@
-// WEBPACK entry
+// @flow
 
 'use strict'
 

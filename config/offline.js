@@ -1,3 +1,5 @@
+/* eslint-disable flowtype/require-valid-file-annotation */
+
 'use strict'
 
 // offline-plugin webpack plugin config

@@ -1,6 +1,7 @@
 ---
 extends:
   - tribou
+  - plugin:flowtype/recommended
 
 plugins:
   - flowtype-errors
@@ -8,6 +9,10 @@ plugins:
 rules:
   flowtype-errors/show-errors: 2
 
+  flowtype/require-valid-file-annotation:
+    - error
+    - always
+
 settings:
   flowtype:
-    onlyFilesWithFlowAnnotation: true
+    onlyFilesWithFlowAnnotation: false

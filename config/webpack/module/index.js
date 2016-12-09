@@ -1,6 +1,10 @@
+// @flow
+
 'use strict'
 
 const { NODE_ENV, WEBPACK_ENV } = process.env
+
+if (!NODE_ENV || !WEBPACK_ENV) throw new Error('Set NODE_ENV and WEBPACK_ENV')
 
 const cssLoaders = require('./css')[NODE_ENV][WEBPACK_ENV]
 

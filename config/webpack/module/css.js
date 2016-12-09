@@ -1,3 +1,5 @@
+// @flow
+
 'use strict'
 
 // Exports { css: config, modules: config }

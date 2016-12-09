@@ -1,9 +1,11 @@
-/* eslint-disable flowtype/require-valid-file-annotation */
+// @flow
 /* eslint-disable global-require */
 
 'use strict'
 
 const { NODE_ENV, WEBPACK_ENV } = process.env
+
+if (!NODE_ENV || !WEBPACK_ENV) throw new Error('Set NODE_ENV and WEBPACK_ENV')
 
 const devtool = require('./devtool')[NODE_ENV][WEBPACK_ENV]
 const entry = require('./entry')[NODE_ENV][WEBPACK_ENV]
