@@ -9,6 +9,5 @@ install:
   - yarn install --ignore-scripts
 
 script:
-  - npm run lint
-  - npm run flow
+  - npm run eslint
   - npm run test-tape
