@@ -13,6 +13,7 @@ test('reducer init returns state by default', (t: Object) => {
   const expected = initialState
   const actual = reducer(expected, {
     type: 'SOME_UNKNOWN_ACTION',
+    payload: {},
   })
 
   t.deepEqual(actual, expected)
@@ -29,6 +30,7 @@ test('reducer init on LOAD sets isLoading true', (t: Object) => {
   }
   const actual = reducer(initialState, {
     type: LOAD,
+    payload: {},
   })
 
   t.deepEqual(actual, expected)
@@ -45,6 +47,7 @@ test('reducer init on LOAD_SUCCESS sets isLoading false, loaded true', (t: Objec
   }
   const actual = reducer(initialState, {
     type: LOAD_SUCCESS,
+    payload: {},
   })
 
   t.deepEqual(actual, expected)

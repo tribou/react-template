@@ -1,11 +1,8 @@
 // @flow
-export const LOAD: string = 'my-app/init/LOAD'
-export const LOAD_SUCCESS: string = 'my-app/init/LOAD_SUCCESS'
+// "Shallow" reducer state example doesn't need Immutable
+export const LOAD = 'my-app/init/LOAD'
+export const LOAD_SUCCESS = 'my-app/init/LOAD_SUCCESS'
 
-
-type InitAction = {
-  type: string,
-}
 
 export type InitState = {
   isLoading: boolean,
@@ -13,16 +10,13 @@ export type InitState = {
 }
 
 
-export const initialState: InitState = {
+export const initialState = {
   isLoading: true,
   loaded: false,
 }
 
 
-function reducer (
-  state?: InitState = initialState,
-  action: InitAction
-): InitState {
+function reducer (state: InitState = initialState, action: GlobalFSA<*>) {
 
   switch (action.type) {
 
@@ -51,15 +45,15 @@ function reducer (
 
 // Removed from implementation until the need arises
 // For now, we assume that the app arrives in loading state
-export function load (): InitAction {
+// export const load = () => {
 
-  return {
-    type: LOAD,
-  }
+//   return {
+//     type: LOAD,
+//   }
 
-}
+// }
 
-export function loadSuccess (): InitAction {
+export const loadSuccess = () => {
 
   return {
     type: LOAD_SUCCESS,

@@ -1,4 +1,6 @@
 // @flow
+// Non-shallow reducer state example needs Immutable
+// Async actions need redux-observable epics
 import { Map, Record } from 'immutable'
 import axios from 'axios'
 
@@ -24,10 +26,7 @@ export const Profile = Record({
 
 
 // Flow type for this reducer's state
-export type ProfileState = Record<{
-  me: number,
-  list: Map<>,
-}>
+export type ProfileState = Record<*>
 
 
 // Initial state with default values
