@@ -1,25 +1,31 @@
 // @flow
 import { connect } from 'react-redux'
 import Profile from './Profile'
+import { fetchProfile } from '../../redux/modules/profile'
 
 
 type StateProps = {
+  API_URL: string,
   me: Map<>,
 }
 
-export type ReduxProps = StateProps
-
-
 function mapStateToProps (state: GlobalReducerState): StateProps {
 
-  const { profile } = state
+  const { env, profile } = state
+  const { API_URL } = env
 
   // Let's imagine this component only needs my profile
   return {
-    me: profile.getIn(['list', profile.get('me')]),
+    API_URL,
+    me: profile.get('me'),
   }
 
 }
 
 
-export default connect(mapStateToProps)(Profile)
+type ActionProps = {
+  fetchProfile: Function,
+}
+
+export default connect(mapStateToProps, { fetchProfile })(Profile)
+export type ReduxProps = StateProps & ActionProps

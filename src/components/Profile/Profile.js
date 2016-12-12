@@ -1,27 +1,48 @@
 // @flow
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import css from './Profile.style.css'
 
-
 import type { ReduxProps } from './Profile.index'
+
 
 type Props = ReduxProps
 
 
-const Profile = (props: Props): React$Element<any> => {
+class Profile extends PureComponent {
 
-  const { me } = props
+  props: Props
 
-  return (
-    <div className={`${css.profile} pt7 tc`}>
-      Profile page
-      <ul>
-        <li>{me.get('city')}</li>
-      </ul>
-      <Link to="/">Back</Link>
-    </div>
-  )
+  handleRefreshClick = () => {
+
+    this.props.fetchProfile(this.props.API_URL)
+
+  }
+
+  render (): React$Element<any> {
+
+    const { me } = this.props
+
+    return (
+      <div className={`${css.profile} pt7 tc`}>
+        <div className={css.modal}>
+          Profile page
+          <ul>
+            <li>{me.get('firstName')}</li>
+            <li>{me.get('lastName')}</li>
+            <li>{me.get('city')}</li>
+          </ul>
+          <Link to="/">Back</Link>
+          <button
+            onClick={this.handleRefreshClick}
+          >
+            Refresh
+          </button>
+        </div>
+      </div>
+    )
+
+  }
 
 }
 

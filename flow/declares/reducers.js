@@ -16,4 +16,5 @@ type GlobalFSA<T> = {
   type: string,
   payload: T,
   error?: boolean,
+  meta?: Object,
 }

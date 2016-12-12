@@ -3,12 +3,11 @@ import { connect } from 'react-redux'
 import Home from './Home'
 
 
-type HomeStateProps = {
+type StateProps = {
   init: InitState,
 }
 
-
-function mapStateToProps (state: GlobalReducerState): HomeStateProps {
+function mapStateToProps (state: GlobalReducerState): StateProps {
 
   const { init } = state
 
@@ -20,3 +19,4 @@ function mapStateToProps (state: GlobalReducerState): HomeStateProps {
 
 
 export default connect(mapStateToProps)(Home)
+export type ReduxProps = StateProps

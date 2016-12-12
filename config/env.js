@@ -34,7 +34,7 @@ const env: EnvState = {
   NODE_ENV: NODE_ENV || 'production',
 
   // App settings
-  API_URL: API_URL || 'https://api.example.com',
+  API_URL: API_URL || 'https://api.randomuser.me',
   ROOT_URL: ROOT_URL || 'http://localhost:3000',
 
   // Rollbar.io

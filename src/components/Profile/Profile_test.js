@@ -13,8 +13,9 @@ import { Profile as ProfileModel } from '../../redux/modules/profile'
 
 test('<Profile> displays profile info', (t: Object) => {
 
+  const expected = 'Austin, TX'
   const profile = ProfileModel({
-    city: 'Austin, TX',
+    city: expected,
   })
 
   const wrapper = render(
@@ -22,7 +23,7 @@ test('<Profile> displays profile info', (t: Object) => {
       me={profile}
     />
   )
-  const hasCity = wrapper.text().indexOf(profile.get('city')) !== -1
+  const hasCity = wrapper.text().indexOf(expected) !== -1
 
   t.equals(hasCity, true)
   t.end()

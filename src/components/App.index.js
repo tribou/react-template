@@ -7,9 +7,6 @@ type StateProps = {
   env: EnvState,
 }
 
-export type ReduxProps = StateProps
-
-
 function mapStateToProps (state: GlobalReducerState): StateProps {
 
   const { env } = state
@@ -22,3 +19,4 @@ function mapStateToProps (state: GlobalReducerState): StateProps {
 
 
 export default connect(mapStateToProps)(App)
+export type ReduxProps = StateProps

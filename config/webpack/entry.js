@@ -23,8 +23,7 @@ const client = {
     'redux-logger',
     'redux-observable',
     'redux-thunk',
-    'rxjs/Observable',
-    'transit-js',
+    'rxjs',
     'transit-immutable-js',
   ],
   bundle: [

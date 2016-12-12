@@ -8,7 +8,7 @@ import reducer, {
 } from './init'
 
 
-test('reducer init returns state by default', (t: Object) => {
+test('reducer init returns initialState by default', (t: Object) => {
 
   const expected = initialState
   const actual = reducer(expected, {

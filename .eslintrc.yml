@@ -13,6 +13,8 @@ rules:
     - error
     - always
 
+  no-duplicate-imports: 0
+
 settings:
   flowtype:
     onlyFilesWithFlowAnnotation: false

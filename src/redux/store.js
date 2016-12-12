@@ -2,17 +2,22 @@
 /* eslint-disable arrow-body-style */
 import { applyMiddleware, createStore, compose } from 'redux'
 import createLogger from 'redux-logger'
-import thunk from 'redux-thunk'
-import reducers from './modules'
+import { createEpicMiddleware } from 'redux-observable'
+// import thunk from 'redux-thunk'
+import { rootEpic, rootReducer } from './modules'
 
 
 function configureStore (preloadedState: GlobalReducerState): Object {
 
-  // only log redux actions in development
+  const epicMiddleware = createEpicMiddleware(rootEpic)
+
   const middleware = [
-    thunk,
+    epicMiddleware,
+    // let's see if redux-observable can replace this completely
+    // thunk,
   ]
 
+  // only log redux actions in development
   if (process.env.NODE_ENV === 'development') {
 
     // logger needs to be last
@@ -32,7 +37,7 @@ function configureStore (preloadedState: GlobalReducerState): Object {
 
   const enhancer = composeEnhancers(applyMiddleware(...middleware))
 
-  const store = createStore(reducers, preloadedState, enhancer)
+  const store = createStore(rootReducer, preloadedState, enhancer)
 
 
   // Enable Webpack hot module replacement for reducers
