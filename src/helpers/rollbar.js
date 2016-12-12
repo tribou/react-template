@@ -2,6 +2,11 @@
 
 const Rollbar = (env: EnvState): string => {
 
+
+  // Disable rollbar in local development for now
+  if (env.ROLLBAR_ENV === 'development') return ''
+
+
   const RollbarScript = `
     var _rollbarConfig = {
       accessToken: '${env.ROLLBAR_TOKEN}',

@@ -11,7 +11,7 @@ import routes from '../../src/routes'
 import { getAssets } from '../utils'
 import configureStore from '../../src/redux/store'
 import env from '../../config/env'
-import rollbarScript from '../../src/lib/rollbar'
+import rollbarScript from '../../src/helpers/rollbar'
 
 
 // Default render options for react templates

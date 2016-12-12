@@ -77,7 +77,7 @@ the same directory as the subjects under test for convenience.
 
 ## Tooling Reference
 
-#### Flow
+#### FlowType
 
 ```sh
 npm run flow
@@ -122,6 +122,16 @@ from the Redux Devtool as `state.json` and place it in the project root to
 start with that initial state from the server-side.
 
 See `server/handlers/html.js` for the implementation.
+
+###### Immutable.js Browser Inpsection
+
+This Chrome extension enables easy inspection of Immutable.js objects.
+
+Chrome extension:  
+https://chrome.google.com/webstore/detail/immutablejs-object-format/hgldghadipiblonfkkicmgcbbijnpeog
+
+Be sure to enable the "Enable Custom Formatters" option in the Chrome devtool
+settings as well.
 
 #### React Developer Tools
 
