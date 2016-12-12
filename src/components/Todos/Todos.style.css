@@ -1,0 +1,17 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: green;
+
+  .modal {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+
+    button {
+      margin-top: 1rem;
+    }
+  }
+}

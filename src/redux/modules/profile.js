@@ -27,7 +27,7 @@ export const Profile = Record({
 
 
 // Flow type for this reducer's state
-export type ProfileState = Record<>
+export type ProfileState = Record<*>
 
 
 // Initial state with default values
@@ -92,7 +92,10 @@ const fetchProfileError = (error: { status: number }) => {
 
   return {
     type: FETCH_PROFILE_ERROR,
-    payload: new Error(msg),
+    payload: {
+      details: error,
+      msg: new Error(msg),
+    },
     error: true,
   }
 
@@ -106,6 +109,12 @@ const fetchProfileError = (error: { status: number }) => {
 export const fetchProfileEpic = (action$: Observable) => {
 
   return action$.ofType(FETCH_PROFILE)
+    // Demonstrate how to throttle the API call
+    // However, this might be better attached to the click event listener so it
+    // keeps the redux action from firing altogether
+    // Also, it's not a very good UX choice as it could cause confusion to the
+    // user or appear as if the app isn't working
+    // .throttleTime(1000)
     .mergeMap((action) => {
 
       // Create new observable inside mergeMap so we don't cancel the entire
@@ -122,7 +131,7 @@ export const fetchProfileEpic = (action$: Observable) => {
             lastName: result.name.last,
             email: result.email,
             city: result.location.city,
-            dob: new Date(result.dob).toISOString(),
+            dob: new Date(result.dob.replace(/\S/, 'T')),
             picture: result.picture.thumbnail,
           }
 

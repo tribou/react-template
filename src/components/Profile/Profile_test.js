@@ -1,4 +1,4 @@
-// @flow
+/* eslint-disable flowtype/require-valid-file-annotation */
 /* eslint-disable max-len */
 
 // Enzyme docs:

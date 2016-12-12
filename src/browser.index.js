@@ -13,7 +13,9 @@ import configureStore from './redux/store'
 import { loadSuccess } from './redux/modules/init'
 
 const log = Debug('my-app:browser:index')
-const store = configureStore(Transit.fromJSON(window.__PRELOADED_STATE__))
+
+const serializedState = document.getElementById('app-state').innerHTML
+const store = configureStore(Transit.fromJSON(serializedState))
 const history = syncHistoryWithStore(browserHistory, store)
 
 window.onload = () => {

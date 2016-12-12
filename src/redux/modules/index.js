@@ -10,6 +10,7 @@ import { routerReducer } from 'react-router-redux'
 import env from './env'
 import init from './init'
 import profile, { fetchProfileEpic } from './profile'
+import todos from './todos'
 
 
 // redux-observable
@@ -22,5 +23,6 @@ export const rootReducer = combineReducers({
   env,
   init,
   profile,
+  todos,
   routing: routerReducer,
 })

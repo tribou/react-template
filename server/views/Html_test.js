@@ -26,7 +26,7 @@ const mockHead = {
 test('<Html> embeds preloadedState prop in app-state script tag', (t: Object) => {
 
   const state = { mystate: 'this' }
-  const expected = `window.__PRELOADED_STATE__ = '${Transit.toJSON(state)}'`
+  const expected = Transit.toJSON(state)
   const wrapper = shallow(
     <Html
       css=""

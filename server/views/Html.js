@@ -19,7 +19,7 @@ class Html extends Component {
 
   static generatePreloadScript (preloadedState: Object): string {
 
-    return `window.__PRELOADED_STATE__ = '${Transit.toJSON(preloadedState)}'`
+    return Transit.toJSON(preloadedState)
 
   }
 
@@ -71,7 +71,7 @@ class Html extends Component {
           />
           <script
             id="app-state"
-            type="application/javascript"
+            type="application/transit+json"
             dangerouslySetInnerHTML={{ __html: preloadScript }}
           />
           <script
