@@ -11,17 +11,20 @@ type Props = ReduxProps
 
 class Profile extends PureComponent {
 
+
   props: Props
+
 
   handleRefreshClick = () => {
 
-    this.props.fetchProfile(this.props.API_URL)
+    this.props.fetchProfile()
 
   }
 
+
   render (): React$Element<any> {
 
-    const { me } = this.props
+    const { error, me } = this.props
 
     return (
       <div className={`${css.profile} pt7 tc`}>
@@ -38,6 +41,9 @@ class Profile extends PureComponent {
           >
             Refresh
           </button>
+          <div className={css.error}>
+            {error}
+          </div>
         </div>
       </div>
     )

@@ -1,9 +1,14 @@
 // @flow
 // Non-shallow reducer state example needs Immutable
 // Async actions need redux-observable epics
-import Axios from 'axios'
+// import Debug from 'debug'
 import { Record } from 'immutable'
 import { Observable } from 'rxjs'
+import API from '../../helpers/api'
+import type { APIError } from '../../helpers/api'
+
+const api = new API()
+// const log = Debug('my-app:redux:modules:profile')
 
 
 // ACTION TYPES
@@ -26,19 +31,18 @@ export const Profile = Record({
 })
 
 
-// Flow type for this reducer's state
+// Flow type for this reducer's initial state
 export type ProfileState = Record<*>
-
 
 // Initial state with default values
 const InitialState = Record({
   me: new Profile(),
+  error: false,
+  isFetching: false,
 })
 
 
 export const initialState = new InitialState()
-// Now we can retrieve city with initialState.getIn(['list', 1, 'city'])
-// Or my city with initialState.getIn(['list', initialState.get('me'), 'city'])
 
 
 // REDUCER
@@ -46,8 +50,18 @@ function reducer (state: ProfileState = initialState, action: GlobalFSA<*>) {
 
   switch (action.type) {
 
+    case FETCH_PROFILE:
+      return state.set('isFetching', true)
+
     case FETCH_PROFILE_SUCCESS:
-      return state.set('me', new Profile(action.payload.me))
+      return state
+        .set('me', new Profile(action.payload.me))
+        .set('isFetching', false)
+
+    case FETCH_PROFILE_ERROR:
+      return state
+        .set('error', action.payload.statusCode)
+        .set('isFetching', false)
 
     default:
       return state
@@ -60,13 +74,10 @@ function reducer (state: ProfileState = initialState, action: GlobalFSA<*>) {
 // ACTION CREATORS
 // Use Flux Standard Action (FSA) notation
 // https://github.com/acdlite/flux-standard-action
-export const fetchProfile = (url: string) => {
+export const fetchProfile = () => {
 
   return {
     type: FETCH_PROFILE,
-    payload: {
-      url,
-    },
   }
 
 }
@@ -84,17 +95,18 @@ const fetchProfileSuccess = (me: Object) => {
 }
 
 
-const fetchProfileError = (error: { status: number }) => {
+const fetchProfileError = ({ statusCode }: APIError) => {
 
-  const msg = error.status >= 500
+  // Parse and define user-friendly messages here?
+  const message = statusCode >= 500
     ? 'There was a problem getting your profile. Please, try again later'
     : 'There was a problem getting your profile. Please, try logging out and back in.'
 
   return {
     type: FETCH_PROFILE_ERROR,
     payload: {
-      details: error,
-      msg: new Error(msg),
+      statusCode,
+      message,
     },
     error: true,
   }
@@ -109,41 +121,36 @@ const fetchProfileError = (error: { status: number }) => {
 export const fetchProfileEpic = (action$: Observable) => {
 
   return action$.ofType(FETCH_PROFILE)
-    // Demonstrate how to throttle the API call
-    // However, this might be better attached to the click event listener so it
-    // keeps the redux action from firing altogether
-    // Also, it's not a very good UX choice as it could cause confusion to the
-    // user or appear as if the app isn't working
-    // .throttleTime(1000)
-    .mergeMap((action) => {
+  .mergeMap((action) => {
 
-      // Create new observable inside mergeMap so we don't cancel the entire
-      // epic during catch
-      // https://redux-observable.js.org/docs/recipes/ErrorHandling.html
-      return Observable.fromPromise(Axios.get(action.payload.url))
-        .map((response) => {
+    // Create new observable inside mergeMap so we don't cancel the entire epic
+    // during catch
+    // https://redux-observable.js.org/docs/recipes/ErrorHandling.html
+    return api.getProfile()
+    .map((response) => {
 
-          // API serialization logic here next to implementation (axios)
-          const result = response.data.results[0]
+      // API serialization logic from API._parseResponse to Model
+      const result = response.data.results[0]
 
-          return {
-            firstName: result.name.first,
-            lastName: result.name.last,
-            email: result.email,
-            city: result.location.city,
-            dob: new Date(result.dob.replace(/\S/, 'T')),
-            picture: result.picture.thumbnail,
-          }
-
-        })
-        .map(fetchProfileSuccess)
-        .catch((error) => {
-
-          return Observable.of(fetchProfileError(error))
-
-        })
+      return {
+        firstName: result.name.first,
+        lastName: result.name.last,
+        email: result.email,
+        city: result.location.city,
+        dob: result.dob,
+        picture: result.picture.thumbnail,
+      }
 
     })
+    .map(fetchProfileSuccess)
+    .catch((error) => {
+
+      // Return and don't throw here because we've handled it
+      return Observable.of(fetchProfileError(error))
+
+    })
+
+  })
 
 }
 

@@ -5,19 +5,18 @@ import { fetchProfile } from '../../redux/modules/profile'
 
 
 type StateProps = {
-  API_URL: string,
   me: Map<>,
+  error: string,
 }
 
 function mapStateToProps (state: GlobalReducerState): StateProps {
 
-  const { env, profile } = state
-  const { API_URL } = env
+  const { profile } = state
 
   // Let's imagine this component only needs my profile
   return {
-    API_URL,
     me: profile.get('me'),
+    error: profile.get('error'),
   }
 
 }
