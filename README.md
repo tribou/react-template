@@ -9,11 +9,9 @@ stabilizes.
 Runs on Node v6+
 
 ```sh
-# Install yarn
-npm install -g yarn
-
 # Install dependencies and build assets
-yarn
+npm run yarn
+npm run build
 
 # Serve production server
 NODE_ENV=production npm start
