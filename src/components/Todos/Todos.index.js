@@ -3,6 +3,7 @@ import type { List } from 'immutable'
 import { connect } from 'react-redux'
 import Profile from './Todos'
 import { setFilterCurrent, setFilterDone } from '../../redux/modules/todos'
+import visibleTodos from '../../selectors/visibleTodos'
 
 
 type StateProps = {
@@ -16,7 +17,7 @@ function mapStateToProps (state: GlobalReducerState): StateProps {
   const { todos } = state
 
   return {
-    todos: todos.get('list'),
+    todos: visibleTodos(state),
     filter: todos.get('filter'),
   }
 
