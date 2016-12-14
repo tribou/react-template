@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import Helmet from 'react-helmet'
-import vars from '../styles/variables'
+import vars from '../../config/variables'
 
 
 import type { ReduxProps } from './App.index'
