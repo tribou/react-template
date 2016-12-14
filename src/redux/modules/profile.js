@@ -3,11 +3,8 @@
 // Async actions need redux-observable epics
 // import Debug from 'debug'
 import { Record } from 'immutable'
-import { Observable } from 'rxjs'
-import API from '../../helpers/api'
 import type { APIError } from '../../helpers/api'
 
-const api = new API()
 // const log = Debug('my-app:redux:modules:profile')
 
 
@@ -83,7 +80,7 @@ export const fetchProfile = () => {
 }
 
 
-const fetchProfileSuccess = (me: Object) => {
+export const fetchProfileSuccess = (me: Object) => {
 
   return {
     type: FETCH_PROFILE_SUCCESS,
@@ -95,7 +92,7 @@ const fetchProfileSuccess = (me: Object) => {
 }
 
 
-const fetchProfileError = ({ statusCode }: APIError) => {
+export const fetchProfileError = ({ statusCode }: APIError) => {
 
   // Parse and define user-friendly messages here?
   const message = statusCode >= 500
@@ -113,46 +110,6 @@ const fetchProfileError = ({ statusCode }: APIError) => {
 
 }
 // Always append { error: true } for redux action error types
-
-
-// EPICS
-// variable$ notation indicates an event stream
-// https://redux-observable.js.org/docs/basics/Epics.html
-export const fetchProfileEpic = (action$: Observable) => {
-
-  return action$.ofType(FETCH_PROFILE)
-  .mergeMap((action) => {
-
-    // Create new observable inside mergeMap so we don't cancel the entire epic
-    // during catch
-    // https://redux-observable.js.org/docs/recipes/ErrorHandling.html
-    return api.getProfile()
-    .map((response) => {
-
-      // API serialization logic from API._parseResponse to Model
-      const result = response.data.results[0]
-
-      return {
-        firstName: result.name.first,
-        lastName: result.name.last,
-        email: result.email,
-        city: result.location.city,
-        dob: result.dob,
-        picture: result.picture.thumbnail,
-      }
-
-    })
-    .map(fetchProfileSuccess)
-    .catch((error) => {
-
-      // Return and don't throw here because we've handled it
-      return Observable.of(fetchProfileError(error))
-
-    })
-
-  })
-
-}
 
 
 export default reducer

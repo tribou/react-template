@@ -4,7 +4,8 @@ import { applyMiddleware, createStore, compose } from 'redux'
 import createLogger from 'redux-logger'
 import { createEpicMiddleware } from 'redux-observable'
 // import thunk from 'redux-thunk'
-import { rootEpic, rootReducer } from './modules'
+import rootEpic from './epics'
+import rootReducer from './modules'
 
 
 function configureStore (preloadedState: GlobalReducerState): Object {

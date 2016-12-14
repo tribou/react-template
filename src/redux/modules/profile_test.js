@@ -22,7 +22,7 @@ test('reducer profile returns initialState by default', (t: Object) => {
 
 test('reducer profile.initialState has expected properties', (t: Object) => {
 
-  const expected = ['me']
+  const expected = ['me', 'error', 'isFetching']
   const actual = initialState.keySeq().toJS()
 
   t.deepEqual(actual, expected)
