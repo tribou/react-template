@@ -7,7 +7,7 @@
 import React from 'react'
 import { render } from 'enzyme'
 import Profile from './Profile'
-import { Profile as ProfileModel } from '../../redux/modules/profile'
+import { Profile as ProfileModel } from '../../../redux/modules/profile'
 
 
 it('<Profile> displays profile info', () => {
@@ -22,8 +22,9 @@ it('<Profile> displays profile info', () => {
       me={profile}
     />
   )
-  const hasCity = wrapper.text().indexOf(expected) !== -1
+  // const hasCity = wrapper.text().indexOf(expected) !== -1
 
-  expect(hasCity).toBe(true)
+  expect(wrapper).toMatchSnapshot()
+  // expect(hasCity).toBe(true)
 
 })

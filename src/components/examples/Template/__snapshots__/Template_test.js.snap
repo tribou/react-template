@@ -1,0 +1,6 @@
+exports[`test <Template> renders the Template content 1`] = `
+<div
+  className="template">
+  Template
+</div>
+`;

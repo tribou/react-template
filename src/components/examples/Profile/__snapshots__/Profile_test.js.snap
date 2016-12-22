@@ -1,0 +1,24 @@
+exports[`test <Profile> displays profile info 1`] = `
+<div
+  class="profile pt7 tc">
+  <div
+    class="modal">
+    Profile page
+    <ul>
+      <li />
+      <li />
+      <li>
+        Austin, TX
+      </li>
+    </ul>
+    <a>
+      Back
+    </a>
+    <button>
+      Refresh
+    </button>
+    <div
+      class="error" />
+  </div>
+</div>
+`;

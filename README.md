@@ -34,11 +34,39 @@ npm run start-prod
 Ignore any initial errors for files that can't be found. Once the builds
 complete, it should automatically refresh as needed.
 
-Dev Server:
+Dev Server:  
 http://localhost:8000/
 
-Browser-Sync Proxy:
+Browser-Sync Proxy:  
 http://localhost:3000/
+
+##### Clone Component Script
+
+Shortcut script to bootstrap new components. Requires `make` to be installed.
+
+```sh
+# Defaults to putting component in src/components/shared
+make component NAME=Sample
+
+# Creates:
+# src/components/shared/
+# └── Sample
+#     ├── Sample.index.js
+#     ├── Sample.js
+#     ├── Sample_test.js
+#     └── Sample.style.css
+
+# Specify target directory
+make component NAME=Sample TARGET_DIR=src/components/Dashboard
+
+# Creates:
+# src/components/Dashboard/
+# └── Sample
+#     ├── Sample.index.js
+#     ├── Sample.js
+#     ├── Sample_test.js
+#     └── Sample.style.css
+```
 
 #### Deployment
 
@@ -57,14 +85,13 @@ npm run deploy:prod
 
 ```sh
 # Run all tests (lint, type, unit)
-npm run test
+npm test
 
 # Run only unit tests
-npm run test-tape
+npm run test-jest
 ```
 
-[Tape](https://www.npmjs.com/package/tape) is used for simplified testing with
-an emphasis on unit-level tests. For convenience,
+[Jest](https://facebook.github.io/jest/docs/tutorial-react.html) is used as the test runner for unit and snapshot tests.
 [Enzyme](http://airbnb.io/enzyme/) is used for helpers in testing React
 components. The simplicity of tape should enable easy browser-based tests using
 [Karma](https://karma-runner.github.io/1.0/index.html) in the future.
@@ -107,10 +134,10 @@ rebuilt unless you restart the dev server.
 
 Watch and troubleshoot the local state changes.
 
-Chrome extension:<br />
+Chrome extension:  
 https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
 
-Project info:<br />
+Project info:  
 https://github.com/zalmoxisus/redux-devtools-extension#redux-devtools-extension
 
 ###### Saving Initial State
@@ -135,19 +162,29 @@ settings as well.
 
 Watch and troubleshoot React component state and updates
 
-Chrome extension:<br />
+Chrome extension:  
 https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en
 
-Firefox addon:<br />
+Firefox addon:  
 https://addons.mozilla.org/en-US/firefox/addon/react-devtools/
 
-Project info:<br /> https://github.com/facebook/react-devtools
+Project info:  
+https://github.com/facebook/react-devtools
 
 #### Redux Logger
 
 For more convenience, console logging is also enabled when
 `NODE_ENV=development` with [Redux
 Logger](https://github.com/evgenyrodionov/redux-logger)
+
+#### React Perf
+
+The [chrome-react-perf](https://github.com/crysislinux/chrome-react-perf)
+project provides a Chrome extension to test the render performance of
+components through different tasks.
+
+Chrome extension:  
+https://chrome.google.com/webstore/detail/react-perf/hacmcodfllhbnekmghgdlplbdnahmhmm
 
 #### Webpack
 

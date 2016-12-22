@@ -1,11 +1,15 @@
 // @flow
 
 export type EnvState = {
+
   NODE_ENV: string,
+
   API_URL: string,
   ROOT_URL: string,
+
   ROLLBAR_ENV: string,
   ROLLBAR_TOKEN: string,
+
 }
 
 
@@ -14,11 +18,9 @@ const {
 
   NODE_ENV,
 
-  // App settings
   API_URL,
   ROOT_URL,
 
-  // Rollbar.io
   ROLLBAR_ENV,
   ROLLBAR_TOKEN,
 

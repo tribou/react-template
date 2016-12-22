@@ -3,8 +3,8 @@ import React from 'react'
 import { Link } from 'react-router'
 import css from './Home.style.css'
 
-import img from '../../styles/images.css'
-import sprites from '../../styles/sprites.css'
+import img from '../../../styles/images.css'
+import sprites from '../../../styles/sprites.css'
 
 
 const Home = (): React$Element<any> => {

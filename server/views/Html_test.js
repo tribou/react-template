@@ -1,4 +1,4 @@
-/* eslint-disable flowtype/require-valid-file-annotation */
+// @flow
 /* eslint-disable max-len */
 
 // Enzyme docs:
@@ -21,6 +21,26 @@ const mockHead = {
   title: mockComponent,
 }
 
+const mockAssets = {
+  vendor: {
+    js: '',
+  },
+  bundle: {
+    css: '',
+    js: '',
+  },
+}
+
+const mockProps = {
+  assets: mockAssets,
+  css: '',
+  head: mockHead,
+  preloadedState: {
+    mystate: 'this',
+  },
+  rollbarScript: '',
+}
+
 
 it('<Html> embeds preloadedState prop in app-state script tag', () => {
 
@@ -28,16 +48,7 @@ it('<Html> embeds preloadedState prop in app-state script tag', () => {
   const expected = Transit.toJSON(state)
   const wrapper = shallow(
     <Html
-      css=""
-      assets={{
-        vendor: {
-          js: '',
-        },
-        bundle: {
-          js: '',
-        },
-      }}
-      head={mockHead}
+      {...mockProps}
       preloadedState={state}
     />
   )
@@ -54,16 +65,8 @@ it('<Html> embeds css prop in style tag', () => {
   const expected = css
   const wrapper = shallow(
     <Html
+      {...mockProps}
       css={css}
-      assets={{
-        vendor: {
-          js: '',
-        },
-        bundle: {
-          js: '',
-        },
-      }}
-      head={mockHead}
     />
   )
   const actual = wrapper.find('head style').props().dangerouslySetInnerHTML.__html
@@ -76,19 +79,17 @@ it('<Html> embeds css prop in style tag', () => {
 it('<Html> embeds the vendor asset script', () => {
 
   const asset = '/myFile.js'
+  const assets = {
+    ...mockAssets,
+    vendor: {
+      js: asset,
+    },
+  }
   const expected = true
   const wrapper = shallow(
     <Html
-      css=""
-      assets={{
-        vendor: {
-          js: asset,
-        },
-        bundle: {
-          js: '',
-        },
-      }}
-      head={mockHead}
+      {...mockProps}
+      assets={assets}
     />
   )
   const actual = wrapper.find('body script').contains(
@@ -106,19 +107,18 @@ it('<Html> embeds the vendor asset script', () => {
 it('<Html> embeds the bundle asset script', () => {
 
   const asset = '/myFile.js'
+  const assets = {
+    ...mockAssets,
+    bundle: {
+      ...mockAssets.bundle,
+      js: asset,
+    },
+  }
   const expected = true
   const wrapper = shallow(
     <Html
-      css=""
-      assets={{
-        vendor: {
-          js: '',
-        },
-        bundle: {
-          js: asset,
-        },
-      }}
-      head={mockHead}
+      {...mockProps}
+      assets={assets}
     />
   )
   const actual = wrapper.find('body script').contains(
