@@ -2,17 +2,17 @@
 
 /* PNGs */
 .logo {
-  @mixin image logo, 64px, 64px, 1;
+  @mixin image logo, 64, 64;
 }
 
 
 /* JPGs */
 /*
 .jpgImage {
-  @mixin image-jpg jpg-image, 2560px, 1786px;
+  @mixin image-jpg jpg-image, 2560, 1786;
 
   @media (max-width: $screenSmMax) {
-    @mixin image-jpg jpg-image-mobile, 827px, 1786px;
+    @mixin image-jpg jpg-image-mobile, 827, 1786;
     background-size: cover;
   }
 }
@@ -22,6 +22,6 @@
 /* One-off (no @2x version) */
 /*
 .logo {
-  @mixin image-url images/logo.png, 64px, 64px, 1;
+  @mixin image-url images/logo.png, 64, 64;
 }
 */

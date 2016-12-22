@@ -1,0 +1,5 @@
+/* Current base pixel size set on <html>: 16(px) */
+
+@define-mixin font-size $size {
+  font-size: calc($size / 16)rem;
+}

@@ -1,21 +1,24 @@
-
 /* Sprites */
 .facebookIcon {
-  @mixin sprite facebook-icon, 90px, 90px;
+  @mixin sprite facebook-icon, 45, 90;
+
+  /* Extra visibility just for this example: */
+  background-color: $colorTheme;
+  border-radius: 100%;
 }
 
 .instagramIcon {
-  @mixin sprite instagram-icon, 90px, 90px;
+  @mixin sprite instagram-icon, 45, 90;
 }
 
 .pinterestIcon {
-  @mixin sprite pinterest-icon, 90px, 90px;
+  @mixin sprite pinterest-icon, 45, 90;
 }
 
 .twitterIcon {
-  @mixin sprite twitter-icon, 90px, 90px;
+  @mixin sprite twitter-icon, 45, 90;
 }
 
 .youtubeIcon {
-  @mixin sprite youtube-icon, 90px, 90px;
+  @mixin sprite youtube-icon, 45, 90;
 }

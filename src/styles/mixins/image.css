@@ -1,6 +1,13 @@
-/* GLOBAL MIXINS */
+/*
+  Image mixins
 
-@define-mixin image $name, $width, $height, $ratio: .5 {
+  Enables you to declare with actual image dimensions and base filename:
+  @mixin image logo, 256, 256;  (filename, width, height)
+
+*/
+
+
+@define-mixin image $name, $width, $height {
   @media (max-resolution: 1dppx) {
     background-image: url(images/$(name).png);
   }
@@ -8,13 +15,32 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: calc($width * $ratio);
-  height: calc($height * $ratio);
+  width: $(width)px;
+  height: $(height)px;
   display: inline-block;
 }
 
 
-@define-mixin image-jpg $name, $width, $height, $ratio: .5 {
+/* Aspect Ratio-driven ...Work-in-Progress */
+@define-mixin fluid-image $name, $width, $height {
+  position: relative;
+
+  & > div {
+    @media (max-resolution: 1dppx) {
+      background-image: url(images/$(name).png);
+    }
+    background-image: url(images/$(name)@2x.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    /* height: $(height)px; */
+    width: 100%;
+    padding-bottom: calc(($height / $width) * 100)%;
+  }
+}
+
+
+@define-mixin image-jpg $name, $width, $height {
   @media (max-resolution: 1dppx) {
     background-image: url(images/$(name).jpg);
   }
@@ -22,19 +48,19 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: calc($width * $ratio);
-  height: calc($height * $ratio);
+  width: $(width)px;
+  height: $(height)px;
   display: inline-block;
 }
 
 
-@define-mixin image-url $url, $width, $height, $ratio: .5 {
+@define-mixin image-url $url, $width, $height {
   background-image: url($url);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: calc($width * $ratio);
-  height: calc($height * $ratio);
+  width: $(width)px;
+  height: $(height)px;
   display: inline-block;
 }
 

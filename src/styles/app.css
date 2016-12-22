@@ -8,6 +8,7 @@
 html {
 
   /*
+  Change font-size dynamically across screen widths? Maybe XS only...
   @media (max-width: $screenMdMax) {
     font-size: 18px;
   }
@@ -20,6 +21,13 @@ html {
   */
 
   box-sizing: border-box;
+
+  /*
+    NOTICE!
+    This is the base pixel size for all 'rem' measurements.
+    If you update this here, also update in the font mixins:
+      src/styles/mixins/font.css
+  */
   font-size: 16px;
 }
 
@@ -28,10 +36,20 @@ html {
   outline: none;
   font-family: $fontFamily;
   font-weight: $fontWeight;
+
+  &:focus, &:active {
+    outline: none;
+  }
 }
 
 button {
   cursor: pointer;
+  /* Apply design guideline */
+  background-color: transparent;
+  border: solid 1px $colorTheme;
+  border-radius: 3px;
+  color: $colorTheme;
+  padding: 1rem;
 }
 
 body {
@@ -44,25 +62,27 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
-  font-size: 4rem;
+  @mixin font-size 64;
 }
 
 h2 {
-  font-size: 2.5rem;
+  @mixin font-size 40;
 }
 
 h3 {
-  font-size: 1.875rem;
+  @mixin font-size 30;
 }
 
 h4 {
-  font-size: .8rem;
+  @mixin font-size 12;
 }
 
 h5 {
+  @mixin font-size 12;
+  color: $colorGray;
 }
 
-p, li {
+p {
   font-size: 1.25em;
   line-height: 1.5em;
 
@@ -73,7 +93,11 @@ p, li {
 
 ul {
   list-style: none;
+  padding: 0;
 
+  /*
+  Example of keeping text indented for bullet-list:
+  padding-right: 1em;
   li {
     list-style-position: inside;
     text-indent: -1.5em;
@@ -87,6 +111,7 @@ ul {
     color: $colorDark;
     fill: $colorDark;
   }
+  */
 }
 
 a {
@@ -110,5 +135,9 @@ input {
   &::placeholder {
     /* IE equivalent */
     opacity: .5;
+  }
+
+  &:focus, &:active {
+    outline: none;
   }
 }

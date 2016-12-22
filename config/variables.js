@@ -8,25 +8,32 @@
 
 const variables = {
 
-  colorDark: '#353535',
-  colorDarkFaded: 'rgba(53, 53, 53, 0.5)',
-  colorTheme: '#33c5ff',
-  colorThemeFaded: 'RGBA(81, 180, 242, 0.5)',
-  colorThemeSecondary: '#d89e41',
-  colorThemeTertiary: '#4fc949',
-  colorGrayDark: '#c4c4c4',
-  colorGrayLight: '#e6eae6',
-  colorPurple: 'rebeccapurple',
+  appTitle: 'Ooober',
+  appIcon: '/static/images/logo.png',
+  appLogo: '/static/images/logo.png',
+  appLogoWidth: '64px',
+  appLogoHeight: '64px',
+
+  colorDark: '#4a4a4a', // darkgrey
+  colorDarkFaded: 'rgba(74, 74, 74, 0.5)',
+  colorTheme: 'rebeccapurple', // purple
+  colorThemeFaded: '#e3d6e5', // fadetheme
+  colorThemePale: '#f8f3fc', // paletheme
+  colorThemeSecondary: '#246dca', // richblue
+  colorThemeTertiary: '#1aa590', // jadegreen
+  colorBlue: '#64daff', // cartoonblue
+  colorGreen: '#84c500', // green
+  colorGray: '#9f9f9f', // midgrey
+  colorGrayLight: '#ececec', // lightgrey
   colorWhite: '#ffffff',
   colorWhiteFaded: 'rgba(255, 255, 255, 0.5)',
 
-  fontFamily: 'MyApp, Verdana, Sans-Serif',
+
+  fontFamily: 'MyApp, Verdana, sans-serif',
   fontWeight: 400,
 
-  imgLogoSmWidth: '64px',
-  imgLogoSmHeight: '64px',
-
-  navMenuHeight: '70px',
+  navLogoTopPadding: '6rem',
+  navLogoTopPaddingSm: '4rem',
 
   screenLgMax: '1199px',
   screenLgMaxHeight: '800px',
@@ -38,7 +45,6 @@ const variables = {
   screenXsMax: '320px',
   screenXsMin: '321px',
 
-  zHeader: 10,
   zModal: 50,
   zModalBackdrop: 40,
 

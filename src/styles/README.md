@@ -10,7 +10,8 @@
 ##### REM first.
 
 - Prefer using `rem` over `px`.
-- Font size is okay using `px` from redlines.
+- Font size is okay using `px` from redlines. However, prefer the `font-size`
+  mixin.
 
 ##### Use Backup Background Colors.
 

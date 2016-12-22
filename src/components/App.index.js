@@ -4,15 +4,15 @@ import App from './App'
 
 
 type StateProps = {
-  env: EnvState,
+  ROOT_URL: string,
 }
 
 function mapStateToProps (state: GlobalReducerState): StateProps {
 
-  const { env } = state
+  const { ROOT_URL } = state.env
 
   return {
-    env,
+    ROOT_URL,
   }
 
 }

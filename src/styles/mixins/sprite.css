@@ -1,16 +1,42 @@
-@define-mixin sprite $name, $width, $height, $ratio: .5 {
+/*
+  Sprite mixins
+
+  Enables you to declare with actual image dimensions and base filename:
+  @mixin sprite facebook-icon, 45, 90; (filename, width, height)
+
+*/
+
+
+@define-mixin sprite $name, $width, $height {
   @media (max-resolution: 1dppx) {
     background-image: url(sprites/$(name).png);
   }
   background-image: url(sprites/$(name)@2x.png);
   background-position: 0px 0px;
   background-repeat: no-repeat;
-  background-size: calc($width * $ratio) calc($height * 2 * $ratio);
-  width: calc($width * $ratio);
-  height: calc($height * $ratio);
-  display: inline-block;
+  background-size: $(width)px $(height)px;
+  width: $(width)px;
+  height: calc($height / 2)px;
 
   &:hover {
-    background-position: 0px calc($height * -$(ratio));
+    background-position: 0px calc(($height / 2) * -1)px;
+  }
+}
+
+
+/* TODO: Untested */
+@define-mixin horizontal-sprite $name, $width, $height {
+  @media (max-resolution: 1dppx) {
+    background-image: url(sprites/$(name).png);
+  }
+  background-image: url(sprites/$(name)@2x.png);
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  background-size: $(width)px $(height)px;
+  width: calc($width / 2)px;
+  height: $(height)px;
+
+  &:hover {
+    background-position: calc(($width / 2) * -1)px 0px;
   }
 }

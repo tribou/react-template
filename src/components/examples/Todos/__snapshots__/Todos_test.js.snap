@@ -1,0 +1,40 @@
+exports[`test <Todos> renders the Todos content 1`] = `
+<div
+  className="todos pt6 tc">
+  <div
+    className="modal">
+    Todos page
+    <ul>
+      <li>
+        This is the first todo
+      </li>
+      <li>
+        This is the second todo
+      </li>
+      <li>
+        This is the third todo
+      </li>
+      <li>
+        This is todo has \"double-quotes\"
+      </li>
+      <li>
+        This one\'s done
+      </li>
+    </ul>
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/home">
+      Back
+    </Link>
+    <button
+      onClick={[Function]}>
+      Filter Done
+    </button>
+    <button
+      onClick={[Function]}>
+      Filter Current
+    </button>
+  </div>
+</div>
+`;

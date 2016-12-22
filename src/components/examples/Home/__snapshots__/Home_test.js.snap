@@ -16,8 +16,13 @@ exports[`test <Home> renders the Home content 1`] = `
   </Link>
   <div
     className="pt2">
-    <div
-      className="facebookIcon" />
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/todos">
+      <div
+        className="facebookIcon" />
+    </Link>
   </div>
 </div>
 `;

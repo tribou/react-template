@@ -35,7 +35,7 @@ class Profile extends PureComponent {
             <li>{me.get('lastName')}</li>
             <li>{me.get('city')}</li>
           </ul>
-          <Link to="/">Back</Link>
+          <Link to="/home">Back</Link>
           <button
             onClick={this.handleRefreshClick}
           >

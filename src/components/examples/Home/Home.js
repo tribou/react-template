@@ -19,7 +19,9 @@ const Home = (): React$Element<any> => {
         <div className={img.logo} />
       </Link>
       <div className="pt2">
-        <div className={sprites.facebookIcon} />
+        <Link to="/todos">
+          <div className={sprites.facebookIcon} />
+        </Link>
       </div>
     </div>
   )

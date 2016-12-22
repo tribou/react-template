@@ -36,13 +36,13 @@ class Todos extends PureComponent {
     })
 
     return (
-      <div className={`${css.profile} pt6 tc`}>
+      <div className={`${css.todos} pt6 tc`}>
         <div className={css.modal}>
           Todos page
           <ul>
             {todoList}
           </ul>
-          <Link to="/">Back</Link>
+          <Link to="/home">Back</Link>
           <button
             onClick={this.handleFilterDoneClick}
           >

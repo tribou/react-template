@@ -1,7 +1,7 @@
 // @flow
 import type { List } from 'immutable'
 import { connect } from 'react-redux'
-import Profile from './Todos'
+import Todos from './Todos'
 import { setFilterCurrent, setFilterDone } from '../../../redux/modules/todos'
 import visibleTodos from '../../../selectors/visibleTodos'
 
@@ -32,6 +32,6 @@ type ActionProps = {
 export default connect(mapStateToProps, {
   setFilterCurrent,
   setFilterDone,
-})(Profile)
+})(Todos)
 
 export type ReduxProps = StateProps & ActionProps
