@@ -1,0 +1,23 @@
+exports[`test <Home> renders the Home content 1`] = `
+<div
+  className="home flex flex-column justify-center items-center pt7 tc">
+  This is the offline app...
+  <ul>
+    <li>
+      This is a test item
+    </li>
+  </ul>
+  <Link
+    onlyActiveOnIndex={false}
+    style={Object {}}
+    to="/profile">
+    <div
+      className="logo" />
+  </Link>
+  <div
+    className="pt2">
+    <div
+      className="facebookIcon" />
+  </div>
+</div>
+`;

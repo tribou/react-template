@@ -4,7 +4,6 @@
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html
 
-import test from 'tape'
 import React from 'react'
 import Transit from 'transit-immutable-js'
 import { shallow } from 'enzyme'
@@ -23,7 +22,7 @@ const mockHead = {
 }
 
 
-test('<Html> embeds preloadedState prop in app-state script tag', (t: Object) => {
+it('<Html> embeds preloadedState prop in app-state script tag', () => {
 
   const state = { mystate: 'this' }
   const expected = Transit.toJSON(state)
@@ -44,13 +43,12 @@ test('<Html> embeds preloadedState prop in app-state script tag', (t: Object) =>
   )
   const actual = wrapper.find('#app-state').props().dangerouslySetInnerHTML.__html
 
-  t.equals(actual, expected)
-  t.end()
+  expect(actual).toBe(expected)
 
 })
 
 
-test('<Html> embeds css prop in style tag', (t: Object) => {
+it('<Html> embeds css prop in style tag', () => {
 
   const css = '.myCss{height:0;}'
   const expected = css
@@ -70,13 +68,12 @@ test('<Html> embeds css prop in style tag', (t: Object) => {
   )
   const actual = wrapper.find('head style').props().dangerouslySetInnerHTML.__html
 
-  t.equals(actual, expected)
-  t.end()
+  expect(actual).toBe(expected)
 
 })
 
 
-test('<Html> embeds the vendor asset script', (t: Object) => {
+it('<Html> embeds the vendor asset script', () => {
 
   const asset = '/myFile.js'
   const expected = true
@@ -101,13 +98,12 @@ test('<Html> embeds the vendor asset script', (t: Object) => {
     />
   )
 
-  t.equals(actual, expected)
-  t.end()
+  expect(actual).toBe(expected)
 
 })
 
 
-test('<Html> embeds the bundle asset script', (t: Object) => {
+it('<Html> embeds the bundle asset script', () => {
 
   const asset = '/myFile.js'
   const expected = true
@@ -132,7 +128,6 @@ test('<Html> embeds the bundle asset script', (t: Object) => {
     />
   )
 
-  t.equals(actual, expected)
-  t.end()
+  expect(actual).toBe(expected)
 
 })

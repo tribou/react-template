@@ -1,12 +1,9 @@
 // @flow
 /* eslint-disable max-len */
-import test from 'tape'
-import reducer, {
-  initialState,
-} from './profile'
+import reducer, { initialState } from './profile'
 
 
-test('reducer profile returns initialState by default', (t: Object) => {
+it('reducer profile returns initialState by default', () => {
 
   const expected = initialState
   const actual = reducer(expected, {
@@ -14,18 +11,16 @@ test('reducer profile returns initialState by default', (t: Object) => {
     payload: {},
   })
 
-  t.deepEqual(actual, expected)
-  t.end()
+  expect(actual).toEqual(expected)
 
 })
 
 
-test('reducer profile.initialState has expected properties', (t: Object) => {
+it('reducer profile.initialState has expected properties', () => {
 
   const expected = ['me', 'error', 'isFetching']
   const actual = initialState.keySeq().toJS()
 
-  t.deepEqual(actual, expected)
-  t.end()
+  expect(actual).toEqual(expected)
 
 })

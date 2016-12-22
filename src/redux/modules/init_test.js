@@ -1,14 +1,9 @@
 // @flow
 /* eslint-disable max-len */
-import test from 'tape'
-import reducer, {
-  initialState,
-  LOAD,
-  LOAD_SUCCESS,
-} from './init'
+import reducer, { initialState, LOAD, LOAD_SUCCESS } from './init'
 
 
-test('reducer init returns initialState by default', (t: Object) => {
+it('reducer init returns initialState by default', () => {
 
   const expected = initialState
   const actual = reducer(expected, {
@@ -16,13 +11,12 @@ test('reducer init returns initialState by default', (t: Object) => {
     payload: {},
   })
 
-  t.deepEqual(actual, expected)
-  t.end()
+  expect(actual).toEqual(expected)
 
 })
 
 
-test('reducer init on LOAD sets isLoading true', (t: Object) => {
+it('reducer init on LOAD sets isLoading true', () => {
 
   const expected = {
     isLoading: true,
@@ -33,13 +27,12 @@ test('reducer init on LOAD sets isLoading true', (t: Object) => {
     payload: {},
   })
 
-  t.deepEqual(actual, expected)
-  t.end()
+  expect(actual).toEqual(expected)
 
 })
 
 
-test('reducer init on LOAD_SUCCESS sets isLoading false, loaded true', (t: Object) => {
+it('reducer init on LOAD_SUCCESS sets isLoading false, loaded true', () => {
 
   const expected = {
     loaded: true,
@@ -50,7 +43,6 @@ test('reducer init on LOAD_SUCCESS sets isLoading false, loaded true', (t: Objec
     payload: {},
   })
 
-  t.deepEqual(actual, expected)
-  t.end()
+  expect(actual).toEqual(expected)
 
 })

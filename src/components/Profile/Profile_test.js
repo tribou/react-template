@@ -4,14 +4,13 @@
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html
 
-import test from 'tape'
 import React from 'react'
 import { render } from 'enzyme'
 import Profile from './Profile'
 import { Profile as ProfileModel } from '../../redux/modules/profile'
 
 
-test('<Profile> displays profile info', (t: Object) => {
+it('<Profile> displays profile info', () => {
 
   const expected = 'Austin, TX'
   const profile = ProfileModel({
@@ -25,7 +24,6 @@ test('<Profile> displays profile info', (t: Object) => {
   )
   const hasCity = wrapper.text().indexOf(expected) !== -1
 
-  t.equals(hasCity, true)
-  t.end()
+  expect(hasCity).toBe(true)
 
 })
