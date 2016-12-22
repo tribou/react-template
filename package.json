@@ -21,6 +21,7 @@
     "babel-cli": "^6.14.0",
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
+    "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-es2015-destructuring": "^6.9.0",
@@ -41,6 +42,7 @@
     "css-loader": "^0.26.0",
     "css-modules-require-hook": "^4.0.2",
     "enzyme": "^2.4.1",
+    "enzyme-to-json": "^1.4.5",
     "eslint": "^3.10.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-config-standard": "^6.2.1",
@@ -54,11 +56,12 @@
     "eslint-plugin-react": "^6.7.1",
     "eslint-plugin-standard": "^2.0.1",
     "extract-text-webpack-plugin": "^1.0.1",
-    "faucet": "0.0.1",
     "file-loader": "^0.9.0",
     "flow-bin": "^0.37.4",
     "glob": "^7.0.5",
+    "identity-obj-proxy": "^3.0.0",
     "imageoptim-cli": "^1.14.8",
+    "jest": "^18.0.0",
     "json-loader": "^0.5.4",
     "nodemon": "^1.10.2",
     "offline-plugin": "^4.5.2",
@@ -68,7 +71,6 @@
     "react-addons-perf": "^15.4.1",
     "react-addons-test-utils": "^15.3.1",
     "rimraf": "^2.5.4",
-    "tape": "^4.6.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
     "webpack-node-externals": "^1.3.3"
@@ -103,6 +105,17 @@
     "transit-js": "^0.8.846",
     "vision": "^4.1.0"
   },
+  "jest": {
+    "verbose": true,
+    "testRegex": "/(src|server)/.*_test\\.js$",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css)$": "identity-obj-proxy"
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
   "scripts": {
     "init": "heroku git:remote -a my-app -r prod && heroku git:remote -a my-app-staging -r staging",
     "optimize": "imageOptim -d static/images",
@@ -120,11 +133,11 @@
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "eslint": "eslint --ignore-path .gitignore flow src server config",
     "lint": "npm run eslint -- --rule 'flowtype-errors/show-errors: 0'",
-    "test": "npm run --silent eslint && npm run --silent test-tape | faucet",
-    "test-tape": "cross-env NODE_ENV=test babel-node test.js",
+    "test": "npm run --silent eslint && npm run --silent test-jest",
+    "test-jest": "cross-env NODE_ENV=test jest --coverage",
     "watch": "nodemon -i .eslintcache -x npm run --silent test",
     "watch-lint": "nodemon -w . -w .flowconfig -i .eslintcache -x npm run --silent eslint --cache",
-    "watch-test": "nodemon -w . -i .eslintcache -x npm run --silent test-tape",
+    "watch-test": "nodemon -w . -i .eslintcache -x npm run --silent test-jest",
     "yarn": "node bin/yarn-0.17.10.js install --ignore-scripts"
   }
 }
