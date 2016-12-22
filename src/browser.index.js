@@ -53,3 +53,10 @@ OfflineRuntime.install({
 
   },
 })
+
+if (process.env.NODE_ENV === 'development') {
+
+  const Perf = require('react-addons-perf') // eslint-disable-line
+  window.Perf = Perf
+
+}

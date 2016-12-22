@@ -1,7 +1,5 @@
-// flow-typed signature: 83f075847a666bd8c9c916dc41bc05e7
-// flow-typed version: 02e514e57e/tape_v4.5.x/flow_>=v0.25.x
-
-/* @flow */
+// flow-typed signature: 319345c7d1f795de3b740a00bf5e38f1
+// flow-typed version: 622c2ee76d/tape_v4.5.x/flow_>=v0.25.x
 
 /* eslint-disable  */
 

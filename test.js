@@ -1,4 +1,4 @@
-// @flow
+/* eslint-disable */
 // Bootstrap file to require each tape test
 import glob from 'glob'
 
