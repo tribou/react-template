@@ -98,6 +98,7 @@
     "redux-observable": "^0.12.2",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
+    "rollbar-browser": "^1.9.2",
     "rxjs": "^5.0.0-rc.5",
     "source-map-support": "^0.4.2",
     "tachyons": "^4.1.2",

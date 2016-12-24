@@ -11,7 +11,6 @@ type Props = {
   children?: any,
   head: Object,
   preloadedState: Object,
-  rollbarScript: string,
 }
 
 
@@ -62,12 +61,6 @@ class Html extends Component {
           <div
             id="react-mount"
             dangerouslySetInnerHTML={{ __html: this.props.children }}
-          />
-          <script
-            id="rollbar"
-            async
-            type="application/javascript"
-            dangerouslySetInnerHTML={{ __html: this.props.rollbarScript }}
           />
           <script
             id="app-state"

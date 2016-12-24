@@ -1514,6 +1514,10 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e
 
+console-polyfill@0.2.2:
+  version "0.2.2"
+  resolved console-polyfill-0.2.2.tgz#7d1c5ae27493d5088dc4d673dcd669cc6c18bd8e
+
 constants-browserify@^1.0.0:
   version "1.0.0"
   resolved constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75
@@ -2051,6 +2055,12 @@ error-ex@^1.2.0:
   dependencies:
     is-arrayish "^0.2.1"
 
+error-stack-parser@1.3.3:
+  version "1.3.3"
+  resolved error-stack-parser-1.3.3.tgz#fada6e3a9cd2b0e080e6d6fc751418649734f35c
+  dependencies:
+    stackframe "^0.3.1"
+
 es-abstract@^1.6.1:
   version "1.6.1"
   resolved es-abstract-1.6.1.tgz#bb8a2064120abcf928a086ea3d9043114285ec99
@@ -2387,7 +2397,7 @@ express@2.5.x:
     mkdirp "0.3.0"
     qs "0.4.x"
 
-extend@~3.0.0:
+extend@3.0.0, extend@~3.0.0:
   version "3.0.0"
   resolved extend-3.0.0.tgz#5a474353b9f3353ddd8176dfd37b91c83a46f1d4
 
@@ -5656,6 +5666,14 @@ ripemd160@0.2.0:
   version "0.2.0"
   resolved ripemd160-0.2.0.tgz#2bf198bde167cacfa51c0a928e84b68bbe171fce
 
+rollbar-browser@^1.9.2:
+  version "1.9.2"
+  resolved rollbar-browser-1.9.2.tgz#632ef1f67b210ad2b832a990cdf643d81cc57f09
+  dependencies:
+    console-polyfill "0.2.2"
+    error-stack-parser "1.3.3"
+    extend "3.0.0"
+
 run-async@^0.1.0:
   version "0.1.0"
   resolved run-async-0.1.0.tgz#c8ad4a5e110661e402a7d21b530e009f25f8e389
@@ -5931,6 +5949,10 @@ sshpk@^1.7.0:
     jodid25519 "^1.0.0"
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
+
+stackframe@^0.3.1:
+  version "0.3.1"
+  resolved stackframe-0.3.1.tgz#33aa84f1177a5548c8935533cbfeb3420975f5a4
 
 statehood@5.x.x:
   version "5.0.1"

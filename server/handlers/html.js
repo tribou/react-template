@@ -11,7 +11,6 @@ import routes from '../../src/routes'
 import { getAssets } from '../utils'
 import configureStore from '../../src/redux/store'
 import env from '../../config/env'
-import rollbarScript from '../../src/helpers/rollbar'
 
 
 // Default render options for react templates
@@ -121,7 +120,6 @@ const routedHtml = (request: Object, reply: Function) => {
         css,
         head,
         preloadedState,
-        rollbarScript: rollbarScript(env),
       }
 
       // Render the layout with props

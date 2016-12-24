@@ -4,6 +4,7 @@ import Debug from 'debug'
 import OfflineRuntime from 'offline-plugin/runtime'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Rollbar from 'rollbar-browser/dist/rollbar.umd.nojson.min'
 import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
@@ -11,6 +12,9 @@ import Transit from 'transit-immutable-js'
 import routes from './routes'
 import configureStore from './redux/store'
 import { loadSuccess } from './redux/modules/init'
+import rollbarConfig from '../config/rollbar'
+
+window.Rollbar = Rollbar.init(rollbarConfig)
 
 const log = Debug('my-app:browser:index')
 
