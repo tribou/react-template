@@ -1,5 +1,5 @@
-// flow-typed signature: 595850ab515dfc3ea8b9a4188b6a8b1b
-// flow-typed version: 048e379b9d/jest_v18.x.x/flow_>=v0.33.x
+// flow-typed signature: f9adc1fe5500052e55205636d0f376a7
+// flow-typed version: c17c09b83f/jest_v18.x.x/flow_>=v0.33.x
 
 type JestMockFn = {
   (...args: Array<any>): any,
@@ -189,6 +189,11 @@ type JestExpectType = {
    * specific arguments.
    */
   toHaveBeenCalledWith(...args: Array<any>): void,
+  /**
+   * Check that an object has a .length property and it is set to a certain
+   * numeric value.
+   */
+  toHaveLength(number: number): void,
   /**
    *
    */
