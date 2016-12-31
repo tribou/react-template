@@ -5,6 +5,7 @@
 const { NODE_ENV } = process.env
 
 const Webpack = require('webpack')
+const WebpackDashboard = require('webpack-dashboard/plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
@@ -55,6 +56,7 @@ const devClient = client.concat([
     logLevel: 'info',
     reloadOnRestart: true,
   }),
+  new WebpackDashboard(),
 
 ])
 
