@@ -3,7 +3,7 @@
 import { applyMiddleware, createStore, compose } from 'redux'
 import createLogger from 'redux-logger'
 import { createEpicMiddleware } from 'redux-observable'
-// import thunk from 'redux-thunk'
+import thunk from 'redux-thunk'
 import rootEpic from './epics'
 import rootReducer from './modules'
 
@@ -15,7 +15,7 @@ function configureStore (preloadedState: GlobalReducerState): Object {
   const middleware = [
     epicMiddleware,
     // let's see if redux-observable can replace this completely
-    // thunk,
+    thunk,
   ]
 
   // only log redux actions in development

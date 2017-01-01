@@ -97,8 +97,20 @@ const routedHtml = (request: Object, reply: Function) => {
 
       }
 
+      // Inject server request info
+      const _request = { userAgent: request.headers['user-agent'] }
+      request.log(['info', 'user-agent'], _request.userAgent)
+
+      // Manually setup current route on server for react-router-redux
+      const routing = { locationBeforeTransitions: renderProps.location }
+
       // Pass initial state to store along with server ENV vars
-      const store = configureStore({ ...initialState, env })
+      const store = configureStore({
+        ...initialState,
+        env,
+        request: _request,
+        routing,
+      })
 
       // Get rendered router context
       const children = renderToString(
