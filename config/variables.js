@@ -9,10 +9,11 @@
 const variables = {
 
   appTitle: 'Ooober',
+  appDescription: 'The best site ever.',
   appIcon: '/static/images/logo.png',
   appLogo: '/static/images/logo.png',
-  appLogoWidth: '64px',
-  appLogoHeight: '64px',
+  appLogoWidth: '64',
+  appLogoHeight: '64',
 
   colorDark: '#4a4a4a', // darkgrey
   colorDarkFaded: 'rgba(74, 74, 74, 0.5)',

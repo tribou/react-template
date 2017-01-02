@@ -5678,7 +5678,7 @@ rx@4.1.0:
   version "4.1.0"
   resolved rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782
 
-rxjs@^5.0.0-rc.5:
+rxjs@^5.0.2:
   version "5.0.2"
   resolved rxjs-5.0.2.tgz#cc6513756daa93cab4085c1b5a19a3e28fb6c6bf
   dependencies:

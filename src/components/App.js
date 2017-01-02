@@ -12,6 +12,7 @@ type Props = ReduxProps & {
 const App = (props: Props): React$Element<any> => {
 
   const {
+    appDescription,
     appIcon,
     appLogo,
     appTitle,
@@ -21,7 +22,6 @@ const App = (props: Props): React$Element<any> => {
   } = vars
 
   const { ROOT_URL } = props
-  const description = 'The best portal ever.'
 
   return (
     <div id="application">
@@ -38,8 +38,8 @@ const App = (props: Props): React$Element<any> => {
           { property: 'og:image:width', content: appLogoWidth },
           { property: 'og:image:height', content: appLogoHeight },
           { property: 'og:url', content: ROOT_URL },
-          { property: 'og:description', content: description },
-          { name: 'description', content: description },
+          { property: 'og:description', content: appDescription },
+          { name: 'description', content: appDescription },
         ]}
         link={[
           { rel: 'shortcut icon', href: appIcon },
