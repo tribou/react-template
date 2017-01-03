@@ -17,7 +17,6 @@ type GlobalReducerState = {
   todos: TodosState,
 
   // react-router-redux
-  routing: Object,
 }
 
 type GlobalFSA<T> = {
