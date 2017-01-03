@@ -11,5 +11,5 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - npm run yarn
           - npm run lint
-          - npm run flow
+          - npm run flow-ci
           - npm run test-jest
