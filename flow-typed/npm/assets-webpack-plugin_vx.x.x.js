@@ -1,4 +1,4 @@
-// flow-typed signature: 7c588120765ab0f3501d61765b6bdeee
+// flow-typed signature: 27ea4941c0e62e66f8c4f34a92648072
 // flow-typed version: <<STUB>>/assets-webpack-plugin_v^3.4.0/flow_v0.37.4
 
 /**
@@ -67,6 +67,10 @@ declare module 'assets-webpack-plugin/test/fixtures/common-chunks/two' {
 }
 
 declare module 'assets-webpack-plugin/test/fixtures/manifest' {
+  declare module.exports: any;
+}
+
+declare module 'assets-webpack-plugin/test/fixtures/manifestWithSourceMap' {
   declare module.exports: any;
 }
 
@@ -156,6 +160,9 @@ declare module 'assets-webpack-plugin/test/fixtures/common-chunks/two.js' {
 }
 declare module 'assets-webpack-plugin/test/fixtures/manifest.js' {
   declare module.exports: $Exports<'assets-webpack-plugin/test/fixtures/manifest'>;
+}
+declare module 'assets-webpack-plugin/test/fixtures/manifestWithSourceMap.js' {
+  declare module.exports: $Exports<'assets-webpack-plugin/test/fixtures/manifestWithSourceMap'>;
 }
 declare module 'assets-webpack-plugin/test/fixtures/one.js' {
   declare module.exports: $Exports<'assets-webpack-plugin/test/fixtures/one'>;

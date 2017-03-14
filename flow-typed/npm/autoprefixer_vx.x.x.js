@@ -1,4 +1,4 @@
-// flow-typed signature: 148b54704f2438c613dc03782dc85937
+// flow-typed signature: 51cfc5821633aa24384578dd9d719b78
 // flow-typed version: <<STUB>>/autoprefixer_v^6.4.0/flow_v0.37.4
 
 /**
@@ -87,10 +87,6 @@ declare module 'autoprefixer/lib/hacks/display-flex' {
 }
 
 declare module 'autoprefixer/lib/hacks/display-grid' {
-  declare module.exports: any;
-}
-
-declare module 'autoprefixer/lib/hacks/fill' {
   declare module.exports: any;
 }
 
@@ -195,6 +191,10 @@ declare module 'autoprefixer/lib/hacks/pixelated' {
 }
 
 declare module 'autoprefixer/lib/hacks/placeholder' {
+  declare module.exports: any;
+}
+
+declare module 'autoprefixer/lib/hacks/stretch' {
   declare module.exports: any;
 }
 
@@ -310,9 +310,6 @@ declare module 'autoprefixer/lib/hacks/display-flex.js' {
 declare module 'autoprefixer/lib/hacks/display-grid.js' {
   declare module.exports: $Exports<'autoprefixer/lib/hacks/display-grid'>;
 }
-declare module 'autoprefixer/lib/hacks/fill.js' {
-  declare module.exports: $Exports<'autoprefixer/lib/hacks/fill'>;
-}
 declare module 'autoprefixer/lib/hacks/filter-value.js' {
   declare module.exports: $Exports<'autoprefixer/lib/hacks/filter-value'>;
 }
@@ -390,6 +387,9 @@ declare module 'autoprefixer/lib/hacks/pixelated.js' {
 }
 declare module 'autoprefixer/lib/hacks/placeholder.js' {
   declare module.exports: $Exports<'autoprefixer/lib/hacks/placeholder'>;
+}
+declare module 'autoprefixer/lib/hacks/stretch.js' {
+  declare module.exports: $Exports<'autoprefixer/lib/hacks/stretch'>;
 }
 declare module 'autoprefixer/lib/hacks/text-emphasis-position.js' {
   declare module.exports: $Exports<'autoprefixer/lib/hacks/text-emphasis-position'>;

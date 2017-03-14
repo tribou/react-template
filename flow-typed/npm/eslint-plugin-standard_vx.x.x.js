@@ -1,4 +1,4 @@
-// flow-typed signature: 7964fdbcac51709dce14ec873487d050
+// flow-typed signature: 13b849290ef7f48a43ec05e941246281
 // flow-typed version: <<STUB>>/eslint-plugin-standard_v^2.0.1/flow_v0.37.4
 
 /**
@@ -30,6 +30,10 @@ declare module 'eslint-plugin-standard/rules/computed-property-even-spacing' {
   declare module.exports: any;
 }
 
+declare module 'eslint-plugin-standard/rules/no-callback-literal' {
+  declare module.exports: any;
+}
+
 declare module 'eslint-plugin-standard/rules/object-curly-even-spacing' {
   declare module.exports: any;
 }
@@ -39,6 +43,10 @@ declare module 'eslint-plugin-standard/tests/array-bracket-even-spacing' {
 }
 
 declare module 'eslint-plugin-standard/tests/computed-property-even-spacing' {
+  declare module.exports: any;
+}
+
+declare module 'eslint-plugin-standard/tests/no-callback-literal' {
   declare module.exports: any;
 }
 
@@ -59,6 +67,9 @@ declare module 'eslint-plugin-standard/rules/array-bracket-even-spacing.js' {
 declare module 'eslint-plugin-standard/rules/computed-property-even-spacing.js' {
   declare module.exports: $Exports<'eslint-plugin-standard/rules/computed-property-even-spacing'>;
 }
+declare module 'eslint-plugin-standard/rules/no-callback-literal.js' {
+  declare module.exports: $Exports<'eslint-plugin-standard/rules/no-callback-literal'>;
+}
 declare module 'eslint-plugin-standard/rules/object-curly-even-spacing.js' {
   declare module.exports: $Exports<'eslint-plugin-standard/rules/object-curly-even-spacing'>;
 }
@@ -67,6 +78,9 @@ declare module 'eslint-plugin-standard/tests/array-bracket-even-spacing.js' {
 }
 declare module 'eslint-plugin-standard/tests/computed-property-even-spacing.js' {
   declare module.exports: $Exports<'eslint-plugin-standard/tests/computed-property-even-spacing'>;
+}
+declare module 'eslint-plugin-standard/tests/no-callback-literal.js' {
+  declare module.exports: $Exports<'eslint-plugin-standard/tests/no-callback-literal'>;
 }
 declare module 'eslint-plugin-standard/tests/object-curly-even-spacing.js' {
   declare module.exports: $Exports<'eslint-plugin-standard/tests/object-curly-even-spacing'>;

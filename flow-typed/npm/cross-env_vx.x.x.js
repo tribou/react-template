@@ -1,4 +1,4 @@
-// flow-typed signature: 6cfa045a910acf5932b57c8733580d3e
+// flow-typed signature: 658a8b0114d08937c07a1893151f3459
 // flow-typed version: <<STUB>>/cross-env_v^3.1.3/flow_v0.37.4
 
 /**
@@ -22,7 +22,7 @@ declare module 'cross-env' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'cross-env/bin/cross-env' {
+declare module 'cross-env/dist/bin/cross-env' {
   declare module.exports: any;
 }
 
@@ -34,41 +34,13 @@ declare module 'cross-env/dist/index' {
   declare module.exports: any;
 }
 
-declare module 'cross-env/src/command' {
-  declare module.exports: any;
-}
-
-declare module 'cross-env/src/command.test' {
-  declare module.exports: any;
-}
-
-declare module 'cross-env/src/index' {
-  declare module.exports: any;
-}
-
-declare module 'cross-env/src/index.test' {
-  declare module.exports: any;
-}
-
 // Filename aliases
-declare module 'cross-env/bin/cross-env.js' {
-  declare module.exports: $Exports<'cross-env/bin/cross-env'>;
+declare module 'cross-env/dist/bin/cross-env.js' {
+  declare module.exports: $Exports<'cross-env/dist/bin/cross-env'>;
 }
 declare module 'cross-env/dist/command.js' {
   declare module.exports: $Exports<'cross-env/dist/command'>;
 }
 declare module 'cross-env/dist/index.js' {
   declare module.exports: $Exports<'cross-env/dist/index'>;
-}
-declare module 'cross-env/src/command.js' {
-  declare module.exports: $Exports<'cross-env/src/command'>;
-}
-declare module 'cross-env/src/command.test.js' {
-  declare module.exports: $Exports<'cross-env/src/command.test'>;
-}
-declare module 'cross-env/src/index.js' {
-  declare module.exports: $Exports<'cross-env/src/index'>;
-}
-declare module 'cross-env/src/index.test.js' {
-  declare module.exports: $Exports<'cross-env/src/index.test'>;
 }

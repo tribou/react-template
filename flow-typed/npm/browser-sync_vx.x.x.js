@@ -1,4 +1,4 @@
-// flow-typed signature: 110ec49ee1a0f42d9801c50ac80d871f
+// flow-typed signature: 8c031f9e92cf491fcef80f2873e5d72b
 // flow-typed version: <<STUB>>/browser-sync_v^2.14.0/flow_v0.37.4
 
 /**
@@ -79,6 +79,10 @@ declare module 'browser-sync/lib/connect-utils' {
 }
 
 declare module 'browser-sync/lib/default-config' {
+  declare module.exports: any;
+}
+
+declare module 'browser-sync/lib/file-event-handler' {
   declare module.exports: any;
 }
 
@@ -245,6 +249,9 @@ declare module 'browser-sync/lib/connect-utils.js' {
 }
 declare module 'browser-sync/lib/default-config.js' {
   declare module.exports: $Exports<'browser-sync/lib/default-config'>;
+}
+declare module 'browser-sync/lib/file-event-handler.js' {
+  declare module.exports: $Exports<'browser-sync/lib/file-event-handler'>;
 }
 declare module 'browser-sync/lib/file-utils.js' {
   declare module.exports: $Exports<'browser-sync/lib/file-utils'>;
