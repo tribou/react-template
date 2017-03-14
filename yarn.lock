@@ -4580,6 +4580,10 @@ normalize-url@^1.4.0:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
+normalize.css@^5.0.0:
+  version "5.0.0"
+  resolved normalize.css-5.0.0.tgz#7cec875ce8178a5333c4de80b68ea9c18b9d7c37
+
 npmlog@^4.0.1:
   version "4.0.2"
   resolved npmlog-4.0.2.tgz#d03950e0e78ce1527ba26d2a7592e9348ac3e75f
@@ -5332,16 +5336,7 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.19, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.6:
-  version "5.2.8"
-  resolved postcss-5.2.8.tgz#05720c49df23c79bda51fd01daeb1e9222e94390
-  dependencies:
-    chalk "^1.1.3"
-    js-base64 "^2.1.9"
-    source-map "^0.5.6"
-    supports-color "^3.1.2"
-
-postcss@^5.2.15:
+postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.8, postcss@^5.2.15:
   version "5.2.16"
   resolved postcss-5.2.16.tgz#732b3100000f9ff8379a48a53839ed097376ad57
   dependencies:
@@ -5349,6 +5344,15 @@ postcss@^5.2.15:
     js-base64 "^2.1.9"
     source-map "^0.5.6"
     supports-color "^3.2.3"
+
+postcss@^5.0.19, postcss@^5.0.2, postcss@^5.0.6, postcss@^5.2.6:
+  version "5.2.8"
+  resolved postcss-5.2.8.tgz#05720c49df23c79bda51fd01daeb1e9222e94390
+  dependencies:
+    chalk "^1.1.3"
+    js-base64 "^2.1.9"
+    source-map "^0.5.6"
+    supports-color "^3.1.2"
 
 precss@^1.4.0:
   version "1.4.0"
@@ -5683,6 +5687,10 @@ redux-logger@^2.6.1:
 redux-observable@^0.12.2:
   version "0.12.2"
   resolved redux-observable-0.12.2.tgz#4bc1657c7eedace577e114b74ffe6f6fb2b36ccf
+
+redux-promise-middleware@^4.2.0:
+  version "4.2.0"
+  resolved redux-promise-middleware-4.2.0.tgz#052a7ac2df0e3468e196279f14bdefe711d10cac
 
 redux-thunk@^2.1.0:
   version "2.1.0"
@@ -6362,10 +6370,6 @@ table@^3.7.8:
     slice-ansi "0.0.4"
     string-width "^2.0.0"
 
-tachyons@^4.1.2:
-  version "4.6.1"
-  resolved tachyons-4.6.1.tgz#723d3f2346191619446187f244edf7084bbfc963
-
 tapable@^0.2.5, tapable@~0.2.5:
   version "0.2.6"
   resolved tapable-0.2.6.tgz#206be8e188860b514425375e6f1ae89bfb01fd8d
@@ -6472,9 +6476,9 @@ tr46@~0.0.3:
   version "0.0.3"
   resolved tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a
 
-transit-immutable-js@^0.6.0:
-  version "0.6.0"
-  resolved transit-immutable-js-0.6.0.tgz#db738a54a152f75c67b51f4cabc0ebe8cdb45f9d
+transit-immutable-js@^0.7.0:
+  version "0.7.0"
+  resolved transit-immutable-js-0.7.0.tgz#993e25089b6311ff402140f556276d6d253005d9
 
 transit-js@^0.8.846:
   version "0.8.846"

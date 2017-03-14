@@ -20,8 +20,8 @@ const client = {
     'react-router',
     'react-router-redux',
     'redux',
-    'redux-logger',
     'redux-observable',
+    'redux-promise-middleware',
     'redux-thunk',
     'reselect',
     'rxjs',
@@ -29,7 +29,7 @@ const client = {
     'transit-immutable-js',
   ],
   bundle: [
-    'tachyons/css/tachyons.css',
+    'normalize.css/normalize.css',
     './src/styles/fonts.css',
     './src/styles/app.css',
     './src/browser.index.js',
