@@ -1,12 +1,13 @@
 {
   "name": "react-template",
-  "version": "0.0.12",
+  "version": "2.0.0",
   "private": true,
   "description": "",
   "main": "build/server.js",
   "engines": {
     "node": ">=6.4.x <7",
-    "npm": ">=3.10.x <4"
+    "npm": ">=3.10.x <4",
+    "yarn": "0.21.3"
   },
   "repository": {
     "type": "git",
