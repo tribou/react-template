@@ -10,21 +10,23 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 // development
 const client = {
 
-  css: ExtractTextPlugin.extract('css'
+  css: ExtractTextPlugin.extract({
+    use: 'css-loader'
     + '?importLoaders=1'
-    + '!postcss'),
+    + '!postcss-loader' }),
 
-  modules: ExtractTextPlugin.extract('css'
+  modules: ExtractTextPlugin.extract({
+    use: 'css-loader'
     + '?modules&camelCase'
     + '&importLoaders=1'
     + '&localIdentName=[path]__[name]__[local]__[hash:base64:3]'
-    + '!postcss'),
+    + '!postcss-loader' }),
 }
 
 
 const server = {
-  css: 'css/locals',
-  modules: 'css/locals?modules&camelCase'
+  css: 'css-loader/locals',
+  modules: 'css-loader/locals?modules&camelCase'
     + '&localIdentName=[path]__[name]__[local]__[hash:base64:3]',
 }
 
@@ -32,20 +34,22 @@ const server = {
 // production
 const prodClient = {
 
-  css: ExtractTextPlugin.extract('css'
+  css: ExtractTextPlugin.extract({
+    use: 'css-loader'
     + '?minimize&importLoaders=1'
-    + '!postcss'),
+    + '!postcss-loader' }),
 
-  modules: ExtractTextPlugin.extract('css?minimize'
+  modules: ExtractTextPlugin.extract({
+    use: 'css-loader?minimize'
     + '&modules&camelCase'
     + '&importLoaders=1'
-    + '!postcss'),
+    + '!postcss-loader' }),
 }
 
 
 const prodServer = {
-  css: 'css/locals?minimize',
-  modules: 'css/locals?minimize&modules&camelCase',
+  css: 'css-loader/locals?minimize',
+  modules: 'css-loader/locals?minimize&modules&camelCase',
 }
 
 

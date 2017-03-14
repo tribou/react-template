@@ -9,7 +9,7 @@ if (!NODE_ENV || !WEBPACK_ENV) throw new Error('Set NODE_ENV and WEBPACK_ENV')
 const cssLoaders = require('./css')[NODE_ENV][WEBPACK_ENV]
 
 
-const loaders = [
+const rules = [
   {
     test: /\.js$/,
     exclude: /node_modules/,
@@ -21,59 +21,56 @@ const loaders = [
   {
     test: /\.css$/,
     exclude: /node_modules/,
-    loader: cssLoaders.modules,
+    use: cssLoaders.modules,
   },
   {
     test: /node_modules.*\.css$/,
-    loader: cssLoaders.css,
-  },
-  {
-    test: /\.json$/,
-    loader: 'json-loader',
+    use: cssLoaders.css,
   },
   {
     test: /\.(eot|mp4|otf)$/,
-    loader: 'file-loader',
+    use: 'file-loader',
   },
   {
     test: /\.(gif|jpeg|jpg|png|svg)$/,
-    loader: 'url-loader?limit=10000',
+    use: 'url-loader?limit=10000',
   },
   {
     test: /\.(woff|woff2)$/,
-    loader: 'url-loader?limit=10000&mimetype=application/font-woff',
+    use: 'url-loader?limit=10000&mimetype=application/font-woff',
   },
   {
     test: /\.ttf$/,
-    loader: 'url-loader?limit=10000&mimetype=application/octet-stream',
+    use: 'url-loader?limit=10000&mimetype=application/octet-stream',
   },
 ]
 
-const preLoaders = [
+const devRules = [
   {
     test: /\.js$/,
     exclude: /node_modules/,
     loader: 'eslint-loader',
+    enforce: 'pre',
+    options: {
+      configFile: '.eslintrc.yml',
+    },
   },
 ]
 
-
 const client = {
-  preLoaders,
-  loaders,
+  rules: rules.concat(devRules),
 }
 
 const server = {
-  preLoaders,
-  loaders,
+  rules: rules.concat(devRules),
 }
 
 const prodClient = {
-  loaders,
+  rules,
 }
 
 const prodServer = {
-  loaders,
+  rules,
 }
 
 

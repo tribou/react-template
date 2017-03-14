@@ -6,14 +6,15 @@ const Path = require('path')
 
 
 const client = {
-  root: [
+  modules: [
     Path.resolve(__dirname, '../../src'),
     Path.resolve(__dirname, '../../server'),
     Path.resolve(__dirname, '../../static'),
+    'node_modules',
   ],
   extensions: [
-    '',
     '.js',
+    '.json',
     '.web.js',
   ],
 }

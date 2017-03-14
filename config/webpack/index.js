@@ -16,7 +16,6 @@ const node = require('./node')[NODE_ENV][WEBPACK_ENV]
 const plugins = require('./plugins')[NODE_ENV][WEBPACK_ENV]
 const target = require('./target')[NODE_ENV][WEBPACK_ENV]
 const webpackModule = require('./module')[NODE_ENV][WEBPACK_ENV]
-const postcss = require('../postcss')
 
 
 // Additional build scripts
@@ -32,11 +31,5 @@ module.exports = {
   plugins,
 
   module: webpackModule,
-
-  eslint: {
-    configFile: '.eslintrc.yml',
-  },
-
-  postcss,
 
 }

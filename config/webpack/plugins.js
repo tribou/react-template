@@ -16,7 +16,6 @@ const offlinePluginConfig = require('../offline')
 
 const client = [
 
-  new Webpack.optimize.OccurrenceOrderPlugin(),
   new Webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(NODE_ENV || 'development'),
@@ -37,7 +36,7 @@ const client = [
     names: ['vendor'],
     minChunks: Infinity,
   }),
-  new ExtractTextPlugin('styles.css', { allChunks: true }),
+  new ExtractTextPlugin({ filename: 'styles.css', allChunks: true }),
   new AssetsPlugin({
     filename: '/build/assets.json',
   }),
@@ -69,9 +68,10 @@ const prodClient = client.concat([
     minRatio: 0.8,
   }),
   new Webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false,
-    },
+    sourceMap: true,
+  }),
+  new Webpack.LoaderOptionsPlugin({
+    minimize: true,
   }),
 
   // Keep OfflinePlugin last
@@ -84,8 +84,8 @@ const server = [
 
   // Ignore CSS on the server
   // new Webpack.NormalModuleReplacementPlugin(/\.css$/, 'node-noop'),
-  new Webpack.optimize.OccurrenceOrderPlugin(),
-  new Webpack.BannerPlugin('require("source-map-support").install();', {
+  new Webpack.BannerPlugin({
+    banner: 'require("source-map-support").install();',
     raw: true,
     entryOnly: false,
   }),
