@@ -9,3 +9,10 @@ type BuildAssets = {
     css: string,
   },
 }
+
+// webpack hmr
+declare var module: {
+  hot: {
+    accept(path: string, callback: () => void): void
+  }
+}

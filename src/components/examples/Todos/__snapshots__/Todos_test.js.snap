@@ -1,8 +1,12 @@
-exports[`test <Todos> renders the Todos content 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Todos> renders the Todos content 1`] = `
 <div
-  className="todos pt6 tc">
+  className="todos"
+>
   <div
-    className="modal">
+    className="modal"
+  >
     Todos page
     <ul>
       <li>
@@ -15,24 +19,27 @@ exports[`test <Todos> renders the Todos content 1`] = `
         This is the third todo
       </li>
       <li>
-        This is todo has \"double-quotes\"
+        This is todo has "double-quotes"
       </li>
       <li>
-        This one\'s done
+        This one's done
       </li>
     </ul>
     <Link
       onlyActiveOnIndex={false}
       style={Object {}}
-      to="/home">
+      to="/home"
+    >
       Back
     </Link>
     <button
-      onClick={[Function]}>
+      onClick={[Function]}
+    >
       Filter Done
     </button>
     <button
-      onClick={[Function]}>
+      onClick={[Function]}
+    >
       Filter Current
     </button>
   </div>

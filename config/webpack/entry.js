@@ -4,6 +4,10 @@
 
 const Glob = require('glob')
 
+const { NODE_ENV } = process.env
+
+if (!NODE_ENV) throw new Error('Set NODE_ENV')
+
 
 const client = {
   // include CSS files here where order of precedence is needed
@@ -39,8 +43,11 @@ const client = {
 
 // construction inspired by:
 // https://github.com/webpack/webpack/issues/1189#issuecomment-156576084
+const serverEntry = (NODE_ENV === 'development')
+  ? ['webpack/hot/poll?1000']
+  : []
 const server = {
-  'build/server.js': './server/index.js',
+  'server.js': serverEntry.concat(['./server/index.js']),
 }
 
 
@@ -50,7 +57,7 @@ const server = {
 const serverLayouts = Glob.sync('./server/views/!(*_test.js)*')
 serverLayouts.forEach((file) => {
 
-  const target = `build/views/${file.split('/').pop()}`
+  const target = `views/${file.split('/').pop()}`
   server[target] = file
 
 })

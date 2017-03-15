@@ -1,4 +1,4 @@
-// flow-typed signature: 163b71ed5a3dfbb1737f37651dfb2944
+// flow-typed signature: 4d4e2fb341e20e7cc3ffee7fb28aecb2
 // flow-typed version: <<STUB>>/css-modules-require-hook_v^4.0.2/flow_v0.37.4
 
 /**
@@ -30,6 +30,10 @@ declare module 'css-modules-require-hook/lib/index' {
   declare module.exports: any;
 }
 
+declare module 'css-modules-require-hook/lib/transformTokens' {
+  declare module.exports: any;
+}
+
 declare module 'css-modules-require-hook/lib/validate' {
   declare module.exports: any;
 }
@@ -44,6 +48,9 @@ declare module 'css-modules-require-hook/lib/attachHook.js' {
 }
 declare module 'css-modules-require-hook/lib/index.js' {
   declare module.exports: $Exports<'css-modules-require-hook/lib/index'>;
+}
+declare module 'css-modules-require-hook/lib/transformTokens.js' {
+  declare module.exports: $Exports<'css-modules-require-hook/lib/transformTokens'>;
 }
 declare module 'css-modules-require-hook/lib/validate.js' {
   declare module.exports: $Exports<'css-modules-require-hook/lib/validate'>;

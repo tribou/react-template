@@ -12,7 +12,6 @@ import { getAssets } from '../utils'
 import configureStore from '../../src/redux/store'
 import env from '../../config/env'
 
-
 // Default render options for react templates
 // 'renderToStaticMarkup' omits react data properties
 // 'renderToString' is used for re-hydrating on client-side
@@ -28,12 +27,7 @@ const routedHtml = (request: Object, reply: Function) => {
 
   // Paths relative to inside build/ only in prod
   const assets = getAssets()
-  let cssPath = './public/styles.css'
-  if (process.env.NODE_ENV === 'development') {
-
-    cssPath = '../../build/public/styles.css'
-
-  }
+  const cssPath = './public/styles.css'
   const cssFile = Path.resolve(__dirname, cssPath)
   let css = ''
 
@@ -50,6 +44,13 @@ const routedHtml = (request: Object, reply: Function) => {
   }
 
   request.log(['info'], request.url.href)
+
+  if (module.hot) {
+
+    module.hot.accept('../../src/routes', () => {
+    })
+
+  }
 
   // Let react-router match the raw URL to generate the
   // RouterContext here on the server

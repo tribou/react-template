@@ -9,9 +9,9 @@ import type { APIError } from '../../helpers/api'
 
 
 // ACTION TYPES
-export const FETCH_PROFILE = 'my-app/profile/FETCH_PROFILE'
-export const FETCH_PROFILE_SUCCESS = 'my-app/profile/FETCH_PROFILE_SUCCESS'
-export const FETCH_PROFILE_ERROR = 'my-app/profile/FETCH_PROFILE_ERROR'
+export const GET_PROFILE = 'my-app/profile/GET_PROFILE'
+export const GET_PROFILE_FULFILLED = 'my-app/profile/GET_PROFILE_FULFILLED'
+export const GET_PROFILE_REJECTED = 'my-app/profile/GET_PROFILE_REJECTED'
 
 
 // MODEL
@@ -34,7 +34,7 @@ export type ProfileState = Record<*>
 // Initial state with default values
 const InitialState = Record({
   me: new Profile(),
-  error: false,
+  error: '',
   isFetching: false,
 })
 
@@ -47,15 +47,16 @@ function reducer (state: ProfileState = initialState, action: GlobalFSA<*>) {
 
   switch (action.type) {
 
-    case FETCH_PROFILE:
+    case GET_PROFILE:
       return state.set('isFetching', true)
 
-    case FETCH_PROFILE_SUCCESS:
+    case GET_PROFILE_FULFILLED:
       return state
         .set('me', new Profile(action.payload.me))
+        .set('error', '')
         .set('isFetching', false)
 
-    case FETCH_PROFILE_ERROR:
+    case GET_PROFILE_REJECTED:
       return state
         .set('error', action.payload.statusCode)
         .set('isFetching', false)
@@ -74,7 +75,7 @@ function reducer (state: ProfileState = initialState, action: GlobalFSA<*>) {
 export const fetchProfile = () => {
 
   return {
-    type: FETCH_PROFILE,
+    type: GET_PROFILE,
   }
 
 }
@@ -83,7 +84,7 @@ export const fetchProfile = () => {
 export const fetchProfileSuccess = (me: Object) => {
 
   return {
-    type: FETCH_PROFILE_SUCCESS,
+    type: GET_PROFILE_FULFILLED,
     payload: {
       me,
     },
@@ -100,7 +101,7 @@ export const fetchProfileError = ({ statusCode }: APIError) => {
     : 'There was a problem getting your profile. Please, try logging out and back in.'
 
   return {
-    type: FETCH_PROFILE_ERROR,
+    type: GET_PROFILE_REJECTED,
     payload: {
       statusCode,
       message,

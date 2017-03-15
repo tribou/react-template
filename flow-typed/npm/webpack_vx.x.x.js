@@ -1,4 +1,4 @@
-// flow-typed signature: 543ffe52a964d282d5b88126766f0b1b
+// flow-typed signature: 0710d3a954ac85bb7dca2761619a6360
 // flow-typed version: <<STUB>>/webpack_v^2.2.1/flow_v0.37.4
 
 /**
@@ -55,6 +55,10 @@ declare module 'webpack/buildin/harmony-module' {
 }
 
 declare module 'webpack/buildin/module' {
+  declare module.exports: any;
+}
+
+declare module 'webpack/buildin/system' {
   declare module.exports: any;
 }
 
@@ -527,6 +531,10 @@ declare module 'webpack/lib/Entrypoint' {
 }
 
 declare module 'webpack/lib/EnvironmentPlugin' {
+  declare module.exports: any;
+}
+
+declare module 'webpack/lib/ErrorHelpers' {
   declare module.exports: any;
 }
 
@@ -1030,6 +1038,10 @@ declare module 'webpack/lib/webworker/WebWorkerTemplatePlugin' {
   declare module.exports: any;
 }
 
+declare module 'webpack/schemas/ajv.absolutePath' {
+  declare module.exports: any;
+}
+
 declare module 'webpack/web_modules/node-libs-browser' {
   declare module.exports: any;
 }
@@ -1061,6 +1073,9 @@ declare module 'webpack/buildin/harmony-module.js' {
 }
 declare module 'webpack/buildin/module.js' {
   declare module.exports: $Exports<'webpack/buildin/module'>;
+}
+declare module 'webpack/buildin/system.js' {
+  declare module.exports: $Exports<'webpack/buildin/system'>;
 }
 declare module 'webpack/hot/dev-server.js' {
   declare module.exports: $Exports<'webpack/hot/dev-server'>;
@@ -1415,6 +1430,9 @@ declare module 'webpack/lib/Entrypoint.js' {
 }
 declare module 'webpack/lib/EnvironmentPlugin.js' {
   declare module.exports: $Exports<'webpack/lib/EnvironmentPlugin'>;
+}
+declare module 'webpack/lib/ErrorHelpers.js' {
+  declare module.exports: $Exports<'webpack/lib/ErrorHelpers'>;
 }
 declare module 'webpack/lib/EvalDevToolModulePlugin.js' {
   declare module.exports: $Exports<'webpack/lib/EvalDevToolModulePlugin'>;
@@ -1790,6 +1808,9 @@ declare module 'webpack/lib/webworker/WebWorkerMainTemplatePlugin.js' {
 }
 declare module 'webpack/lib/webworker/WebWorkerTemplatePlugin.js' {
   declare module.exports: $Exports<'webpack/lib/webworker/WebWorkerTemplatePlugin'>;
+}
+declare module 'webpack/schemas/ajv.absolutePath.js' {
+  declare module.exports: $Exports<'webpack/schemas/ajv.absolutePath'>;
 }
 declare module 'webpack/web_modules/node-libs-browser.js' {
   declare module.exports: $Exports<'webpack/web_modules/node-libs-browser'>;

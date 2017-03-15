@@ -2,8 +2,10 @@
 
 'use strict'
 
+const Path = require('path')
+
 const client = {
-  path: './build/public/',
+  path: Path.resolve(__dirname, '../../build/public/'),
   chunkFilename: '[name]-[chunkhash].js',
   filename: '[name]-[chunkhash].js',
   publicPath: '/static/',
@@ -11,7 +13,7 @@ const client = {
 
 
 const server = {
-  path: './',
+  path: Path.join(__dirname, '../../build'),
   filename: '[name]',
   libraryTarget: 'commonjs2',
 }

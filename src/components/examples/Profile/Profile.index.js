@@ -26,5 +26,9 @@ type ActionProps = {
   fetchProfile: Function,
 }
 
-export default connect(mapStateToProps, { fetchProfile })(Profile)
+const mapActionToProps: ActionProps = {
+  fetchProfile,
+}
+
+export default connect(mapStateToProps, mapActionToProps)(Profile)
 export type ReduxProps = StateProps & ActionProps

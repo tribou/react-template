@@ -102,11 +102,7 @@ function startServer (done: ?Function): Object {
 
 }
 
-if (ENV === 'production') {
-
-  startServer()
-
-}
+startServer()
 
 
 export default startServer

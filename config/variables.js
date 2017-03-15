@@ -15,6 +15,9 @@ const variables = {
   appLogoWidth: '64',
   appLogoHeight: '64',
 
+  appAuthCookieKey: 'my-app-v1',
+  appAuthExpirySeconds: 1209600, // 14 days in seconds
+
   colorDark: '#4a4a4a', // darkgrey
   colorDarkFaded: 'rgba(74, 74, 74, 0.5)',
   colorTheme: 'rebeccapurple', // purple

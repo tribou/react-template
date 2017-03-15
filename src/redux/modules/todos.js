@@ -1,64 +1,90 @@
 // @flow
 // Non-shallow reducer state example needs Immutable
 // Async actions need redux-observable epics
-import { fromJS, Iterable, Record } from 'immutable'
+import { List, Record } from 'immutable'
+import {
+  getTodosMock as getTodosApi,
+} from '../../helpers/api/examples/todos'
 
 
 // ACTION TYPES
 // export const ADD_TODO = 'my-app/todo/ADD_TODO'
 // export const COMPLETE_TODO = 'my-app/todo/COMPLETE_TODO'
+export const GET_TODOS = 'my-app/todos/GET_TODOS'
 export const SET_FILTER = 'my-app/todo/SET_FILTER'
 
-// CONSTANTS
+// FILTERS
 export const FILTER_CURRENT = 'my-app/todo/FILTER_CURRENT'
 export const FILTER_DONE = 'my-app/todo/FILTER_DONE'
-
-
-// MODEL
-// Profile model with default values
-export const Todo = Record({
-  text: '',
-  date: '1970-01-01T00:00:00.000Z',
-  done: false,
-})
 
 
 // Flow type for this reducer's state
 // Always put the asterisk or it assumes 'empty'
 export type TodosState = Record<*>
 
+// MODEL
+// Profile model with default values
+export class Todo extends Record({ text: '', date: '', done: false }) {
 
-const fromJSTodos = (key, value) => {
+  constructor ({
+    text,
+    date,
+    done,
+  }: { text?: string, date?: string, done?: boolean }) {
 
-  return Iterable.isIndexed(value)
-    ? value.toList()
-    : new Todo(value)
+    super({
+      text,
+      date: date || new Date(),
+      done: done || false,
+    })
+
+  }
 
 }
 
 // Initial state with default values
-const InitialState = Record({
+class InitialState extends Record({
   filter: FILTER_CURRENT,
-  list: fromJS([
-    {
-      text: 'This is the first todo',
-      date: '2016-12-12T20:22:54Z',
-    },
-    {
-      text: 'This is the second todo',
-    },
-    {
-      text: 'This is the third todo',
-    },
-    {
-      text: 'This is todo has "double-quotes"',
-    },
-    {
-      text: 'This one\'s done',
-      done: true,
-    },
-  ], fromJSTodos),
-})
+  list: List(),
+  isFetching: false,
+  error: '',
+}) {
+
+  constructor ({
+    filter,
+    list,
+    isFetching,
+    error,
+  }: {
+    filter?: string,
+    list?: Array<*>,
+    isFetching?: boolean,
+    error?: string,
+  } = {}) {
+
+    super({
+      filter,
+      list,
+      isFetching,
+      error,
+    })
+
+  }
+
+}
+
+
+const parseApiTodoList = (data) => {
+
+  if (!data || data.length === 0) return List()
+
+  return data.map((item) => {
+
+    return new Todo(item)
+
+  })
+
+}
 
 
 export const initialState = new InitialState()
@@ -74,6 +100,21 @@ function reducer (state: TodosState = initialState, action: GlobalFSA<*>) {
     case SET_FILTER:
       return state.set('filter', action.payload.filter)
 
+    case `${GET_TODOS}_PENDING`:
+      return state
+        .set('isFetching', true)
+
+    case `${GET_TODOS}_FULFILLED`:
+      return state
+        .set('list', parseApiTodoList(action.payload))
+        .set('error', '')
+        .set('isFetching', false)
+
+    case `${GET_TODOS}_REJECTED`:
+      return state
+        .set('error', action.payload)
+        .set('isFetching', false)
+
     default:
       return state
 
@@ -83,7 +124,25 @@ function reducer (state: TodosState = initialState, action: GlobalFSA<*>) {
 
 
 // ACTION CREATORS
-// Use Flux Standard Action (FSA) notation
+// Use redux-promise-middleware
+// https://github.com/pburtchaell/redux-promise-middleware/blob/master/docs/guides/chaining-actions.md
+// Which, in turn, uses Flux Standard Action (FSA) notation
+// https://github.com/acdlite/flux-standard-action
+export const getTodos = () => {
+
+  return (dispatch: any) => {
+
+    return dispatch({
+      type: GET_TODOS,
+      payload: getTodosApi(),
+    })
+
+  }
+
+}
+
+
+// Plain actions uses Flux Standard Action (FSA) notation
 // https://github.com/acdlite/flux-standard-action
 export const setFilterDone = () => {
 

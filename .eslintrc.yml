@@ -7,6 +7,9 @@ rules:
   flowtype/require-valid-file-annotation:
     - error
     - always
+  react/prefer-stateless-function:
+    - error
+    - ignorePureComponents: true
 
   no-duplicate-imports: 0
 

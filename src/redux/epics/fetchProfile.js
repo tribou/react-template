@@ -1,7 +1,7 @@
 // @flow
 import { Observable } from 'rxjs'
 import {
-  FETCH_PROFILE,
+  GET_PROFILE,
   fetchProfileSuccess,
   fetchProfileError,
 } from '../modules/profile'
@@ -14,9 +14,9 @@ const api = new API()
 // variable$ notation indicates an event stream
 // https://redux-observable.js.org/docs/basics/Epics.html
 
-const fetchProfileEpic = (action$: Observable) => {
+const fetchProfileEpic = (action$: Object) => {
 
-  return action$.ofType(FETCH_PROFILE)
+  return action$.ofType(GET_PROFILE)
   .mergeMap((action) => {
 
     // Create new observable inside mergeMap so we don't cancel the entire epic

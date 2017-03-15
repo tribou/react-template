@@ -1,8 +1,12 @@
-exports[`test <Profile> displays profile info 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Profile> displays profile info 1`] = `
 <div
-  class="profile pt7 tc">
+  class="profile pt7 tc"
+>
   <div
-    class="modal">
+    class="modal"
+  >
     Profile page
     <ul>
       <li />
@@ -18,7 +22,8 @@ exports[`test <Profile> displays profile info 1`] = `
       Refresh
     </button>
     <div
-      class="error" />
+      class="error"
+    />
   </div>
 </div>
 `;

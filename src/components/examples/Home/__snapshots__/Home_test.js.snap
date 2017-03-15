@@ -1,7 +1,10 @@
-exports[`test <Home> renders the Home content 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home> renders the Home content 1`] = `
 <div
-  className="home flex flex-column justify-center items-center pt7 tc">
-  This is the offline app...
+  className="home"
+>
+  This is an offline app...
   <ul>
     <li>
       This is a test item
@@ -10,19 +13,20 @@ exports[`test <Home> renders the Home content 1`] = `
   <Link
     onlyActiveOnIndex={false}
     style={Object {}}
-    to="/profile">
+    to="/profile"
+  >
     <div
-      className="logo" />
+      className="logo"
+    />
   </Link>
-  <div
-    className="pt2">
-    <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
-      to="/todos">
-      <div
-        className="facebookIcon" />
-    </Link>
-  </div>
+  <Link
+    onlyActiveOnIndex={false}
+    style={Object {}}
+    to="/todos"
+  >
+    <div
+      className="facebookIcon"
+    />
+  </Link>
 </div>
 `;

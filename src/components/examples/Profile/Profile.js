@@ -11,15 +11,13 @@ type Props = ReduxProps
 
 class Profile extends PureComponent {
 
-
-  props: Props
-
-
-  handleRefreshClick = () => {
+  componentDidMount () {
 
     this.props.fetchProfile()
 
   }
+
+  props: Props
 
 
   render (): React$Element<any> {
@@ -27,7 +25,7 @@ class Profile extends PureComponent {
     const { error, me } = this.props
 
     return (
-      <div className={`${css.profile} pt7 tc`}>
+      <div className={css.profile}>
         <div className={css.modal}>
           Profile page
           <ul>
@@ -37,7 +35,7 @@ class Profile extends PureComponent {
           </ul>
           <Link to="/home">Back</Link>
           <button
-            onClick={this.handleRefreshClick}
+            onClick={this.props.fetchProfile}
           >
             Refresh
           </button>

@@ -10,19 +10,17 @@ import sprites from '../../../styles/sprites.css'
 const Home = (): React$Element<any> => {
 
   return (
-    <div className={`${css.home} flex flex-column justify-center items-center pt7 tc`}>
-      This is the offline app...
+    <div className={css.home}>
+      This is an offline app...
       <ul>
         <li>This is a test item</li>
       </ul>
       <Link to="/profile">
         <div className={img.logo} />
       </Link>
-      <div className="pt2">
-        <Link to="/todos">
-          <div className={sprites.facebookIcon} />
-        </Link>
-      </div>
+      <Link to="/todos">
+        <div className={sprites.facebookIcon} />
+      </Link>
     </div>
   )
 

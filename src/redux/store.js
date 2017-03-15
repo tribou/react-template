@@ -22,7 +22,8 @@ function configureStore (preloadedState: GlobalReducerState): Object {
   if (process.env.NODE_ENV === 'development') {
 
     // logger needs to be last
-    // middleware.push(require('redux-logger')()) // eslint-disable-line
+    // uncomment if needed
+    // middleware.push(require('redux-logger').createLogger())
 
   }
 

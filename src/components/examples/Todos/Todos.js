@@ -11,32 +11,26 @@ type Props = ReduxProps
 
 class Todos extends PureComponent {
 
+  componentDidMount () {
+
+    this.props.getTodos()
+
+  }
+
   props: Props
-
-  handleFilterDoneClick = () => {
-
-    this.props.setFilterDone()
-
-  }
-
-  handleFilterCurrentClick = () => {
-
-    this.props.setFilterCurrent()
-
-  }
 
   render (): React$Element<any> {
 
-    const { todos } = this.props
+    const { setFilterCurrent, setFilterDone, todos } = this.props
 
-    const todoList = todos.map((todo, index) => {
+    const todoList = todos.map((todo) => {
 
-      return <li key={index}>{todo.get('text')}</li>
+      return <li key={todo.get('text')}>{todo.get('text')}</li>
 
     })
 
     return (
-      <div className={`${css.todos} pt6 tc`}>
+      <div className={css.todos}>
         <div className={css.modal}>
           Todos page
           <ul>
@@ -44,12 +38,12 @@ class Todos extends PureComponent {
           </ul>
           <Link to="/home">Back</Link>
           <button
-            onClick={this.handleFilterDoneClick}
+            onClick={setFilterDone}
           >
             Filter Done
           </button>
           <button
-            onClick={this.handleFilterCurrentClick}
+            onClick={setFilterCurrent}
           >
             Filter Current
           </button>

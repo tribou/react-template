@@ -9,10 +9,16 @@ import { shallow } from 'enzyme'
 import Template from './Template'
 
 
+const mockProps = {
+}
+
+
 it('<Template> renders the Template content', () => {
 
   const wrapper = shallow(
-    <Template API_URL="" />
+    <Template
+      {...mockProps}
+    />
   )
 
   expect(wrapper).toMatchSnapshot()

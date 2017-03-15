@@ -9,6 +9,11 @@ import { shallow } from 'enzyme'
 import Todos from './Todos'
 import { initialState } from '../../../../src/redux/modules/todos'
 
+const mockProps = {
+  setFilterCurrent: () => {},
+  setFilterDone: () => {},
+  getTodos: () => {},
+}
 
 it('<Todos> renders the Todos content', () => {
 
@@ -17,10 +22,9 @@ it('<Todos> renders the Todos content', () => {
 
   const wrapper = shallow(
     <Todos
+      {...mockProps}
       todos={todos}
       filter={filter}
-      setFilterCurrent={() => {}}
-      setFilterDone={() => {}}
     />
   )
 

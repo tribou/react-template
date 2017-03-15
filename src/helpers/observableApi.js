@@ -75,7 +75,7 @@ class API {
 
   // Standardize API response format across the app
   // Decouple from implementation (here using axios)
-  static _parseResponse = (response: $AxiosXHR<*>): Observable<APIResponse> => {
+  static _parseResponse = (response: $AxiosXHR<*>): APIResponse => {
 
     log('_parseResponse: %o', response)
 

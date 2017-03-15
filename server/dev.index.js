@@ -2,41 +2,73 @@
 /* eslint-disable flowtype/require-parameter-type */
 const log = require('debug')('my-app:server:dev')
 
-log('css-modules-require-hook')
-require('css-modules-require-hook')({
-  generateScopedName: '[path]__[name]__[local]__[hash:base64:3]',
-})
-
-log('babel-register')
-require('babel-register')()
-
-process.env.WEBPACK_ENV = 'client'
-
+const Bs = require('browser-sync').create('server')
+const Path = require('path')
+const Spawn = require('child_process').spawn
 const Webpack = require('webpack')
 const config = require('../config/webpack')
-const start = require('./index').default
 
-log('starting server')
-start(() => {
+const compiler = Webpack(config)
 
-  log('started')
-  const compiler = Webpack(config)
-  compiler.watch({}, (err, stats) => {
+let server // spawn a server process
+const total = 2 // number of bundles building
+let count = 1 // count for tracking how many bundles finished
 
-    if (err) {
+log('Starting Webpack compilation')
+compiler.watch({}, (err, stats) => {
 
-      log('ERROR:', err)
-      return
+  if (err) {
 
-    }
+    log('ERROR:', err)
+    return
 
-    log('compiled', stats.toString({
-      colors: true,
+  }
+
+  log('compiled', stats.toString({
+    colors: true,
       // Debugging options
       // https://webpack.github.io/docs/node.js-api.html#stats-tojson
-      chunks: false,
-    }))
+    chunks: false,
+  }))
 
-  })
+  if (!server) {
+
+    log('starting server')
+    server = Spawn('node', [Path.resolve(__dirname, '../build/server.js')])
+    server.stdout.on('data', (data) => {
+
+      console.log(data.toString()) // eslint-disable-line
+
+    })
+
+    server.stderr.on('data', (data) => {
+
+      console.log(data.toString()) // eslint-disable-line
+
+    })
+    Bs.init({
+      proxy: 'localhost:8000',
+      ghostMode: false,
+      open: false,
+      logFileChanges: true,
+      logLevel: 'info',
+      reloadOnRestart: true,
+      reloadDebounce: 700,
+    })
+
+  }
+  else if (count < total) {
+
+    count += 1
+    log('count:', count)
+
+  }
+  else {
+
+    log('RELOAD count:', count)
+    Bs.reload()
+    count = 1
+
+  }
 
 })

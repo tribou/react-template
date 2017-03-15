@@ -6,6 +6,7 @@ export type EnvState = {
 
   API_URL: string,
   ROOT_URL: string,
+  SECURE_COOKIE: boolean,
 
   ROLLBAR_ENV: string,
   ROLLBAR_TOKEN: string,
@@ -20,6 +21,7 @@ const {
 
   API_URL,
   ROOT_URL,
+  SECURE_COOKIE,
 
   ROLLBAR_ENV,
   ROLLBAR_TOKEN,
@@ -38,10 +40,18 @@ const env: EnvState = {
   // App settings
   API_URL: API_URL || 'https://api.randomuser.me',
   ROOT_URL: ROOT_URL || 'http://localhost:3000',
+  SECURE_COOKIE: SECURE_COOKIE === 'true' || false,
 
   // Rollbar.io
   ROLLBAR_ENV: ROLLBAR_ENV || 'development',
   ROLLBAR_TOKEN: ROLLBAR_TOKEN || '95a94db7f6d64680b1c971f63e322f10',
+
+}
+
+
+export const isBrowser = (): boolean => {
+
+  return Boolean(typeof window !== 'undefined' && window.document)
 
 }
 

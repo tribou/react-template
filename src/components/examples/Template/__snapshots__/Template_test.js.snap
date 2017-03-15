@@ -1,6 +1,9 @@
-exports[`test <Template> renders the Template content 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Template> renders the Template content 1`] = `
 <div
-  className="template">
+  className="template"
+>
   Template
 </div>
 `;

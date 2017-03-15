@@ -1,15 +1,28 @@
 {
   "plugins": [
     "transform-class-properties",
-    "transform-es2015-destructuring",
-    "transform-object-assign",
-    "transform-object-rest-spread"
+    "transform-object-assign"
   ],
   "presets": [
-    "es2015",
-    "es2016",
-    "es2017",
+    ["latest", {
+      "es2015": {
+        "modules": false
+      }
+    }],
     "react",
     "stage-3"
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-class-properties",
+        "transform-object-assign"
+      ],
+      "presets": [
+        "latest",
+        "react",
+        "stage-3"
+      ]
+    }
+  }
 }

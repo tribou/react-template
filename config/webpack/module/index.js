@@ -2,48 +2,52 @@
 
 'use strict'
 
-const { NODE_ENV, WEBPACK_ENV } = process.env
+const { NODE_ENV } = process.env
 
-if (!NODE_ENV || !WEBPACK_ENV) throw new Error('Set NODE_ENV and WEBPACK_ENV')
+if (!NODE_ENV) throw new Error('Set NODE_ENV')
 
-const cssLoaders = require('./css')[NODE_ENV][WEBPACK_ENV]
+const cssLoaders = require('./css')[NODE_ENV]
 
 
-const rules = [
-  {
-    test: /\.js$/,
-    exclude: /node_modules/,
-    loader: 'babel-loader',
-    query: {
-      cacheDirectory: NODE_ENV === 'development',
+const getRules = (platform) => {
+
+  return [
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      loader: 'babel-loader',
+      query: {
+        cacheDirectory: NODE_ENV === 'development',
+      },
     },
-  },
-  {
-    test: /\.css$/,
-    exclude: /node_modules/,
-    use: cssLoaders.modules,
-  },
-  {
-    test: /node_modules.*\.css$/,
-    use: cssLoaders.css,
-  },
-  {
-    test: /\.(eot|mp4|otf)$/,
-    use: 'file-loader',
-  },
-  {
-    test: /\.(gif|jpeg|jpg|png|svg)$/,
-    use: 'url-loader?limit=10000',
-  },
-  {
-    test: /\.(woff|woff2)$/,
-    use: 'url-loader?limit=10000&mimetype=application/font-woff',
-  },
-  {
-    test: /\.ttf$/,
-    use: 'url-loader?limit=10000&mimetype=application/octet-stream',
-  },
-]
+    {
+      test: /\.css$/,
+      exclude: /node_modules/,
+      use: cssLoaders[platform].modules,
+    },
+    {
+      test: /node_modules.*\.css$/,
+      use: cssLoaders[platform].css,
+    },
+    {
+      test: /\.(eot|mp4|otf)$/,
+      use: 'file-loader',
+    },
+    {
+      test: /\.(gif|jpeg|jpg|png|svg)$/,
+      use: 'url-loader?limit=10000',
+    },
+    {
+      test: /\.(woff|woff2)$/,
+      use: 'url-loader?limit=10000&mimetype=application/font-woff',
+    },
+    {
+      test: /\.ttf$/,
+      use: 'url-loader?limit=10000&mimetype=application/octet-stream',
+    },
+  ]
+
+}
 
 const devRules = [
   {
@@ -58,19 +62,19 @@ const devRules = [
 ]
 
 const client = {
-  rules: rules.concat(devRules),
+  rules: getRules('client').concat(devRules),
 }
 
 const server = {
-  rules: rules.concat(devRules),
+  rules: getRules('server').concat(devRules),
 }
 
 const prodClient = {
-  rules,
+  rules: getRules('client'),
 }
 
 const prodServer = {
-  rules,
+  rules: getRules('server'),
 }
 
 
