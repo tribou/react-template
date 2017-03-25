@@ -21,8 +21,8 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 const log = Debug('my-app:browser:index')
-
-const serializedState = document.getElementById('app-state').innerHTML
+const appStateElement = document.getElementById('app-state')
+const serializedState = appStateElement ? appStateElement.innerHTML : '{}'
 const store = configureStore(Transit.fromJSON(serializedState))
 const history = syncHistoryWithStore(browserHistory, store)
 

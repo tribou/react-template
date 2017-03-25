@@ -15,9 +15,13 @@ flow/
 
 
 [options]
+emoji=true
+
 module.name_mapper.extension='.*\.css$' -> '<PROJECT_ROOT>/flow/stubs/css-module.js'
 module.name_mapper.extension='.*\.\(eot\|gif\|jpg\|jpeg\|mp4\|otf\|png\|svg\|ttf\|woff\|woff2\)$' -> '<PROJECT_ROOT>/flow/stubs/url-loader.js'
+
 module.use_strict=true
+
 module.file_ext=.js
 module.file_ext=.json
 module.file_ext=.web.js
@@ -28,4 +32,4 @@ module.name_mapper='^src\/' -> '<PROJECT_ROOT>/src/'
 module.name_mapper='^static\/' -> '<PROJECT_ROOT>/static/'
 
 [version]
-^0.37.4
+^0.42.0
