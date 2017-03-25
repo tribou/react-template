@@ -2,13 +2,13 @@
 import React from 'react'
 import { Route } from 'react-router'
 
-import App from './components/App.index'
-import NotFound from './components/NotFound/NotFound.index'
+import App from 'src/components/App.index'
+import NotFound from 'src/components/NotFound/NotFound.index'
 
 // Examples
-import Home from './components/examples/Home/Home.index'
-import Profile from './components/examples/Profile/Profile.index'
-import Todos from './components/examples/Todos/Todos.index'
+import Home from 'src/components/examples/Home/Home.index'
+import Profile from 'src/components/examples/Profile/Profile.index'
+import Todos from 'src/components/examples/Todos/Todos.index'
 
 
 const routes = (

@@ -2,8 +2,8 @@
 import Cookies from 'cookies-js'
 import Base64 from 'js-base64'
 import Debug from 'debug'
-import env, { isBrowser } from '../../config/env'
-import vars from '../../config/variables'
+import env, { isBrowser } from 'config/env'
+import vars from 'config/variables'
 
 const log = Debug('my-app:helpers:auth')
 const { appAuthCookieKey, appAuthExpirySeconds } = vars

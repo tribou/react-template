@@ -1,6 +1,6 @@
 // @flow
 import { createSelector } from 'reselect'
-import { FILTER_CURRENT, FILTER_DONE } from '../redux/modules/todos'
+import { FILTER_CURRENT, FILTER_DONE } from 'src/redux/modules/todos'
 
 
 const getTodos = (state) => {

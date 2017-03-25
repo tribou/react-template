@@ -7,9 +7,7 @@ const Path = require('path')
 
 const client = {
   modules: [
-    Path.resolve(__dirname, '../../src'),
-    Path.resolve(__dirname, '../../server'),
-    Path.resolve(__dirname, '../../static'),
+    Path.resolve(__dirname, '../..'),
     'node_modules',
   ],
   extensions: [

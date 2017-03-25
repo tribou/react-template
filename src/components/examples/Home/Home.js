@@ -1,17 +1,17 @@
 // @flow
 import React from 'react'
 import { Link } from 'react-router'
-import css from './Home.style.css'
 
-import img from '../../../styles/images.css'
-import sprites from '../../../styles/sprites.css'
+import img from 'src/styles/images.css'
+import sprites from 'src/styles/sprites.css'
+import css from './Home.style.css'
 
 
 const Home = (): React$Element<any> => {
 
   return (
     <div className={css.home}>
-      This is an offline app...
+      This is the app...
       <ul>
         <li>This is a test item</li>
       </ul>

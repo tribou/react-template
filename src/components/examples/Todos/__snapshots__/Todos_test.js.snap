@@ -8,23 +8,7 @@ exports[`<Todos> renders the Todos content 1`] = `
     className="modal"
   >
     Todos page
-    <ul>
-      <li>
-        This is the first todo
-      </li>
-      <li>
-        This is the second todo
-      </li>
-      <li>
-        This is the third todo
-      </li>
-      <li>
-        This is todo has "double-quotes"
-      </li>
-      <li>
-        This one's done
-      </li>
-    </ul>
+    <ul />
     <Link
       onlyActiveOnIndex={false}
       style={Object {}}

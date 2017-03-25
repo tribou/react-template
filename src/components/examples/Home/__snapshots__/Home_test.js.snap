@@ -4,7 +4,7 @@ exports[`<Home> renders the Home content 1`] = `
 <div
   className="home"
 >
-  This is an offline app...
+  This is the app...
   <ul>
     <li>
       This is a test item

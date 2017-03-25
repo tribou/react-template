@@ -1,5 +1,5 @@
 // @flow
-import htmlHandler from './handlers/html'
+import htmlHandler from 'server/handlers/html'
 
 export default [
   {

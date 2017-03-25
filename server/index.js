@@ -5,7 +5,7 @@ import HapiReactViews from 'hapi-react-views'
 import Good from 'good'
 import Inert from 'inert'
 import Vision from 'vision'
-import Routes from './routes'
+import Routes from 'server/routes'
 
 const ENV = process.env.NODE_ENV
 

@@ -4,7 +4,7 @@ import Axios from 'axios'
 import Debug from 'debug'
 import { Observable } from 'rxjs'
 import type { $AxiosError, $AxiosXHR } from 'axios'
-import env from '../../config/env'
+import env from 'config/env'
 
 const log = Debug('my-app:helpers:api')
 

@@ -3,7 +3,7 @@
 // Async actions need redux-observable epics
 // import Debug from 'debug'
 import { Record } from 'immutable'
-import type { APIError } from '../../helpers/api'
+import type { APIError } from 'src/helpers/api'
 
 // const log = Debug('my-app:redux:modules:profile')
 

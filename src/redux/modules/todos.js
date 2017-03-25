@@ -4,7 +4,7 @@
 import { List, Record } from 'immutable'
 import {
   getTodosMock as getTodosApi,
-} from '../../helpers/api/examples/todos'
+} from 'src/helpers/api/examples/todos'
 
 
 // ACTION TYPES
@@ -18,10 +18,6 @@ export const FILTER_CURRENT = 'my-app/todo/FILTER_CURRENT'
 export const FILTER_DONE = 'my-app/todo/FILTER_DONE'
 
 
-// Flow type for this reducer's state
-// Always put the asterisk or it assumes 'empty'
-export type TodosState = Record<*>
-
 // MODEL
 // Profile model with default values
 export class Todo extends Record({ text: '', date: '', done: false }) {
@@ -30,43 +26,17 @@ export class Todo extends Record({ text: '', date: '', done: false }) {
     text,
     date,
     done,
-  }: { text?: string, date?: string, done?: boolean }) {
+  }: {
+    text?: string,
+    date?: string,
+    done?: boolean,
+  }) {
 
+    // Define defaults here
     super({
       text,
       date: date || new Date(),
       done: done || false,
-    })
-
-  }
-
-}
-
-// Initial state with default values
-class InitialState extends Record({
-  filter: FILTER_CURRENT,
-  list: List(),
-  isFetching: false,
-  error: '',
-}) {
-
-  constructor ({
-    filter,
-    list,
-    isFetching,
-    error,
-  }: {
-    filter?: string,
-    list?: Array<*>,
-    isFetching?: boolean,
-    error?: string,
-  } = {}) {
-
-    super({
-      filter,
-      list,
-      isFetching,
-      error,
     })
 
   }
@@ -86,6 +56,33 @@ const parseApiTodoList = (data) => {
 
 }
 
+// Initial state with default values
+class InitialState extends Record({ filter: FILTER_CURRENT, list: List(), isFetching: false, error: '' }) {
+
+  constructor ({
+    filter,
+    list,
+    isFetching,
+    error,
+  }: {
+    filter?: string,
+    list?: List<Todo>,
+    isFetching?: boolean,
+    error?: string,
+  } = {}) {
+
+    // Define defaults here
+    super({
+      filter: filter || FILTER_CURRENT,
+      list: parseApiTodoList(list),
+      isFetching: isFetching || false,
+      error: error || '',
+    })
+
+  }
+
+}
+
 
 export const initialState = new InitialState()
 // Now we can retrieve city with initialState.getIn(['list', 1, 'city'])
@@ -93,7 +90,7 @@ export const initialState = new InitialState()
 
 
 // REDUCER
-function reducer (state: TodosState = initialState, action: GlobalFSA<*>) {
+function reducer (state: InitialState = initialState, action: GlobalFSA<*>) {
 
   switch (action.type) {
 

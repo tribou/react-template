@@ -1,6 +1,6 @@
 // @flow
-import { get } from '../'
-import env from '../../../../config/env'
+import { get } from 'src/helpers/api'
+import env from 'config/env'
 
 const { API_URL } = env
 

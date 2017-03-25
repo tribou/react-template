@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux'
+import { fetchProfile } from 'src/redux/modules/profile'
 import Profile from './Profile'
-import { fetchProfile } from '../../../redux/modules/profile'
 
 
 type StateProps = {

@@ -6,8 +6,8 @@
 
 import React from 'react'
 import { render } from 'enzyme'
+import { Profile as ProfileModel } from 'src/redux/modules/profile'
 import Profile from './Profile'
-import { Profile as ProfileModel } from '../../../redux/modules/profile'
 
 
 it('<Profile> displays profile info', () => {

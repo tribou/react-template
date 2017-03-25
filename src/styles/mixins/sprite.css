@@ -9,9 +9,9 @@
 
 @define-mixin sprite $name, $width, $height {
   @media (max-resolution: 1dppx) {
-    background-image: url(sprites/$(name).png);
+    background-image: url(static/sprites/$(name).png);
   }
-  background-image: url(sprites/$(name)@2x.png);
+  background-image: url(static/sprites/$(name)@2x.png);
   background-position: 0px 0px;
   background-repeat: no-repeat;
   background-size: $(width)px $(height)px;
@@ -27,9 +27,9 @@
 /* TODO: Untested */
 @define-mixin horizontal-sprite $name, $width, $height {
   @media (max-resolution: 1dppx) {
-    background-image: url(sprites/$(name).png);
+    background-image: url(static/sprites/$(name).png);
   }
-  background-image: url(sprites/$(name)@2x.png);
+  background-image: url(static/sprites/$(name)@2x.png);
   background-position: 0px 0px;
   background-repeat: no-repeat;
   background-size: $(width)px $(height)px;

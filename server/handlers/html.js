@@ -7,10 +7,10 @@ import { renderToString } from 'react-dom/server'
 import Helmet from 'react-helmet'
 import { Provider } from 'react-redux'
 import { match, RouterContext } from 'react-router'
-import routes from '../../src/routes'
-import { getAssets } from '../utils'
-import configureStore from '../../src/redux/store'
-import env from '../../config/env'
+import routes from 'src/routes'
+import { getAssets } from 'server/utils'
+import configureStore from 'src/redux/store'
+import env from 'config/env'
 
 // Default render options for react templates
 // 'renderToStaticMarkup' omits react data properties
@@ -47,7 +47,7 @@ const routedHtml = (request: Object, reply: Function) => {
 
   if (module.hot) {
 
-    module.hot.accept('../../src/routes', () => {
+    module.hot.accept('src/routes', () => {
     })
 
   }

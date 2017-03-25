@@ -6,8 +6,8 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
+import { initialState } from 'src/redux/modules/todos'
 import Todos from './Todos'
-import { initialState } from '../../../../src/redux/modules/todos'
 
 const mockProps = {
   setFilterCurrent: () => {},

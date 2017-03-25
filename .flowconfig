@@ -22,6 +22,10 @@ module.file_ext=.js
 module.file_ext=.json
 module.file_ext=.web.js
 
+module.name_mapper='^config\/' -> '<PROJECT_ROOT>/config/'
+module.name_mapper='^server\/' -> '<PROJECT_ROOT>/server/'
+module.name_mapper='^src\/' -> '<PROJECT_ROOT>/src/'
+module.name_mapper='^static\/' -> '<PROJECT_ROOT>/static/'
 
 [version]
 ^0.37.4

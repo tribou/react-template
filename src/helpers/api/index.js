@@ -3,8 +3,8 @@
 import Axios from 'axios'
 import Debug from 'debug'
 import type { $AxiosError, $AxiosXHR } from 'axios'
-import { getAuthToken } from '../auth'
-import env from '../../../config/env'
+import { getAuthToken } from 'src/helpers/auth'
+import env from 'config/env'
 
 const log = Debug('my-app:helpers:api')
 

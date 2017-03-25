@@ -2,7 +2,7 @@
 // Empty reducer for now since we probably don't want to change
 // it in the browser
 
-import type { EnvState } from '../../../config/env'
+import type { EnvState } from 'config/env'
 
 type EnvAction = Object
 

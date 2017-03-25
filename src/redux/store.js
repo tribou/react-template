@@ -41,20 +41,6 @@ function configureStore (preloadedState: GlobalReducerState): Object {
 
   const store = createStore(rootReducer, preloadedState, enhancer)
 
-
-  // Enable Webpack hot module replacement for reducers
-  // if (module.hot) {
-
-  //   log('Module is hot!')
-  //   module.hot.accept('../reducers', () => {
-
-  //     const nextRootReducer = rootReducer
-  //     store.replaceReducer(nextRootReducer)
-
-  //   })
-
-  // }
-
   return store
 
 }

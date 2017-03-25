@@ -9,12 +9,16 @@ import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import Transit from 'transit-immutable-js'
-import routes from './routes'
-import configureStore from './redux/store'
-import { loadSuccess } from './redux/modules/init'
-import rollbarConfig from '../config/rollbar'
+import routes from 'src/routes'
+import configureStore from 'src/redux/store'
+import { loadSuccess } from 'src/redux/modules/init'
+import rollbarConfig from 'config/rollbar'
 
-window.Rollbar = Rollbar.init(rollbarConfig)
+if (process.env.NODE_ENV !== 'development') {
+
+  window.Rollbar = Rollbar.init(rollbarConfig)
+
+}
 
 const log = Debug('my-app:browser:index')
 

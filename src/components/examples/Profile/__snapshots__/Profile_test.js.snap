@@ -2,7 +2,7 @@
 
 exports[`<Profile> displays profile info 1`] = `
 <div
-  class="profile pt7 tc"
+  class="profile"
 >
   <div
     class="modal"

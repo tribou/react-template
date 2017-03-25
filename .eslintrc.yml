@@ -16,6 +16,7 @@ rules:
 settings:
   flowtype:
     onlyFilesWithFlowAnnotation: false
+  import/resolver: webpack
 
 env:
   jest: true

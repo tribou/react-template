@@ -1,10 +1,10 @@
 /* eslint-disable */
 
-import type { EnvState } from '../../src/redux/modules/env'
-import type { RequestState } from '../../src/redux/modules/request'
-import type { InitState } from '../../src/redux/modules/init'
-import type { ProfileState } from '../../src/redux/modules/profile'
-import type { TodosState } from '../../src/redux/modules/todos'
+import type { EnvState } from 'redux/modules/env'
+import type { RequestState } from 'redux/modules/request'
+import type { InitState } from 'redux/modules/init'
+import type { ProfileState } from 'redux/modules/profile'
+import type { InitialState as TodosState } from 'redux/modules/todos'
 
 
 type GlobalReducerState = {

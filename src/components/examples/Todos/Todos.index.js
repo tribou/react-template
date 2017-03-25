@@ -2,13 +2,13 @@
 import type { List } from 'immutable'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Todos from './Todos'
 import {
   getTodos,
   setFilterCurrent,
   setFilterDone,
-} from '../../../redux/modules/todos'
-import visibleTodos from '../../../selectors/visibleTodos'
+} from 'src/redux/modules/todos'
+import visibleTodos from 'src/selectors/visibleTodos'
+import Todos from './Todos'
 
 
 type StateProps = {

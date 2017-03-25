@@ -172,6 +172,10 @@ array-equal@^1.0.0:
   version "1.0.0"
   resolved array-equal-1.0.0.tgz#8c2a5ef2472fd9ea742b04c77a75093ba2757c93
 
+array-find@^1.0.0:
+  version "1.0.0"
+  resolved array-find-1.0.0.tgz#6c8e286d11ed768327f8e62ecee87353ca3e78b8
+
 array-union@^1.0.1:
   version "1.0.2"
   resolved array-union-1.0.2.tgz#9a34410e4f4e3da23dea375be5be70f24778ec39
@@ -2185,6 +2189,14 @@ enhanced-resolve@^3.0.0:
     object-assign "^4.0.1"
     tapable "^0.2.5"
 
+enhanced-resolve@~0.9.0:
+  version "0.9.1"
+  resolved enhanced-resolve-0.9.1.tgz#4d6e689b3725f86090927ccc86cd9f1635b89e2e
+  dependencies:
+    graceful-fs "^4.1.2"
+    memory-fs "^0.2.0"
+    tapable "^0.1.8"
+
 entities@^1.1.1, entities@~1.1.1:
   version "1.1.1"
   resolved entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0
@@ -2359,6 +2371,22 @@ eslint-import-resolver-node@^0.2.0:
     debug "^2.2.0"
     object-assign "^4.0.1"
     resolve "^1.1.6"
+
+eslint-import-resolver-webpack@^0.8.1:
+  version "0.8.1"
+  resolved eslint-import-resolver-webpack-0.8.1.tgz#c7f8b4d5bd3c5b489457e5728c5db1c4ffbac9aa
+  dependencies:
+    array-find "^1.0.0"
+    debug "^2.2.0"
+    enhanced-resolve "~0.9.0"
+    find-root "^0.1.1"
+    has "^1.0.1"
+    interpret "^1.0.0"
+    is-absolute "^0.2.3"
+    lodash.get "^3.7.0"
+    node-libs-browser "^1.0.0"
+    resolve "^1.2.0"
+    semver "^5.3.0"
 
 eslint-loader@^1.6.1:
   version "1.7.0"
@@ -2702,6 +2730,10 @@ find-cache-dir@^0.1.1:
     commondir "^1.0.1"
     mkdirp "^0.5.1"
     pkg-dir "^1.0.0"
+
+find-root@^0.1.1:
+  version "0.1.2"
+  resolved find-root-0.1.2.tgz#98d2267cff1916ccaf2743b3a0eea81d79d7dcd1
 
 find-up@^1.0.0:
   version "1.1.2"
@@ -3363,6 +3395,13 @@ is-absolute-url@^2.0.0:
   version "2.1.0"
   resolved is-absolute-url-2.1.0.tgz#50530dfb84fcc9aa7dbe7852e83a37b93b9f2aa6
 
+is-absolute@^0.2.3:
+  version "0.2.6"
+  resolved is-absolute-0.2.6.tgz#20de69f3db942ef2d87b9c2da36f172235b1b5eb
+  dependencies:
+    is-relative "^0.2.1"
+    is-windows "^0.2.0"
+
 is-arrayish@^0.2.1:
   version "0.2.1"
   resolved is-arrayish-0.2.1.tgz#77c99840527aa8ecb1a8ba697b80645a7a926a9d
@@ -3515,6 +3554,12 @@ is-regex@^1.0.3:
   dependencies:
     has "^1.0.1"
 
+is-relative@^0.2.1:
+  version "0.2.1"
+  resolved is-relative-0.2.1.tgz#d27f4c7d516d175fb610db84bbeef23c3bc97aa5
+  dependencies:
+    is-unc-path "^0.1.1"
+
 is-resolvable@^1.0.0:
   version "1.0.0"
   resolved is-resolvable-1.0.0.tgz#8df57c61ea2e3c501408d100fb013cf8d6e0cc62
@@ -3543,9 +3588,19 @@ is-typedarray@~1.0.0:
   version "1.0.0"
   resolved is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a
 
+is-unc-path@^0.1.1:
+  version "0.1.2"
+  resolved is-unc-path-0.1.2.tgz#6ab053a72573c10250ff416a3814c35178af39b9
+  dependencies:
+    unc-path-regex "^0.1.0"
+
 is-utf8@^0.2.0:
   version "0.2.1"
   resolved is-utf8-0.2.1.tgz#4b0da1442104d1b336340e80797e865cf39f7d72
+
+is-windows@^0.2.0:
+  version "0.2.0"
+  resolved is-windows-0.2.0.tgz#de1aa6d63ea29dd248737b69f1ff8b8002d2108c
 
 is-windows@^1.0.0:
   version "1.0.0"
@@ -4121,6 +4176,10 @@ lodash._basefor@^3.0.0:
   version "3.0.3"
   resolved lodash._basefor-3.0.3.tgz#7550b4e9218ef09fad24343b612021c79b4c20c2
 
+lodash._baseget@^3.0.0:
+  version "3.7.2"
+  resolved lodash._baseget-3.7.2.tgz#1b6ae1d5facf3c25532350a13c1197cb8bb674f4
+
 lodash._bindcallback@^3.0.0:
   version "3.0.1"
   resolved lodash._bindcallback-3.0.1.tgz#e531c27644cf8b57a99e17ed95b35c748789392e
@@ -4140,6 +4199,12 @@ lodash._getnative@^3.0.0:
 lodash._isiterateecall@^3.0.0:
   version "3.0.9"
   resolved lodash._isiterateecall-3.0.9.tgz#5203ad7ba425fae842460e696db9cf3e6aac057c
+
+lodash._topath@^3.0.0:
+  version "3.8.1"
+  resolved lodash._topath-3.8.1.tgz#3ec5e2606014f4cb97f755fe6914edd8bfc00eac
+  dependencies:
+    lodash.isarray "^3.0.0"
 
 lodash.assign@^3.0.0, lodash.assign@^3.2.0:
   version "3.2.0"
@@ -4196,6 +4261,13 @@ lodash.foreach@^3.0.3:
 lodash.foreach@^4.3.0:
   version "4.5.0"
   resolved lodash.foreach-4.5.0.tgz#1a6a35eace401280c7f06dddec35165ab27e3e53
+
+lodash.get@^3.7.0:
+  version "3.7.0"
+  resolved lodash.get-3.7.0.tgz#3ce68ae2c91683b281cc5394128303cbf75e691f
+  dependencies:
+    lodash._baseget "^3.0.0"
+    lodash._topath "^3.0.0"
 
 lodash.isarguments@^3.0.0:
   version "3.1.0"
@@ -4364,6 +4436,10 @@ math-expression-evaluator@^1.2.14:
   version "1.2.16"
   resolved math-expression-evaluator-1.2.16.tgz#b357fa1ca9faefb8e48d10c14ef2bcb2d9f0a7c9
 
+memory-fs@^0.2.0:
+  version "0.2.0"
+  resolved memory-fs-0.2.0.tgz#f2bb25368bc121e391c2520de92969caee0a0290
+
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
   resolved memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552
@@ -4514,6 +4590,34 @@ node-fetch@^1.0.1:
 node-int64@^0.4.0:
   version "0.4.0"
   resolved node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b
+
+node-libs-browser@^1.0.0:
+  version "1.1.1"
+  resolved node-libs-browser-1.1.1.tgz#2a38243abedd7dffcd07a97c9aca5668975a6fea
+  dependencies:
+    assert "^1.1.1"
+    browserify-zlib "^0.1.4"
+    buffer "^4.3.0"
+    console-browserify "^1.1.0"
+    constants-browserify "^1.0.0"
+    crypto-browserify "^3.11.0"
+    domain-browser "^1.1.1"
+    events "^1.0.0"
+    https-browserify "0.0.1"
+    os-browserify "^0.2.0"
+    path-browserify "0.0.0"
+    process "^0.11.0"
+    punycode "^1.2.4"
+    querystring-es3 "^0.2.0"
+    readable-stream "^2.0.5"
+    stream-browserify "^2.0.1"
+    stream-http "^2.3.1"
+    string_decoder "^0.10.25"
+    timers-browserify "^1.4.2"
+    tty-browserify "0.0.0"
+    url "^0.11.0"
+    util "^0.10.3"
+    vm-browserify "0.0.4"
 
 node-libs-browser@^2.0.0:
   version "2.0.0"
@@ -5472,7 +5576,7 @@ process-nextick-args@~1.0.6:
   version "1.0.7"
   resolved process-nextick-args-1.0.7.tgz#150e20b756590ad3f91093f25a4f2ad8bff30ba3
 
-process@^0.11.0:
+process@^0.11.0, process@~0.11.0:
   version "0.11.9"
   resolved process-0.11.9.tgz#7bd5ad21aa6253e7da8682264f1e11d11c0318c1
 
@@ -6443,6 +6547,10 @@ table@^3.7.8:
     slice-ansi "0.0.4"
     string-width "^2.0.0"
 
+tapable@^0.1.8:
+  version "0.1.10"
+  resolved tapable-0.1.10.tgz#29c35707c2b70e50d07482b5d202e8ed446dafd4
+
 tapable@^0.2.5, tapable@~0.2.5:
   version "0.2.6"
   resolved tapable-0.2.6.tgz#206be8e188860b514425375e6f1ae89bfb01fd8d
@@ -6504,6 +6612,12 @@ through@2, through@^2.3.6, through@~2.3, through@~2.3.1:
 timed-out@^2.0.0:
   version "2.0.0"
   resolved timed-out-2.0.0.tgz#f38b0ae81d3747d628001f41dafc652ace671c0a
+
+timers-browserify@^1.4.2:
+  version "1.4.2"
+  resolved timers-browserify-1.4.2.tgz#c9c58b575be8407375cb5e2462dacee74359f41d
+  dependencies:
+    process "~0.11.0"
 
 timers-browserify@^2.0.2:
   version "2.0.2"
@@ -6621,6 +6735,10 @@ uid-number@^0.0.6:
 ultron@1.0.x:
   version "1.0.2"
   resolved ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa
+
+unc-path-regex@^0.1.0:
+  version "0.1.2"
+  resolved unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa
 
 undefsafe@0.0.3:
   version "0.0.3"

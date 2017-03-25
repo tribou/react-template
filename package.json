@@ -44,6 +44,7 @@
     "eslint-config-airbnb": "^13.0.0",
     "eslint-config-standard": "^6.2.1",
     "eslint-config-tribou": "^3.0.0",
+    "eslint-import-resolver-webpack": "^0.8.1",
     "eslint-loader": "^1.6.1",
     "eslint-plugin-flowtype": "^2.25.0",
     "eslint-plugin-import": "^2.2.0",
@@ -112,6 +113,10 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css)$": "identity-obj-proxy"
     },
+    "moduleDirectories": [
+      "node_modules",
+      "<rootDir>"
+    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ]
