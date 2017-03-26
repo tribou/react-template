@@ -7,10 +7,14 @@ import { renderToString } from 'react-dom/server'
 import Helmet from 'react-helmet'
 import { Provider } from 'react-redux'
 import { match, RouterContext } from 'react-router'
-import routes from 'src/routes'
+import createHistory from 'react-router/lib/createMemoryHistory'
+import { syncHistoryWithStore } from 'react-router-redux'
+import getRoutes from 'src/routes'
+import { requireAuth } from 'src/helpers/auth'
 import { getAssets } from 'server/utils'
 import configureStore from 'src/redux/store'
 import env from 'config/env'
+import vars from 'config/variables'
 
 // Default render options for react templates
 // 'renderToStaticMarkup' omits react data properties
@@ -52,10 +56,56 @@ const routedHtml = (request: Object, reply: Function) => {
 
   }
 
+  // Get initial store state
+  let initialState
+  if (process.env.NODE_ENV === 'development') {
+
+    const statePath = '../../state.json'
+    const stateFile = Path.resolve(__dirname, statePath)
+
+    try {
+
+      const devtoolState = JSON.parse(Fs.readFileSync(stateFile, 'utf-8'))
+      const index = devtoolState.currentStateIndex
+      initialState = devtoolState.computedStates[index].state
+      request.log(['info', 'state'], initialState)
+
+    }
+    catch (stateError) {
+
+      // This can fail silently if state.json doesn't exist
+      // request.log(['error', 'state'], stateError)
+
+    }
+
+  }
+
+  const memoryHistory = createHistory(request.url.href)
+
+  // Inject server request info
+  const _request = { userAgent: request.headers['user-agent'] }
+  request.log(['info', 'user-agent'], _request.userAgent)
+
+  // Pass initial state to store along with server ENV vars
+  const store = configureStore({
+    ...initialState,
+    env,
+    request: _request,
+  }, memoryHistory)
+
+  const history = syncHistoryWithStore(memoryHistory, store)
+
+  const getAuthToken = () => {
+
+    return request.state[vars.appAuthCookieKey]
+
+  }
+
   // Let react-router match the raw URL to generate the
   // RouterContext here on the server
   match({
-    routes,
+    routes: getRoutes(requireAuth(getAuthToken)),
+    history,
     location: request.url.href,
   }, (error: string, redirectLocation: Object, renderProps: Object): any => {
 
@@ -74,44 +124,6 @@ const routedHtml = (request: Object, reply: Function) => {
     }
     else if (renderProps) {
 
-      // Get initial store state
-      let initialState
-      if (process.env.NODE_ENV === 'development') {
-
-        const statePath = '../../state.json'
-        const stateFile = Path.resolve(__dirname, statePath)
-
-        try {
-
-          const devtoolState = JSON.parse(Fs.readFileSync(stateFile, 'utf-8'))
-          const index = devtoolState.currentStateIndex
-          initialState = devtoolState.computedStates[index].state
-          request.log(['info', 'state'], initialState)
-
-        }
-        catch (stateError) {
-
-          // This can fail silently if state.json doesn't exist
-          // request.log(['error', 'state'], stateError)
-
-        }
-
-      }
-
-      // Inject server request info
-      const _request = { userAgent: request.headers['user-agent'] }
-      request.log(['info', 'user-agent'], _request.userAgent)
-
-      // Manually setup current route on server for react-router-redux
-      const routing = { locationBeforeTransitions: renderProps.location }
-
-      // Pass initial state to store along with server ENV vars
-      const store = configureStore({
-        ...initialState,
-        env,
-        request: _request,
-        routing,
-      })
 
       // Get rendered router context
       const children = renderToString(

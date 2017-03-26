@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login> renders the Login content 1`] = `
+<div
+  className="login"
+>
+  <div
+    className="header"
+  >
+    <Link
+      className="icnCloseOffLink"
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to={
+        Object {
+          "pathname": "/",
+          "state": Object {
+            "modal": "",
+          },
+        }
+      }
+    >
+      <button
+        className="icnCloseOff"
+      />
+    </Link>
+    <div
+      className="title"
+    >
+      LOGIN
+    </div>
+  </div>
+  <form
+    className="loginForm"
+    id="loginForm"
+    onSubmit={[Function]}
+  >
+    <Field
+      component="input"
+      label="Email"
+      name="usernameInput"
+      placeholder="Email"
+      type="email"
+    />
+    <Field
+      component="input"
+      label="Password"
+      name="passwordInput"
+      placeholder="Password"
+      type="password"
+    />
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/?reset-password"
+    >
+      <div
+        className="forgotPassword"
+      >
+        Forgot Password?
+      </div>
+    </Link>
+    <div
+      className="error"
+    />
+    <button
+      disabled={false}
+      type="submit"
+    >
+      Login
+    </button>
+  </form>
+</div>
+`;
+
+exports[`<Login> renders when form is submitting 1`] = `
+<div
+  className="login"
+>
+  <div
+    className="header"
+  >
+    <Link
+      className="icnCloseOffLink"
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to={
+        Object {
+          "pathname": "/",
+          "state": Object {
+            "modal": "",
+          },
+        }
+      }
+    >
+      <button
+        className="icnCloseOff"
+      />
+    </Link>
+    <div
+      className="title"
+    >
+      LOGIN
+    </div>
+  </div>
+  <form
+    className="loginForm"
+    id="loginForm"
+    onSubmit={[Function]}
+  >
+    <Field
+      component="input"
+      label="Email"
+      name="usernameInput"
+      placeholder="Email"
+      type="email"
+    />
+    <Field
+      component="input"
+      label="Password"
+      name="passwordInput"
+      placeholder="Password"
+      type="password"
+    />
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/?reset-password"
+    >
+      <div
+        className="forgotPassword"
+      >
+        Forgot Password?
+      </div>
+    </Link>
+    <div
+      className="error"
+    />
+    <button
+      disabled={true}
+      type="submit"
+    >
+      Submitting...
+    </button>
+  </form>
+</div>
+`;

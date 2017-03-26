@@ -1,15 +1,18 @@
 // @flow
 import React from 'react'
 import Helmet from 'react-helmet'
+import Modal from 'src/components/Modal/Modal.index'
 import vars from 'config/variables'
 import type { ReduxProps } from './App.index'
 
 
 type Props = ReduxProps & {
-  children: React$Element<any>,
+  children: React$Element<*>,
+  location: Object,
+  params: Object,
 }
 
-const App = (props: Props): React$Element<any> => {
+const App = (props: Props): React$Element<*> => {
 
   const {
     appDescription,
@@ -21,7 +24,11 @@ const App = (props: Props): React$Element<any> => {
     colorTheme,
   } = vars
 
-  const { ROOT_URL } = props
+  const {
+    ROOT_URL,
+    location,
+    params,
+  } = props
 
   return (
     <div id="application">
@@ -46,6 +53,7 @@ const App = (props: Props): React$Element<any> => {
           { rel: 'apple-touch-icon', href: appIcon },
         ]}
       />
+      <Modal location={location} params={params} />
       {props.children}
     </div>
   )

@@ -1,0 +1,10 @@
+.modal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  height: 100vh;
+  z-index: $zModal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

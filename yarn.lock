@@ -1595,7 +1595,7 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e
 
-"console-polyfill@github:rollbar/console-polyfill#eab6ff9d2b7597fc2f259baa18100556bdb94dbe":
+console-polyfill@rollbar/console-polyfill#eab6ff9d2b7597fc2f259baa18100556bdb94dbe:
   version "0.2.3"
   resolved eab6ff9d2b7597fc2f259baa18100556bdb94dbe#e6ee1e6be373f7702dccd756b3674b5817396cec
 
@@ -2268,6 +2268,10 @@ es5-ext@^0.10.14, es5-ext@^0.10.9, es5-ext@~0.10.14:
   dependencies:
     es6-iterator "2"
     es6-symbol "~3.1"
+
+es6-error@^4.0.0:
+  version "4.0.2"
+  resolved es6-error-4.0.2.tgz#eec5c726eacef51b7f6b73c20db6e1b13b069c98
 
 es6-iterator@2, es6-iterator@^2.0.1, es6-iterator@~2.0.1:
   version "2.0.1"
@@ -3373,7 +3377,7 @@ interpret@^1.0.0:
   version "1.0.1"
   resolved interpret-1.0.1.tgz#d579fb7f693b858004947af39fa0db49f795602c
 
-invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.1:
+invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
   resolved invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360
   dependencies:
@@ -3539,6 +3543,10 @@ is-posix-bracket@^0.1.0:
 is-primitive@^2.0.0:
   version "2.0.0"
   resolved is-primitive-2.0.0.tgz#207bab91638499c07b2adf240a41a87210034575
+
+is-promise@^2.1.0:
+  version "2.1.0"
+  resolved is-promise-2.1.0.tgz#79a2a9ece7f096e80f36d2b2f3bc16c1ff4bf3fa
 
 is-property@^1.0.0:
   version "1.0.2"
@@ -4143,7 +4151,7 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
-lodash-es@^4.2.0, lodash-es@^4.2.1:
+lodash-es@^4.17.3, lodash-es@^4.2.0, lodash-es@^4.2.1:
   version "4.17.4"
   resolved lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7
 
@@ -4383,7 +4391,7 @@ lodash.uniq@^4.3.0:
   version "4.5.0"
   resolved lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773
 
-lodash@4.x.x, lodash@^4.0.0, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.5.1:
+lodash@4.x.x, lodash@^4.0.0, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.5.1:
   version "4.17.4"
   resolved lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae
 
@@ -5835,6 +5843,18 @@ reduce-function-call@^1.0.1:
   resolved reduce-function-call-1.0.2.tgz#5a200bf92e0e37751752fe45b0ab330fd4b6be99
   dependencies:
     balanced-match "^0.4.2"
+
+redux-form@^6.6.0:
+  version "6.6.0"
+  resolved redux-form-6.6.0.tgz#a26f05d5a2b317596733718031dec94126a0f05c
+  dependencies:
+    deep-equal "^1.0.1"
+    es6-error "^4.0.0"
+    hoist-non-react-statics "^1.2.0"
+    invariant "^2.2.2"
+    is-promise "^2.1.0"
+    lodash "^4.17.3"
+    lodash-es "^4.17.3"
 
 redux-logger@^3.0.0:
   version "3.0.0"

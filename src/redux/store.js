@@ -4,11 +4,14 @@ import { applyMiddleware, createStore, compose } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
+import { routerMiddleware } from 'react-router-redux'
 import rootEpic from './epics'
 import rootReducer from './modules'
 
 
-function configureStore (preloadedState: GlobalReducerState): Object {
+function configureStore (
+  preloadedState: GlobalReducerState, history: Object,
+): Object {
 
   const epicMiddleware = createEpicMiddleware(rootEpic)
 
@@ -16,6 +19,7 @@ function configureStore (preloadedState: GlobalReducerState): Object {
     epicMiddleware,
     thunk,
     promiseMiddleware(),
+    routerMiddleware(history),
   ]
 
   // only log redux actions in development

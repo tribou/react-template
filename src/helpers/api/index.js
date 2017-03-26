@@ -2,7 +2,7 @@
 // Contains API-specific logic for the API service we're using
 import Axios from 'axios'
 import Debug from 'debug'
-import type { $AxiosError, $AxiosXHR } from 'axios'
+import type { $AxiosError, $AxiosXHR, $AxiosXHRConfigBase } from 'axios'
 import { getAuthToken } from 'src/helpers/auth'
 import env from 'config/env'
 
@@ -14,7 +14,7 @@ const getClient = (): Axios.Axios => {
   const token = getAuthToken()
 
   // Defaults
-  const config = {
+  const config: $AxiosXHRConfigBase<*> = {
     baseURL: env.API_URL,
     timeout: 15000,
     headers: {
@@ -85,10 +85,12 @@ const _parseResponse = (response: $AxiosXHR<*>): APIResponse => {
 
 
 // GET request factories
-export const get = (endpoint: string): Promise<APIResponse | APIError> => {
+export const get = (
+  endpoint: string, opts?: $AxiosXHRConfigBase<*>,
+): Promise<APIResponse | APIError> => {
 
   const client = getClient()
-  return client.get(endpoint)
+  return client.get(endpoint, opts)
     .then((response) => {
 
       return _parseResponse(response)
@@ -103,10 +105,12 @@ export const get = (endpoint: string): Promise<APIResponse | APIError> => {
 }
 
 // POST request factories
-export const post = (endpoint: string, data: ?Object): Promise<*> => {
+export const post = (
+  endpoint: string, data: ?Object = {}, opts?: $AxiosXHRConfigBase<*>,
+): Promise<APIResponse | APIError> => {
 
   const client = getClient()
-  return client.post(endpoint, data)
+  return client.post(endpoint, data, opts)
     .then((response) => {
 
       return _parseResponse(response)
@@ -122,10 +126,33 @@ export const post = (endpoint: string, data: ?Object): Promise<*> => {
 
 
 // PATCH request factories
-export const patch = (endpoint: string, data: ?Object): Promise<*> => {
+export const patch = (
+  endpoint: string, data: ?Object = {}, opts?: $AxiosXHRConfigBase<*>,
+): Promise<APIResponse | APIError> => {
 
   const client = getClient()
-  return client.patch(endpoint, data)
+  return client.patch(endpoint, data, opts)
+    .then((response) => {
+
+      return _parseResponse(response)
+
+    })
+    .catch((error) => {
+
+      return Promise.reject(_parseError(error))
+
+    })
+
+}
+
+
+// PUT request factories
+export const put = (
+  endpoint: string, data: ?Object = {}, opts?: $AxiosXHRConfigBase<*>,
+): Promise<APIResponse | APIError> => {
+
+  const client = getClient()
+  return client.put(endpoint, data, opts)
     .then((response) => {
 
       return _parseResponse(response)
@@ -141,10 +168,12 @@ export const patch = (endpoint: string, data: ?Object): Promise<*> => {
 
 
 // DELETE request factories
-export const del = (endpoint: string): Promise<*> => {
+export const del = (
+  endpoint: string, opts?: $AxiosXHRConfigBase<*>,
+): Promise<APIResponse | APIError> => {
 
   const client = getClient()
-  return client.delete(endpoint)
+  return client.delete(endpoint, opts)
     .then((response) => {
 
       return _parseResponse(response)

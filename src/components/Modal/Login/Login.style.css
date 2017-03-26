@@ -1,0 +1,65 @@
+.login {
+  width: 604px;
+  height: 502px;
+  border-radius: 5px;
+  background-color: $colorWhite;
+  box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.3);
+  text-align: center;
+  padding: 20px;
+
+  .header {
+    flex: 1 1 auto;
+    position: relative;
+    margin: 10px 0 50px;
+    display: flex;
+    justify-content: center;
+
+    .icnCloseOffLink {
+      position: absolute;
+      left: 0;
+
+      .icnCloseOff {
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        @mixin image-url static/images/icn_close_off.png;
+        border: none;
+      }
+    }
+
+    .title {
+      @mixin font-size 22;
+      font-weight: 500;
+      text-align: center;
+      color: $colorDark;
+    }
+  }
+
+  p {
+    @mixin font-size 16;
+    font-weight: 500;
+  }
+
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: auto;
+    text-align: left;
+
+    .forgotPassword {
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    button {
+      background-color: $colorTheme;
+      color: $colorWhite;
+    }
+  }
+}
+
+.error {
+  color: red;
+  margin: 10px auto;
+}

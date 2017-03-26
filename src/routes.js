@@ -10,22 +10,28 @@ import Home from 'src/components/examples/Home/Home.index'
 import Profile from 'src/components/examples/Profile/Profile.index'
 import Todos from 'src/components/examples/Todos/Todos.index'
 
-
-const routes = (
-  <Route path="/" component={App}>
-    {/*
-      <IndexRoute component={Home} />
-    */}
-
-    {/* Examples */}
-    <Route path="home" component={Home} />
-    <Route path="profile" component={Profile} />
-    <Route path="todos" component={Todos} />
-
-    {/* 404 */}
-    <Route path="*" component={NotFound} />
-  </Route>
-)
+import type { requireAuth as $requireAuth } from 'src/helpers/auth'
 
 
-export default routes
+const getRoutes = (requireAuth: $requireAuth) => {
+
+  return (
+    <Route path="/" component={App}>
+      {/*
+        <IndexRoute component={Home} />
+      */}
+
+      {/* Examples */}
+      <Route path="home" component={Home} />
+      <Route path="profile" onEnter={requireAuth} component={Profile} />
+      <Route path="todos" onEnter={requireAuth} component={Todos} />
+
+      {/* 404 */}
+      <Route path="*" component={NotFound} />
+    </Route>
+  )
+
+}
+
+
+export default getRoutes

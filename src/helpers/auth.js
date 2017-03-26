@@ -81,8 +81,9 @@ export const requireAuth = (getToken: Function) => {
     if (!getToken()) {
 
       replace({
-        pathname: '/signin',
+        pathname: '/',
         query: {
+          login: null,
           ...nextState.location.query,
           // where to redirect after login
           redirect: nextState.location.pathname,

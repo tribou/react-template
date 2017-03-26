@@ -9,7 +9,8 @@ import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import Transit from 'transit-immutable-js'
-import routes from 'src/routes'
+import getRoutes from 'src/routes'
+import { getAuthToken, requireAuth } from 'src/helpers/auth'
 import configureStore from 'src/redux/store'
 import { loadSuccess } from 'src/redux/modules/init'
 import rollbarConfig from 'config/rollbar'
@@ -23,7 +24,7 @@ if (process.env.NODE_ENV !== 'development') {
 const log = Debug('my-app:browser:index')
 const appStateElement = document.getElementById('app-state')
 const serializedState = appStateElement ? appStateElement.innerHTML : '{}'
-const store = configureStore(Transit.fromJSON(serializedState))
+const store = configureStore(Transit.fromJSON(serializedState), browserHistory)
 const history = syncHistoryWithStore(browserHistory, store)
 
 window.onload = () => {
@@ -44,7 +45,7 @@ window.onload = () => {
 ReactDOM.render(
 
   <Provider store={store}>
-    <Router routes={routes} history={history} />
+    <Router routes={getRoutes(requireAuth(getAuthToken))} history={history} />
   </Provider>,
 
   document.getElementById('react-mount')
