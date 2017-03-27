@@ -4,6 +4,10 @@ exports[`<Todos> renders the Todos content 1`] = `
 <div
   className="todos"
 >
+  <HelmetWrapper
+    encodeSpecialCharacters={true}
+    title="Todos"
+  />
   <div
     className="modal"
   >

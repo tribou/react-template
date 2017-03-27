@@ -1,6 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
+import Helmet from 'react-helmet'
 import css from './Profile.style.css'
 
 import type { ReduxProps } from './Profile.index'
@@ -26,6 +27,7 @@ class Profile extends PureComponent {
 
     return (
       <div className={css.profile}>
+        <Helmet title="Profile" />
         <div className={css.modal}>
           Profile page
           <ul>

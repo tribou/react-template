@@ -1,0 +1,6 @@
+.loading {
+  position: fixed;
+  z-index: 2000;
+  top: 1rem;
+  left: 1rem;
+}

@@ -15,8 +15,10 @@ const client = {
   vendor: [
     'axios',
     'babel-polyfill',
+    'cookies-js',
     'debug',
     'immutable',
+    'js-base64',
     'react',
     'react-dom',
     'react-helmet',
@@ -24,6 +26,7 @@ const client = {
     'react-router',
     'react-router-redux',
     'redux',
+    'redux-form',
     'redux-observable',
     'redux-promise-middleware',
     'redux-thunk',

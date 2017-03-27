@@ -1,6 +1,6 @@
 // @flow
 import Cookies from 'cookies-js'
-import Base64 from 'js-base64'
+import { Base64 } from 'js-base64'
 import Debug from 'debug'
 import env, { isBrowser } from 'config/env'
 import vars from 'config/variables'

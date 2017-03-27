@@ -4,6 +4,10 @@ exports[`<Home> renders the Home content 1`] = `
 <div
   className="home"
 >
+  <HelmetWrapper
+    encodeSpecialCharacters={true}
+    title="Home"
+  />
   This is the app...
   <ul>
     <li>
@@ -28,5 +32,45 @@ exports[`<Home> renders the Home content 1`] = `
       className="facebookIcon"
     />
   </Link>
+</div>
+`;
+
+exports[`<Home> renders the logout button if authenticated 1`] = `
+<div
+  className="home"
+>
+  <HelmetWrapper
+    encodeSpecialCharacters={true}
+    title="Home"
+  />
+  This is the app...
+  <ul>
+    <li>
+      This is a test item
+    </li>
+  </ul>
+  <Link
+    onlyActiveOnIndex={false}
+    style={Object {}}
+    to="/profile"
+  >
+    <div
+      className="logo"
+    />
+  </Link>
+  <Link
+    onlyActiveOnIndex={false}
+    style={Object {}}
+    to="/todos"
+  >
+    <div
+      className="facebookIcon"
+    />
+  </Link>
+  <button
+    onClick={[Function]}
+  >
+    Logout
+  </button>
 </div>
 `;

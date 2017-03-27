@@ -29,7 +29,11 @@ const onSubmit = (values, dispatch, props): Promise<*> => {
   const { usernameInput, passwordInput } = values
   const { redirect } = props.location.query
 
-  return login(usernameInput, passwordInput, redirect)(dispatch)
+  return login({
+    username: usernameInput,
+    password: passwordInput,
+    redirect,
+  })(dispatch)
 
 }
 

@@ -1,22 +1,37 @@
 // @flow
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { logout } from 'src/redux/modules/auth'
 import Home from './Home'
 
 
 type StateProps = {
-  init: InitState,
+  authenticated: boolean,
 }
 
 function mapStateToProps (state: GlobalReducerState): StateProps {
 
-  const { init } = state
+  const { authenticated } = state.auth
 
   return {
-    init,
+    authenticated,
   }
 
 }
 
 
-export default connect(mapStateToProps)(Home)
-export type ReduxProps = StateProps
+type DispatchProps = {
+  logout: Function,
+}
+
+function mapDispatchToProps (dispatch: any): DispatchProps {
+
+  return {
+    logout: bindActionCreators(logout, dispatch),
+  }
+
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export type ReduxProps = StateProps & DispatchProps

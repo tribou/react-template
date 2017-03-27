@@ -86,20 +86,25 @@ const routedHtml = (request: Object, reply: Function) => {
   const _request = { userAgent: request.headers['user-agent'] }
   request.log(['info', 'user-agent'], _request.userAgent)
 
-  // Pass initial state to store along with server ENV vars
-  const store = configureStore({
-    ...initialState,
-    env,
-    request: _request,
-  }, memoryHistory)
-
-  const history = syncHistoryWithStore(memoryHistory, store)
-
   const getAuthToken = () => {
 
     return request.state[vars.appAuthCookieKey]
 
   }
+
+  const authenticated = typeof getAuthToken() !== 'undefined'
+
+  // Pass initial state to store along with server ENV vars
+  const store = configureStore({
+    ...initialState,
+    auth: {
+      authenticated,
+    },
+    env,
+    request: _request,
+  }, memoryHistory)
+
+  const history = syncHistoryWithStore(memoryHistory, store)
 
   // Let react-router match the raw URL to generate the
   // RouterContext here on the server

@@ -4,6 +4,7 @@ import env from 'config/env'
 
 const { API_URL } = env
 
+
 type LoginParams = {
   username: string,
   password: string,
@@ -33,6 +34,27 @@ export const loginMock = ({ username, password }: LoginParams) => {
           jwt: 'tokenabc123',
         },
       })
+
+    }, 500)
+
+  })
+
+}
+
+
+export const logout = () => {
+
+  return post(`${API_URL}/auth/logout`)
+
+}
+
+export const logoutMock = () => {
+
+  return new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+
+      return resolve({})
 
     }, 500)
 

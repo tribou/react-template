@@ -1,5 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react'
+import Helmet from 'react-helmet'
 import { Link } from 'react-router'
 import css from './Todos.style.css'
 
@@ -31,6 +32,7 @@ class Todos extends PureComponent {
 
     return (
       <div className={css.todos}>
+        <Helmet title="Todos" />
         <div className={css.modal}>
           Todos page
           <ul>
