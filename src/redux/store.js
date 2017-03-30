@@ -10,7 +10,7 @@ import rootReducer from './modules'
 
 
 function configureStore (
-  preloadedState: GlobalReducerState, history: Object,
+  preloadedState: Object, history: Object,
 ): Object {
 
   const epicMiddleware = createEpicMiddleware(rootEpic)

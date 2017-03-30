@@ -13,6 +13,7 @@ import getRoutes from 'src/routes'
 import { requireAuth } from 'src/helpers/auth'
 import { getAssets } from 'server/utils'
 import configureStore from 'src/redux/store'
+import { initialState as authInitialState } from 'src/redux/modules/auth'
 import env from 'config/env'
 import vars from 'config/variables'
 
@@ -28,6 +29,13 @@ const defaultRenderOptions = {
 
 
 const routedHtml = (request: Object, reply: Function) => {
+
+  if (module.hot) {
+
+    module.hot.accept('src/routes', () => {
+    })
+
+  }
 
   // Paths relative to inside build/ only in prod
   const assets = getAssets()
@@ -49,37 +57,6 @@ const routedHtml = (request: Object, reply: Function) => {
 
   request.log(['info'], request.url.href)
 
-  if (module.hot) {
-
-    module.hot.accept('src/routes', () => {
-    })
-
-  }
-
-  // Get initial store state
-  let initialState
-  if (process.env.NODE_ENV === 'development') {
-
-    const statePath = '../../state.json'
-    const stateFile = Path.resolve(__dirname, statePath)
-
-    try {
-
-      const devtoolState = JSON.parse(Fs.readFileSync(stateFile, 'utf-8'))
-      const index = devtoolState.currentStateIndex
-      initialState = devtoolState.computedStates[index].state
-      request.log(['info', 'state'], initialState)
-
-    }
-    catch (stateError) {
-
-      // This can fail silently if state.json doesn't exist
-      // request.log(['error', 'state'], stateError)
-
-    }
-
-  }
-
   const memoryHistory = createHistory(request.url.href)
 
   // Inject server request info
@@ -96,8 +73,8 @@ const routedHtml = (request: Object, reply: Function) => {
 
   // Pass initial state to store along with server ENV vars
   const store = configureStore({
-    ...initialState,
     auth: {
+      ...authInitialState,
       authenticated,
     },
     env,
