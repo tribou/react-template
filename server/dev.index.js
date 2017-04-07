@@ -3,26 +3,39 @@
 const log = require('debug')('my-app:server:dev')
 
 const Bs = require('browser-sync').create('server')
+const ChildProcess = require('child_process')
 const Path = require('path')
-const Spawn = require('child_process').spawn
 const Webpack = require('webpack')
 const config = require('../config/webpack')
 
+const Spawn = ChildProcess.spawn
 const compiler = Webpack(config)
 
 let server // spawn a server process
-const total = 2 // number of bundles building
-let count = 1 // count for tracking how many bundles finished
+// let outputProcess // capture webpack output process
 
 log('Starting Webpack compilation')
-compiler.watch({}, (err, stats) => {
 
-  if (err) {
+compiler.plugin('done', (stats) => {
 
-    log('ERROR:', err)
-    return
+  if (stats.hasErrors()) return
 
-  }
+  // Not working with webpack/hot/signal :(
+  // if (!outputProcess) {
+
+  //   const outputDirectory = stats.stats[0].compilation.compiler.outputPath
+  //   const outputFilename = 'views/Html.js'
+  //     // = stats.toJson().children[0].assetsByChunkName.bundle[0]
+  //   const outputPath = Path.join(outputDirectory, outputFilename)
+  //   log('outputFile', outputPath)
+  //   outputProcess = ChildProcess.fork(outputPath)
+
+  // }
+
+  // log('KILL')
+  // outputProcess.kill('SIGUSR2')
+
+  if (module.hot) log('module.hot.status', module.hot.status())
 
   log('compiled', stats.toString({
     colors: true,
@@ -31,8 +44,17 @@ compiler.watch({}, (err, stats) => {
     chunks: false,
   }))
 
+  Bs.reload()
+
+})
+
+compiler.watch({}, (err, stats) => {
+
+  if (err) throw err
+
   if (!server) {
 
+    // Start server process
     log('starting server')
     server = Spawn('node', [Path.resolve(__dirname, '../build/server.js')])
     server.stdout.on('data', (data) => {
@@ -46,6 +68,8 @@ compiler.watch({}, (err, stats) => {
       console.log(data.toString()) // eslint-disable-line
 
     })
+
+    // Initialize BrowserSync proxy
     Bs.init({
       proxy: 'localhost:8000',
       ghostMode: false,
@@ -53,21 +77,8 @@ compiler.watch({}, (err, stats) => {
       logFileChanges: true,
       logLevel: 'info',
       reloadOnRestart: true,
-      reloadDebounce: 700,
+      reloadDebounce: 500,
     })
-
-  }
-  else if (count < total) {
-
-    count += 1
-    log('count:', count)
-
-  }
-  else {
-
-    log('RELOAD count:', count)
-    Bs.reload()
-    count = 1
 
   }
 

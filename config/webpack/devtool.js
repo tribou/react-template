@@ -5,8 +5,8 @@
 module.exports = {
 
   development: {
-    client: 'eval-source-map',
-    server: 'source-map',
+    client: 'cheap-module-eval-source-map',
+    server: 'cheap-module-eval-source-map',
   },
 
   production: {

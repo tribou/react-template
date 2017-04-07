@@ -53,6 +53,7 @@
     "eslint-plugin-react": "^6.7.1",
     "eslint-plugin-standard": "^2.0.1",
     "extract-text-webpack-plugin": "^2.1.0",
+    "favicons-webpack-plugin": "0.0.7",
     "file-loader": "^0.10.1",
     "flow-bin": "^0.42.0",
     "glob": "^7.0.5",

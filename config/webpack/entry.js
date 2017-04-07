@@ -47,7 +47,7 @@ const client = {
 // construction inspired by:
 // https://github.com/webpack/webpack/issues/1189#issuecomment-156576084
 const serverEntry = (NODE_ENV === 'development')
-  ? ['webpack/hot/poll?1000']
+  ? ['webpack/hot/poll?500']
   : []
 const server = {
   'server.js': serverEntry.concat(['./server/index.js']),

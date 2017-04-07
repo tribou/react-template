@@ -10,6 +10,7 @@ const AssetsPlugin = require('assets-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
 const offlinePluginConfig = require('../../offline')
 
@@ -44,6 +45,8 @@ const client = [
     filename: 'assets.json',
     path: Path.resolve(__dirname, '../../../build'),
   }),
+  // relative to project root
+  new FaviconsWebpackPlugin('static/images/logo@2x.png'),
 
 ]
 
@@ -88,6 +91,7 @@ const server = [
 
 const devServer = server.concat([
   new Webpack.HotModuleReplacementPlugin(),
+  new Webpack.NoEmitOnErrorsPlugin(),
   new Webpack.NamedModulesPlugin(),
 ])
 
