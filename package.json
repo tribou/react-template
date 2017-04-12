@@ -7,7 +7,7 @@
   "engines": {
     "node": ">=6.4.x <7",
     "npm": ">=3.10.x <4",
-    "yarn": "0.21.3"
+    "yarn": "0.22.0"
   },
   "repository": {
     "type": "git",
@@ -57,6 +57,7 @@
     "file-loader": "^0.10.1",
     "flow-bin": "^0.42.0",
     "glob": "^7.0.5",
+    "happypack": "^3.0.3",
     "identity-obj-proxy": "^3.0.0",
     "imageoptim-cli": "^1.14.8",
     "jest": "^19.0.2",
@@ -147,6 +148,6 @@
     "watch-lint": "nodemon -w . -i .eslintcache -x npm run --silent lint-cache",
     "watch-test": "nodemon -w . -i .eslintcache -x npm run --silent test-jest",
     "yarn": "npm run --silent yarn-bin -- install --ignore-scripts",
-    "yarn-bin": "node bin/yarn-0.21.3.js"
+    "yarn-bin": "node bin/yarn-${npm_package_engines_yarn}.js"
   }
 }

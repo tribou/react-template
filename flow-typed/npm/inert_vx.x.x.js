@@ -1,4 +1,4 @@
-// flow-typed signature: 8668a1250676c3e437973c1b663f1e03
+// flow-typed signature: 1f9f26c0ee7cf7b38dbd95c2cdf09307
 // flow-typed version: <<STUB>>/inert_v^4.0.2/flow_v0.42.0
 
 /**
@@ -34,6 +34,10 @@ declare module 'inert/lib/file' {
   declare module.exports: any;
 }
 
+declare module 'inert/lib/fs' {
+  declare module.exports: any;
+}
+
 declare module 'inert/lib/index' {
   declare module.exports: any;
 }
@@ -47,6 +51,9 @@ declare module 'inert/lib/etag.js' {
 }
 declare module 'inert/lib/file.js' {
   declare module.exports: $Exports<'inert/lib/file'>;
+}
+declare module 'inert/lib/fs.js' {
+  declare module.exports: $Exports<'inert/lib/fs'>;
 }
 declare module 'inert/lib/index.js' {
   declare module.exports: $Exports<'inert/lib/index'>;
