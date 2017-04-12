@@ -13,14 +13,6 @@ const getRules = (platform) => {
 
   return [
     {
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      query: {
-        cacheDirectory: NODE_ENV === 'development',
-      },
-    },
-    {
       test: /\.css$/,
       exclude: /node_modules/,
       use: cssLoaders[platform].modules,
@@ -61,20 +53,40 @@ const devRules = [
   },
 ]
 
+const prodRules = [
+  {
+    test: /\.js$/,
+    exclude: /node_modules/,
+    use: 'babel-loader',
+  },
+]
+
 const client = {
-  rules: getRules('client').concat(devRules),
+  rules: getRules('client').concat(devRules, [
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: 'happypack/loader?id=js',
+    },
+  ]),
 }
 
 const server = {
-  rules: getRules('server').concat(devRules),
+  rules: getRules('server').concat(devRules, [
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: 'happypack/loader?id=js',
+    },
+  ]),
 }
 
 const prodClient = {
-  rules: getRules('client'),
+  rules: getRules('client').concat(prodRules),
 }
 
 const prodServer = {
-  rules: getRules('server'),
+  rules: getRules('server').concat(prodRules),
 }
 
 

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Route } from 'react-router'
+import { IndexRedirect, Route } from 'react-router'
 
 import App from 'src/components/App.index'
 import NotFound from 'src/components/NotFound/NotFound.index'
@@ -17,11 +17,9 @@ const getRoutes = (requireAuth: $requireAuth) => {
 
   return (
     <Route path="/" component={App}>
-      {/*
-        <IndexRoute component={Home} />
-      */}
 
       {/* Examples */}
+      <IndexRedirect to="/home" />
       <Route path="home" component={Home} />
       <Route path="profile" onEnter={requireAuth} component={Profile} />
       <Route path="todos" onEnter={requireAuth} component={Todos} />

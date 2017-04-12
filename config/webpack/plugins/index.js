@@ -6,6 +6,7 @@ const { NODE_ENV } = process.env
 
 const Path = require('path')
 const Webpack = require('webpack')
+const HappyPack = require('happypack')
 const AssetsPlugin = require('assets-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
@@ -52,6 +53,12 @@ const client = [
 
 
 const devClient = client.concat([
+  new HappyPack({
+    id: 'js',
+    loaders: [
+      `babel-loader?cacheDirectory=${String(NODE_ENV === 'development')}`,
+    ],
+  }),
 ])
 
 
@@ -85,6 +92,12 @@ const server = [
     banner: 'require("source-map-support").install();',
     raw: true,
     entryOnly: false,
+  }),
+  new HappyPack({
+    id: 'js',
+    loaders: [
+      `babel-loader?cacheDirectory=${String(NODE_ENV === 'development')}`,
+    ],
   }),
 
 ]

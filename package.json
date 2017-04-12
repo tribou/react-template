@@ -133,6 +133,7 @@
     "start": "node build/server.js",
     "start-prod": "time npm run --silent build && date && cross-env NODE_ENV=production npm start",
     "build": "rimraf build && cross-env NODE_ENV=production webpack",
+    "build-debug": "rimraf build && cross-env DEBUG=my-app:* NODE_ENV=development webpack --profile",
     "deploy-prod": "heroku pipelines:promote -a my-app-staging",
     "lsp": "heroku releases -a my-app",
     "lss": "heroku releases -a my-app-staging",
