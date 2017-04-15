@@ -20,7 +20,7 @@ exports[`<Home> renders the Home content 1`] = `
     to="/profile"
   >
     <div
-      className="logo"
+      className="logo link"
     />
   </Link>
   <Link
@@ -29,7 +29,7 @@ exports[`<Home> renders the Home content 1`] = `
     to="/todos"
   >
     <div
-      className="facebookIcon"
+      className="facebookIcon link"
     />
   </Link>
 </div>
@@ -55,7 +55,7 @@ exports[`<Home> renders the logout button if authenticated 1`] = `
     to="/profile"
   >
     <div
-      className="logo"
+      className="logo link"
     />
   </Link>
   <Link
@@ -64,7 +64,7 @@ exports[`<Home> renders the logout button if authenticated 1`] = `
     to="/todos"
   >
     <div
-      className="facebookIcon"
+      className="facebookIcon link"
     />
   </Link>
   <button

@@ -4,26 +4,17 @@ exports[`<Login> renders the Login content 1`] = `
 <div
   className="login"
 >
+  <HelmetWrapper
+    encodeSpecialCharacters={true}
+    title="Login"
+  />
   <div
     className="header"
   >
-    <Link
-      className="icnCloseOffLink"
-      onlyActiveOnIndex={false}
-      style={Object {}}
-      to={
-        Object {
-          "pathname": "/",
-          "state": Object {
-            "modal": "",
-          },
-        }
-      }
-    >
-      <button
-        className="icnCloseOff"
-      />
-    </Link>
+    <button
+      className="icnCloseOff"
+      onClick={[Function]}
+    />
     <div
       className="title"
     >
@@ -64,6 +55,7 @@ exports[`<Login> renders the Login content 1`] = `
       className="error"
     />
     <button
+      className="submit"
       disabled={false}
       type="submit"
     >
@@ -77,26 +69,17 @@ exports[`<Login> renders when form is submitting 1`] = `
 <div
   className="login"
 >
+  <HelmetWrapper
+    encodeSpecialCharacters={true}
+    title="Login"
+  />
   <div
     className="header"
   >
-    <Link
-      className="icnCloseOffLink"
-      onlyActiveOnIndex={false}
-      style={Object {}}
-      to={
-        Object {
-          "pathname": "/",
-          "state": Object {
-            "modal": "",
-          },
-        }
-      }
-    >
-      <button
-        className="icnCloseOff"
-      />
-    </Link>
+    <button
+      className="icnCloseOff"
+      onClick={[Function]}
+    />
     <div
       className="title"
     >
@@ -137,6 +120,7 @@ exports[`<Login> renders when form is submitting 1`] = `
       className="error"
     />
     <button
+      className="submit"
       disabled={true}
       type="submit"
     >

@@ -9,7 +9,7 @@ exports[`<Todos> renders the Todos content 1`] = `
     title="Todos"
   />
   <div
-    className="modal"
+    className="content"
   >
     Todos page
     <ul />

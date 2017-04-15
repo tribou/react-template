@@ -5,7 +5,7 @@ exports[`<Profile> displays profile info 1`] = `
   class="profile"
 >
   <div
-    class="modal"
+    class="content"
   >
     Profile page
     <ul>

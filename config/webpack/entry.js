@@ -15,6 +15,7 @@ const client = {
   vendor: [
     'axios',
     'babel-polyfill',
+    'classnames',
     'cookies-js',
     'debug',
     'immutable',
