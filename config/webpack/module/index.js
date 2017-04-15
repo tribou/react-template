@@ -15,10 +15,7 @@ const getRules = (platform) => {
     {
       test: /\.js$/,
       exclude: /node_modules/,
-      loader: 'babel-loader',
-      query: {
-        cacheDirectory: NODE_ENV === 'development',
-      },
+      loader: `babel-loader?cacheDirectory=${String(NODE_ENV === 'development')}`,
     },
     {
       test: /\.css$/,

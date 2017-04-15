@@ -5,6 +5,7 @@
 
 .*/node_modules/fbjs/lib/.*
 .*/node_modules/react-side-effect/node_modules/.*
+.*/node_modules/redux-offline/src/defaults/persist.native.js
 
 
 [include]
@@ -32,4 +33,4 @@ module.name_mapper='^src\/' -> '<PROJECT_ROOT>/src/'
 module.name_mapper='^static\/' -> '<PROJECT_ROOT>/static/'
 
 [version]
-^0.42.0
+^0.44.0
