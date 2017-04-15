@@ -2,6 +2,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import { Link } from 'react-router'
+import Cn from 'classnames'
 
 import img from 'src/styles/images.css'
 import sprites from 'src/styles/sprites.css'
@@ -29,10 +30,10 @@ const Home = (props: Props): React$Element<*> => {
         <li>This is a test item</li>
       </ul>
       <Link to="/profile">
-        <div className={img.logo} />
+        <div className={Cn(img.logo, css.link)} />
       </Link>
       <Link to="/todos">
-        <div className={sprites.facebookIcon} />
+        <div className={Cn(sprites.facebookIcon, css.link)} />
       </Link>
       {logoutButton}
     </div>

@@ -1,14 +1,8 @@
-/* include normalize before everything
-  Use tachyons for now
-  // @import 'normalize.css/normalize.css';
- */
-
-
 /* GLOBAL STYLES */
 html {
 
   /*
-  Change font-size dynamically across screen widths? Maybe XS only...
+  Change font-size dynamically across screen widths? Maybe XS/4K only...
   @media (max-width: $screenMdMax) {
     font-size: 18px;
   }
@@ -23,12 +17,10 @@ html {
   box-sizing: border-box;
 
   /*
-    NOTICE!
+    CAUTION!
     This is the base pixel size for all 'rem' measurements.
-    If you update this here, also update in the font mixins:
-      src/styles/mixins/font.css
   */
-  font-size: 16px;
+  font-size: $(baseRemSize)px;
 }
 
 *, *:before, *:after {
@@ -46,10 +38,10 @@ button {
   cursor: pointer;
   /* Apply design guideline */
   background-color: transparent;
-  border: solid 1px $colorTheme;
-  border-radius: 3px;
+  border: solid 2px $colorTheme;
+  border-radius: $borderRadius;
   color: $colorTheme;
-  padding: 1rem;
+  padding: $s3;
 }
 
 body {
@@ -83,11 +75,11 @@ h5 {
 }
 
 p {
-  font-size: 1.25em;
+  @mixin font-size 16;
   line-height: 1.5em;
 
   @media (max-width: $screenSmMax) {
-    font-size: 1em;
+    @mixin font-size 14;
   }
 }
 
@@ -131,6 +123,10 @@ a {
 }
 
 input {
+  border: none;
+  padding: $s2;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+  transition: box-shadow 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
 
   &::placeholder {
     /* IE equivalent */

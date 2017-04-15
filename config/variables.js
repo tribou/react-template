@@ -18,6 +18,10 @@ const variables = {
   appAuthCookieKey: 'my-app-v1',
   appAuthExpirySeconds: 1209600, // 14 days in seconds
 
+
+  baseRemSize: '16', // CAUTION: Think twice before changing!
+  borderRadius: '3px',
+
   colorDark: '#4a4a4a', // darkgrey
   colorDarkFaded: 'rgba(74, 74, 74, 0.5)',
   colorTheme: 'rebeccapurple', // purple
@@ -33,8 +37,8 @@ const variables = {
   colorWhiteFaded: 'rgba(255, 255, 255, 0.5)',
 
 
-  fontFamily: 'MyApp, Verdana, sans-serif',
-  fontWeight: 400,
+  fontFamily: 'MyApp, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif',
+  fontWeight: 300,
 
   navLogoTopPadding: '6rem',
   navLogoTopPaddingSm: '4rem',
@@ -51,6 +55,15 @@ const variables = {
 
   zModal: 50,
   zModalBackdrop: 40,
+
+  // Standard sizes based on REMs
+  s1: '.25rem',
+  s2: '.5rem',
+  s3: '1rem',
+  s4: '2rem',
+  s5: '4rem',
+  s6: '8rem',
+  s7: '16rem',
 
 }
 

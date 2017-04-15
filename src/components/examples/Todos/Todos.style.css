@@ -5,14 +5,14 @@
   align-items: center;
   padding-top: 5rem;
   color: green;
+}
 
-  .modal {
-    display: flex;
-    flex-direction: column;
-    max-width: 300px;
+.content {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
 
-    button {
-      margin-top: 1rem;
-    }
+  button {
+    margin-top: 1rem;
   }
 }

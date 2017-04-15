@@ -36,7 +36,7 @@ const client = {
     'transit-immutable-js',
   ],
   bundle: [
-    'normalize.css/normalize.css',
+    'sanitize.css/sanitize.css',
     './src/styles/fonts.css',
     './src/styles/app.css',
     './src/browser.index.js',

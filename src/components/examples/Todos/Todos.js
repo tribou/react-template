@@ -33,7 +33,7 @@ class Todos extends PureComponent {
     return (
       <div className={css.todos}>
         <Helmet title="Todos" />
-        <div className={css.modal}>
+        <div className={css.content}>
           Todos page
           <ul>
             {todoList}

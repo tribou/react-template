@@ -7,3 +7,7 @@
   text-align: center;
   color: $colorTheme;
 }
+
+.link {
+  margin-bottom: $s1;
+}

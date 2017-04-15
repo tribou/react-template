@@ -28,7 +28,7 @@ class Profile extends PureComponent {
     return (
       <div className={css.profile}>
         <Helmet title="Profile" />
-        <div className={css.modal}>
+        <div className={css.content}>
           Profile page
           <ul>
             <li>{me.get('firstName')}</li>

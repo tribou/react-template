@@ -1,7 +1,9 @@
 // @flow
 import React from 'react'
+import Helmet from 'react-helmet'
 import { Link } from 'react-router'
 import { Field } from 'redux-form'
+import history from 'src/helpers/history'
 import css from './Login.style.css'
 
 import type { ReduxProps } from './Login.index'
@@ -14,29 +16,29 @@ type Props = ReduxProps & {
   asyncValidating: boolean,
 }
 
+const handleClose = () => {
+
+  history.goBack()
+
+}
+
 const Login = (props: Props): React$Element<any> => {
 
   const {
     handleSubmit,
-    location,
     submitting,
     asyncValidating,
     error,
   } = props
-  const { pathname } = location
 
   return (
     <div className={css.login}>
+      <Helmet title="Login" />
       <div className={css.header}>
-        <Link
-          className={css.icnCloseOffLink}
-          to={{
-            pathname,
-            state: { modal: '' },
-          }}
-        >
-          <button className={css.icnCloseOff} />
-        </Link>
+        <button
+          onClick={handleClose}
+          className={css.icnCloseOff}
+        />
         <div className={css.title}>LOGIN</div>
       </div>
       <form
@@ -67,6 +69,7 @@ const Login = (props: Props): React$Element<any> => {
           {error}
         </div>
         <button
+          className={css.submit}
           type="submit"
           disabled={submitting || asyncValidating}
         >

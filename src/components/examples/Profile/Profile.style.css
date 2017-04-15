@@ -6,18 +6,18 @@
   color: green;
   padding-top: 5rem;
   text-align: center;
+}
 
-  .modal {
-    display: flex;
-    flex-direction: column;
-    max-width: 300px;
+.content {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
 
-    button {
-      margin: 1rem;
-    }
+  button {
+    margin: 1rem;
   }
+}
 
-  .error {
-    color: red;
-  }
+.error {
+  color: red;
 }

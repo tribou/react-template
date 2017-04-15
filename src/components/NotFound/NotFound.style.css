@@ -12,7 +12,7 @@
   h2 {
 
     @media (max-width: $screenSmMax) {
-      font-size: 2rem;
+      @mixin font-size 22;
     }
   }
 }

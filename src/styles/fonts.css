@@ -1,4 +1,5 @@
 @font-face {
   font-family: MyApp;
-  src: local('Verdana');
+  src: local('HelveticaNeue-Light');
+  font-weight: 300;
 }
