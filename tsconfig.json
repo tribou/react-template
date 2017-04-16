@@ -23,5 +23,9 @@
     "./config/**/*",
     "./server/**/*",
     "./src/**/*"
-  ]
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": true,
+    "useCache": true
+  }
 }

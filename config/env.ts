@@ -1,6 +1,6 @@
 // @flow
 
-export type EnvState = {
+export interface EnvState {
 
   NODE_ENV: string,
 
