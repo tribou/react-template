@@ -5,8 +5,6 @@ import { createEpicMiddleware } from 'redux-observable'
 import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
 import { routerMiddleware } from 'react-router-redux'
-import { offline } from 'redux-offline'
-import offlineConfig from 'redux-offline/lib/defaults'
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction'
 import rootEpic from './epics'
 import rootReducer from './modules'
@@ -38,8 +36,7 @@ function configureStore (
   // https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
   const enhancer = composeWithDevTools(
-    applyMiddleware(...middleware),
-    offline(offlineConfig)
+    applyMiddleware(...middleware)
   )
 
   const store = createStore(rootReducer, preloadedState, enhancer)

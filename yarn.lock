@@ -4256,7 +4256,7 @@ json-stable-stringify@^1.0.0, json-stable-stringify@^1.0.1:
   dependencies:
     jsonify "~0.0.0"
 
-json-stringify-safe@5.0.x, json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
+json-stringify-safe@5.0.x, json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb
 
@@ -4414,7 +4414,7 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
-lodash-es@^4.17.3, lodash-es@^4.17.4, lodash-es@^4.2.0, lodash-es@^4.2.1:
+lodash-es@^4.17.3, lodash-es@^4.2.0, lodash-es@^4.2.1:
   version "4.17.4"
   resolved lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7
 
@@ -4654,7 +4654,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773
 
-lodash@4.x.x, lodash@^4.0.0, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.5.1:
+lodash@4.x.x, lodash@^4.0.0, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.5.1:
   version "4.17.4"
   resolved lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae
 
@@ -6280,7 +6280,7 @@ reduce-function-call@^1.0.1:
 
 redux-devtools-extension@^2.13.0:
   version "2.13.0"
-  resolved "redux-devtools-extension-2.13.0.tgz#c8300d72630c00999302526204d47c360cc0637f"
+  resolved redux-devtools-extension-2.13.0.tgz#c8300d72630c00999302526204d47c360cc0637f
 
 redux-form@^6.6.0:
   version "6.6.3"
@@ -6304,20 +6304,6 @@ redux-logger@^3.0.0:
 redux-observable@^0.14.1:
   version "0.14.1"
   resolved redux-observable-0.14.1.tgz#9f3d870c69388fdc427ded6770a3e326f3b69693
-
-redux-offline@^2.0.0:
-  version "2.0.0"
-  resolved redux-offline-2.0.0.tgz#5896e95477417c8173e083f4f2d977466ec91808
-  dependencies:
-    redux-persist "^4.5.0"
-
-redux-persist@^4.5.0:
-  version "4.6.0"
-  resolved redux-persist-4.6.0.tgz#3994793d5f2f38bf02591c9e693e16bf8eae2728
-  dependencies:
-    json-stringify-safe "^5.0.1"
-    lodash "^4.17.4"
-    lodash-es "^4.17.4"
 
 redux-promise-middleware@^4.2.0:
   version "4.2.0"

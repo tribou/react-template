@@ -30,8 +30,6 @@ const client = {
     'redux-devtools-extension',
     'redux-form',
     'redux-observable',
-    'redux-offline',
-    'redux-offline/lib/defaults',
     'redux-promise-middleware',
     'redux-thunk',
     'reselect',

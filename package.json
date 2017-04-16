@@ -99,7 +99,6 @@
     "redux-form": "^6.6.0",
     "redux-logger": "^3.0.0",
     "redux-observable": "^0.14.1",
-    "redux-offline": "^2.0.0",
     "redux-promise-middleware": "^4.2.0",
     "redux-thunk": "^2.1.0",
     "reselect": "^3.0.0",
