@@ -34,6 +34,12 @@ const routedHtml = (request: Object, reply: Function) => {
 
     module.hot.accept('src/routes', () => {
     })
+    module.hot.accept('src/helpers/auth', () => {
+    })
+    module.hot.accept('src/redux/store', () => {
+    })
+    module.hot.accept('src/redux/modules/auth', () => {
+    })
 
   }
 

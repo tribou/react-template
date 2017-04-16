@@ -6278,6 +6278,10 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
+redux-devtools-extension@^2.13.0:
+  version "2.13.0"
+  resolved "redux-devtools-extension-2.13.0.tgz#c8300d72630c00999302526204d47c360cc0637f"
+
 redux-form@^6.6.0:
   version "6.6.3"
   resolved redux-form-6.6.3.tgz#62362654f2214c83a8f9fcb8313702bb46f92205

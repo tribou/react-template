@@ -1,10 +1,13 @@
 // @flow
 /* eslint-disable arrow-body-style */
-import { applyMiddleware, createStore, compose } from 'redux'
+import { applyMiddleware, createStore } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
 import { routerMiddleware } from 'react-router-redux'
+import { offline } from 'redux-offline'
+import offlineConfig from 'redux-offline/lib/defaults'
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction'
 import rootEpic from './epics'
 import rootReducer from './modules'
 
@@ -32,16 +35,12 @@ function configureStore (
   }
 
   // https://github.com/zalmoxisus/redux-devtools-extension
-  // Only run in the browser
-  const isBrowser = typeof window === 'object'
-    && typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ !== 'undefined'
+  // https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
-  // Don't run in production
-  const composeEnhancers = (process.env.NODE_ENV !== 'production' && isBrowser)
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : compose
-
-  const enhancer = composeEnhancers(applyMiddleware(...middleware))
+  const enhancer = composeWithDevTools(
+    applyMiddleware(...middleware),
+    offline(offlineConfig)
+  )
 
   const store = createStore(rootReducer, preloadedState, enhancer)
 
