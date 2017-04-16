@@ -13,7 +13,12 @@ const getRules = (platform) => {
 
   return [
     {
-      test: /\.js$/,
+      test: /\.tsx?$/,
+      exclude: /node_modules/,
+      loader: 'awesome-typescript-loader',
+    },
+    {
+      test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: `babel-loader?cacheDirectory=${String(NODE_ENV === 'development')}`,
     },

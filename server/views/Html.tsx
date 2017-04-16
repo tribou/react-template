@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import Transit from 'transit-immutable-js'
 
 
-type Props = {
+interface Props {
   assets: BuildAssets,
   css: string,
   children?: any,
@@ -14,7 +14,7 @@ type Props = {
 }
 
 
-class Html extends Component {
+class Html extends Component<Props, any> {
 
   static generatePreloadScript (preloadedState: Object): string {
 

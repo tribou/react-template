@@ -3,6 +3,8 @@ extends:
   - tribou
   - plugin:flowtype/recommended
 
+parser: typescript-eslint-parser
+
 rules:
   flowtype/require-valid-file-annotation:
     - error

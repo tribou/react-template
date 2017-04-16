@@ -12,7 +12,9 @@ const client = {
   ],
   extensions: [
     '.js',
+    '.jsx',
     '.json',
+    '.ts',
     '.web.js',
   ],
 }

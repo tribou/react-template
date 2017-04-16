@@ -13,6 +13,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
 const offlinePluginConfig = require('../../offline')
+const { CheckerPlugin } = require('awesome-typescript-loader')
 
 
 const client = [
@@ -52,6 +53,7 @@ const client = [
 
 
 const devClient = client.concat([
+  new CheckerPlugin(),
 ])
 
 
@@ -93,6 +95,7 @@ const devServer = server.concat([
   new Webpack.HotModuleReplacementPlugin(),
   new Webpack.NoEmitOnErrorsPlugin(),
   new Webpack.NamedModulesPlugin(),
+  new CheckerPlugin(),
 ])
 
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import App from './App'
 
 
-type StateProps = {
+interface StateProps {
   ROOT_URL: string,
 }
 

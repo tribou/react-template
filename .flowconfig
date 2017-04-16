@@ -25,6 +25,8 @@ module.use_strict=true
 
 module.file_ext=.js
 module.file_ext=.json
+module.file_ext=.ts
+module.file_ext=.tsx
 module.file_ext=.web.js
 
 module.name_mapper='^config\/' -> '<PROJECT_ROOT>/config/'
