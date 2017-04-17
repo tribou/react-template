@@ -1,4 +1,3 @@
-// @flow
 /* eslint-disable react/no-danger */
 /* eslint-disable jsx-a11y/html-has-lang */
 import React, { Component } from 'react'
