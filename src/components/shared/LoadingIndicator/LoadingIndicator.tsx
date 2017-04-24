@@ -2,13 +2,10 @@
 import React from 'react'
 import css from './LoadingIndicator.style.css'
 
-import type { ReduxProps } from './LoadingIndicator.index'
+import { IReduxProps } from './LoadingIndicator.index'
 
 
-type Props = ReduxProps & {
-}
-
-const LoadingIndicator = (props: Props): ?React$Element<*> => {
+const LoadingIndicator = (props: IReduxProps) => {
 
   const { weAreLoading } = props
 

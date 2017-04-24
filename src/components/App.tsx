@@ -4,16 +4,15 @@ import Helmet from 'react-helmet'
 import Modal from 'src/components/Modal/Modal.index'
 import LoadingIndicator from 'src/components/shared/LoadingIndicator/LoadingIndicator.index'
 import vars from 'config/variables'
-import type { ReduxProps } from './App.index'
+import { ReduxProps } from './App.index'
 
 
-type Props = ReduxProps & {
-  children: React$Element<*>,
-  location: Object,
-  params: Object,
+interface Props extends ReduxProps {
+  location: Object;
+  params: Object;
 }
 
-const App = (props: Props): React$Element<*> => {
+const App = (props: Props) => {
 
   const {
     appDescription,

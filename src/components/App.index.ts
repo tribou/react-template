@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import App from './App'
 
 
-interface StateProps {
-  ROOT_URL: string,
+export interface ReduxProps {
+  ROOT_URL: string;
 }
 
-function mapStateToProps (state: GlobalReducerState): StateProps {
+function mapStateToProps (state: GlobalReducerState): ReduxProps {
 
   const { ROOT_URL } = state.env
 
@@ -19,4 +19,3 @@ function mapStateToProps (state: GlobalReducerState): StateProps {
 
 
 export default connect(mapStateToProps)(App)
-export type ReduxProps = StateProps

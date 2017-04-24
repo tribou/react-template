@@ -6,7 +6,7 @@
     "allowSyntheticDefaultImports": true,
     "declaration": false,
     "noResolve": false,
-    "jsx": "react",
+    "jsx": "react-native",
     "allowJs": true,
     "module": "commonjs",
     "target": "es5",
@@ -14,20 +14,16 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "outDir": "./dist/",
     "types": [
       "node"
     ],
-    "paths": {
-      "*": [
-        "*"
-      ]
-    }
+    "baseUrl": "."
   },
   "include": [
     "./config/**/*",
     "./server/**/*",
-    "./src/**/*"
+    "./src/**/*",
+    "./types/**/*"
   ],
   "awesomeTypescriptLoaderOptions": {
     "useBabel": true,

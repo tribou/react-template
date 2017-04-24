@@ -10,10 +10,10 @@ import Home from 'src/components/examples/Home/Home.index'
 import Profile from 'src/components/examples/Profile/Profile.index'
 import Todos from 'src/components/examples/Todos/Todos.index'
 
-import type { requireAuth as $requireAuth } from 'src/helpers/auth'
+import { requireAuth } from 'src/helpers/auth'
 
 
-const getRoutes = (requireAuth: $requireAuth) => {
+const getRoutes = (requireAuth: requireAuth) => {
 
   return (
     <Route path="/" component={App}>

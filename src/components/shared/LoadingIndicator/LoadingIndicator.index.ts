@@ -4,11 +4,11 @@ import areWeLoading from 'src/selectors/areWeLoading'
 import LoadingIndicator from './LoadingIndicator'
 
 
-type StateProps = {
-  weAreLoading: boolean,
+export interface IReduxProps {
+  weAreLoading: boolean;
 }
 
-function mapStateToProps (state: GlobalReducerState): StateProps {
+function mapStateToProps (state: IReducerState): IReduxProps {
 
   return {
     weAreLoading: areWeLoading(state),
@@ -18,4 +18,3 @@ function mapStateToProps (state: GlobalReducerState): StateProps {
 
 
 export default connect(mapStateToProps)(LoadingIndicator)
-export type ReduxProps = StateProps
