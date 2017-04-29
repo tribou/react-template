@@ -6,6 +6,7 @@ const Bs = require('browser-sync').create('server')
 const ChildProcess = require('child_process')
 const Path = require('path')
 const Webpack = require('webpack')
+const ProgressPlugin = require('webpack/lib/ProgressPlugin')
 const config = require('../config/webpack')
 
 const Spawn = ChildProcess.spawn
@@ -15,6 +16,12 @@ let server // spawn a server process
 // let outputProcess // capture webpack output process
 
 log('Starting Webpack compilation')
+
+compiler.apply(new ProgressPlugin((percentage, msg) => {
+
+  console.log(`${(percentage * 100)}%`, msg)
+
+}))
 
 compiler.plugin('done', (stats) => {
 
