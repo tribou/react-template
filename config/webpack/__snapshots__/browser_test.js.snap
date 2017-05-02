@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`webpack config matches snapshot 1`] = `
+Object {
+  "entry": Object {
+    "bundle": Array [
+      "sanitize.css/sanitize.css",
+      "./src/styles/fonts.css",
+      "./src/styles/app.css",
+      "./src/browser.index.js",
+    ],
+  },
+  "module": Object {
+    "loaders": Array [],
+    "rules": Array [
+      Object {
+        "exclude": /node_modules/,
+        "test": /\\\\\\.\\(js\\|jsx\\)\\$/,
+        "use": "babel-loader?cacheDirectory=false",
+      },
+      Object {
+        "exclude": /node_modules/,
+        "test": /\\\\\\.css\\$/,
+        "use": Object {
+          "extract": Object {
+            "use": Array [
+              Object {
+                "loader": "css-loader",
+                "options": Object {
+                  "importLoaders": 1,
+                  "localIdentName": "[path][name]__[local]__[hash:base64:3]",
+                  "minimize": false,
+                  "modules": true,
+                },
+              },
+              Object {
+                "loader": "postcss-loader",
+                "options": Object {
+                  "plugins": [Function],
+                },
+              },
+            ],
+          },
+        },
+      },
+      Object {
+        "exclude": undefined,
+        "test": /node_modules\\.\\*\\\\\\.css\\$/,
+        "use": Object {
+          "extract": Object {
+            "use": Array [
+              Object {
+                "loader": "css-loader",
+                "options": Object {
+                  "importLoaders": 1,
+                  "localIdentName": "[path][name]__[local]__[hash:base64:3]",
+                  "minimize": false,
+                  "modules": false,
+                },
+              },
+              Object {
+                "loader": "postcss-loader",
+                "options": Object {
+                  "plugins": [Function],
+                },
+              },
+            ],
+          },
+        },
+      },
+      Object {
+        "test": /\\\\\\.\\(eot\\|otf\\)\\$/,
+        "use": "file-loader",
+      },
+      Object {
+        "test": /\\\\\\.\\(mp4\\|webm\\)\\$/,
+        "use": "file-loader",
+      },
+      Object {
+        "test": /\\\\\\.\\(gif\\|ico\\|jpg\\|jpeg\\|png\\|svg\\|webp\\)\\$/,
+        "use": "url-loader?limit=10000",
+      },
+      Object {
+        "test": /\\\\\\.\\(woff\\|woff2\\)\\$/,
+        "use": "url-loader?limit=10000&mimetype=application/font-woff",
+      },
+      Object {
+        "test": /\\\\\\.\\(ttf\\)\\$/,
+        "use": "url-loader?limit=10000&mimetype=application/octet-stream",
+      },
+    ],
+  },
+  "output": Object {
+    "chunkFilename": "[name]-[chunkhash].js",
+    "filename": "[name]-[chunkhash].js",
+    "path": "<PROJECT_ROOT>/build/public",
+    "publicPath": "/static/",
+  },
+  "plugins": Array [
+    CommonsChunkPlugin {
+      "async": undefined,
+      "children": undefined,
+      "chunkNames": Array [
+        "vendor",
+      ],
+      "filenameTemplate": undefined,
+      "ident": "<PROJECT_ROOT>/node_modules/webpack/lib/optimize/CommonsChunkPlugin.js0",
+      "minChunks": [Function],
+      "minSize": undefined,
+      "selectedChunks": undefined,
+    },
+    ExtractTextPlugin {
+      "apply": [Function],
+      "applyAdditionalInformation": [Function],
+      "extract": [Function],
+      "loader": [Function],
+      "mergeNonInitialChunks": [Function],
+      "renderExtractedChunk": [Function],
+    },
+    DefinePlugin {
+      "definitions": Object {
+        "process.env": Object {
+          "NODE_ENV": "\\"test\\"",
+        },
+      },
+    },
+    Object {
+      "apply": [Function],
+    },
+    AssetsWebpackPlugin {
+      "options": Object {
+        "filename": "assets.json",
+        "fullPath": true,
+        "path": "<PROJECT_ROOT>/build",
+        "prettyPrint": false,
+        "processOutput": [Function],
+        "update": false,
+      },
+      "writer": [Function],
+    },
+    FaviconsWebpackPlugin {
+      "options": Object {
+        "background": "#fff",
+        "emitStats": false,
+        "icons": Object {
+          "android": true,
+          "appleIcon": true,
+          "appleStartup": true,
+          "coast": false,
+          "favicons": true,
+          "firefox": true,
+          "opengraph": false,
+          "twitter": false,
+          "windows": false,
+          "yandex": false,
+        },
+        "inject": true,
+        "logo": "static/images/logo@2x.png",
+        "persistentCache": true,
+        "prefix": "icons-[hash]/",
+        "statsFilename": "iconstats-[hash].json",
+      },
+    },
+  ],
+  "resolve": Object {
+    "alias": Object {
+      "config": "<PROJECT_ROOT>/config",
+      "server": "<PROJECT_ROOT>/server",
+      "src": "<PROJECT_ROOT>/src",
+      "static": "<PROJECT_ROOT>/static",
+    },
+    "extensions": Array [
+      ".js",
+      ".json",
+      ".web.js",
+    ],
+  },
+  "target": "web",
+}
+`;

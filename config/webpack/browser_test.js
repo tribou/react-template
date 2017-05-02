@@ -1,6 +1,6 @@
 // @flow
 
-const config = require('../../webpack.config')
+const config = require('./browser')
 
 it('webpack config matches snapshot', () => {
 

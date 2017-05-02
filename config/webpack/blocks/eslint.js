@@ -10,12 +10,16 @@ function eslint () {
         rules: [
           {
             test: context.fileType('application/javascript'),
-            exclude: /node_modules/,
-            loader: 'eslint-loader',
             enforce: 'pre',
-            options: {
-              configFile: '.eslintrc.yml',
-            },
+            use: [
+              {
+                loader: 'eslint-loader',
+                options: {
+                  configFile: '.eslintrc.yml',
+                },
+              },
+            ],
+            exclude: /node_modules/,
           },
         ],
       },

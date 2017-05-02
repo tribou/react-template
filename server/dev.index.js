@@ -7,7 +7,7 @@ const ChildProcess = require('child_process')
 const Path = require('path')
 const Webpack = require('webpack')
 const ProgressPlugin = require('webpack/lib/ProgressPlugin')
-const config = require('../config/webpack')
+const config = require('../webpack.config')
 
 const Spawn = ChildProcess.spawn
 const compiler = Webpack(config)
@@ -23,6 +23,7 @@ compiler.apply(new ProgressPlugin((percentage, msg) => {
   const parsed = parseInt((percentage * 100), 10)
   if ((parsed - lastPercentage) >= 5) {
 
+    // eslint-disable-next-line
     console.log(`${parsed}% ${msg}`)
     lastPercentage = parsed
 
@@ -32,6 +33,7 @@ compiler.apply(new ProgressPlugin((percentage, msg) => {
 
 compiler.plugin('done', (stats) => {
 
+  // eslint-disable-next-line
   console.log('\n')
   if (stats.hasErrors()) return
 

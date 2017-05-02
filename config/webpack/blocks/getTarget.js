@@ -1,13 +1,26 @@
 // @flow
 
 
-function getTarget (target/* : string */) {
+function getTarget (target/* : ?string */) {
 
-  return (context/* : Object */) => {
+  return ({ platform }
+    /* : { platform: Platform } */
+  ) => {
 
-    return {
-      target,
+    if (target) return { target }
+
+    if (platform === 'browser') {
+
+      return { target: 'web' }
+
     }
+    else if (platform === 'server') {
+
+      return { target: 'node' }
+
+    }
+
+    throw new Error('Unsupported platform and no target passed')
 
   }
 

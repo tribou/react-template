@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`webpack server config matches snapshot 1`] = `
+Object {
+  "entry": Object {
+    "server.js": Array [
+      "./server/index.js",
+    ],
+    "views/Html.js": "./server/views/Html.js",
+  },
+  "externals": Array [
+    [Function],
+  ],
+  "module": Object {
+    "loaders": Array [],
+    "rules": Array [
+      Object {
+        "exclude": /node_modules/,
+        "test": /\\\\\\.\\(js\\|jsx\\)\\$/,
+        "use": "babel-loader?cacheDirectory=false",
+      },
+      Object {
+        "exclude": /node_modules/,
+        "test": /\\\\\\.css\\$/,
+        "use": Array [
+          Object {
+            "loader": "css-loader/locals",
+            "options": Object {
+              "importLoaders": 0,
+              "localIdentName": "[path][name]__[local]__[hash:base64:3]",
+              "minimize": false,
+              "modules": true,
+            },
+          },
+          Object {
+            "loader": "postcss-loader",
+            "options": Object {
+              "plugins": [Function],
+            },
+          },
+        ],
+      },
+      Object {
+        "exclude": undefined,
+        "test": /node_modules\\.\\*\\\\\\.css\\$/,
+        "use": Array [
+          Object {
+            "loader": "css-loader/locals",
+            "options": Object {
+              "importLoaders": 0,
+              "localIdentName": "[path][name]__[local]__[hash:base64:3]",
+              "minimize": false,
+              "modules": false,
+            },
+          },
+          Object {
+            "loader": "postcss-loader",
+            "options": Object {
+              "plugins": [Function],
+            },
+          },
+        ],
+      },
+      Object {
+        "test": /\\\\\\.\\(eot\\|otf\\)\\$/,
+        "use": "file-loader",
+      },
+      Object {
+        "test": /\\\\\\.\\(mp4\\|webm\\)\\$/,
+        "use": "file-loader",
+      },
+      Object {
+        "test": /\\\\\\.\\(gif\\|ico\\|jpg\\|jpeg\\|png\\|svg\\|webp\\)\\$/,
+        "use": "url-loader?limit=10000",
+      },
+      Object {
+        "test": /\\\\\\.\\(woff\\|woff2\\)\\$/,
+        "use": "url-loader?limit=10000&mimetype=application/font-woff",
+      },
+      Object {
+        "test": /\\\\\\.\\(ttf\\)\\$/,
+        "use": "url-loader?limit=10000&mimetype=application/octet-stream",
+      },
+    ],
+  },
+  "node": Object {
+    "__dirname": false,
+    "__filename": false,
+  },
+  "output": Object {
+    "filename": "[name]",
+    "libraryTarget": "commonjs2",
+    "path": "<PROJECT_ROOT>/build",
+  },
+  "plugins": Array [
+    BannerPlugin {
+      "banner": "require(\\"source-map-support\\").install();",
+      "options": Object {
+        "banner": "require(\\"source-map-support\\").install();",
+        "entryOnly": false,
+        "raw": true,
+      },
+    },
+  ],
+  "resolve": Object {
+    "alias": Object {
+      "config": "<PROJECT_ROOT>/config",
+      "server": "<PROJECT_ROOT>/server",
+      "src": "<PROJECT_ROOT>/src",
+      "static": "<PROJECT_ROOT>/static",
+    },
+    "extensions": Array [
+      ".js",
+      ".json",
+      ".web.js",
+    ],
+  },
+  "target": "node",
+}
+`;
