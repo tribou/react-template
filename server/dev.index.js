@@ -17,17 +17,25 @@ let server // spawn a server process
 
 log('Starting Webpack compilation')
 
+let lastPercentage = 0
 compiler.apply(new ProgressPlugin((percentage, msg) => {
 
-  console.log(`${(percentage * 100)}%`, msg)
+  const parsed = parseInt((percentage * 100), 10)
+  if ((parsed - lastPercentage) >= 5) {
+
+    console.log(`${parsed}% ${msg}`)
+    lastPercentage = parsed
+
+  }
 
 }))
 
 compiler.plugin('done', (stats) => {
 
+  console.log('\n')
   if (stats.hasErrors()) return
 
-  // Not working with webpack/hot/signal :(
+  // Not working with webpack/hot/signal :( ...probably `concurrently`
   // if (!outputProcess) {
 
   //   const outputDirectory = stats.stats[0].compilation.compiler.outputPath
