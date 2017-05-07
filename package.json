@@ -134,8 +134,8 @@
   "scripts": {
     "heroku-postbuild": "npm run build",
     "init": "heroku git:remote -a my-app -r prod && heroku git:remote -a my-app-staging -r staging",
-    "optimize": "imageOptim -d static/images",
-    "preversion": "IMAGE_FILES=$(git diff --name-only $(git describe --abbrev=0 --tags)..HEAD static/images/); if [ $(echo \"$IMAGE_FILES\" | grep . | wc -l) -ne 0 ]; then echo \"$IMAGE_FILES\" | imageOptim; git add --all static/images; fi",
+    "notify-optimize": "notify --icon 'https://imageoptim.com/icon.png' -t 'ImageOptim' -m 'Image optimization complete'",
+    "preversion": "IMAGE_FILES=$(git diff --name-only $(git describe --abbrev=0 --tags)..HEAD static/images/); if [ $(echo \"$IMAGE_FILES\" | grep . | wc -l) -ne 0 ]; then echo \"$IMAGE_FILES\" | imageOptim; git add --all static/images; npm run --silent notify-optimize; fi",
     "upgrade-deps": "npm run yarn-bin -- cache clean && rm -rf node_modules .npm-packages-offline-cache flow-typed && rm yarn.lock && npm run yarn && flow-typed install && cat yarn.lock | grep registry",
     "start": "node build/server.js",
     "start-prod": "time npm run --silent build && date && cross-env NODE_ENV=production npm start",

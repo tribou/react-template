@@ -1,12 +1,12 @@
-/* eslint-disable flowtype/require-valid-file-annotation */
-/* eslint-disable flowtype/require-parameter-type */
-const log = require('debug')('my-app:server:dev')
-
+// @flow
 const Bs = require('browser-sync').create('server')
 const ChildProcess = require('child_process')
 const Path = require('path')
 const Webpack = require('webpack')
 const ProgressPlugin = require('webpack/lib/ProgressPlugin')
+const Notifier = require('node-notifier')
+
+const log = require('debug')('my-app:server:dev')
 const config = require('../webpack.config')
 
 const Spawn = ChildProcess.spawn
@@ -52,7 +52,7 @@ compiler.plugin('done', (stats) => {
   // log('KILL')
   // outputProcess.kill('SIGUSR2')
 
-  if (module.hot) log('module.hot.status', module.hot.status())
+  // if (module.hot) log('module.hot.status', module.hot.status())
 
   log('compiled', stats.toString({
     colors: true,
@@ -95,6 +95,13 @@ compiler.watch({}, (err, stats) => {
       logLevel: 'info',
       reloadOnRestart: true,
       reloadDebounce: 500,
+    })
+
+    Notifier.notify({
+      title: 'Webpack',
+      message: 'Dev server started!',
+      icon: 'https://avatars3.githubusercontent.com/u/25012217?v=3&s=200',
+      open: 'http://localhost:3000',
     })
 
   }
