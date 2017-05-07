@@ -4,7 +4,7 @@ const Path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+// const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
 
 const {
@@ -60,7 +60,7 @@ const config = createConfig.vanilla([
       path: Path.resolve(__dirname, '../../build'),
     }),
     // relative to project root
-    new FaviconsWebpackPlugin('static/images/logo@2x.png'),
+    // new FaviconsWebpackPlugin('static/images/logo@2x.png'),
   ]),
 
   env('development', [
@@ -81,8 +81,12 @@ const config = createConfig.vanilla([
       }),
       new webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
+        output: {
+          comments: false,
+        },
       }),
       new webpack.LoaderOptionsPlugin({
+        debug: false,
         minimize: true,
       }),
 

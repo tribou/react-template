@@ -55,8 +55,12 @@ const config = createConfig.vanilla([
     addPlugins([
       new webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
+        output: {
+          comments: false,
+        },
       }),
       new webpack.LoaderOptionsPlugin({
+        debug: false,
         minimize: true,
       }),
     ]),
