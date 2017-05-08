@@ -4,22 +4,24 @@
     "transform-object-assign"
   ],
   "presets": [
-    ["latest", {
-      "es2015": {
-        "modules": false
-      }
+    ["env", {
+      "loose": true,
+      "modules": "commonjs"
     }],
     "react",
     "stage-3"
   ],
   "env": {
-    "test": {
+    "development": {
       "plugins": [
         "transform-class-properties",
         "transform-object-assign"
       ],
       "presets": [
-        "latest",
+        ["env", {
+          "loose": true,
+          "modules": false
+        }],
         "react",
         "stage-3"
       ]
