@@ -1,0 +1,26 @@
+{
+  "name": "react-template",
+  "scripts": {
+  },
+  "env": {
+    "NPM_CONFIG_PRODUCTION": {
+      "required": true
+    },
+    "ROLLBAR_ENV": {
+      "required": true
+    },
+    "ROOT_URL": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
