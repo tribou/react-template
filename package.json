@@ -1,6 +1,6 @@
 {
   "name": "react-template",
-  "version": "3.5.3",
+  "version": "3.5.4",
   "private": true,
   "description": "",
   "main": "build/server.js",
