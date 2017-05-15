@@ -6,25 +6,9 @@
   "presets": [
     ["env", {
       "loose": true,
-      "modules": "commonjs"
+      "modules": false
     }],
     "react",
     "stage-3"
-  ],
-  "env": {
-    "development": {
-      "plugins": [
-        "transform-class-properties",
-        "transform-object-assign"
-      ],
-      "presets": [
-        ["env", {
-          "loose": true,
-          "modules": false
-        }],
-        "react",
-        "stage-3"
-      ]
-    }
-  }
+  ]
 }
