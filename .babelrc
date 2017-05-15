@@ -10,5 +10,21 @@
     }],
     "react",
     "stage-3"
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-class-properties",
+        "transform-object-assign"
+      ],
+      "presets": [
+        ["env", {
+          "loose": true,
+          "modules": "commonjs"
+        }],
+        "react",
+        "stage-3"
+      ]
+    }
+  }
 }
