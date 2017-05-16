@@ -18,6 +18,14 @@ function getEntry (entry/* : ?(string | Object | Array<*>) */) {
         entry: {
           bundle: [
             'sanitize.css/sanitize.css',
+            'tachyons-clears',
+            'tachyons-display',
+            'tachyons-flexbox',
+            'tachyons-position',
+            'tachyons-spacing',
+            'tachyons-text-align',
+            'tachyons-vertical-align',
+            'tachyons-widths',
             './src/styles/fonts.css',
             './src/styles/app.css',
             './src/browser.index.js',
