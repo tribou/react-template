@@ -25,7 +25,13 @@ module.exports = function postcss () {
       },
     }),
     Calc(),
-    Autoprefixer,
+    Autoprefixer({
+      browsers: [
+        'not ie <= 10',
+        'not ie_mob <= 10',
+      ],
+      flexbox: 'no-2009',
+    }),
   ]
 
 }
