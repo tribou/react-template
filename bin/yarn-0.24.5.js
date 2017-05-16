@@ -41852,7 +41852,7 @@ class InstallationIntegrityChecker {
         };
       }
 
-      const actual = yield _this4._generateIntegrityFile(lockfile, patterns, Object.assign({}, { checkFiles: false }, flags), // don't generate files when checking, we check the files below
+      const actual = yield _this4._generateIntegrityFile(lockfile, patterns, Object.assign({}, flags, { checkFiles: false }), // don't generate files when checking, we check the files below
       loc.locationFolder);
       const expected = yield _this4._getIntegrityFile(loc.locationPath);
       const integrityMatches = yield _this4._compareIntegrityFiles(actual, expected, flags.checkFiles, loc.locationFolder);
@@ -121255,7 +121255,7 @@ WError.prototype.cause = function we_cause(c)
 module.exports = {
 	"name": "yarn",
 	"installationMethod": "unknown",
-	"version": "0.24.4",
+	"version": "0.24.5",
 	"license": "BSD-2-Clause",
 	"preferGlobal": true,
 	"description": "📦🐈 Fast, reliable, and secure dependency management.",
