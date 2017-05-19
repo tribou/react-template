@@ -17,6 +17,10 @@ import { initialState as authInitialState } from 'src/redux/modules/auth'
 import env from 'config/env'
 import vars from 'config/variables'
 
+// Material-UI
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'config/muiTheme'
+
 // Default render options for react templates
 // 'renderToStaticMarkup' omits react data properties
 // 'renderToString' is used for re-hydrating on client-side
@@ -87,6 +91,8 @@ const routedHtml = (request: Object, reply: Function) => {
 
   const history = syncHistoryWithStore(memoryHistory, store)
 
+  const muiTheme = getMuiTheme(_request.userAgent)
+
   // Let react-router match the raw URL to generate the
   // RouterContext here on the server
   match({
@@ -114,7 +120,9 @@ const routedHtml = (request: Object, reply: Function) => {
       // Get rendered router context
       const children = renderToString(
         <Provider store={store}>
-          <RouterContext {...renderProps} />
+          <MuiThemeProvider muiTheme={muiTheme}>
+            <RouterContext {...renderProps} />
+          </MuiThemeProvider>
         </Provider>
       )
 

@@ -93,6 +93,7 @@
     "immutable": "^3.8.1",
     "inert": "^4.0.2",
     "js-base64": "^2.1.9",
+    "material-ui": "^0.18.1",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-helmet": "^5.0.1",

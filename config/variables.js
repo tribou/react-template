@@ -11,9 +11,9 @@ const variables = {
   appTitle: 'Ooober',
   appDescription: 'The best site ever.',
   appIcon: '/static/images/logo.png',
-  appLogo: '/static/images/logo.png',
-  appLogoWidth: '64',
-  appLogoHeight: '64',
+  appLogo: '/static/images/logo@2x.png',
+  appLogoWidth: '128',
+  appLogoHeight: '128',
 
   appAuthCookieKey: 'my-app-v1',
   appAuthExpirySeconds: 1209600, // 14 days in seconds
@@ -24,7 +24,7 @@ const variables = {
 
   colorDark: '#4a4a4a', // darkgrey
   colorDarkFaded: 'rgba(74, 74, 74, 0.5)',
-  colorTheme: 'rebeccapurple', // purple
+  colorTheme: '#663399', // purple
   colorThemeFaded: '#e3d6e5', // fadetheme
   colorThemePale: '#f8f3fc', // paletheme
   colorThemeSecondary: '#246dca', // richblue

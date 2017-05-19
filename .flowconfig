@@ -3,7 +3,6 @@
 .*/build/.*
 .*/coverage/.*
 
-.*/node_modules/fbjs/lib/.*
 .*/node_modules/react-side-effect/node_modules/.*
 .*/node_modules/redux-offline/src/defaults/persist.native.js
 
@@ -31,6 +30,7 @@ module.name_mapper='^config\/' -> '<PROJECT_ROOT>/config/'
 module.name_mapper='^server\/' -> '<PROJECT_ROOT>/server/'
 module.name_mapper='^src\/' -> '<PROJECT_ROOT>/src/'
 module.name_mapper='^static\/' -> '<PROJECT_ROOT>/static/'
+
 
 [version]
 ^0.44.0

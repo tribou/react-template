@@ -15,6 +15,10 @@ import configureStore from 'src/redux/store'
 import { loadSuccess } from 'src/redux/modules/init'
 import rollbarConfig from 'config/rollbar'
 
+// Material-UI
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'config/muiTheme'
+
 if (process.env.NODE_ENV !== 'development') {
 
   window.Rollbar = Rollbar.init(rollbarConfig)
@@ -45,7 +49,12 @@ window.onload = () => {
 ReactDOM.render(
 
   <Provider store={store}>
-    <Router routes={getRoutes(requireAuth(getAuthToken))} history={history} />
+    <MuiThemeProvider muiTheme={getMuiTheme()}>
+      <Router
+        routes={getRoutes(requireAuth(getAuthToken))}
+        history={history}
+      />
+    </MuiThemeProvider>
   </Provider>,
 
   document.getElementById('react-mount')
