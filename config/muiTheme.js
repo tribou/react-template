@@ -40,6 +40,11 @@ const getMuiThemeConfig = (userAgent: ?string): Object => {
     datePicker: {
       selectColor: vars.colorTheme,
     },
+    snackbar: {
+      textColor: vars.colorWhite,
+      backgroundColor: vars.colorDark,
+      actionColor: vars.colorBlue,
+    },
   }, {
     userAgent,
   })

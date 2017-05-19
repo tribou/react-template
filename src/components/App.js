@@ -3,6 +3,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import Modal from 'src/components/Modal/Modal.index'
 import LoadingIndicator from 'src/components/shared/LoadingIndicator/LoadingIndicator.index'
+import ErrorMessage from 'src/components/shared/ErrorMessage/ErrorMessage.index'
 import vars from 'config/variables'
 import type { ReduxProps } from './App.index'
 
@@ -55,6 +56,7 @@ const App = (props: Props): React$Element<*> => {
         ]}
       />
       <LoadingIndicator />
+      <ErrorMessage />
       {props.children}
       <Modal location={location} params={params} />
     </div>

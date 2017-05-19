@@ -6,6 +6,7 @@ import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
 import { routerMiddleware } from 'react-router-redux'
 import { devToolsEnhancer } from 'redux-devtools-extension/logOnlyInProduction'
+import errorDisplayMiddleware from 'src/redux/middleware/errorDisplay'
 import rootEpic from './epics'
 import rootReducer from './modules'
 
@@ -20,6 +21,7 @@ function configureStore (
     epicMiddleware,
     thunk,
     promiseMiddleware(),
+    errorDisplayMiddleware,
     routerMiddleware(history),
   ]
 

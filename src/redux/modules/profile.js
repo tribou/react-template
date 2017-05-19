@@ -93,19 +93,12 @@ export const fetchProfileSuccess = (me: Object) => {
 }
 
 
-export const fetchProfileError = ({ statusCode }: APIError) => {
+export const fetchProfileError = (error: APIError) => {
 
-  // Parse and define user-friendly messages here?
-  const message = statusCode >= 500
-    ? 'There was a problem getting your profile. Please, try again later'
-    : 'There was a problem getting your profile. Please, try logging out and back in.'
 
   return {
     type: GET_PROFILE_REJECTED,
-    payload: {
-      statusCode,
-      message,
-    },
+    payload: error,
     error: true,
   }
 

@@ -92,7 +92,7 @@ compiler.watch({}, (err, stats) => {
       logFileChanges: true,
       logLevel: 'info',
       reloadOnRestart: true,
-      // reloadDebounce: 500,
+      reloadDebounce: 500,
     })
 
     Notifier.notify({

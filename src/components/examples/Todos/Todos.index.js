@@ -7,7 +7,7 @@ import {
   setFilterCurrent,
   setFilterDone,
 } from 'src/redux/modules/todos'
-import visibleTodos from 'src/selectors/visibleTodos'
+import getVisibleTodos from 'src/selectors/getVisibleTodos'
 import Todos from './Todos'
 
 
@@ -22,7 +22,7 @@ function mapStateToProps (state: GlobalReducerState): StateProps {
   const { todos } = state
 
   return {
-    todos: visibleTodos(state),
+    todos: getVisibleTodos(state),
     filter: todos.get('filter'),
   }
 

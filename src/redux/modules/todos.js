@@ -3,7 +3,7 @@
 // Async actions need redux-observable epics
 import { List, Record } from 'immutable'
 import {
-  getTodosMock as getTodosApi,
+  getTodos as getTodosApi,
 } from 'src/helpers/api/examples/todos'
 
 

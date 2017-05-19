@@ -4,6 +4,7 @@ import type { EnvState } from 'redux/modules/env'
 import type { RequestState } from 'redux/modules/request'
 import type { InitState } from 'redux/modules/init'
 import type { AuthState } from 'redux/modules/auth'
+import type { UIState } from 'redux/modules/ui'
 
 // Examples
 import type { ProfileState } from 'redux/modules/profile'
@@ -15,6 +16,7 @@ type GlobalReducerState = {
   request: RequestState,
   init: InitState,
   auth: AuthState,
+  ui: UIState,
 
   // Examples
   profile: ProfileState,

@@ -7,6 +7,7 @@ import env from './env'
 import request from './request'
 import init from './init'
 import auth from './auth'
+import ui from './ui'
 
 // Examples
 import profile from './profile'
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   request,
   init,
   auth,
+  ui,
 
   // Examples
   profile,

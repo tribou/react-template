@@ -25,17 +25,25 @@ const getTodosFetching = (state) => {
 
 }
 
+const getUiLoading = (state) => {
+
+  return state.ui.showLoading
+
+}
+
 
 const areWeLoading = createSelector([
   getAuthFetching,
   getInitLoading,
   getProfileFetching,
   getTodosFetching,
+  getUiLoading,
 ], (
   authFetching,
   initLoading,
   profileFetching,
   todosFetching,
+  uiLoading,
 ) => {
 
   if (
@@ -43,6 +51,7 @@ const areWeLoading = createSelector([
     || initLoading
     || profileFetching
     || todosFetching
+    || uiLoading
   ) {
 
     return true

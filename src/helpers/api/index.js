@@ -34,13 +34,13 @@ export type APIError = {
   statusCode: number,
   data: Object,
   error: boolean,
-}
+} | string
 
 // Standardize API error format across the app
 // Decouple from implementation (here using axios)
 const _parseError = (
   error: $AxiosError<*>,
-): APIError | string => {
+): APIError => {
 
   // DEBUG: Print implementation-specific error information
   log('_parseError: %s \n %o', error)
