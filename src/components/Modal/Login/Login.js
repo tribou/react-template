@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import { Link } from 'react-router'
 import { Field } from 'redux-form'
 import history from 'src/helpers/history'
+import TextField from 'src/components/shared/TextField/TextField.index'
 import css from './Login.style.css'
 
 import type { ReduxProps } from './Login.index'
@@ -47,17 +48,17 @@ const Login = (props: Props): React$Element<any> => {
         onSubmit={handleSubmit}
       >
         <Field
+          id="usernameInput"
           name="usernameInput"
           label="Email"
-          placeholder="Email"
-          component="input"
+          component={TextField}
           type="email"
         />
         <Field
+          id="passwordInput"
           name="passwordInput"
           label="Password"
-          placeholder="Password"
-          component="input"
+          component={TextField}
           type="password"
         />
         <Link to="/?reset-password">

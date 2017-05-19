@@ -52,8 +52,6 @@ compiler.plugin('done', (stats) => {
   // log('KILL')
   // outputProcess.kill('SIGUSR2')
 
-  // if (module.hot) log('module.hot.status', module.hot.status())
-
   log('compiled', stats.toString({
     colors: true,
       // Debugging options
@@ -94,7 +92,7 @@ compiler.watch({}, (err, stats) => {
       logFileChanges: true,
       logLevel: 'info',
       reloadOnRestart: true,
-      reloadDebounce: 500,
+      // reloadDebounce: 500,
     })
 
     Notifier.notify({

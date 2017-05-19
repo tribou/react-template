@@ -41,6 +41,8 @@ const routedHtml = (request: Object, reply: Function) => {
       'src/helpers/auth',
       'src/redux/store',
       'src/redux/modules/auth',
+      'config/env',
+      'config/variables',
     ], () => {})
 
   }

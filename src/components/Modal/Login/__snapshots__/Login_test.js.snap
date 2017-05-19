@@ -27,17 +27,17 @@ exports[`<Login> renders the Login content 1`] = `
     onSubmit={[Function]}
   >
     <Field
-      component="input"
+      component={[Function]}
+      id="usernameInput"
       label="Email"
       name="usernameInput"
-      placeholder="Email"
       type="email"
     />
     <Field
-      component="input"
+      component={[Function]}
+      id="passwordInput"
       label="Password"
       name="passwordInput"
-      placeholder="Password"
       type="password"
     />
     <Link
@@ -92,17 +92,17 @@ exports[`<Login> renders when form is submitting 1`] = `
     onSubmit={[Function]}
   >
     <Field
-      component="input"
+      component={[Function]}
+      id="usernameInput"
       label="Email"
       name="usernameInput"
-      placeholder="Email"
       type="email"
     />
     <Field
-      component="input"
+      component={[Function]}
+      id="passwordInput"
       label="Password"
       name="passwordInput"
-      placeholder="Password"
       type="password"
     />
     <Link

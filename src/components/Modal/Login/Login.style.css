@@ -1,12 +1,12 @@
 .login {
-  width: 550px;
+  min-width: 400px;
   max-width: 100vw;
   max-height: 100vh;
-  border-radius: 5px;
+  border-radius: $borderRadius;
   background-color: $colorWhite;
   box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.3);
   text-align: center;
-  padding: $s4;
+  padding: $s3;
 
   p {
     @mixin font-size 16;
@@ -27,6 +27,7 @@
   font-weight: 500;
   text-align: center;
   color: $colorDark;
+  margin-top: $s3;
 }
 
 .icnCloseOff {
@@ -41,7 +42,7 @@
   display: flex;
   flex-direction: column;
   max-width: 300px;
-  margin: $s5 auto;
+  margin: $s4 auto;
   text-align: left;
 
   input {

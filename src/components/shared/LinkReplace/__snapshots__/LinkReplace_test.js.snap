@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LinkReplace> renders the LinkReplace component 1`] = `
+<Link
+  onClick={[Function]}
+  onlyActiveOnIndex={false}
+  style={Object {}}
+>
+  <button />
+</Link>
+`;

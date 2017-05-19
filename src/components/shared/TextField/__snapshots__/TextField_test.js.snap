@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TextField> renders the TextField content 1`] = `
+<TextField
+  disabled={false}
+  errorStyle={
+    Object {
+      "bottom": "-.7em",
+      "position": "absolute",
+    }
+  }
+  errorText={false}
+  floatingLabelFixed={false}
+  floatingLabelFocusStyle={
+    Object {
+      "color": "#9f9f9f",
+    }
+  }
+  floatingLabelShrinkStyle={
+    Object {
+      "color": "#9f9f9f",
+    }
+  }
+  floatingLabelStyle={
+    Object {
+      "color": "#4a4a4a",
+      "fontSize": "14px",
+      "fontWeight": 500,
+    }
+  }
+  floatingLabelText="Username"
+  fullWidth={false}
+  multiLine={false}
+  rows={1}
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+  type="text"
+  underlineFocusStyle={
+    Object {
+      "borderColor": "#9f9f9f",
+    }
+  }
+  underlineShow={true}
+/>
+`;
