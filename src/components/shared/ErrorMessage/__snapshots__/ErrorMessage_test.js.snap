@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ErrorMessage> renders the ErrorMessage content 1`] = `
+<Snackbar
+  autoHideDuration={10000}
+  message="This is the error"
+  open={true}
+/>
+`;
