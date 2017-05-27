@@ -103,7 +103,7 @@ function reducer (state: InitialState = initialState, action: GlobalFSA<*>) {
 
     case `${GET_TODOS}_FULFILLED`:
       return state
-        .set('list', parseApiTodoList(action.payload))
+        .set('list', parseApiTodoList(action.payload.data.data))
         .set('error', '')
         .set('isFetching', false)
 

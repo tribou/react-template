@@ -27,7 +27,7 @@ const errorDisplay = (store: Object) => {
 
         }
         // If error message was parsed from API
-        else if (action.payload.error) {
+        else if (action.payload && action.payload.error) {
 
           message = action.payload.data
 
