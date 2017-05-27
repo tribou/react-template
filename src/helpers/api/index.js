@@ -186,3 +186,24 @@ export const del = (
     })
 
 }
+
+
+export const mock = (
+  data: Object,
+  delay: number = 500,
+): $AxiosXHR<*> => {
+
+  return new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+
+      return resolve({
+        status: 200,
+        data,
+      })
+
+    }, delay)
+
+  })
+
+}
