@@ -1,63 +1,49 @@
 // @flow
-import { post } from 'src/helpers/api'
+import { post, mock } from 'src/helpers/api'
 import env from 'config/env'
 
-const { API_URL } = env
-
+const { API_URL, USE_MOCK_API } = env
 
 type LoginParams = {
   username: string,
   password: string,
 }
 
-export const login = ({ username, password }: LoginParams) => {
+export const loginMock = ({ username, password }: LoginParams) => {
 
-  return post(`${API_URL}/auth/login`, { username, password }, {
-    // Override and don't send auth header for login
-    headers: {
-      Authorization: undefined,
+  return mock({
+    account: {
+      id: '1',
+      email: 'email@example.com',
+      jwt: 'tokenabc123',
     },
   })
 
 }
 
-export const loginMock = ({ username, password }: LoginParams) => {
+export const login = ({ username, password }: LoginParams) => {
 
-  return new Promise((resolve, reject) => {
-
-    setTimeout(() => {
-
-      return resolve({
-        account: {
-          id: '1',
-          email: 'email@example.com',
-          jwt: 'tokenabc123',
-        },
-      })
-
-    }, 500)
-
-  })
-
-}
-
-
-export const logout = () => {
-
-  return post(`${API_URL}/auth/logout`)
+  return USE_MOCK_API
+    ? loginMock({ username, password })
+    : post(`${API_URL}/auth/login`, { username, password }, {
+      // Override and don't send auth header for login
+      headers: {
+        Authorization: undefined,
+      },
+    })
 
 }
 
 export const logoutMock = () => {
 
-  return new Promise((resolve, reject) => {
+  return mock({})
 
-    setTimeout(() => {
+}
 
-      return resolve({})
+export const logout = () => {
 
-    }, 500)
-
-  })
+  return USE_MOCK_API
+    ? logoutMock()
+    : post(`${API_URL}/auth/logout`)
 
 }

@@ -186,3 +186,24 @@ export const del = (
     })
 
 }
+
+
+export const mock = (
+  data: Object,
+  delay: number = 500,
+): Promise<APIResponse> => {
+
+  return new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+
+      return resolve(_parseResponse({
+        status: 200,
+        data,
+      }))
+
+    }, delay)
+
+  })
+
+}

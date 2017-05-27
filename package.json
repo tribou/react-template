@@ -154,6 +154,7 @@
     "lsp": "heroku releases -a my-app",
     "lss": "heroku releases -a my-app-staging",
     "dev": "npm run yarn && rimraf build && concurrently -n 'APP,FLOW' -p '[{name}]' 'cross-env DEBUG=my-app* DEBUG_COLORS=true NODE_ENV=development nodemon -x node server/dev.index.js' 'npm run --silent watch-flow'",
+    "dev-mock": "npm run yarn && rimraf build && concurrently -n 'APP,FLOW' -p '[{name}]' 'cross-env USE_MOCK_API=true DEBUG=my-app* DEBUG_COLORS=true NODE_ENV=development nodemon -x node server/dev.index.js' 'npm run --silent watch-flow'",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "flow-ci": "flow check .",
     "lint": "eslint --ignore-path .gitignore flow src server config",

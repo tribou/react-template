@@ -104,7 +104,7 @@ export const login = ({ username, password, redirect }: LoginParams) => {
     return dispatch({
       type: LOGIN,
       payload: loginAPI({ username, password })
-        .then((data) => {
+        .then(({ data }) => {
 
           setAuthToken(data.account.jwt)
           history.push({
@@ -130,7 +130,7 @@ export const logout = ({ redirect }: LogoutParams) => {
     return dispatch({
       type: LOGOUT,
       payload: logoutAPI()
-        .then((data) => {
+        .then(({ data }) => {
 
           removeAuthToken()
           history.push({

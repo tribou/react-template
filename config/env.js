@@ -6,6 +6,7 @@ export type EnvState = {
 
   API_URL: string,
   ROOT_URL: string,
+  USE_MOCK_API: boolean,
   SECURE_COOKIE: boolean,
   SHOW_ERRORS: boolean,
 
@@ -22,6 +23,7 @@ const {
 
   API_URL,
   ROOT_URL,
+  USE_MOCK_API,
   SECURE_COOKIE,
   SHOW_ERRORS,
 
@@ -42,6 +44,7 @@ const env: EnvState = {
   // App settings
   API_URL: API_URL || 'https://api.randomuser.me',
   ROOT_URL: ROOT_URL || 'http://localhost:3000',
+  USE_MOCK_API: USE_MOCK_API === 'true' || false,
   SECURE_COOKIE: SECURE_COOKIE === 'true' || false,
   SHOW_ERRORS: SHOW_ERRORS === 'true' || true,
 
