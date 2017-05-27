@@ -59,4 +59,22 @@ export const isBrowser = (): boolean => {
 }
 
 
-export default env
+const getEnv = (): EnvState => {
+
+  if (NODE_ENV === 'test') return env
+
+  if (isBrowser()) {
+
+    return window.__ENV__
+
+  }
+
+  return env
+
+}
+
+
+const dynamicEnv = getEnv()
+
+
+export default dynamicEnv

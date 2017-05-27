@@ -22,11 +22,18 @@ class Html extends Component {
 
   }
 
+  static generateEnvScript (env: ?Object): string {
+
+    return `window.__ENV__ = ${(JSON.stringify(env) || '').replace(/</g, '\\u003c')}`
+
+  }
+
   props: Props
 
   render (): React$Element<any> {
 
     const { assets, head } = this.props
+    const { env } = this.props.preloadedState
 
     const bundle = assets.bundle.js
     const vendor = assets.vendor.js
@@ -39,6 +46,7 @@ class Html extends Component {
     )
 
     const preloadScript = Html.generatePreloadScript(this.props.preloadedState)
+    const envScript = Html.generateEnvScript(env)
 
     return (
       <html {...attrs}>
@@ -66,6 +74,11 @@ class Html extends Component {
             id="app-state"
             type="application/transit+json"
             dangerouslySetInnerHTML={{ __html: preloadScript }}
+          />
+          <script
+            id="env-state"
+            type="application/javascript"
+            dangerouslySetInnerHTML={{ __html: envScript }}
           />
           <script
             type="application/javascript"
