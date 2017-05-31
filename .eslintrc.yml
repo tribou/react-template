@@ -1,22 +1,11 @@
 ---
 extends:
+  - plugin:tribou/recommended
+
+plugins:
   - tribou
-  - plugin:flowtype/recommended
-
-rules:
-  flowtype/require-valid-file-annotation:
-    - error
-    - always
-  react/prefer-stateless-function:
-    - error
-    - ignorePureComponents: true
-
-  no-duplicate-imports: 0
 
 settings:
   flowtype:
     onlyFilesWithFlowAnnotation: false
   import/resolver: webpack
-
-env:
-  jest: true
