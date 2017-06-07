@@ -32,8 +32,7 @@ class Html extends Component {
 
   render (): React$Element<any> {
 
-    const { assets, head } = this.props
-    const { env } = this.props.preloadedState
+    const { assets, head, preloadedState: { env } } = this.props
 
     const bundle = assets.bundle.js
     const vendor = assets.vendor.js
@@ -71,20 +70,24 @@ class Html extends Component {
             dangerouslySetInnerHTML={{ __html: this.props.children }}
           />
           <script
+            defer
             id="app-state"
             type="application/transit+json"
             dangerouslySetInnerHTML={{ __html: preloadScript }}
           />
           <script
+            defer
             id="env-state"
             type="application/javascript"
             dangerouslySetInnerHTML={{ __html: envScript }}
           />
           <script
+            defer
             type="application/javascript"
             src={vendor}
           />
           <script
+            defer
             type="application/javascript"
             src={bundle}
           />

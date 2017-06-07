@@ -94,6 +94,7 @@ it('<Html> embeds the vendor asset script', () => {
   )
   const actual = wrapper.find('body script').contains(
     <script
+      defer
       type="application/javascript"
       src={asset}
     />
@@ -123,6 +124,7 @@ it('<Html> embeds the bundle asset script', () => {
   )
   const actual = wrapper.find('body script').contains(
     <script
+      defer
       type="application/javascript"
       src={asset}
     />
