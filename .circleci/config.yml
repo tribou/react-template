@@ -12,9 +12,46 @@ jobs:
       - run:
           name: node-version
           command: node -v
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
           name: yarn
           command: npm run yarn
+      - save_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run:
+          name: lint
+          command: npm run lint
+      - run:
+          name: flow-ci
+          command: npm run flow-ci
+      - run:
+          name: test-jest
+          command: npm run test-jest
+
+  build-node-8:
+    working_directory: ~/app
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - run:
+          name: which-node
+          command: which node
+      - run:
+          name: node-version
+          command: node -v
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run:
+          name: yarn
+          command: npm run yarn
+      - save_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
       - run:
           name: lint
           command: npm run lint
@@ -43,17 +80,9 @@ jobs:
   #   steps:
   #     - run: npm run test-jest
 
-# workflows:
-  # version: 2
-  # build_and_test:
-  #   jobs:
-  #     - build
-  #     - lint:
-  #         requires:
-  #           - build
-  #     - flow:
-  #         requires:
-  #           - build
-  #     - jest:
-  #         requires:
-  #           - build
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - build-node-8

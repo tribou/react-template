@@ -5,8 +5,8 @@
   "description": "",
   "main": "build/server.js",
   "engines": {
-    "node": ">=6.4.x <7",
-    "npm": ">=4.5.x <5",
+    "node": ">=6.4.x <9",
+    "npm": ">=4.5.x",
     "yarn": "0.24.6"
   },
   "repository": {
@@ -44,7 +44,7 @@
     "eslint": "^3.19.0",
     "eslint-import-resolver-webpack": "^0.8.1",
     "eslint-loader": "^1.8.0",
-    "eslint-plugin-tribou": "^1.0.2",
+    "eslint-plugin-tribou": "^1.0.4",
     "extract-text-webpack-plugin": "^2.1.2",
     "favicons-webpack-plugin": "0.0.7",
     "file-loader": "^0.11.2",
@@ -53,7 +53,7 @@
     "identity-obj-proxy": "^3.0.0",
     "imageoptim-cli": "^1.14.8",
     "jest": "^20.0.4",
-    "jest-serializer-path": "^0.1.0",
+    "jest-serializer-path": "^0.1.2",
     "json-loader": "^0.5.4",
     "node-notifier": "^5.1.2",
     "node-notifier-cli": "^1.0.1",
