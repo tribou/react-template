@@ -5,8 +5,8 @@
   "description": "",
   "main": "build/server.js",
   "engines": {
-    "node": ">=6.4.x <7",
-    "npm": ">=4.5.x <5",
+    "node": ">=6.4.x <9",
+    "npm": ">=4.5.x",
     "yarn": "0.24.6"
   },
   "repository": {
