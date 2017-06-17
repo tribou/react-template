@@ -8,7 +8,7 @@ import Transit from 'transit-immutable-js'
 type Props = {
   assets: BuildAssets,
   css: string,
-  children?: any,
+  children: any,
   head: Object,
   preloadedState: Object,
 }

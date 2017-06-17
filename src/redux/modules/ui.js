@@ -72,21 +72,13 @@ function reducer (state: UIState = initialState, action: GlobalFSA<*>) {
 // ACTION CREATORS
 // Use Flux Standard Action (FSA) notation
 // https://github.com/acdlite/flux-standard-action
-export const startLoading = () => {
+export const startLoading = () => ({
+  type: START_LOADING,
+})
 
-  return {
-    type: START_LOADING,
-  }
-
-}
-
-export const stopLoading = () => {
-
-  return {
-    type: STOP_LOADING,
-  }
-
-}
+export const stopLoading = () => ({
+  type: STOP_LOADING,
+})
 
 
 export default reducer

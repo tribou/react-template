@@ -69,7 +69,7 @@ const config = createConfig.vanilla([
   // custom configs
   (function getCustomLoadersBlock () {
 
-    return (context) => {
+    return context => {
 
       context.fileType.add({
         'application/x-misc-files': /\.(eot|otf)$/,

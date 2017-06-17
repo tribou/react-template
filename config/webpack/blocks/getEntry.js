@@ -49,7 +49,7 @@ function getEntry (entry/* : ?(string | Object | Array<*>) */) {
       // and place at build/layouts and build/components
       // since hapi-react-views requires templates at runtime
       const serverLayouts = Glob.sync('./server/views/!(*_test.js)*')
-      serverLayouts.forEach((file) => {
+      serverLayouts.forEach(file => {
 
         const target = `views/${file.split('/').pop()}`
         server[target] = file

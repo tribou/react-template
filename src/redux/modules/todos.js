@@ -44,15 +44,11 @@ export class Todo extends Record({ text: '', date: '', done: false }) {
 }
 
 
-const parseApiTodoList = (data) => {
+const parseApiTodoList = data => {
 
   if (!data || data.length === 0) return List()
 
-  return data.map((item) => {
-
-    return new Todo(item)
-
-  })
+  return data.map(item => new Todo(item))
 
 }
 
@@ -125,44 +121,28 @@ function reducer (state: InitialState = initialState, action: GlobalFSA<*>) {
 // https://github.com/pburtchaell/redux-promise-middleware/blob/master/docs/guides/chaining-actions.md
 // Which, in turn, uses Flux Standard Action (FSA) notation
 // https://github.com/acdlite/flux-standard-action
-export const getTodos = () => {
-
-  return (dispatch: any) => {
-
-    return dispatch({
-      type: GET_TODOS,
-      payload: getTodosApi(),
-    })
-
-  }
-
-}
+export const getTodos = () => (dispatch: GlobalDispatch<*>) => dispatch({
+  type: GET_TODOS,
+  payload: getTodosApi(),
+})
 
 
 // Plain actions uses Flux Standard Action (FSA) notation
 // https://github.com/acdlite/flux-standard-action
-export const setFilterDone = () => {
-
-  return {
-    type: SET_FILTER,
-    payload: {
-      filter: FILTER_DONE,
-    },
-  }
-
-}
+export const setFilterDone = () => ({
+  type: SET_FILTER,
+  payload: {
+    filter: FILTER_DONE,
+  },
+})
 
 
-export const setFilterCurrent = () => {
-
-  return {
-    type: SET_FILTER,
-    payload: {
-      filter: FILTER_CURRENT,
-    },
-  }
-
-}
+export const setFilterCurrent = () => ({
+  type: SET_FILTER,
+  payload: {
+    filter: FILTER_CURRENT,
+  },
+})
 
 
 // EPICS

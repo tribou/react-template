@@ -31,7 +31,7 @@ compiler.apply(new ProgressPlugin((percentage, msg) => {
 
 }))
 
-compiler.plugin('done', (stats) => {
+compiler.plugin('done', stats => {
 
   // eslint-disable-next-line
   console.log('\n')
@@ -72,13 +72,13 @@ compiler.watch({}, (err, stats) => {
     // Start server process
     log('starting server')
     server = Spawn('node', [Path.resolve(__dirname, '../build/server.js')])
-    server.stdout.on('data', (data) => {
+    server.stdout.on('data', data => {
 
       console.log(data.toString()) // eslint-disable-line
 
     })
 
-    server.stderr.on('data', (data) => {
+    server.stderr.on('data', data => {
 
       console.log(data.toString()) // eslint-disable-line
 

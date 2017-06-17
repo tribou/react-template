@@ -1,4 +1,4 @@
-// flow-typed signature: db634e8b1fb123f61ffd957dc3d51924
+// flow-typed signature: 43d702940b8013c5d5e1a0cfafd10896
 // flow-typed version: <<STUB>>/rimraf_v^2.5.4/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

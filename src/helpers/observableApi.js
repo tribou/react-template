@@ -110,15 +110,11 @@ class API {
   mock = (
     data: Object,
     delay: number = 500,
-  ): Observable<$AxiosXHR<*>> => {
-
-    return Observable.of({
-      status: 200,
-      data,
-    })
+  ): Observable<$AxiosXHR<*>> => Observable.of({
+    status: 200,
+    data,
+  })
     .delay(delay)
-
-  }
 
 
   // Get current user's profile

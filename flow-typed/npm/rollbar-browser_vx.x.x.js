@@ -1,4 +1,4 @@
-// flow-typed signature: 2c639788ba6443f636dc58a075e0450e
+// flow-typed signature: 6b874ba50e651118fc54357798ed84fe
 // flow-typed version: <<STUB>>/rollbar-browser_v^1.9.2/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

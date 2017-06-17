@@ -1,4 +1,4 @@
-// flow-typed signature: b69c3175b740bf3c5725d07015496961
+// flow-typed signature: 58ae10f036c6c8dbb610a84bb4ae741e
 // flow-typed version: <<STUB>>/css-modules-require-hook_v^4.0.2/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

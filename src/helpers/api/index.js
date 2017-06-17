@@ -91,16 +91,8 @@ export const get = (
 
   const client = getClient()
   return client.get(endpoint, opts)
-    .then((response) => {
-
-      return _parseResponse(response)
-
-    })
-    .catch((error) => {
-
-      return Promise.reject(_parseError(error))
-
-    })
+    .then(response => _parseResponse(response))
+    .catch(error => Promise.reject(_parseError(error)))
 
 }
 
@@ -111,16 +103,8 @@ export const post = (
 
   const client = getClient()
   return client.post(endpoint, data, opts)
-    .then((response) => {
-
-      return _parseResponse(response)
-
-    })
-    .catch((error) => {
-
-      return Promise.reject(_parseError(error))
-
-    })
+    .then(response => _parseResponse(response))
+    .catch(error => Promise.reject(_parseError(error)))
 
 }
 
@@ -132,16 +116,8 @@ export const patch = (
 
   const client = getClient()
   return client.patch(endpoint, data, opts)
-    .then((response) => {
-
-      return _parseResponse(response)
-
-    })
-    .catch((error) => {
-
-      return Promise.reject(_parseError(error))
-
-    })
+    .then(response => _parseResponse(response))
+    .catch(error => Promise.reject(_parseError(error)))
 
 }
 
@@ -153,16 +129,8 @@ export const put = (
 
   const client = getClient()
   return client.put(endpoint, data, opts)
-    .then((response) => {
-
-      return _parseResponse(response)
-
-    })
-    .catch((error) => {
-
-      return Promise.reject(_parseError(error))
-
-    })
+    .then(response => _parseResponse(response))
+    .catch(error => Promise.reject(_parseError(error)))
 
 }
 
@@ -174,16 +142,8 @@ export const del = (
 
   const client = getClient()
   return client.delete(endpoint, opts)
-    .then((response) => {
-
-      return _parseResponse(response)
-
-    })
-    .catch((error) => {
-
-      return Promise.reject(_parseError(error))
-
-    })
+    .then(response => _parseResponse(response))
+    .catch(error => Promise.reject(_parseError(error)))
 
 }
 
@@ -191,19 +151,11 @@ export const del = (
 export const mock = (
   data: Object,
   delay: number = 500,
-): Promise<APIResponse> => {
+): Promise<APIResponse> => new Promise((resolve, reject) => {
 
-  return new Promise((resolve, reject) => {
+  setTimeout(() => resolve(_parseResponse({
+    status: 200,
+    data,
+  })), delay)
 
-    setTimeout(() => {
-
-      return resolve(_parseResponse({
-        status: 200,
-        data,
-      }))
-
-    }, delay)
-
-  })
-
-}
+})

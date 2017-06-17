@@ -1,4 +1,4 @@
-// flow-typed signature: 03e7d39ee401a024bab8fc13710dfc57
+// flow-typed signature: 049189d0215922c0a7b616260fe5de09
 // flow-typed version: <<STUB>>/enzyme-to-json_v^1.4.5/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

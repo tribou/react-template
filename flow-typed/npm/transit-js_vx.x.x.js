@@ -1,4 +1,4 @@
-// flow-typed signature: 8fc61a6e3a4c50ce238f6cb4cad6ec84
+// flow-typed signature: b31b5500d8da7e0f9d941aacbf496e84
 // flow-typed version: <<STUB>>/transit-js_v^0.8.846/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

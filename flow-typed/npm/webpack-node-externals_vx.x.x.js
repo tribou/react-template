@@ -1,4 +1,4 @@
-// flow-typed signature: c356d9c916facba63fcb015b9935c78e
+// flow-typed signature: d7237af9ea866fb22662aa1bc32324cf
 // flow-typed version: <<STUB>>/webpack-node-externals_v^1.3.3/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

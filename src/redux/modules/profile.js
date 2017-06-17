@@ -72,37 +72,24 @@ function reducer (state: ProfileState = initialState, action: GlobalFSA<*>) {
 // ACTION CREATORS
 // Use Flux Standard Action (FSA) notation
 // https://github.com/acdlite/flux-standard-action
-export const fetchProfile = () => {
-
-  return {
-    type: GET_PROFILE,
-  }
-
-}
+export const fetchProfile = () => ({
+  type: GET_PROFILE,
+})
 
 
-export const fetchProfileSuccess = (me: Object) => {
-
-  return {
-    type: GET_PROFILE_FULFILLED,
-    payload: {
-      me,
-    },
-  }
-
-}
+export const fetchProfileSuccess = (me: Object) => ({
+  type: GET_PROFILE_FULFILLED,
+  payload: {
+    me,
+  },
+})
 
 
-export const fetchProfileError = (error: APIError) => {
-
-
-  return {
-    type: GET_PROFILE_REJECTED,
-    payload: error,
-    error: true,
-  }
-
-}
+export const fetchProfileError = (error: APIError) => ({
+  type: GET_PROFILE_REJECTED,
+  payload: error,
+  error: true,
+})
 // Always append { error: true } for redux action error types
 
 

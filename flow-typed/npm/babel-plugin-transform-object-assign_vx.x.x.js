@@ -1,4 +1,4 @@
-// flow-typed signature: a13733ea9cbc3a2a8825c21c4ef6b440
+// flow-typed signature: bec883bd99e2d4561bc0005d1e3671fd
 // flow-typed version: <<STUB>>/babel-plugin-transform-object-assign_v^6.8.0/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

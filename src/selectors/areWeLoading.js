@@ -1,35 +1,15 @@
 // @flow
 import { createSelector } from 'reselect'
 
-const getAuthFetching = (state) => {
+const getAuthFetching = state => state.auth.isFetching
 
-  return state.auth.isFetching
+const getInitLoading = state => state.init.isLoading
 
-}
+const getProfileFetching = state => state.profile.get('isFetching')
 
-const getInitLoading = (state) => {
+const getTodosFetching = state => state.todos.get('isFetching')
 
-  return state.init.isLoading
-
-}
-
-const getProfileFetching = (state) => {
-
-  return state.profile.get('isFetching')
-
-}
-
-const getTodosFetching = (state) => {
-
-  return state.todos.get('isFetching')
-
-}
-
-const getUiLoading = (state) => {
-
-  return state.ui.showLoading
-
-}
+const getUiLoading = state => state.ui.showLoading
 
 
 const areWeLoading = createSelector([

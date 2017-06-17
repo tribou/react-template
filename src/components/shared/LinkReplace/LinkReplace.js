@@ -1,68 +1,74 @@
 // @flow
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import history from 'src/helpers/history'
 
 type ReactProps = {
   to: Object,
-  className?: any,
-  children?: React$Element<any>,
-};
+  className: any,
+  children: React$Element<any> | string,
+}
 
-type Props = ReactProps;
+type Props = ReactProps
 
-const LinkReplace = (props: Props): React$Element<any> => {
+class LinkReplace extends PureComponent {
 
-  return (
-    <Link
-      className={props.className}
-      onClick={() => {
+  handleClick = () => {
 
-        if (props.to.state && props.to.query) {
+    if (this.props.to.state && this.props.to.query) {
 
-          history.replace({
-            pathname: props.to.pathname,
-            state: props.to.state,
-            query: props.to.query,
-          })
+      history.replace({
+        pathname: this.props.to.pathname,
+        state: this.props.to.state,
+        query: this.props.to.query,
+      })
 
-        }
-
-        else if (props.to.state) {
-
-          history.replace({
-            pathname: props.to.pathname,
-            state: props.to.state,
-          })
-
-        }
-
-        else if (props.to.query) {
-
-          history.replace({
-            pathname: props.to.pathname,
-            query: props.to.query,
-          })
-
-        }
-
-        else {
-
-          history.replace({
-            pathname: props.to,
-            state: { modal: '' },
-          })
-
-        }
-
-      }
     }
 
-    >
-      {props.children}
-    </Link>
-  )
+    else if (this.props.to.state) {
 
+      history.replace({
+        pathname: this.props.to.pathname,
+        state: this.props.to.state,
+      })
+
+    }
+
+    else if (this.props.to.query) {
+
+      history.replace({
+        pathname: this.props.to.pathname,
+        query: this.props.to.query,
+      })
+
+    }
+
+    else {
+
+      history.replace({
+        pathname: this.props.to,
+        state: { modal: '' },
+      })
+
+    }
+
+  }
+
+  props: Props
+
+  render (): React$Element<any> {
+
+    return (
+      <Link
+        className={this.props.className}
+        onClick={this.handleClick}
+      >
+        {this.props.children}
+      </Link>
+    )
+
+
+  }
 }
 
 export default LinkReplace

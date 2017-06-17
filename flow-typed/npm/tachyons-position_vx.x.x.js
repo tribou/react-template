@@ -1,4 +1,4 @@
-// flow-typed signature: 9dd7e1acc86e3cc7ae08e9a61f0deb27
+// flow-typed signature: 9f9e9407e7a6a0775625990b3a632e26
 // flow-typed version: <<STUB>>/tachyons-position_v^6.0.4/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

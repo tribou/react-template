@@ -1,4 +1,4 @@
-// flow-typed signature: 34fa34a4f31219dbfd6651b44b7dfd1b
+// flow-typed signature: b800bc2587c295403e123b5645c7b57a
 // flow-typed version: <<STUB>>/node-notifier_v^5.1.2/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

@@ -9,45 +9,38 @@ export const DISPLAY_ERROR = 'my-app/errorDisplay/DISPLAY_ERROR'
 
 type Payload = string | APIError
 
-const errorDisplay = (store: Object) => {
+const errorDisplay = (store: Object) =>
+  (next: Function) => (action: GlobalFSA<Payload>) => {
 
-  return (next: Function) => {
+    if (!SHOW_ERRORS) return next(action)
+    if (action && action.error) {
 
-    return (action: GlobalFSA<Payload>) => {
+      let message = 'An error has occurred.'
 
-      if (!SHOW_ERRORS) return next(action)
-      if (action && action.error) {
+      // If error message was passed in payload
+      if (typeof action.payload === 'string') {
 
-        let message = 'An error has occurred.'
+        message = action.payload
 
-        // If error message was passed in payload
-        if (typeof action.payload === 'string') {
+      }
+      // If error message was parsed from API
+      else if (action.payload && action.payload.error) {
 
-          message = action.payload
-
-        }
-        // If error message was parsed from API
-        else if (action.payload && action.payload.error) {
-
-          message = action.payload.data
-
-        }
-
-        store.dispatch({
-          type: DISPLAY_ERROR,
-          // return a new object each time
-          payload: { message },
-        })
+        message = action.payload.data
 
       }
 
-      return next(action)
+      store.dispatch({
+        type: DISPLAY_ERROR,
+        // return a new object each time
+        payload: { message },
+      })
 
     }
 
-  }
+    return next(action)
 
-}
+  }
 
 
 export default errorDisplay

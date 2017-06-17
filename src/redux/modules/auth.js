@@ -97,59 +97,45 @@ type LoginParams = {
   redirect?: string,
 }
 
-export const login = ({ username, password, redirect }: LoginParams) => {
+export const login = ({ username, password, redirect }: LoginParams) =>
+  (dispatch: GlobalDispatch<*>) => dispatch({
+    type: LOGIN,
+    payload: loginAPI({ username, password })
+      .then(({ data }) => {
 
-  return (dispatch: any) => {
+        setAuthToken(data.account.jwt)
+        history.push({
+          pathname: redirect,
+        })
 
-    return dispatch({
-      type: LOGIN,
-      payload: loginAPI({ username, password })
-        .then(({ data }) => {
-
-          setAuthToken(data.account.jwt)
-          history.push({
-            pathname: redirect,
-          })
-
-        }),
-    })
-
-  }
-
-}
+      }),
+  })
 
 
 type LogoutParams = {
   redirect: string,
 }
 
-export const logout = ({ redirect }: LogoutParams) => {
+export const logout = ({ redirect }: LogoutParams) =>
+  (dispatch: GlobalDispatch<*>) => dispatch({
+    type: LOGOUT,
+    payload: logoutAPI()
+      .then(({ data }) => {
 
-  return (dispatch: any) => {
-
-    return dispatch({
-      type: LOGOUT,
-      payload: logoutAPI()
-        .then(({ data }) => {
-
-          removeAuthToken()
-          history.push({
-            pathname: redirect || '/home',
-          })
-
+        removeAuthToken()
+        history.push({
+          pathname: redirect || '/home',
         })
-        .catch((error) => {
 
-          // Remove auth tokens regardless
-          removeAuthToken()
-          log('logout error:', error)
+      })
+      .catch(error => {
 
-        }),
-    })
+        // Remove auth tokens regardless
+        removeAuthToken()
+        log('logout error:', error)
 
-  }
-
-}
+      }),
+  })
 
 
 export default reducer
