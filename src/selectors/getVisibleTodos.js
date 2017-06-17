@@ -3,17 +3,9 @@ import { createSelector } from 'reselect'
 import { FILTER_CURRENT, FILTER_DONE } from 'src/redux/modules/todos'
 
 
-const getTodos = (state) => {
+const getTodos = state => state.todos.get('list')
 
-  return state.todos.get('list')
-
-}
-
-const getFilter = (state) => {
-
-  return state.todos.get('filter')
-
-}
+const getFilter = state => state.todos.get('filter')
 
 
 const getVisibleTodos = createSelector(
@@ -23,18 +15,10 @@ const getVisibleTodos = createSelector(
     switch (filter) {
 
       case FILTER_CURRENT:
-        return todos.filter((todo) => {
-
-          return todo.get('done') === false
-
-        })
+        return todos.filter(todo => todo.get('done') === false)
 
       case FILTER_DONE:
-        return todos.filter((todo) => {
-
-          return todo.get('done') === true
-
-        })
+        return todos.filter(todo => todo.get('done') === true)
 
       default:
         return todos

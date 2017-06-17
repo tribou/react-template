@@ -39,6 +39,7 @@ const mockProps = {
     mystate: 'this',
   },
   rollbarScript: '',
+  children: <div />,
 }
 
 

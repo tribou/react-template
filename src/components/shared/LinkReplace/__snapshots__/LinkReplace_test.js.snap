@@ -2,6 +2,7 @@
 
 exports[`<LinkReplace> renders the LinkReplace component 1`] = `
 <Link
+  className="overriding-class"
   onClick={[Function]}
   onlyActiveOnIndex={false}
   style={Object {}}

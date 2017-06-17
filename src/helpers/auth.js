@@ -9,18 +9,12 @@ const log = Debug('my-app:helpers:auth')
 const { appAuthCookieKey, appAuthExpirySeconds } = vars
 
 
-export const serializeCookie = (string: string): string => {
-
-  return Base64.encode(string)
-
-}
+export const serializeCookie = (string: string): string =>
+  Base64.encode(string)
 
 
-export const deserializeCookie = (string: string): string => {
-
-  return Base64.decode(string)
-
-}
+export const deserializeCookie = (string: string): string =>
+  Base64.decode(string)
 
 
 export type AuthToken = string
@@ -73,9 +67,8 @@ export const removeAuthToken = () => {
 }
 
 
-export const requireAuth = (getToken: Function) => {
-
-  return (nextState: Object, replace: Function, next: Function) => {
+export const requireAuth = (getToken: Function) =>
+  (nextState: Object, replace: Function, next: Function) => {
 
     log('authCookie: %j', getToken())
     if (!getToken()) {
@@ -94,5 +87,3 @@ export const requireAuth = (getToken: Function) => {
     return next()
 
   }
-
-}

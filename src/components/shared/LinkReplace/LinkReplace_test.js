@@ -8,11 +8,16 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import LinkReplace from './LinkReplace'
 
+const mockProps = {
+  className: 'overriding-class',
+  children: 'Link Text',
+}
 
 it('<LinkReplace> renders the LinkReplace component', () => {
 
   const wrapper = shallow(
     <LinkReplace
+      {...mockProps}
       to={{
         pathname: 'location_string',
         state: { modal: 'create-offer-intro' },

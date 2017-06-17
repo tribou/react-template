@@ -16,11 +16,7 @@ type Props = {
 // http://redux-form.com/6.4.3/examples/material-ui/
 class TextField extends PureComponent {
 
-  getInputNode = () => {
-
-    return this.input
-
-  }
+  getInputNode = () => this.input
 
   props: Props
   input: HTMLElement
@@ -47,7 +43,7 @@ class TextField extends PureComponent {
   // http://www.material-ui.com/#/components/text-field
     return (
       <MuiTextField
-        ref={(ref) => {
+        ref={ref => {
 
           this.input = ref
 

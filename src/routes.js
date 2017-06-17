@@ -13,25 +13,21 @@ import Todos from 'src/components/examples/Todos/Todos.index'
 import type { requireAuth as $requireAuth } from 'src/helpers/auth'
 
 
-const getRoutes = (requireAuth: $requireAuth) => {
-
-  return (
-    <Route path="/" component={App}>
-      {/*
+const getRoutes = (requireAuth: $requireAuth) => (
+  <Route path="/" component={App}>
+    {/*
         <IndexRoute component={Home} />
       */}
 
-      {/* Examples */}
-      <Route path="home" component={Home} />
-      <Route path="profile" onEnter={requireAuth} component={Profile} />
-      <Route path="todos" onEnter={requireAuth} component={Todos} />
+    {/* Examples */}
+    <Route path="home" component={Home} />
+    <Route path="profile" onEnter={requireAuth} component={Profile} />
+    <Route path="todos" onEnter={requireAuth} component={Todos} />
 
-      {/* 404 */}
-      <Route path="*" component={NotFound} />
-    </Route>
+    {/* 404 */}
+    <Route path="*" component={NotFound} />
+  </Route>
   )
-
-}
 
 
 export default getRoutes

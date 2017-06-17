@@ -4,20 +4,16 @@ import { reduxForm } from 'redux-form'
 import { login } from 'src/redux/modules/auth'
 import Login from './Login'
 
-const validate = (values) => {
+const validate = values => {
 
   const errors = {}
   const requiredFields = [
     'usernameInput',
     'passwordInput',
   ]
-  requiredFields.forEach((field) => {
+  requiredFields.forEach(field => {
 
-    if (!values[field]) {
-
-      errors[field] = 'Required'
-
-    }
+    if (!values[field]) errors[field] = 'Required'
 
   })
   return errors

@@ -34,3 +34,12 @@ type GlobalFSA<T> = {
   error?: boolean,
   meta?: Object,
 }
+
+type GlobalGetState = () => GlobalReducerState
+type GlobalThunkAction = (
+  dispatch: GlobalDispatch<*>, getState: GlobalGetState
+) => any
+type GlobalPromiseAction<T> = Promise<GlobalFSA<T>>
+type GlobalDispatch<T> = (
+  action: GlobalFSA<T> | GlobalThunkAction | GlobalPromiseAction<T>
+) => any

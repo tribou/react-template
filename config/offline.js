@@ -25,13 +25,14 @@ module.exports = {
     '**/*.map',
     'robots.txt',
   ],
+
   // If publicPath is a subdirectory
-  rewrites: (asset) => {
+  rewrites: asset => (
 
     // prefix with /static/ unless webpack asset is a page route
-    return offlineRoutes.indexOf(asset) === -1
+    offlineRoutes.indexOf(asset) === -1
       ? `/static/${asset}`
       : asset
+  ),
 
-  },
 }

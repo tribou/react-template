@@ -2,7 +2,8 @@
 
 function babel () {
 
-  return (context/* : Object */) => {
+  // eslint-disable-next-line arrow-parens
+  return (context /* : Object */) => {
 
     const { NODE_ENV } = process.env
     const cacheDirectory = String(NODE_ENV === 'development')

@@ -73,11 +73,7 @@ const routedHtml = (request: Object, reply: Function) => {
   const _request = { userAgent: request.headers['user-agent'] }
   request.log(['info', 'user-agent'], _request.userAgent)
 
-  const getAuthToken = () => {
-
-    return request.state[vars.appAuthCookieKey]
-
-  }
+  const getAuthToken = () => request.state[vars.appAuthCookieKey]
 
   const authenticated = typeof getAuthToken() !== 'undefined'
 

@@ -14,16 +14,14 @@ const api = new API()
 // variable$ notation indicates an event stream
 // https://redux-observable.js.org/docs/basics/Epics.html
 
-const fetchProfileEpic = (action$: Object) => {
-
-  return action$.ofType(GET_PROFILE)
-  .mergeMap((action) => {
+const fetchProfileEpic = (action$: Object) => action$.ofType(GET_PROFILE)
+  .mergeMap(action =>
 
     // Create new observable inside mergeMap so we don't cancel the entire epic
     // during catch
     // https://redux-observable.js.org/docs/recipes/ErrorHandling.html
-    return api.getProfile()
-    .map((response) => {
+     api.getProfile()
+    .map(response => {
 
       // API serialization logic from API._parseResponse to Model
       const result = response.data.results[0]
@@ -39,16 +37,10 @@ const fetchProfileEpic = (action$: Object) => {
 
     })
     .map(fetchProfileSuccess)
-    .catch((error) => {
+    .catch(error =>
 
       // Return and don't throw here because we've handled it
-      return Observable.of(fetchProfileError(error))
-
-    })
-
-  })
-
-}
+       Observable.of(fetchProfileError(error))))
 
 
 export default fetchProfileEpic

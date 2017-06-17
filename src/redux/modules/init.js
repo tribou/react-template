@@ -53,13 +53,9 @@ function reducer (state: InitState = initialState, action: GlobalFSA<*>) {
 
 // }
 
-export const loadSuccess = () => {
-
-  return {
-    type: LOAD_SUCCESS,
-  }
-
-}
+export const loadSuccess = () => ({
+  type: LOAD_SUCCESS,
+})
 
 
 export default reducer

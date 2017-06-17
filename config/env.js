@@ -55,11 +55,7 @@ const env: EnvState = {
 }
 
 
-export const isBrowser = (): boolean => {
-
-  return Boolean(typeof window !== 'undefined' && window.document)
-
-}
+export const isBrowser = (): boolean => Boolean(typeof window !== 'undefined' && window.document)
 
 
 const getEnv = (): EnvState => {
