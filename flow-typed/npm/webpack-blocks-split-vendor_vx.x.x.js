@@ -1,4 +1,4 @@
-// flow-typed signature: 19685a378ff682ae15763e5ff08a58a1
+// flow-typed signature: 7473bbebf5f131a4cff56b15a127fe07
 // flow-typed version: <<STUB>>/webpack-blocks-split-vendor_v^0.2.0/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

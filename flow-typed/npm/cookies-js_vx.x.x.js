@@ -1,4 +1,4 @@
-// flow-typed signature: b803ef479ddb121a11be77293905a89d
+// flow-typed signature: e0c933645b0d625baa77c140a5c5e72a
 // flow-typed version: <<STUB>>/cookies-js_v^1.2.3/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

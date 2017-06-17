@@ -1,4 +1,4 @@
-// flow-typed signature: b03488e36d75387be524459204118cfc
+// flow-typed signature: 4d5820102570aeece325a99b6be6017c
 // flow-typed version: <<STUB>>/tachyons-display_v^5.0.4/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

@@ -1,4 +1,4 @@
-// flow-typed signature: 4e3eebdc20f9fd4c42963c161300da94
+// flow-typed signature: a14d2d34f95f2e46d66bd78d0b17126e
 // flow-typed version: <<STUB>>/inert_v^4.0.2/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

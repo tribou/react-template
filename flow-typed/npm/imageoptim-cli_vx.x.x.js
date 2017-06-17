@@ -1,4 +1,4 @@
-// flow-typed signature: 5a9f3236609292b7c878a6a352b2f030
+// flow-typed signature: f173e8ccc38addd2b0862956d539edb8
 // flow-typed version: <<STUB>>/imageoptim-cli_v^1.14.8/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

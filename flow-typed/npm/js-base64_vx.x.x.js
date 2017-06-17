@@ -1,4 +1,4 @@
-// flow-typed signature: b2e0a61fb1de7823776fbf85ef8c2343
+// flow-typed signature: 97f5cced7cb9e6e6bb3fbd5b73de266e
 // flow-typed version: <<STUB>>/js-base64_v^2.1.9/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

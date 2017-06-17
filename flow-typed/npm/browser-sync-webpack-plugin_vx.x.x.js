@@ -1,4 +1,4 @@
-// flow-typed signature: 7b13455b3bf46873d5fe058fc4169722
+// flow-typed signature: 0be55d644794722f74d78baed4ac3c31
 // flow-typed version: <<STUB>>/browser-sync-webpack-plugin_v^1.1.2/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

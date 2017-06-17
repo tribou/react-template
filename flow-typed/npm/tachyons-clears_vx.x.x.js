@@ -1,4 +1,4 @@
-// flow-typed signature: 63e9ee7fe8375be7133df39b45e96549
+// flow-typed signature: 66259e9700bee93b43abf31ba32419ac
 // flow-typed version: <<STUB>>/tachyons-clears_v^3.0.4/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

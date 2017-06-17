@@ -1,4 +1,4 @@
-// flow-typed signature: 0835ec9b9a8f9b08c0c97583fb9305be
+// flow-typed signature: c7e16cca976c931f1f2c06b22284bd5e
 // flow-typed version: <<STUB>>/tachyons-spacing_v^6.0.4/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

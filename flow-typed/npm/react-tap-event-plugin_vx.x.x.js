@@ -1,4 +1,4 @@
-// flow-typed signature: 2da62e8cc9c1712afe8db0e58a84f4fc
+// flow-typed signature: 8f214631a511e1042101da12d6410f49
 // flow-typed version: <<STUB>>/react-tap-event-plugin_v^2.0.1/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

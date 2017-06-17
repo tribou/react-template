@@ -1,4 +1,4 @@
-// flow-typed signature: cf2c4f685ad640a2b690e715ecd1f2f9
+// flow-typed signature: cabe7a866bb4fccebf72b459e9030735
 // flow-typed version: <<STUB>>/good-console_v^6.4.0/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

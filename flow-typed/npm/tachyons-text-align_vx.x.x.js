@@ -1,4 +1,4 @@
-// flow-typed signature: 22ce99ffcf45c5c79811bfa650ebdd2b
+// flow-typed signature: d97a847dbad1f987df1bc0b3dddfb1ea
 // flow-typed version: <<STUB>>/tachyons-text-align_v^3.0.4/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

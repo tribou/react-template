@@ -1,4 +1,4 @@
-// flow-typed signature: dac5430e6b73e760db8542c98315945e
+// flow-typed signature: 45d0a3d44ab0792e079cef2ba0d31a79
 // flow-typed version: <<STUB>>/jest-serializer-path_v^0.1.0/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

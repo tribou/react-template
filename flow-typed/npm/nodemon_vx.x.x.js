@@ -1,4 +1,4 @@
-// flow-typed signature: 26d1b8cd258eb32bb205dbed50031831
+// flow-typed signature: 87be1c4f21aaf2c536a27235ad9bd1e0
 // flow-typed version: <<STUB>>/nodemon_v^1.10.2/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

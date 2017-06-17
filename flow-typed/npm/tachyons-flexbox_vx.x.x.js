@@ -1,4 +1,4 @@
-// flow-typed signature: b3835025682ca280fa4f2b86b90cf11f
+// flow-typed signature: 32105909efafb951dc5c0b18acfb202d
 // flow-typed version: <<STUB>>/tachyons-flexbox_v^2.0.5/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

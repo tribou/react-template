@@ -1,4 +1,4 @@
-// flow-typed signature: c7449b10e6e76daaa6296a1337eb07e0
+// flow-typed signature: 275ec75453fab8b7e32acc5fe0ed7406
 // flow-typed version: <<STUB>>/postcss-calc_v^5.3.1/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

@@ -1,4 +1,4 @@
-// flow-typed signature: 06678131613c5802c6c03ee1a67ab886
+// flow-typed signature: 7a0178ca95710c566c6153a12f8b3f76
 // flow-typed version: <<STUB>>/transit-immutable-js_v^0.7.0/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

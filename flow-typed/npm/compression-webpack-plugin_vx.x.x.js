@@ -1,4 +1,4 @@
-// flow-typed signature: 899abe2381421466ffd80326df9f5206
+// flow-typed signature: 7a744c0dd55a77efd464f0c4ec98ebfe
 // flow-typed version: <<STUB>>/compression-webpack-plugin_v^0.4.0/flow_v0.44.0
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 
