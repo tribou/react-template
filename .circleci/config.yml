@@ -25,6 +25,31 @@ jobs:
           name: test-jest
           command: npm run test-jest
 
+  build-node-8:
+    working_directory: ~/app
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - run:
+          name: which-node
+          command: which node
+      - run:
+          name: node-version
+          command: node -v
+      - run:
+          name: yarn
+          command: npm run yarn
+      - run:
+          name: lint
+          command: npm run lint
+      - run:
+          name: flow-ci
+          command: npm run flow-ci
+      - run:
+          name: test-jest
+          command: npm run test-jest
+
   # The following wasn't working:
   #
   # Failed with error:
@@ -43,17 +68,9 @@ jobs:
   #   steps:
   #     - run: npm run test-jest
 
-# workflows:
-  # version: 2
-  # build_and_test:
-  #   jobs:
-  #     - build
-  #     - lint:
-  #         requires:
-  #           - build
-  #     - flow:
-  #         requires:
-  #           - build
-  #     - jest:
-  #         requires:
-  #           - build
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - build-node-8
