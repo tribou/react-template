@@ -6744,9 +6744,9 @@ redux-observable@^0.14.1:
   version "0.14.1"
   resolved "https://registry.yarnpkg.com/redux-observable/-/redux-observable-0.14.1.tgz#9f3d870c69388fdc427ded6770a3e326f3b69693"
 
-redux-promise-middleware@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/redux-promise-middleware/-/redux-promise-middleware-4.3.0.tgz#38997574b6f150ab8ff1aa72ca5563fbc82c7cef"
+redux-promise-middleware@4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/redux-promise-middleware/-/redux-promise-middleware-4.2.1.tgz#50c496f9b546a68b51fa8509be2e0ad69be76246"
 
 redux-thunk@^2.1.0:
   version "2.2.0"
