@@ -33,4 +33,4 @@ module.name_mapper='^static\/' -> '<PROJECT_ROOT>/static/'
 
 
 [version]
-^0.44.0
+^0.48.0
