@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable arrow-body-style */
 import { applyMiddleware, createStore, compose } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import thunk from 'redux-thunk'
