@@ -1,5 +1,6 @@
 // @flow
 import 'babel-polyfill'
+import 'url-search-params-polyfill'
 import Debug from 'debug'
 import OfflineRuntime from 'offline-plugin/runtime'
 import React from 'react'
@@ -7,11 +8,8 @@ import ReactDOM from 'react-dom'
 import InjectTapEventPlugin from 'react-tap-event-plugin'
 import Rollbar from 'rollbar-browser/dist/rollbar.umd.nojson.min'
 import { Provider } from 'react-redux'
-import { Router, browserHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
+import { BrowserRouter as Router } from 'react-router-dom'
 import Transit from 'transit-immutable-js'
-import getRoutes from 'src/routes'
-import { getAuthToken, requireAuth } from 'src/helpers/auth'
 import configureStore from 'src/redux/store'
 import { loadSuccess } from 'src/redux/modules/init'
 import rollbarConfig from 'config/rollbar'
@@ -19,6 +17,8 @@ import rollbarConfig from 'config/rollbar'
 // Material-UI
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'config/muiTheme'
+
+import App from 'src/components/App.index'
 
 if (process.env.NODE_ENV !== 'development') {
 
@@ -31,8 +31,7 @@ InjectTapEventPlugin()
 const log = Debug('my-app:browser:index')
 const appStateElement = document.getElementById('app-state')
 const serializedState = appStateElement ? appStateElement.innerHTML : '{}'
-const store = configureStore(Transit.fromJSON(serializedState), browserHistory)
-const history = syncHistoryWithStore(browserHistory, store)
+const store = configureStore(Transit.fromJSON(serializedState))
 
 window.onload = () => {
 
@@ -53,10 +52,9 @@ ReactDOM.render(
 
   <Provider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme()}>
-      <Router
-        routes={getRoutes(requireAuth(getAuthToken))}
-        history={history}
-      />
+      <Router>
+        <App />
+      </Router>
     </MuiThemeProvider>
   </Provider>,
 

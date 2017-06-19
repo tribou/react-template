@@ -14,8 +14,7 @@ exports[`<Todos> renders the Todos content 1`] = `
     Todos page
     <ul />
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/home"
     >
       Back

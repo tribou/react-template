@@ -15,8 +15,7 @@ exports[`<Home> renders the Home content 1`] = `
     </li>
   </ul>
   <Link
-    onlyActiveOnIndex={false}
-    style={Object {}}
+    replace={false}
     to="/profile"
   >
     <div
@@ -24,8 +23,7 @@ exports[`<Home> renders the Home content 1`] = `
     />
   </Link>
   <Link
-    onlyActiveOnIndex={false}
-    style={Object {}}
+    replace={false}
     to="/todos"
   >
     <div
@@ -50,8 +48,7 @@ exports[`<Home> renders the logout button if authenticated 1`] = `
     </li>
   </ul>
   <Link
-    onlyActiveOnIndex={false}
-    style={Object {}}
+    replace={false}
     to="/profile"
   >
     <div
@@ -59,8 +56,7 @@ exports[`<Home> renders the logout button if authenticated 1`] = `
     />
   </Link>
   <Link
-    onlyActiveOnIndex={false}
-    style={Object {}}
+    replace={false}
     to="/todos"
   >
     <div

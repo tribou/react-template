@@ -1,6 +1,12 @@
 // @flow
 import React from 'react'
 import Helmet from 'react-helmet'
+import { Route, Redirect, Switch } from 'react-router'
+
+import Home from 'src/components/examples/Home/Home.index'
+import Profile from 'src/components/examples/Profile/Profile.index'
+import Todos from 'src/components/examples/Todos/Todos.index'
+
 import Modal from 'src/components/Modal/Modal.index'
 import LoadingIndicator from 'src/components/shared/LoadingIndicator/LoadingIndicator.index'
 import ErrorMessage from 'src/components/shared/ErrorMessage/ErrorMessage.index'
@@ -9,9 +15,7 @@ import type { ReduxProps } from './App.index'
 
 
 type Props = ReduxProps & {
-  children: React$Element<*>,
   location: Object,
-  params: Object,
 }
 
 const App = (props: Props): React$Element<*> => {
@@ -29,7 +33,6 @@ const App = (props: Props): React$Element<*> => {
   const {
     ROOT_URL,
     location,
-    params,
   } = props
 
   return (
@@ -56,9 +59,21 @@ const App = (props: Props): React$Element<*> => {
         ]}
       />
       <LoadingIndicator />
+
+      {/* Example Routes */}
+      <Switch>
+        <Route exact path="/home" component={Home} />
+        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/todos" component={Todos} />
+        <Redirect exact from="/" to="/home" />
+      </Switch>
+
+      {/*
+          <Route path="*" component={NotFound} />
+          */}
+
       <ErrorMessage />
-      {props.children}
-      <Modal location={location} params={params} />
+      <Modal location={location} />
     </div>
   )
 

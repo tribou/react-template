@@ -1,6 +1,8 @@
 // @flow
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
+import { withRouter } from 'react-router'
+import { parse } from 'qs'
 import { login } from 'src/redux/modules/auth'
 import Login from './Login'
 
@@ -23,13 +25,13 @@ const validate = values => {
 const onSubmit = (values, dispatch, props): Promise<*> => {
 
   const { usernameInput, passwordInput } = values
-  const { redirect } = props.location.query
+  const search = parse(props.location.search.substr(1))
 
   return login({
     username: usernameInput,
     password: passwordInput,
-    redirect,
-  })(dispatch)
+    redirect: search.redirect,
+  }, props.history)(dispatch)
 
 }
 
@@ -60,7 +62,7 @@ function mapStateToProps (state: GlobalReducerState): StateProps {
 }
 
 
-export default connect(mapStateToProps)(
+export default withRouter(connect(mapStateToProps)(
   reduxForm(reduxFormConfig)(Login)
-)
+))
 export type ReduxProps = StateProps

@@ -1,9 +1,8 @@
 // @flow
 import React, { PureComponent } from 'react'
-import { Link } from 'react-router'
-import history from 'src/helpers/history'
 
 type ReactProps = {
+  history: Object,
   to: Object,
   className: any,
   children: React$Element<any> | string,
@@ -15,30 +14,35 @@ class LinkReplace extends PureComponent {
 
   handleClick = () => {
 
-    if (this.props.to.state && this.props.to.query) {
+    const {
+      history,
+      to,
+    } = this.props
+
+    if (to.state && to.query) {
 
       history.replace({
-        pathname: this.props.to.pathname,
-        state: this.props.to.state,
-        query: this.props.to.query,
+        pathname: to.pathname,
+        state: to.state,
+        query: to.query,
       })
 
     }
 
-    else if (this.props.to.state) {
+    else if (to.state) {
 
       history.replace({
-        pathname: this.props.to.pathname,
-        state: this.props.to.state,
+        pathname: to.pathname,
+        state: to.state,
       })
 
     }
 
-    else if (this.props.to.query) {
+    else if (to.query) {
 
       history.replace({
-        pathname: this.props.to.pathname,
-        query: this.props.to.query,
+        pathname: to.pathname,
+        query: to.query,
       })
 
     }
@@ -46,7 +50,7 @@ class LinkReplace extends PureComponent {
     else {
 
       history.replace({
-        pathname: this.props.to,
+        pathname: to,
         state: { modal: '' },
       })
 
@@ -59,12 +63,14 @@ class LinkReplace extends PureComponent {
   render (): React$Element<any> {
 
     return (
-      <Link
+      <div
+        role="button"
+        tabIndex={-1}
         className={this.props.className}
         onClick={this.handleClick}
       >
         {this.props.children}
-      </Link>
+      </div>
     )
 
 

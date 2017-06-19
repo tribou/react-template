@@ -1,4 +1,4 @@
-// flow-typed signature: 868ee154bab262a252ab6f48391984a2
+// flow-typed signature: eacfc1266c8eb02b03115b0969fc90fc
 // flow-typed version: <<STUB>>/eslint-plugin-tribou_v^1.0.4/flow_v0.48.0
 
 /**
@@ -23,14 +23,6 @@ declare module 'eslint-plugin-tribou' {
  * needed.
  */
 declare module 'eslint-plugin-tribou/bin/yarn-0.24.6' {
-  declare module.exports: any;
-}
-
-declare module 'eslint-plugin-tribou/coverage/lcov-report/prettify' {
-  declare module.exports: any;
-}
-
-declare module 'eslint-plugin-tribou/coverage/lcov-report/sorter' {
   declare module.exports: any;
 }
 
@@ -157,12 +149,6 @@ declare module 'eslint-plugin-tribou/test/redux/reducer_test' {
 // Filename aliases
 declare module 'eslint-plugin-tribou/bin/yarn-0.24.6.js' {
   declare module.exports: $Exports<'eslint-plugin-tribou/bin/yarn-0.24.6'>;
-}
-declare module 'eslint-plugin-tribou/coverage/lcov-report/prettify.js' {
-  declare module.exports: $Exports<'eslint-plugin-tribou/coverage/lcov-report/prettify'>;
-}
-declare module 'eslint-plugin-tribou/coverage/lcov-report/sorter.js' {
-  declare module.exports: $Exports<'eslint-plugin-tribou/coverage/lcov-report/sorter'>;
 }
 declare module 'eslint-plugin-tribou/eslint-config.js' {
   declare module.exports: $Exports<'eslint-plugin-tribou/eslint-config'>;

@@ -1,10 +1,50 @@
-// flow-typed signature: adb142abf7ee0f170d31ca569b5e94a7
-// flow-typed version: 02d9734356/react-router_v4.x.x/flow_>=v0.38.x
+// flow-typed signature: 493d39fe9968f54f645635dbec3b2d9a
+// flow-typed version: 02d9734356/react-router-dom_v4.x.x/flow_>=v0.38.x
 
-declare module 'react-router' {
-  // NOTE: many of these are re-exported by react-router-dom and
-  // react-router-native, so when making changes, please be sure to update those
-  // as well.
+declare module 'react-router-dom' {
+  declare export class BrowserRouter extends React$Component {
+    props: {
+      basename?: string,
+      forceRefresh?: boolean,
+      getUserConfirmation?: GetUserConfirmation,
+      keyLength?: number,
+      children?: React$Element<*>,
+    }
+  }
+
+  declare export class HashRouter extends React$Component {
+    props: {
+      basename?: string,
+      getUserConfirmation?: GetUserConfirmation,
+      hashType?: 'slash' | 'noslash' | 'hashbang',
+      children?: React$Element<*>,
+    }
+  }
+
+  declare export class Link extends React$Component {
+    props: {
+      to?: string | LocationShape,
+      replace?: boolean,
+      children?: React$Element<*>,
+    }
+  }
+
+  declare export class NavLink extends React$Component {
+    props: {
+      to: string | LocationShape,
+      activeClassName?: string,
+      className?: string,
+      activeStyle?: Object,
+      style?: Object,
+      isActive?: (match: Match, location: Location) => boolean,
+      children?: React$Element<*>,
+      exact?: bool,
+      strict?: bool,
+    }
+  }
+
+  // NOTE: Below are duplicated from react-router. If updating these, please
+  // update the react-router and react-router-native types as well.
   declare export type Location = {
     pathname: string,
     search: string,
@@ -118,11 +158,12 @@ declare module 'react-router' {
 
   declare type FunctionComponent<P> = (props: P) => ?React$Element<any>;
   declare type ClassComponent<D, P, S> = Class<React$Component<D, P, S>>;
-  declare export function withRouter<D, P, S>(Component: ClassComponent<D, P, S> | FunctionComponent<P>): ClassComponent<D, $Diff<P, ContextRouter>, S>;
+  declare export function withRouter<P, S>(Component: ClassComponent<void, P, S> | FunctionComponent<P>): ClassComponent<void, $Diff<P, ContextRouter>, S>;
 
   declare type MatchPathOptions = {
+    path: string,
     exact?: boolean,
     strict?: boolean,
   }
-  declare export function matchPath(pathname: string, path: string, options?: MatchPathOptions): null | Match
+  declare export function matchPath(pathname: string, options: MatchPathOptions): null | Match
 }

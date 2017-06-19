@@ -4,6 +4,7 @@ import { Base64 } from 'js-base64'
 import Debug from 'debug'
 import env, { isBrowser } from 'config/env'
 import vars from 'config/variables'
+import { parse, stringify } from 'qs'
 
 const log = Debug('my-app:helpers:auth')
 const { appAuthCookieKey, appAuthExpirySeconds } = vars
@@ -67,23 +68,34 @@ export const removeAuthToken = () => {
 }
 
 
-export const requireAuth = (getToken: Function) =>
-  (nextState: Object, replace: Function, next: Function) => {
+export const requireAuth = (
+  getToken: Function, location: Object, history: Object
+) => {
 
-    log('authCookie: %j', getToken())
-    if (!getToken()) {
+  log('authToken: %j', getToken())
+  if (!getToken()) {
 
-      replace({
-        pathname: '/',
-        query: {
-          login: null,
-          ...nextState.location.query,
-          // where to redirect after login
-          redirect: nextState.location.pathname,
-        },
-      })
+    let query = {
+      login: true,
+      redirect: location.pathname,
+    }
+    if (location.search && location.search.length > 0) {
+
+      const prev = parse(location.search.substr(1))
+      query = {
+        ...query,
+        ...prev,
+      }
 
     }
-    return next()
+
+    const search = stringify(query)
+
+    history.replace({
+      pathname: '/home',
+      search: `?${search}`,
+    })
 
   }
+
+}

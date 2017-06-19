@@ -11,6 +11,9 @@ import LinkReplace from './LinkReplace'
 const mockProps = {
   className: 'overriding-class',
   children: 'Link Text',
+  history: {
+    replace: () => {},
+  },
 }
 
 it('<LinkReplace> renders the LinkReplace component', () => {

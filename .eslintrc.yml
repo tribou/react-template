@@ -9,3 +9,6 @@ settings:
   flowtype:
     onlyFilesWithFlowAnnotation: false
   import/resolver: webpack
+
+globals:
+  URLSearchParams: false

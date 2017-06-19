@@ -1,6 +1,7 @@
 // @flow
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router'
 import { logout } from 'src/redux/modules/auth'
 import Home from './Home'
 
@@ -33,5 +34,5 @@ function mapDispatchToProps (dispatch: any): DispatchProps {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home))
 export type ReduxProps = StateProps & DispatchProps

@@ -1,6 +1,5 @@
 // @flow
 import { combineReducers } from 'redux'
-import { routerReducer as routing } from 'react-router-redux'
 import { reducer as form } from 'redux-form'
 
 import env from './env'
@@ -27,8 +26,6 @@ const rootReducer = combineReducers({
 
   // redux-form
   form,
-  // react-router-redux
-  routing,
 })
 
 

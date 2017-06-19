@@ -1,30 +1,41 @@
-/* eslint-disable flowtype/require-valid-file-annotation */
+// @flow
 /* eslint-disable max-len */
 
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html
 
 import React from 'react'
-import { render } from 'enzyme'
-import { Profile as ProfileModel } from 'src/redux/modules/profile'
+import { shallow } from 'enzyme'
 import Profile from './Profile'
 
+type OverrideProps = {
+  me: Object,
+  error: string,
+  location: Object,
+  history: Object,
+  fetchProfile: Function,
+}
 
-it('<Profile> displays profile info', () => {
+const mockProps: OverrideProps = {
+  me: {
+    get: () => null,
+  },
+  error: '',
+  location: {},
+  history: {
+    replace: () => {},
+  },
+  fetchProfile: () => {},
+}
 
-  const expected = 'Austin, TX'
-  const profile = ProfileModel({
-    city: expected,
-  })
+it('<Profile> renders the Profile content', () => {
 
-  const wrapper = render(
+  const wrapper = shallow(
     <Profile
-      me={profile}
+      {...mockProps}
     />
   )
-  // const hasCity = wrapper.text().indexOf(expected) !== -1
 
   expect(wrapper).toMatchSnapshot()
-  // expect(hasCity).toBe(true)
 
 })

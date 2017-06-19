@@ -1,5 +1,6 @@
 // @flow
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import App from './App'
 
 
@@ -18,5 +19,5 @@ function mapStateToProps (state: GlobalReducerState): StateProps {
 }
 
 
-export default connect(mapStateToProps)(App)
+export default withRouter(connect(mapStateToProps)(App))
 export type ReduxProps = StateProps
