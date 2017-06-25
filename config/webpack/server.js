@@ -1,6 +1,7 @@
 // @flow
 
 const Path = require('path')
+const webpack = require('webpack')
 
 const {
   addPlugins,
@@ -8,7 +9,6 @@ const {
   env,
   setOutput,
   sourceMaps,
-  webpack,
 } = require('@webpack-blocks/webpack2')
 
 const babel = require('./blocks/babel')
@@ -34,6 +34,7 @@ const config = createConfig.vanilla([
   getExternals(),
   cssModules(),
   addPlugins([
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.BannerPlugin({
       banner: 'require("source-map-support").install();',
       raw: true,

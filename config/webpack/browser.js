@@ -6,6 +6,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 // const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
+const webpack = require('webpack')
 
 const {
   addPlugins,
@@ -13,7 +14,6 @@ const {
   env,
   setOutput,
   sourceMaps,
-  webpack,
 } = require('@webpack-blocks/webpack2')
 
 const babel = require('./blocks/babel')
@@ -47,6 +47,7 @@ const config = createConfig.vanilla([
   getResolve(),
   cssModules(),
   addPlugins([
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(NODE_ENV || 'development'),

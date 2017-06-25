@@ -112,7 +112,7 @@ Object {
         "vendor",
       ],
       "filenameTemplate": undefined,
-      "ident": "<PROJECT_ROOT>/node_modules/webpack/lib/optimize/CommonsChunkPlugin.js0",
+      "ident": "<PROJECT_ROOT>/node_modules/@webpack-blocks/webpack2/node_modules/webpack/lib/optimize/CommonsChunkPlugin.js0",
       "minChunks": [Function],
       "minSize": undefined,
       "selectedChunks": undefined,
@@ -124,6 +124,9 @@ Object {
       "loader": [Function],
       "mergeNonInitialChunks": [Function],
       "renderExtractedChunk": [Function],
+    },
+    ModuleConcatenationPlugin {
+      "options": Object {},
     },
     DefinePlugin {
       "definitions": Object {
