@@ -4,6 +4,7 @@ import Debug from 'debug'
 import OfflineRuntime from 'offline-plugin/runtime'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import InjectTapEventPlugin from 'react-tap-event-plugin'
 import Rollbar from 'rollbar-browser/dist/rollbar.umd.nojson.min'
 import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
@@ -24,6 +25,8 @@ if (process.env.NODE_ENV !== 'development') {
   window.Rollbar = Rollbar.init(rollbarConfig)
 
 }
+
+InjectTapEventPlugin()
 
 const log = Debug('my-app:browser:index')
 const appStateElement = document.getElementById('app-state')
