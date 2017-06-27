@@ -28,6 +28,9 @@ jobs:
           name: flow-ci
           command: npm run flow-ci
       - run:
+          name: test-nsp
+          command: npm run test-nsp
+      - run:
           name: test-jest
           command: npm run test-jest
 
@@ -58,6 +61,9 @@ jobs:
       - run:
           name: flow-ci
           command: npm run flow-ci
+      - run:
+          name: test-nsp
+          command: npm run test-nsp
       - run:
           name: test-jest
           command: npm run test-jest
