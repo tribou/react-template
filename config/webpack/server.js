@@ -34,7 +34,6 @@ const config = createConfig.vanilla([
   getExternals(),
   cssModules(),
   addPlugins([
-    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.BannerPlugin({
       banner: 'require("source-map-support").install();',
       raw: true,
@@ -54,6 +53,7 @@ const config = createConfig.vanilla([
   env('production', [
     sourceMaps('source-map'),
     addPlugins([
+      new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
         output: {

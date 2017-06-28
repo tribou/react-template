@@ -47,7 +47,6 @@ const config = createConfig.vanilla([
   getResolve(),
   cssModules(),
   addPlugins([
-    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(NODE_ENV || 'development'),
@@ -72,6 +71,7 @@ const config = createConfig.vanilla([
   env('production', [
     sourceMaps('source-map'),
     addPlugins([
+      new webpack.optimize.ModuleConcatenationPlugin(),
       new CompressionPlugin({
         asset: '[path].gz[query]',
         algorithm: 'gzip',
