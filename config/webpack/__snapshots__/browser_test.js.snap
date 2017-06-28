@@ -125,9 +125,6 @@ Object {
       "mergeNonInitialChunks": [Function],
       "renderExtractedChunk": [Function],
     },
-    ModuleConcatenationPlugin {
-      "options": Object {},
-    },
     DefinePlugin {
       "definitions": Object {
         "process.env": Object {

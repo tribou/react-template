@@ -93,9 +93,6 @@ Object {
     "path": "<PROJECT_ROOT>/build",
   },
   "plugins": Array [
-    ModuleConcatenationPlugin {
-      "options": Object {},
-    },
     BannerPlugin {
       "banner": "require(\\"source-map-support\\").install();",
       "options": Object {
