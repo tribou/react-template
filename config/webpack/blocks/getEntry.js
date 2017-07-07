@@ -28,7 +28,7 @@ function getEntry (entry/* : ?(string | Object | Array<*>) */) {
             'tachyons-widths',
             './src/styles/fonts.css',
             './src/styles/app.css',
-            './src/browser.index.js',
+            './src/index.browser.js',
           ],
         },
       }

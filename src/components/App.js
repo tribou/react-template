@@ -1,11 +1,6 @@
 // @flow
 import React from 'react'
 import Helmet from 'react-helmet'
-import { Route, Redirect, Switch } from 'react-router'
-
-import Home from 'src/components/examples/Home/Home.index'
-import Profile from 'src/components/examples/Profile/Profile.index'
-import Todos from 'src/components/examples/Todos/Todos.index'
 
 import Modal from 'src/components/Modal/Modal.index'
 import LoadingIndicator from 'src/components/shared/LoadingIndicator/LoadingIndicator.index'
@@ -60,17 +55,7 @@ const App = (props: Props): React$Element<*> => {
       />
       <LoadingIndicator />
 
-      {/* Example Routes */}
-      <Switch>
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/profile" component={Profile} />
-        <Route exact path="/todos" component={Todos} />
-        <Redirect exact from="/" to="/home" />
-      </Switch>
-
-      {/*
-          <Route path="*" component={NotFound} />
-          */}
+      {props.children}
 
       <ErrorMessage />
       <Modal location={location} />

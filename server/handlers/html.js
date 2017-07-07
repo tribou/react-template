@@ -10,7 +10,7 @@ import { StaticRouter } from 'react-router'
 import { getAssets } from 'server/utils'
 import configureStore from 'src/redux/store'
 import { initialState as authInitialState } from 'src/redux/modules/auth'
-import App from 'src/components/App.index'
+import Routes from 'src/routes'
 import env from 'config/env'
 import vars from 'config/variables'
 
@@ -97,18 +97,26 @@ const routedHtml = (request: Object, reply: Function) => {
           location={request.url.href}
           context={context}
         >
-          <App />
+          <Routes />
         </StaticRouter>
       </MuiThemeProvider>
     </Provider>
   )
 
-  // Redirect
-  if (context.url) {
+  // Only redirect, no code
+  if (context.url && !context.code) {
 
     return reply
       .redirect(context.url)
       .temporary()
+
+  }
+  // Both redirect and code! ZOMG!
+  else if (context.url && context.code) {
+
+    return reply
+      .redirect(context.url)
+      .code(context.code)
 
   }
 
@@ -140,6 +148,9 @@ const routedHtml = (request: Object, reply: Function) => {
         return reply(Boom.serverTimeout(errorLayout))
 
       }
+
+      // No redirect, only code
+      if (!context.url && context.code) return reply(output).code(context.code)
 
       return reply(output)
 

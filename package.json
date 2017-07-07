@@ -85,10 +85,8 @@
     "hapi-react-views": "^9.3.0",
     "immutable": "^3.8.1",
     "inert": "^4.0.2",
-    "install": "^0.10.1",
     "js-base64": "^2.1.9",
     "material-ui": "^0.18.3",
-    "npm": "^5.0.4",
     "qs": "^6.5.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -119,7 +117,6 @@
     "tachyons-widths": "^5.1.1",
     "transit-immutable-js": "^0.7.0",
     "transit-js": "^0.8.846",
-    "url-search-params-polyfill": "^2.0.0",
     "vision": "^4.1.0"
   },
   "jest": {

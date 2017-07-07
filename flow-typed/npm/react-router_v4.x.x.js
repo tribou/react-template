@@ -50,6 +50,7 @@ declare module 'react-router' {
     history: RouterHistory,
     location: Location,
     match: Match,
+    staticContext: Object,
   }
 
   declare export type GetUserConfirmation =

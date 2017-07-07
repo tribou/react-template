@@ -34,7 +34,7 @@ function configureStore (preloadedState: Object): Object {
 
   const enhancer = compose(
     applyMiddleware(...middleware),
-    devToolsEnhancer()
+    devToolsEnhancer({})
   )
 
   const store = createStore(rootReducer, preloadedState, enhancer)

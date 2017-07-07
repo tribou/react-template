@@ -1,4 +1,4 @@
-// flow-typed signature: 7cb6250961f2e39b2df5ba6905f48522
+// flow-typed signature: d6942121562b84385478682c2a94412b
 // flow-typed version: <<STUB>>/material-ui_v^0.18.3/flow_v0.48.0
 
 /**
@@ -4594,10 +4594,6 @@ declare module 'material-ui/utils/events' {
   declare module.exports: any;
 }
 
-declare module 'material-ui/utils/iOSHelpers' {
-  declare module.exports: any;
-}
-
 declare module 'material-ui/utils/propTypes' {
   declare module.exports: any;
 }
@@ -8045,9 +8041,6 @@ declare module 'material-ui/utils/dom.js' {
 }
 declare module 'material-ui/utils/events.js' {
   declare module.exports: $Exports<'material-ui/utils/events'>;
-}
-declare module 'material-ui/utils/iOSHelpers.js' {
-  declare module.exports: $Exports<'material-ui/utils/iOSHelpers'>;
 }
 declare module 'material-ui/utils/propTypes.js' {
   declare module.exports: $Exports<'material-ui/utils/propTypes'>;
