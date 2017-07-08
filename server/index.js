@@ -7,6 +7,10 @@ import Inert from 'inert'
 import Vision from 'vision'
 import Routes from 'server/routes'
 
+// Plugins
+import HealthCheckPlugin from 'server/plugins/health'
+
+
 const ENV = process.env.NODE_ENV
 
 const server = new Hapi.Server()
@@ -54,6 +58,7 @@ const plugins = [
       },
     },
   },
+  HealthCheckPlugin,
 ]
 
 

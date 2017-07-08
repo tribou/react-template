@@ -1,16 +1,28 @@
 // @flow
 import React, { PureComponent } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import Helmet from 'react-helmet'
+import { getAuthToken, requireAuth } from 'src/helpers/auth'
 import css from './Profile.style.css'
 
 import type { ReduxProps } from './Profile.index'
 
+type ReactProps = {
+  location: Object,
+  history: Object,
+}
 
-type Props = ReduxProps
+type Props = ReduxProps & ReactProps
 
 
 class Profile extends PureComponent {
+
+  componentWillMount () {
+
+    const { location, history } = this.props
+    requireAuth(getAuthToken, location, history)
+
+  }
 
   componentDidMount () {
 

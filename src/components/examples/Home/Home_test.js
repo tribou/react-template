@@ -8,16 +8,20 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Home from './Home'
 
+
 type OverrideProps = {
   authenticated: any,
   logout: Function,
+  history: Object,
 }
 
 const mockProps: OverrideProps = {
   authenticated: false,
   logout: () => {},
+  history: {
+    replace: () => {},
+  },
 }
-
 
 it('<Home> renders the Home content', () => {
 

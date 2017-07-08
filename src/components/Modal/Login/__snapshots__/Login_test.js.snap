@@ -41,9 +41,8 @@ exports[`<Login> renders the Login content 1`] = `
       type="password"
     />
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
-      to="/?reset-password"
+      replace={false}
+      to="/?reset-password=true"
     >
       <div
         className="forgotPassword"
@@ -106,9 +105,8 @@ exports[`<Login> renders when form is submitting 1`] = `
       type="password"
     />
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
-      to="/?reset-password"
+      replace={false}
+      to="/?reset-password=true"
     >
       <div
         className="forgotPassword"

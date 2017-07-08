@@ -9,3 +9,5 @@ settings:
   flowtype:
     onlyFilesWithFlowAnnotation: false
   import/resolver: webpack
+  react/prefer-stateless-function:
+    - ignorePureComponents: true

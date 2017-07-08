@@ -5,7 +5,6 @@ import {
   loginMock as loginAPI,
   logoutMock as logoutAPI,
 } from 'src/helpers/api/auth'
-import history from 'src/helpers/history'
 
 const log = Debug('my-app:redux:modules:auth')
 
@@ -97,7 +96,10 @@ type LoginParams = {
   redirect?: string,
 }
 
-export const login = ({ username, password, redirect }: LoginParams) =>
+export const login = (
+  { username, password, redirect }: LoginParams,
+  history: Object,
+) =>
   (dispatch: GlobalDispatch<*>) => dispatch({
     type: LOGIN,
     payload: loginAPI({ username, password })
@@ -111,21 +113,13 @@ export const login = ({ username, password, redirect }: LoginParams) =>
       }),
   })
 
-
-type LogoutParams = {
-  redirect: string,
-}
-
-export const logout = ({ redirect }: LogoutParams) =>
+export const logout = () =>
   (dispatch: GlobalDispatch<*>) => dispatch({
     type: LOGOUT,
     payload: logoutAPI()
       .then(({ data }) => {
 
         removeAuthToken()
-        history.push({
-          pathname: redirect || '/home',
-        })
 
       })
       .catch(error => {

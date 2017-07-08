@@ -6,14 +6,11 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import Helmet from 'react-helmet'
 import { Provider } from 'react-redux'
-import { match, RouterContext } from 'react-router'
-import createHistory from 'react-router/lib/createMemoryHistory'
-import { syncHistoryWithStore } from 'react-router-redux'
-import getRoutes from 'src/routes'
-import { requireAuth } from 'src/helpers/auth'
+import { StaticRouter } from 'react-router'
 import { getAssets } from 'server/utils'
 import configureStore from 'src/redux/store'
 import { initialState as authInitialState } from 'src/redux/modules/auth'
+import Routes from 'src/routes'
 import env from 'config/env'
 import vars from 'config/variables'
 
@@ -67,8 +64,6 @@ const routedHtml = (request: Object, reply: Function) => {
 
   request.log(['info'], request.url.href)
 
-  const memoryHistory = createHistory(request.url.href)
-
   // Inject server request info
   const _request = { userAgent: request.headers['user-agent'] }
   request.log(['info', 'user-agent'], _request.userAgent)
@@ -85,85 +80,82 @@ const routedHtml = (request: Object, reply: Function) => {
     },
     env,
     request: _request,
-  }, memoryHistory)
-
-  const history = syncHistoryWithStore(memoryHistory, store)
+  })
 
   const muiTheme = getMuiTheme(_request.userAgent)
 
   // Let react-router match the raw URL to generate the
   // RouterContext here on the server
-  match({
-    routes: getRoutes(requireAuth(getAuthToken)),
-    history,
-    location: request.url.href,
-  }, (error: string, redirectLocation: Object, renderProps: Object): any => {
 
-    if (error) {
+  const context = {}
 
-      request.log(['error', 'react-router'], error)
-      return reply(Boom.serverTimeout(error))
+  // Get rendered router context
+  const children = renderToString(
+    <Provider store={store}>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <StaticRouter
+          location={request.url.href}
+          context={context}
+        >
+          <Routes />
+        </StaticRouter>
+      </MuiThemeProvider>
+    </Provider>
+  )
 
-    }
-    else if (redirectLocation) {
+  // Only redirect, no code
+  if (context.url && !context.code) {
 
-      return reply
-        .redirect(redirectLocation.pathname + redirectLocation.search)
-        .temporary()
+    return reply
+      .redirect(context.url)
+      .temporary()
 
-    }
-    else if (renderProps) {
+  }
+  // Both redirect and code! ZOMG!
+  else if (context.url && context.code) {
 
+    return reply
+      .redirect(context.url)
+      .code(context.code)
 
-      // Get rendered router context
-      const children = renderToString(
-        <Provider store={store}>
-          <MuiThemeProvider muiTheme={muiTheme}>
-            <RouterContext {...renderProps} />
-          </MuiThemeProvider>
-        </Provider>
-      )
+  }
 
-      // Get resulting store state
-      const preloadedState = store.getState()
+  // Get resulting store state
+  const preloadedState = store.getState()
 
-      // Get resulting head info
-      const head = Helmet.rewind()
+  // Get resulting head info
+  const head = Helmet.rewind()
 
-      // Inject the RouterContext into the props sent to the layout
-      const htmlProps = {
-        assets,
-        children,
-        css,
-        head,
-        preloadedState,
+  // Inject the RouterContext into the props sent to the layout
+  const htmlProps = {
+    assets,
+    children,
+    css,
+    head,
+    preloadedState,
+  }
+
+  // Render the layout with props
+  return request.render(
+    'Html',
+    htmlProps,
+    defaultRenderOptions,
+    (errorLayout: string, output: string): any => {
+
+      if (errorLayout) {
+
+        request.log(['error', 'view'], errorLayout)
+        return reply(Boom.serverTimeout(errorLayout))
+
       }
 
-      // Render the layout with props
-      return request.render(
-        'Html',
-        htmlProps,
-        defaultRenderOptions,
-        (errorLayout: string, output: string): any => {
+      // No redirect, only code
+      if (!context.url && context.code) return reply(output).code(context.code)
 
-          if (errorLayout) {
-
-            request.log(['error', 'view'], errorLayout)
-            return reply(Boom.serverTimeout(errorLayout))
-
-          }
-
-          return reply(output)
-
-        }
-      )
+      return reply(output)
 
     }
-
-    // If react-router couldn't match anything and threw no error
-    return reply(Boom.notFound())
-
-  })
+  )
 
 }
 

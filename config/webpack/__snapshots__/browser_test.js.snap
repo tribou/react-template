@@ -15,7 +15,7 @@ Object {
       "tachyons-widths",
       "./src/styles/fonts.css",
       "./src/styles/app.css",
-      "./src/browser.index.js",
+      "./src/index.browser.js",
     ],
   },
   "module": Object {

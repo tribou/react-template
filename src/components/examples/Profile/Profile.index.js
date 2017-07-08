@@ -1,5 +1,6 @@
 // @flow
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { fetchProfile } from 'src/redux/modules/profile'
 import Profile from './Profile'
 
@@ -30,5 +31,5 @@ const mapActionToProps: ActionProps = {
   fetchProfile,
 }
 
-export default connect(mapStateToProps, mapActionToProps)(Profile)
+export default withRouter(connect(mapStateToProps, mapActionToProps)(Profile))
 export type ReduxProps = StateProps & ActionProps

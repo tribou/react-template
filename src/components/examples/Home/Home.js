@@ -1,7 +1,7 @@
 // @flow
-import React from 'react'
+import React, { PureComponent } from 'react'
 import Helmet from 'react-helmet'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import Cn from 'classnames'
 
 import img from 'src/styles/images.css'
@@ -9,35 +9,68 @@ import sprites from 'src/styles/sprites.css'
 import css from './Home.style.css'
 import type { ReduxProps } from './Home.index'
 
-type Props = ReduxProps
+type ReactProps = {
+  history: Object,
+}
 
-const Home = (props: Props): React$Element<*> => {
+type Props = ReduxProps & ReactProps
 
-  const {
-    authenticated,
-    logout,
-  } = props
+class Home extends PureComponent {
 
-  const logoutButton = authenticated
-    ? <button onClick={logout}>Logout</button>
-    : null
+  constructor (props: Props) {
 
-  return (
-    <div className={css.home}>
-      <Helmet title="Home" />
-      This is the app...
-      <ul>
-        <li>This is a test item</li>
-      </ul>
-      <Link to="/profile">
-        <div className={Cn(img.logo, css.link)} />
-      </Link>
-      <Link to="/todos">
-        <div className={Cn(sprites.facebookIcon, css.link)} />
-      </Link>
-      {logoutButton}
-    </div>
-  )
+    super(props)
+    this.handleLogout = this.handleLogout.bind(this)
+
+  }
+
+  props: Props
+  handleLogout: Function
+
+  handleLogout () {
+
+    const {
+      logout,
+      history,
+    } = this.props
+
+    logout().then(() => {
+
+      history.push({
+        pathname: '/home',
+      })
+
+    })
+
+  }
+
+  render (): React$Element<any> {
+
+
+    const logoutButton = this.props.authenticated
+      ? (
+        <button onClick={this.handleLogout}>Logout</button>
+      )
+      : null
+
+    return (
+      <div className={css.home}>
+        <Helmet title="Home" />
+        This is the app...
+        <ul>
+          <li>This is a test item</li>
+        </ul>
+        <Link to="/profile">
+          <div className={Cn(img.logo, css.link)} />
+        </Link>
+        <Link to="/todos">
+          <div className={Cn(sprites.facebookIcon, css.link)} />
+        </Link>
+        {logoutButton}
+      </div>
+    )
+
+  }
 
 }
 

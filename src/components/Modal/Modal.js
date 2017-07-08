@@ -1,15 +1,13 @@
 // @flow
 import React from 'react'
 import { isBrowser } from 'config/env'
+import { parse } from 'qs'
 import Login from './Login/Login.index'
 import css from './Modal.style.css'
 
-
 type Props = {
   location: Object,
-  params: Object, // eslint-disable-line
 }
-
 
 const getStateModal = (props: Props): ?React$Element<any> => {
 
@@ -29,24 +27,30 @@ const getStateModal = (props: Props): ?React$Element<any> => {
 
 }
 
-
 const getQueryModal = (props: Props): ?React$Element<any> => {
 
   const { location } = props
 
-  if ('login' in location.query) {
+  let query = {}
+  if (location.search && location.search.length > 0) {
+
+    query = parse(location.search.substr(1))
+
+  }
+
+  if (query.login) {
 
     return <Login {...props} />
 
   }
 
-  // else if ('reset-password' in location.query) {
+  // else if (query['reset-password']) {
 
   //   return <ResetPassword {...props} />
 
   // }
 
-  // else if ('recover-password' in location.query) {
+  // else if (query['recover-password']) {
 
   //   return <RecoverPassword {...props} />
 
@@ -55,7 +59,6 @@ const getQueryModal = (props: Props): ?React$Element<any> => {
   return null
 
 }
-
 
 const Modal = (props: Props): ?React$Element<any> => {
 

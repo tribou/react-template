@@ -29,6 +29,14 @@ export default [
       },
     },
   },
+  // robots.txt
+  {
+    method: 'GET',
+    path: '/robots.txt',
+    handler: {
+      file: 'build/public/robots.txt',
+    },
+  },
   // Catch-all for react-router
   {
     method: 'GET',

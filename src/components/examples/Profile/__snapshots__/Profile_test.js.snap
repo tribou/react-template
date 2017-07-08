@@ -1,28 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Profile> displays profile info 1`] = `
+exports[`<Profile> renders the Profile content 1`] = `
 <div
-  class="profile"
+  className="profile"
 >
+  <HelmetWrapper
+    encodeSpecialCharacters={true}
+    title="Profile"
+  />
   <div
-    class="content"
+    className="content"
   >
     Profile page
     <ul>
       <li />
       <li />
-      <li>
-        Austin, TX
-      </li>
+      <li />
     </ul>
-    <a>
+    <Link
+      replace={false}
+      to="/home"
+    >
       Back
-    </a>
-    <button>
+    </Link>
+    <button
+      onClick={[Function]}
+    >
       Refresh
     </button>
     <div
-      class="error"
+      className="error"
     />
   </div>
 </div>
