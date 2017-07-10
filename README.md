@@ -1,8 +1,7 @@
 # React Template
 
 React boilerplate with Hapi server-side rendering. Uses browser-sync refreshing
-with optional Redux Devtool export/importing until react-hot-loader v3
-stabilizes.
+with server-side HMR until react-hot-loader v3 stabilizes.
 
 #### Quick Start
 
@@ -30,9 +29,6 @@ npm run dev
 # Build and start prod server (shortcut)
 npm run start-prod
 ```
-
-Ignore any initial errors for files that can't be found. Once the builds
-complete, it should automatically refresh as needed.
 
 Dev Server:  
 http://localhost:8000/
@@ -70,16 +66,27 @@ make component NAME=Sample TARGET_DIR=src/components/Dashboard
 
 #### Deployment
 
+CircleCI is setup to automatically bump patch versions on master.
+If you need a minor or major bump specifically, run either:
 ```sh
-# Add Heroku remotes
-npm run init
-
-# Deploy to staging on Heroku
-git push staging master
-
-# Promote current staging revision to prod on Heroku
-npm run deploy:prod
+npm version preminor
 ```
+
+or
+```sh
+npm version premajor
+```
+
+before you merge your PR to master. CircleCI will then automatically bump a
+minor or major version respectively. See `bin/bump_version.sh` for details.
+
+###### Staging Deployment
+Afterwards, Heroku is setup to automatically deploy the `master` branch to
+staging.
+
+###### Production Deployment
+Login to Heroku or use the CLI to promote a staging build to production via the
+Heroku pipelines feature.
 
 #### Testing
 
