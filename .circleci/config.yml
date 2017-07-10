@@ -67,6 +67,21 @@ jobs:
       - run:
           name: test-jest
           command: npm run test-jest
+  bump-version:
+    working_directory: ~/app
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - run:
+          name: which-node
+          command: which node
+      - run:
+          name: node-version
+          command: node -v
+      - run:
+          name: bump-version
+          command: bin/bump_version.sh
 
   # The following wasn't working:
   #
@@ -92,3 +107,12 @@ workflows:
     jobs:
       - build
       - build-node-8
+  versioning:
+    jobs:
+      - bump-version:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
+            - build-node-8
