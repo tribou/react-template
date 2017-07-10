@@ -19,18 +19,18 @@ if [ -n "$PREMAJOR" ]
 then
 
   echo "PREMAJOR $PREMAJOR"
-  npm version major
+  npm version major --ignore-scripts
 
 elif [ -n "$PREMINOR" ]
 then
 
   echo "PREMINOR $PREMINOR"
-  npm version minor
+  npm version minor --ignore-scripts
 
 else
 
   echo "PATCH $CURRENT"
-  npm version patch
+  npm version patch --ignore-scripts
 
 fi
 
