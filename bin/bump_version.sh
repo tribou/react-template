@@ -7,6 +7,9 @@ then
   exit
 fi
 
+git config user.email "tribou@users.noreply.github.com"
+git config user.name "CircleCI Bot"
+
 CURRENT=$(cat package.json | grep '"version"' | awk -F '"' '{print $4}')
 PREMAJOR=$(echo "$CURRENT" | grep '\.0\.0-0')
 PREMINOR=$(echo "$CURRENT" | grep -v '\.0\.0-0' | grep '\.0-0')
@@ -30,4 +33,4 @@ else
 
 fi
 
-git push origin master --follow-tags
+git push origin circleci-versioning --follow-tags
