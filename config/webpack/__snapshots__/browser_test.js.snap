@@ -100,11 +100,19 @@ Object {
   },
   "output": Object {
     "chunkFilename": "[name]-[chunkhash].js",
-    "filename": "[name]-[chunkhash].js",
+    "filename": "[name].js",
     "path": "<PROJECT_ROOT>/build/public",
     "publicPath": "/static/",
   },
   "plugins": Array [
+    ExtractTextPlugin {
+      "apply": [Function],
+      "applyAdditionalInformation": [Function],
+      "extract": [Function],
+      "loader": [Function],
+      "mergeNonInitialChunks": [Function],
+      "renderExtractedChunk": [Function],
+    },
     CommonsChunkPlugin {
       "async": undefined,
       "children": undefined,
@@ -117,20 +125,24 @@ Object {
       "minSize": undefined,
       "selectedChunks": undefined,
     },
-    ExtractTextPlugin {
-      "apply": [Function],
-      "applyAdditionalInformation": [Function],
-      "extract": [Function],
-      "loader": [Function],
-      "mergeNonInitialChunks": [Function],
-      "renderExtractedChunk": [Function],
-    },
     DefinePlugin {
       "definitions": Object {
         "process.env": Object {
           "NODE_ENV": "\\"test\\"",
         },
       },
+    },
+    HashedModuleIdsPlugin {
+      "options": Object {
+        "hashDigest": "base64",
+        "hashDigestLength": 4,
+        "hashFunction": "md5",
+      },
+    },
+    WebpackChunkHash {
+      "additionalHashContent": [Function],
+      "algorithm": "md5",
+      "digest": "hex",
     },
     Object {
       "apply": [Function],
@@ -145,6 +157,23 @@ Object {
         "update": false,
       },
       "writer": [Function],
+    },
+    CommonsChunkPlugin {
+      "async": undefined,
+      "children": undefined,
+      "chunkNames": Array [
+        "manifest",
+      ],
+      "filenameTemplate": undefined,
+      "ident": "<PROJECT_ROOT>/node_modules/webpack/lib/optimize/CommonsChunkPlugin.js0",
+      "minChunks": Infinity,
+      "minSize": undefined,
+      "selectedChunks": undefined,
+    },
+    ChunkManifestPlugin {
+      "inlineManifest": false,
+      "manifestFilename": "../chunk-manifest.json",
+      "manifestVariable": "__MANI_FOR_WEBPACK__",
     },
   ],
   "resolve": Object {

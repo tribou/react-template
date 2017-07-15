@@ -17,12 +17,14 @@ module.exports = {
   ServiceWorker: {
     events: true,
   },
-  version: `v${version}-[hash]`,
+  version: `v${version}-${new Date().toISOString()}`,
+  autoUpdate: true,
   publicPath: '/',
   externals: offlineRoutes,
   excludes: [
     '**/.*',
     '**/*.map',
+    '**/*.map.gz',
     'robots.txt',
   ],
 

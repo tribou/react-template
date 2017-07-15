@@ -13,6 +13,12 @@ type Props = {
   preloadedState: Object,
 }
 
+function fillWindowVar (v, o) {
+
+  return `window.${v} = ${(JSON.stringify(o) || '').replace(/</g, '\\u003c')}`
+
+}
+
 
 class Html extends Component {
 
@@ -24,7 +30,13 @@ class Html extends Component {
 
   static generateEnvScript (env: ?Object): string {
 
-    return `window.__ENV__ = ${(JSON.stringify(env) || '').replace(/</g, '\\u003c')}`
+    return fillWindowVar('__ENV__', env)
+
+  }
+
+  static generateManiScript (mani: ?Object): string {
+
+    return fillWindowVar('__MANI_FOR_WEBPACK__', mani)
 
   }
 
@@ -35,7 +47,9 @@ class Html extends Component {
     const { assets, head, preloadedState: { env } } = this.props
 
     const bundle = assets.bundle.js
+    const manifest = assets.manifest.js
     const vendor = assets.vendor.js
+    const { webpackMani } = assets
     const attrs = head.htmlAttributes.toComponent()
 
     const css = (
@@ -46,6 +60,7 @@ class Html extends Component {
 
     const preloadScript = Html.generatePreloadScript(this.props.preloadedState)
     const envScript = Html.generateEnvScript(env)
+    const maniScript = Html.generateManiScript(webpackMani)
 
     return (
       <html {...attrs}>
@@ -80,6 +95,17 @@ class Html extends Component {
             id="env-state"
             type="application/javascript"
             dangerouslySetInnerHTML={{ __html: envScript }}
+          />
+          <script
+            defer
+            id="chunk-manifest"
+            type="application/javascript"
+            dangerouslySetInnerHTML={{ __html: maniScript }}
+          />
+          <script
+            defer
+            type="application/javascript"
+            src={manifest}
           />
           <script
             defer

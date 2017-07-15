@@ -2,10 +2,12 @@
 
 const Path = require('path')
 const AssetsPlugin = require('assets-webpack-plugin')
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 // const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
+const WebpackChunkHash = require('webpack-chunk-hash')
 const webpack = require('webpack')
 
 const {
@@ -33,10 +35,6 @@ const config = createConfig.vanilla([
   setPlatform('browser'),
   getEntry(),
   getTarget(),
-  splitVendor({
-    name: 'vendor',
-    exclude: /(\/webpack\/hot\/|offline-plugin\/runtime\.js$)/,
-  }),
   setOutput({
     path: Path.resolve(__dirname, '../../build/public/'),
     chunkFilename: '[name]-[chunkhash].js',
@@ -46,18 +44,32 @@ const config = createConfig.vanilla([
   babel(),
   getResolve(),
   cssModules(),
+  splitVendor({
+    name: 'vendor',
+    exclude: /(\/webpack\/hot\/|offline-plugin\/runtime\.js$)/,
+  }),
   addPlugins([
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(NODE_ENV || 'development'),
       },
     }),
+    new webpack.HashedModuleIdsPlugin(),
+    new WebpackChunkHash(),
     new CopyPlugin([
     { from: 'static' },
     ]),
     new AssetsPlugin({
       filename: 'assets.json',
       path: Path.resolve(__dirname, '../../build'),
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      minChunks: Infinity,
+    }),
+    new ChunkManifestPlugin({
+      filename: '../chunk-manifest.json',
+      manifestVariable: '__MANI_FOR_WEBPACK__',
     }),
     // relative to project root
     // new FaviconsWebpackPlugin('static/images/logo@2x.png'),

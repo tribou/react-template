@@ -8,11 +8,17 @@ const log = Debug('my-app:server:utils')
 
 function _getAssets (): BuildAssets {
 
-  log('Reading assets.json from filesystem')
+  log('Reading assets.json and chunk-manifest.json from filesystem')
   const assetsFile = Path.resolve(__dirname, '../build/assets.json')
+  const chunkManifest = Path.resolve(__dirname, '../build/chunk-manifest.json')
   try {
 
-    return JSON.parse(Fs.readFileSync(assetsFile, 'utf-8'))
+    const assets = JSON.parse(Fs.readFileSync(assetsFile, 'utf-8'))
+    const webpackMani = JSON.parse(Fs.readFileSync(chunkManifest, 'utf-8'))
+    return {
+      ...assets,
+      webpackMani,
+    }
 
   }
   catch (error) {
@@ -22,10 +28,14 @@ function _getAssets (): BuildAssets {
       vendor: {
         js: '',
       },
+      manifest: {
+        js: '',
+      },
       bundle: {
         js: '',
         css: '',
       },
+      webpackMani: {},
     }
     return emptyAssets
 

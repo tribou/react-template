@@ -4,10 +4,14 @@ type BuildAssets = {
   vendor: {
     js: string,
   },
+  manifest: {
+    js: string,
+  },
   bundle: {
     js: string,
     css: string,
   },
+  webpackMani: Object,
 }
 
 // webpack hmr

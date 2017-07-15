@@ -25,10 +25,14 @@ const mockAssets = {
   vendor: {
     js: '',
   },
+  manifest: {
+    js: '',
+  },
   bundle: {
     css: '',
     js: '',
   },
+  webpackMani: {},
 }
 
 const mockProps = {
