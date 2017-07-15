@@ -2,7 +2,13 @@
 // Contains API-specific logic for the API service we're using
 import Axios from 'axios'
 import Debug from 'debug'
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
+import 'rxjs/add/observable/fromPromise'
+import 'rxjs/add/observable/of'
+import 'rxjs/add/observable/throw'
+import 'rxjs/add/operator/catch'
+import 'rxjs/add/operator/delay'
+import 'rxjs/add/operator/map'
 import type { $AxiosError, $AxiosXHR } from 'axios'
 import env from 'config/env'
 
