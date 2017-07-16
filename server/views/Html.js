@@ -23,7 +23,6 @@ function generateScript (v: string, o: ?Object): string {
 const Html = (props: Props) => {
 
   const { assets, children, head, preloadedState } = props
-  const { env } = preloadedState
   const { fobReduxStateVar, fobWebpackManiVar } = vars
 
   const bundle = assets.bundle.js

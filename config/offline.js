@@ -26,6 +26,8 @@ module.exports = {
     '**/*.map',
     '**/*.map.gz',
     'robots.txt',
+    'assets.json',
+    '../chunk-manifest.json',
   ],
 
   // If publicPath is a subdirectory
