@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducer profile.initialState has expected properties 1`] = `
+Object {
+  "data": Object {
+    "city": "nashville",
+    "dob": "1970-01-01T00:00:00.000Z",
+    "email": "",
+    "firstName": "",
+    "id": 1,
+    "lastName": "",
+    "notifications": true,
+    "picture": "",
+  },
+  "error": "",
+  "isFetching": false,
+}
+`;

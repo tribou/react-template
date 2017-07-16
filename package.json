@@ -51,6 +51,7 @@
     "file-loader": "^0.11.2",
     "flow-bin": "^0.50.0",
     "glob": "^7.1.2",
+    "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "imageoptim-cli": "^1.14.8",
     "jest": "^20.0.4",
@@ -136,6 +137,7 @@
     ]
   },
   "scripts": {
+    "prepush": "npm test",
     "heroku-postbuild": "npm run build",
     "init": "heroku git:remote -a my-app -r prod && heroku git:remote -a my-app-staging -r staging",
     "notify-optimize": "notify --icon 'https://imageoptim.com/icon.png' -t 'ImageOptim' -m 'Image optimization complete'",

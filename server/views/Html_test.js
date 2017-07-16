@@ -5,7 +5,10 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import Html from './Html'
+import vars from 'config/variables'
+import Html, { generateScript } from './Html'
+
+const { fobReduxStateVar } = vars
 
 
 // react-helmet mocks
@@ -48,7 +51,7 @@ const mockProps = {
 it('<Html> embeds preloadedState prop in app-state script tag', () => {
 
   const state = { mystate: 'this' }
-  const expected = JSON.stringify(state)
+  const expected = generateScript(fobReduxStateVar, state)
   const wrapper = shallow(
     <Html
       {...mockProps}

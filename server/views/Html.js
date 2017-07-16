@@ -14,7 +14,7 @@ type Props = {
   preloadedState: Object,
 }
 
-function generateScript (v: string, o: ?Object): string {
+export function generateScript (v: string, o: ?Object): string {
 
   return `window.${v} = ${json(JSON.stringify(o) || '')}`
 
