@@ -2,22 +2,24 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { fetchProfile } from 'src/redux/modules/profile'
+import type { Profile as ProfileModel } from 'src/redux/modules/profile'
+import type { RootReducerState } from 'src/redux/modules'
 import Profile from './Profile'
 
 
 type StateProps = {
-  me: Map<>,
-  error: string,
+  me: ProfileModel,
+  error: ?string,
 }
 
-function mapStateToProps (state: GlobalReducerState): StateProps {
+function mapStateToProps (state: RootReducerState): StateProps {
 
-  const { profile } = state
+  const profile = state.profile
 
   // Let's imagine this component only needs my profile
   return {
-    me: profile.get('me'),
-    error: profile.get('error'),
+    me: profile.data,
+    error: profile.error,
   }
 
 }

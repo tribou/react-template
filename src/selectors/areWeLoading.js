@@ -1,15 +1,12 @@
 // @flow
 import { createSelector } from 'reselect'
+import type { RootReducerState } from 'src/redux/modules'
 
-const getAuthFetching = state => state.auth.isFetching
-
-const getInitLoading = state => state.init.isLoading
-
-const getProfileFetching = state => state.profile.get('isFetching')
-
-const getTodosFetching = state => state.todos.get('isFetching')
-
-const getUiLoading = state => state.ui.showLoading
+const getAuthFetching = (state: RootReducerState) => state.auth.isFetching
+const getInitLoading = (state: RootReducerState) => state.init.isLoading
+const getProfileFetching = (state: RootReducerState) => state.profile.isFetching
+const getTodosFetching = (state: RootReducerState) => state.todos.isFetching
+const getUiLoading = (state: RootReducerState) => state.ui.showLoading
 
 
 const areWeLoading = createSelector([

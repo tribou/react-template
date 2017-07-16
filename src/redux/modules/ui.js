@@ -18,7 +18,7 @@ export type UIState = {
   showLoading: boolean,
 }
 
-export const initialState = {
+export const initialState: UIState = {
   sidebarOpen: true,
   error: null,
   // Manual option to show loading indicator if needed

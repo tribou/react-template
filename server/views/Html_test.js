@@ -1,11 +1,9 @@
 // @flow
-/* eslint-disable max-len */
 
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html
 
 import React from 'react'
-import Transit from 'transit-immutable-js'
 import { shallow } from 'enzyme'
 import Html from './Html'
 
@@ -50,7 +48,7 @@ const mockProps = {
 it('<Html> embeds preloadedState prop in app-state script tag', () => {
 
   const state = { mystate: 'this' }
-  const expected = Transit.toJSON(state)
+  const expected = JSON.stringify(state)
   const wrapper = shallow(
     <Html
       {...mockProps}

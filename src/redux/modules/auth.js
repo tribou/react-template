@@ -20,7 +20,7 @@ export type AuthState = {
 }
 
 // Initial state with default values
-export const initialState = {
+export const initialState: AuthState = {
   authenticated: false,
   user: {},
   error: '',

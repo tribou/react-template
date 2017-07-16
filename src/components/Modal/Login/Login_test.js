@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable max-len */
 
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html

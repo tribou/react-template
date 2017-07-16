@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable max-len */
 
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html
@@ -14,7 +13,7 @@ const mockProps = {
   style: {},
   label: 'Username',
   meta: { touched: false, error: false },
-  dispatch: () => {},
+  dispatch: jest.fn(),
   customStyles: {},
 }
 

@@ -9,15 +9,19 @@ export const getTodosMock = () => mock({
     {
       text: 'This is the first todo',
       date: '2016-12-12T20:22:54Z',
+      done: false,
     },
     {
       text: 'This is the second todo',
+      done: false,
     },
     {
       text: 'This is the third todo',
+      done: false,
     },
     {
       text: 'This is todo has "double-quotes"',
+      done: false,
     },
     {
       text: 'This one\'s done',

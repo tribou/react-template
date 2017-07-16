@@ -52,20 +52,19 @@ Here is an example Container with example state and action mappings:
 
 ```js
 // @flow
-import type { List } from 'immutable'
 import { connect } from 'react-redux'
+import type { RootReducerState } from 'src/redux/modules'
 import Todos from './Todos'
 import { setFilterCurrent, setFilterDone } from '../../../redux/modules/todos'
 import visibleTodos from '../../../selectors/visibleTodos'
 
 
 type StateProps = {
-  // Always put the asterisk or it assumes 'empty'
-  todos: List<*>,
-  filter: string,
+  +todos: Array<*>,
+  +filter: string,
 }
 
-function mapStateToProps (state: GlobalReducerState): StateProps {
+function mapStateToProps (state: RootReducerState): StateProps {
 
   const { todos } = state
 
@@ -168,7 +167,6 @@ Here is an example snapshot test that can assert the view component handles its 
 
 ```js
 // @flow
-/* eslint-disable max-len */
 
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html

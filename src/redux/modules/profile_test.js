@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable max-len */
 import reducer, { initialState } from './profile'
 
 
@@ -18,9 +17,6 @@ it('reducer profile returns initialState by default', () => {
 
 it('reducer profile.initialState has expected properties', () => {
 
-  const expected = ['me', 'error', 'isFetching']
-  const actual = initialState.keySeq().toJS()
-
-  expect(actual).toEqual(expected)
+  expect(initialState).toMatchSnapshot()
 
 })

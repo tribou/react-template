@@ -1,8 +1,6 @@
 // @flow
-// Non-shallow reducer state example needs Immutable
-// Async actions need redux-observable epics
+// Non-shallow reducer state example needs nested reducers
 // import Debug from 'debug'
-import { Record } from 'immutable'
 import type { APIError } from 'src/helpers/api'
 
 // const log = Debug('my-app:redux:modules:profile')
@@ -16,7 +14,18 @@ export const GET_PROFILE_REJECTED = 'my-app/profile/GET_PROFILE_REJECTED'
 
 // MODEL
 // Profile model with default values
-export const Profile = Record({
+export type Profile = {
+  id: number,
+  firstName: string,
+  lastName: string,
+  email: string,
+  city: string,
+  dob: string,
+  notifications: boolean,
+  picture: string,
+}
+
+const profile = {
   id: 1,
   firstName: '',
   lastName: '',
@@ -25,21 +34,22 @@ export const Profile = Record({
   dob: '1970-01-01T00:00:00.000Z',
   notifications: true,
   picture: '',
-})
+}
 
 
 // Flow type for this reducer's initial state
-export type ProfileState = Record<*>
+export type ProfileState = {
+  data: Profile,
+  isFetching: boolean,
+  error: ?string,
+}
 
 // Initial state with default values
-const InitialState = Record({
-  me: new Profile(),
+export const initialState: ProfileState = {
+  data: profile,
   error: '',
   isFetching: false,
-})
-
-
-export const initialState = new InitialState()
+}
 
 
 // REDUCER
@@ -48,18 +58,26 @@ function reducer (state: ProfileState = initialState, action: GlobalFSA<*>) {
   switch (action.type) {
 
     case GET_PROFILE:
-      return state.set('isFetching', true)
+      return {
+        ...state,
+        isFetching: true,
+      }
 
     case GET_PROFILE_FULFILLED:
-      return state
-        .set('me', new Profile(action.payload.me))
-        .set('error', '')
-        .set('isFetching', false)
+      return {
+        ...state,
+        data: action.payload.me,
+        error: '',
+        isFetching: false,
+      }
 
     case GET_PROFILE_REJECTED:
-      return state
-        .set('error', action.payload.statusCode)
-        .set('isFetching', false)
+      return {
+        ...state,
+        data: initialState.data,
+        error: action.payload.statusCode,
+        isFetching: false,
+      }
 
     default:
       return state

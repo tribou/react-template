@@ -1,6 +1,6 @@
-/* eslint-disable */
+// @flow
 
-type BuildAssets = {
+declare type BuildAssets = {
   vendor: {
     js: string,
   },

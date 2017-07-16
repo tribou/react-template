@@ -1,6 +1,7 @@
 // @flow
 import { connect } from 'react-redux'
 import areWeLoading from 'src/selectors/areWeLoading'
+import type { RootReducerState } from 'src/redux/modules'
 import LoadingIndicator from './LoadingIndicator'
 
 
@@ -8,7 +9,7 @@ type StateProps = {
   weAreLoading: boolean,
 }
 
-function mapStateToProps (state: GlobalReducerState): StateProps {
+function mapStateToProps (state: RootReducerState): StateProps {
 
   return {
     weAreLoading: areWeLoading(state),

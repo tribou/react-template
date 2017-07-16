@@ -1,5 +1,4 @@
 // @flow
-import type { List } from 'immutable'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
@@ -8,22 +7,24 @@ import {
   setFilterDone,
 } from 'src/redux/modules/todos'
 import getVisibleTodos from 'src/selectors/getVisibleTodos'
+import type { Todo } from 'src/redux/modules/todos'
+import type { RootReducerState } from 'src/redux/modules'
 import Todos from './Todos'
 
 
 type StateProps = {
   // Always put the asterisk or it assumes 'empty'
-  todos: List<*>,
+  todos: Array<Todo>,
   filter: string,
 }
 
-function mapStateToProps (state: GlobalReducerState): StateProps {
+function mapStateToProps (state: RootReducerState): StateProps {
 
   const { todos } = state
 
   return {
     todos: getVisibleTodos(state),
-    filter: todos.get('filter'),
+    filter: todos.filter,
   }
 
 }
