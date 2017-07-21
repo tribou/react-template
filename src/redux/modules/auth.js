@@ -1,12 +1,12 @@
 // @flow
-import Debug from 'debug'
+// import Debug from 'debug'
 import { removeAuthToken, setAuthToken } from 'src/helpers/auth'
 import {
   loginMock as loginAPI,
   logoutMock as logoutAPI,
 } from 'src/helpers/api/auth'
 
-const log = Debug('my-app:redux:modules:auth')
+// const log = Debug('my-app:redux:modules:auth')
 
 export const LOGIN = 'my-app/auth/LOGIN'
 export const LOGOUT = 'my-app/auth/LOGOUT'

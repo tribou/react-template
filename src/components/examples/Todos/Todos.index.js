@@ -5,9 +5,9 @@ import {
   getTodos,
   setFilterCurrent,
   setFilterDone,
-} from 'src/redux/modules/todos'
+} from 'src/redux/modules/examples/todos'
 import getVisibleTodos from 'src/selectors/getVisibleTodos'
-import type { Todo } from 'src/redux/modules/todos'
+import type { Todo } from 'src/redux/modules/examples/todos'
 import type { RootReducerState } from 'src/redux/modules'
 import Todos from './Todos'
 
@@ -20,7 +20,7 @@ type StateProps = {
 
 function mapStateToProps (state: RootReducerState): StateProps {
 
-  const { todos } = state
+  const { todos } = state.examples
 
   return {
     todos: getVisibleTodos(state),

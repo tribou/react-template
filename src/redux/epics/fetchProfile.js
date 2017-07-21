@@ -8,7 +8,7 @@ import {
   GET_PROFILE,
   fetchProfileSuccess,
   fetchProfileError,
-} from 'src/redux/modules/profile'
+} from 'src/redux/modules/examples/profile'
 import API from 'src/helpers/observableApi'
 
 const api = new API()

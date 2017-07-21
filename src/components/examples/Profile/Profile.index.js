@@ -1,8 +1,8 @@
 // @flow
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { fetchProfile } from 'src/redux/modules/profile'
-import type { Profile as ProfileModel } from 'src/redux/modules/profile'
+import { fetchProfile } from 'src/redux/modules/examples/profile'
+import type { Profile as ProfileModel } from 'src/redux/modules/examples/profile'
 import type { RootReducerState } from 'src/redux/modules'
 import Profile from './Profile'
 
@@ -14,7 +14,7 @@ type StateProps = {
 
 function mapStateToProps (state: RootReducerState): StateProps {
 
-  const profile = state.profile
+  const { profile } = state.examples
 
   // Let's imagine this component only needs my profile
   return {
