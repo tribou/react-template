@@ -47,10 +47,9 @@ const env: EnvState = {
 
   // App settings
   API_URL: API_URL || 'https://api.randomuser.me',
-  ROOT_URL: ROOT_URL || '</script><script>alert("Pwnerton")',
+  ROOT_URL: ROOT_URL || 'http://localhost:3000',
   USE_MOCK_API: USE_MOCK_API === 'true',
-  // Default to true
-  SECURE_COOKIE: SECURE_COOKIE === 'true' || typeof SECURE_COOKIE === 'undefined',
+  SECURE_COOKIE: SECURE_COOKIE === 'true',
   SHOW_ERRORS: SHOW_ERRORS === 'true',
 
   // Rollbar.io
@@ -60,19 +59,15 @@ const env: EnvState = {
 }
 
 
-export const isBrowser = (): boolean => Boolean(typeof window !== 'undefined' && window.document)
+export const isBrowser = (): boolean => Boolean(
+  typeof window !== 'undefined' && window.document
+)
 
 
 const getEnv = (): EnvState => {
 
   if (NODE_ENV === 'test') return env
-
-  if (isBrowser()) {
-
-    return window[fobReduxStateVar].env
-
-  }
-
+  if (isBrowser()) return window[fobReduxStateVar].env
   return env
 
 }
