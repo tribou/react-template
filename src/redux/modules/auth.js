@@ -58,6 +58,8 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
     case `${LOGOUT}_PENDING`:
       return {
         ...state,
+        // Optimistic
+        authenticated: false,
         isFetching: true,
       }
 
@@ -72,6 +74,7 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
     case `${LOGOUT}_REJECTED`:
       return {
         ...state,
+        // Always logout!
         authenticated: false,
         error: action.payload,
         isFetching: false,
@@ -113,23 +116,35 @@ export const login = (
       }),
   })
 
-export const logout = () =>
-  (dispatch: GlobalDispatch<*>) => dispatch({
-    type: LOGOUT,
-    payload: logoutAPI()
-      .then(({ data }) => {
+export const logout = (history: Object, redirect: ?string) =>
+  (dispatch: GlobalDispatch<*>) => {
 
-        removeAuthToken()
+    // Always do optimistic logout
+    removeAuthToken()
+    if (redirect) {
 
+      history.push({
+        pathname: redirect,
       })
-      .catch(error => {
 
-        // Remove auth tokens regardless
-        removeAuthToken()
-        log('logout error:', error)
+    }
+    else {
 
-      }),
-  })
+      history.push({
+        pathname: '/',
+        query: {
+          login: null,
+        },
+      })
+
+    }
+
+    return dispatch({
+      type: LOGOUT,
+      payload: logoutAPI(),
+    })
+
+  }
 
 
 export default reducer

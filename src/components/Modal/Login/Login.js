@@ -9,6 +9,7 @@ import css from './Login.style.css'
 import type { ReduxProps } from './Login.index'
 
 type Props = ReduxProps & {
+  history: Object,
   handleSubmit: Function,
   submitting: boolean,
   asyncValidating: boolean,
