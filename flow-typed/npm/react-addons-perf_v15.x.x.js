@@ -1,5 +1,5 @@
-// flow-typed signature: cb4b10c51560898b135037945ebf6748
-// flow-typed version: 187dc46bbb/react-addons-perf_v15.x.x/flow_>=v0.23.x
+// flow-typed signature: 331b4c1d398890147570f4ea0fe0ec7a
+// flow-typed version: b43dff3e0e/react-addons-perf_v15.x.x/flow_>=v0.16.x
 
 declare module 'react-addons-perf' {
   declare function start(): void;
