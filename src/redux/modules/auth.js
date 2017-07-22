@@ -1,12 +1,12 @@
 // @flow
-import Debug from 'debug'
+// import Debug from 'debug'
 import { removeAuthToken, setAuthToken } from 'src/helpers/auth'
 import {
   loginMock as loginAPI,
   logoutMock as logoutAPI,
 } from 'src/helpers/api/auth'
 
-const log = Debug('my-app:redux:modules:auth')
+// const log = Debug('my-app:redux:modules:auth')
 
 export const LOGIN = 'my-app/auth/LOGIN'
 export const LOGOUT = 'my-app/auth/LOGOUT'
@@ -20,7 +20,7 @@ export type AuthState = {
 }
 
 // Initial state with default values
-export const initialState = {
+export const initialState: AuthState = {
   authenticated: false,
   user: {},
   error: '',
@@ -58,6 +58,8 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
     case `${LOGOUT}_PENDING`:
       return {
         ...state,
+        // Optimistic
+        authenticated: false,
         isFetching: true,
       }
 
@@ -72,6 +74,7 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
     case `${LOGOUT}_REJECTED`:
       return {
         ...state,
+        // Always logout!
         authenticated: false,
         error: action.payload,
         isFetching: false,
@@ -113,23 +116,35 @@ export const login = (
       }),
   })
 
-export const logout = () =>
-  (dispatch: GlobalDispatch<*>) => dispatch({
-    type: LOGOUT,
-    payload: logoutAPI()
-      .then(({ data }) => {
+export const logout = (history: Object, redirect: ?string) =>
+  (dispatch: GlobalDispatch<*>) => {
 
-        removeAuthToken()
+    // Always do optimistic logout
+    removeAuthToken()
+    if (redirect) {
 
+      history.push({
+        pathname: redirect,
       })
-      .catch(error => {
 
-        // Remove auth tokens regardless
-        removeAuthToken()
-        log('logout error:', error)
+    }
+    else {
 
-      }),
-  })
+      history.push({
+        pathname: '/',
+        query: {
+          login: null,
+        },
+      })
+
+    }
+
+    return dispatch({
+      type: LOGOUT,
+      payload: logoutAPI(),
+    })
+
+  }
 
 
 export default reducer

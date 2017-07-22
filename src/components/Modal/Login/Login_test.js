@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable max-len */
 
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html
@@ -10,7 +9,11 @@ import Login from './Login'
 
 
 const mockProps = {
-  handleSubmit: () => {},
+  history: {
+    push: jest.fn(),
+    replace: jest.fn(),
+  },
+  handleSubmit: jest.fn(),
   location: { pathname: '/' },
   error: '',
 }

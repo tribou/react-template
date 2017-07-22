@@ -1,10 +1,14 @@
 // @flow
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
+import 'rxjs/add/observable/of'
+import 'rxjs/add/operator/catch'
+import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/mergeMap'
 import {
   GET_PROFILE,
   fetchProfileSuccess,
   fetchProfileError,
-} from 'src/redux/modules/profile'
+} from 'src/redux/modules/examples/profile'
 import API from 'src/helpers/observableApi'
 
 const api = new API()

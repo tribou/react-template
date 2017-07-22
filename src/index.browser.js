@@ -8,16 +8,16 @@ import InjectTapEventPlugin from 'react-tap-event-plugin'
 import Rollbar from 'rollbar/dist/rollbar.umd.min'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
-import Transit from 'transit-immutable-js'
 import configureStore from 'src/redux/store'
 import { loadSuccess } from 'src/redux/modules/init'
 import rollbarConfig from 'config/rollbar'
+import vars from 'config/variables'
+
+import Routes from 'src/routes'
 
 // Material-UI
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'config/muiTheme'
-
-import Routes from 'src/routes'
 
 if (process.env.NODE_ENV !== 'development') {
 
@@ -25,12 +25,13 @@ if (process.env.NODE_ENV !== 'development') {
 
 }
 
+const { fobReduxStateVar } = vars
+
+
 InjectTapEventPlugin()
 
 const log = Debug('my-app:index:browser')
-const appStateElement = document.getElementById('app-state')
-const serializedState = appStateElement ? appStateElement.innerHTML : '{}'
-const store = configureStore(Transit.fromJSON(serializedState))
+const store = configureStore(window[fobReduxStateVar])
 
 window.onload = () => {
 

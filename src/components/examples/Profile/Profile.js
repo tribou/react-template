@@ -43,9 +43,9 @@ class Profile extends PureComponent {
         <div className={css.content}>
           Profile page
           <ul>
-            <li>{me.get('firstName')}</li>
-            <li>{me.get('lastName')}</li>
-            <li>{me.get('city')}</li>
+            <li>{me.firstName}</li>
+            <li>{me.lastName}</li>
+            <li>{me.city}</li>
           </ul>
           <Link to="/home">Back</Link>
           <button

@@ -4,6 +4,7 @@ import { reduxForm } from 'redux-form'
 import { withRouter } from 'react-router'
 import { parse } from 'qs'
 import { login } from 'src/redux/modules/auth'
+import type { RootReducerState } from 'src/redux/modules'
 import Login from './Login'
 
 const validate = values => {
@@ -48,10 +49,10 @@ const reduxFormConfig = {
 
 
 type StateProps = {
-  error: string,
+  error: ?string,
 }
 
-function mapStateToProps (state: GlobalReducerState): StateProps {
+function mapStateToProps (state: RootReducerState): StateProps {
 
   const { error } = state.auth
 

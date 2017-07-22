@@ -34,13 +34,7 @@ class Home extends PureComponent {
       history,
     } = this.props
 
-    logout().then(() => {
-
-      history.push({
-        pathname: '/home',
-      })
-
-    })
+    logout(history)
 
   }
 

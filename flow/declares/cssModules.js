@@ -1,6 +1,6 @@
-/* eslint-disable */
+// @flow
 
-type CssLoaders = {
+declare type CssLoaders = {
   modules: string,
   vendor: string,
 }

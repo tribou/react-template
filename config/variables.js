@@ -8,6 +8,7 @@
 
 const variables = {
 
+  // App-specific config
   appTitle: 'Ooober',
   appDescription: 'The best site ever.',
   appIcon: '/static/images/logo.png',
@@ -55,6 +56,10 @@ const variables = {
 
   zModal: 50,
   zModalBackdrop: 40,
+
+  // Framework-specific config
+  fobReduxStateVar: '__THIS_DA_LOAD__',
+  fobWebpackManiVar: '__MANI_FOR_WEBPACK__',
 
   // Standard sizes based on REMs
   s1: '.25rem',

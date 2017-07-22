@@ -9,6 +9,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
 const WebpackChunkHash = require('webpack-chunk-hash')
 const webpack = require('webpack')
+const vars = require('../../config/variables')
 
 const {
   addPlugins,
@@ -69,7 +70,7 @@ const config = createConfig.vanilla([
     }),
     new ChunkManifestPlugin({
       filename: '../chunk-manifest.json',
-      manifestVariable: '__MANI_FOR_WEBPACK__',
+      manifestVariable: vars.fobWebpackManiVar,
     }),
     // relative to project root
     // new FaviconsWebpackPlugin('static/images/logo@2x.png'),

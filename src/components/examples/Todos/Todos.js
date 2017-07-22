@@ -25,7 +25,7 @@ class Todos extends PureComponent {
     const { setFilterCurrent, setFilterDone, todos } = this.props
 
     const todoList = todos.map(todo =>
-      <li key={todo.get('text')}>{todo.get('text')}</li>
+      <li key={todo.text}>{todo.text}</li>
     )
 
     return (

@@ -9,5 +9,9 @@ settings:
   flowtype:
     onlyFilesWithFlowAnnotation: false
   import/resolver: webpack
-  react/prefer-stateless-function:
-    - ignorePureComponents: true
+
+globals:
+  # Global Flow Types
+  # https://github.com/babel/babel-eslint/issues/130#issuecomment-111216872
+  BuildAssets: false
+  CssLoaders: false

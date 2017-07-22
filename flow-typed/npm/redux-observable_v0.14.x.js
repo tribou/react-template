@@ -1,5 +1,5 @@
-// flow-typed signature: 886b73aacc8937230ec664244e403d41
-// flow-typed version: 3f86ef0a9c/redux-observable_v0.14.x/flow_>=v0.48.x
+// flow-typed signature: 97888e093de45f01ade721f04ec3dd42
+// flow-typed version: b43dff3e0e/redux-observable_v0.14.x/flow_>=v0.47.x
 
 import { Observable } from 'rxjs';
 

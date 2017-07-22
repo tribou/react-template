@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable max-len */
 import reducer, { initialState, LOAD, LOAD_SUCCESS } from './init'
 
 

@@ -1,4 +1,8 @@
 // @flow
+import vars from 'config/variables'
+
+const { fobReduxStateVar } = vars
+
 
 export type EnvState = {
 
@@ -44,9 +48,9 @@ const env: EnvState = {
   // App settings
   API_URL: API_URL || 'https://api.randomuser.me',
   ROOT_URL: ROOT_URL || 'http://localhost:3000',
-  USE_MOCK_API: USE_MOCK_API === 'true' || false,
-  SECURE_COOKIE: SECURE_COOKIE === 'true' || false,
-  SHOW_ERRORS: SHOW_ERRORS === 'true' || true,
+  USE_MOCK_API: USE_MOCK_API === 'true',
+  SECURE_COOKIE: SECURE_COOKIE === 'true',
+  SHOW_ERRORS: SHOW_ERRORS === 'true',
 
   // Rollbar.io
   ROLLBAR_ENV: ROLLBAR_ENV || 'development',
@@ -55,19 +59,15 @@ const env: EnvState = {
 }
 
 
-export const isBrowser = (): boolean => Boolean(typeof window !== 'undefined' && window.document)
+export const isBrowser = (): boolean => Boolean(
+  typeof window !== 'undefined' && window.document
+)
 
 
 const getEnv = (): EnvState => {
 
   if (NODE_ENV === 'test') return env
-
-  if (isBrowser()) {
-
-    return window.__ENV__
-
-  }
-
+  if (isBrowser()) return window[fobReduxStateVar].env
   return env
 
 }

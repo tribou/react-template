@@ -1,6 +1,7 @@
 // @flow
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import type { RootReducerState } from 'src/redux/modules'
 import App from './App'
 
 
@@ -8,7 +9,7 @@ type StateProps = {
   ROOT_URL: string,
 }
 
-function mapStateToProps (state: GlobalReducerState): StateProps {
+function mapStateToProps (state: RootReducerState): StateProps {
 
   const { ROOT_URL } = state.env
 
