@@ -28,6 +28,7 @@ const config = createConfig.vanilla([
     path: Path.join(__dirname, '../../build'),
     filename: '[name]',
     libraryTarget: 'commonjs2',
+    publicPath: '/static/',
   }),
   babel(),
   getResolve(),
