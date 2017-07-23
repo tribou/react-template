@@ -91,6 +91,7 @@ Object {
     "filename": "[name]",
     "libraryTarget": "commonjs2",
     "path": "<PROJECT_ROOT>/build",
+    "publicPath": "/static/",
   },
   "plugins": Array [
     BannerPlugin {
