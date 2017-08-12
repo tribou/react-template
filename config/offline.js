@@ -13,7 +13,6 @@ const offlineRoutes = [
 
 
 module.exports = {
-  AppCache: false,
   ServiceWorker: {
     events: true,
   },

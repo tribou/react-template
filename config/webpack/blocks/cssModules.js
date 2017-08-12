@@ -39,7 +39,7 @@ function getRule ({ fileType, platform, modules, NODE_ENV }
     : 'css-loader'
 
   const localIdentName = NODE_ENV === 'production'
-    ? '[hash:base64:10]'
+    ? '[hash:base64:8]'
     : '[path][name]__[local]__[hash:base64:3]'
 
   const importLoaders = platform === 'server'

@@ -20,8 +20,32 @@ server.connection({
   port: process.env.PORT || 8000,
   routes: {
     cors: true,
-    security: true,
+    security: {
+      xframe: 'sameorigin',
+    },
   },
+})
+
+// Redirect to HTTPS
+server.ext('onRequest', (request, reply) => {
+
+  if (ENV !== 'production') return reply.continue()
+
+  const redirect = request.headers['x-forwarded-proto'] === 'http'
+  const host = request.headers['x-forwarded-host'] || request.headers.host
+
+  const path = `https://${host}${request.url.path}`
+
+  if (redirect) {
+
+    server.log(['info', 'http_redirect'], path)
+    return reply()
+      .redirect(path)
+      .code(301)
+
+  }
+  return reply.continue()
+
 })
 
 // Register Hapi plugins
