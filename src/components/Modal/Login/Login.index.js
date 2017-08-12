@@ -28,11 +28,11 @@ const onSubmit = (values, dispatch, props): Promise<*> => {
   const { usernameInput, passwordInput } = values
   const search = parse(props.location.search.substr(1))
 
-  return login({
+  return dispatch(login({
     username: usernameInput,
     password: passwordInput,
     redirect: search.redirect,
-  }, props.history)(dispatch)
+  }, props.history))
 
 }
 
@@ -52,15 +52,8 @@ type StateProps = {
   error: ?string,
 }
 
-function mapStateToProps (state: RootReducerState): StateProps {
-
-  const { error } = state.auth
-
-  return {
-    error,
-  }
-
-}
+const mapStateToProps = ({ auth: { error } }: RootReducerState): StateProps =>
+  ({ error })
 
 
 export default withRouter(connect(mapStateToProps)(

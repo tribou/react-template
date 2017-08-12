@@ -8,7 +8,7 @@ type Props = {
   children: React$Element<any>,
 }
 
-const Status = ({ children, code }: Props): ?React$Element<any> => (
+const Status = ({ children, code }: Props) => (
   <Route render={({ staticContext }) => {
 
     // eslint-disable-next-line no-param-reassign

@@ -13,7 +13,7 @@ type Props = ReduxProps & {
   location: Object,
 }
 
-const App = (props: Props): React$Element<*> => {
+const App = (props: Props) => {
 
   const {
     appDescription,

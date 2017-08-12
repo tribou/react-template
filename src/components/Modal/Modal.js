@@ -9,7 +9,7 @@ type Props = {
   location: Object,
 }
 
-const getStateModal = (props: Props): ?React$Element<any> => {
+const getStateModal = (props: Props) => {
 
   const { location } = props
 
@@ -27,7 +27,7 @@ const getStateModal = (props: Props): ?React$Element<any> => {
 
 }
 
-const getQueryModal = (props: Props): ?React$Element<any> => {
+const getQueryModal = (props: Props) => {
 
   const { location } = props
 
@@ -60,7 +60,7 @@ const getQueryModal = (props: Props): ?React$Element<any> => {
 
 }
 
-const Modal = (props: Props): ?React$Element<any> => {
+const Modal = (props: Props) => {
 
   const stateModal = getStateModal(props)
   const queryModal = getQueryModal(props)

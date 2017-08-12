@@ -9,15 +9,8 @@ type StateProps = {
   ROOT_URL: string,
 }
 
-function mapStateToProps (state: RootReducerState): StateProps {
-
-  const { ROOT_URL } = state.env
-
-  return {
-    ROOT_URL,
-  }
-
-}
+const mapStateToProps = ({ env: { ROOT_URL } }: RootReducerState): StateProps =>
+  ({ ROOT_URL })
 
 
 export default withRouter(connect(mapStateToProps)(App))

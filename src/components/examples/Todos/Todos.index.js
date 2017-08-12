@@ -18,16 +18,10 @@ type StateProps = {
   filter: string,
 }
 
-function mapStateToProps (state: RootReducerState): StateProps {
-
-  const { todos } = state.examples
-
-  return {
-    todos: getVisibleTodos(state),
-    filter: todos.filter,
-  }
-
-}
+const mapStateToProps = (state: RootReducerState): StateProps => ({
+  todos: getVisibleTodos(state),
+  filter: state.examples.todos.filter,
+})
 
 
 type DispatchProps = {
@@ -36,15 +30,13 @@ type DispatchProps = {
   getTodos: Function,
 }
 
-function mapDispatchToProps (dispatch: any): DispatchProps {
+const mapDispatchToProps = (dispatch: any): DispatchProps =>
+  bindActionCreators({
+    setFilterCurrent,
+    setFilterDone,
+    getTodos,
+  }, dispatch)
 
-  return {
-    setFilterCurrent: bindActionCreators(setFilterCurrent, dispatch),
-    setFilterDone: bindActionCreators(setFilterDone, dispatch),
-    getTodos: bindActionCreators(getTodos, dispatch),
-  }
-
-}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos)
 export type ReduxProps = StateProps & DispatchProps

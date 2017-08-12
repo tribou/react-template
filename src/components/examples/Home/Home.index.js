@@ -11,28 +11,17 @@ type StateProps = {
   authenticated: boolean,
 }
 
-function mapStateToProps (state: RootReducerState): StateProps {
-
-  const { authenticated } = state.auth
-
-  return {
-    authenticated,
-  }
-
-}
+const mapStateToProps = (
+  { auth: { authenticated } }: RootReducerState
+): StateProps => ({ authenticated })
 
 
 type DispatchProps = {
   logout: Function,
 }
 
-function mapDispatchToProps (dispatch: any): DispatchProps {
-
-  return {
-    logout: bindActionCreators(logout, dispatch),
-  }
-
-}
+const mapDispatchToProps = (dispatch: GlobalDispatch<*>): DispatchProps =>
+  bindActionCreators({ logout }, dispatch)
 
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home))

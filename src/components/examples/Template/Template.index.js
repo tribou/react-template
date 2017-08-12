@@ -8,23 +8,15 @@ type StateProps = {
   url: string,
 }
 
-function mapStateToProps (state: RootReducerState): StateProps {
+const mapStateToProps = (
+  { env: { ROOT_URL } }: RootReducerState
+): StateProps => ({ url: ROOT_URL })
 
-  const { env: { ROOT_URL } } = state
-  return {
-    url: ROOT_URL,
-  }
-
-}
 
 type DispatchProps = {
 }
 
-function mapDispatchToProps (dispatch: any): DispatchProps {
-
-  return {}
-
-}
+const mapDispatchToProps = (dispatch: GlobalDispatch<*>): DispatchProps => ({})
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Template)

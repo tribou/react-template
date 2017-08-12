@@ -102,7 +102,7 @@ type LoginParams = {
 export const login = (
   { username, password, redirect }: LoginParams,
   history: Object,
-) =>
+): GlobalThunkAction =>
   (dispatch: GlobalDispatch<*>) => dispatch({
     type: LOGIN,
     payload: loginAPI({ username, password })
@@ -116,28 +116,21 @@ export const login = (
       }),
   })
 
-export const logout = (history: Object, redirect: ?string) =>
+export const logout = (history: Object, redirect: ?string): GlobalThunkAction =>
   (dispatch: GlobalDispatch<*>) => {
 
     // Always do optimistic logout
     removeAuthToken()
-    if (redirect) {
-
-      history.push({
+    redirect
+      ? history.push({
         pathname: redirect,
       })
-
-    }
-    else {
-
-      history.push({
+      : history.push({
         pathname: '/',
         query: {
           login: null,
         },
       })
-
-    }
 
     return dispatch({
       type: LOGOUT,

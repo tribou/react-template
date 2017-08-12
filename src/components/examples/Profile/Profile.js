@@ -7,15 +7,13 @@ import css from './Profile.style.css'
 
 import type { ReduxProps } from './Profile.index'
 
-type ReactProps = {
+type Props = ReduxProps & {
   location: Object,
   history: Object,
 }
 
-type Props = ReduxProps & ReactProps
 
-
-class Profile extends PureComponent {
+class Profile extends PureComponent<void, Props, void> {
 
   componentWillMount () {
 
@@ -30,10 +28,7 @@ class Profile extends PureComponent {
 
   }
 
-  props: Props
-
-
-  render (): React$Element<any> {
+  render () {
 
     const { error, me } = this.props
 

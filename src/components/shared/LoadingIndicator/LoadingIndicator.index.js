@@ -9,13 +9,9 @@ type StateProps = {
   weAreLoading: boolean,
 }
 
-function mapStateToProps (state: RootReducerState): StateProps {
-
-  return {
-    weAreLoading: areWeLoading(state),
-  }
-
-}
+const mapStateToProps = (state: RootReducerState): StateProps => ({
+  weAreLoading: areWeLoading(state),
+})
 
 
 export default connect(mapStateToProps)(LoadingIndicator)

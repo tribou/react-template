@@ -10,7 +10,7 @@ const autoHideDuration = 10000
 type Props = ReduxProps & {
 }
 
-const ErrorMessage = (props: Props): ?React$Element<*> => {
+const ErrorMessage = (props: Props) => {
 
   const { error } = props
 

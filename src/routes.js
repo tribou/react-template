@@ -11,7 +11,7 @@ import Profile from 'src/components/examples/Profile/Profile.index'
 import Todos from 'src/components/examples/Todos/Todos.index'
 
 
-const Routes = (): React$Element<any> => (
+const Routes = () => (
   <App>
     <Switch>
 
