@@ -15,25 +15,11 @@ type Props = ReduxProps & {
   asyncValidating: boolean,
 }
 
-class Login extends PureComponent {
+class Login extends PureComponent<void, Props, void> {
 
-  constructor (props: Props) {
+  handleClose = () => this.props.history.goBack()
 
-    super(props)
-    this.handleClose = this.handleClose.bind(this)
-
-  }
-
-  props: Props
-  handleClose: Function
-
-  handleClose () {
-
-    this.props.history.goBack()
-
-  }
-
-  render (): React$Element<any> {
+  render () {
 
     const {
       handleSubmit,

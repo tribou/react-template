@@ -10,7 +10,7 @@ type ReactProps = {
 
 type Props = ReactProps
 
-class LinkReplace extends PureComponent {
+class LinkReplace extends PureComponent<void, Props, void> {
 
   handleClick = () => {
 
@@ -58,9 +58,7 @@ class LinkReplace extends PureComponent {
 
   }
 
-  props: Props
-
-  render (): React$Element<any> {
+  render () {
 
     return (
       <div

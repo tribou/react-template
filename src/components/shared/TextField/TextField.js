@@ -14,14 +14,13 @@ type Props = {
 }
 
 // http://redux-form.com/6.4.3/examples/material-ui/
-class TextField extends PureComponent {
+class TextField extends PureComponent<void, Props, void> {
 
   getInputNode = () => this.input
 
-  props: Props
   input: HTMLElement
 
-  render (): React$Element<any> {
+  render () {
 
     /* eslint-disable no-unused-vars */
     const {

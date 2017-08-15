@@ -12,26 +12,21 @@ type StateProps = {
   error: ?string,
 }
 
-function mapStateToProps (state: RootReducerState): StateProps {
-
-  const { profile } = state.examples
-
-  // Let's imagine this component only needs my profile
-  return {
-    me: profile.data,
-    error: profile.error,
-  }
-
-}
+const mapStateToProps = (
+  { examples: { profile } }: RootReducerState
+): StateProps => ({
+  me: profile.data,
+  error: profile.error,
+})
 
 
-type ActionProps = {
+type DispatchProps = {
   fetchProfile: Function,
 }
 
-const mapActionToProps: ActionProps = {
+const mapDispatchToProps: DispatchProps = {
   fetchProfile,
 }
 
-export default withRouter(connect(mapStateToProps, mapActionToProps)(Profile))
-export type ReduxProps = StateProps & ActionProps
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))
+export type ReduxProps = StateProps & DispatchProps

@@ -10,7 +10,7 @@ import type { ReduxProps } from './Todos.index'
 type Props = ReduxProps
 
 
-class Todos extends PureComponent {
+class Todos extends PureComponent<void, Props, void> {
 
   componentDidMount () {
 
@@ -18,9 +18,7 @@ class Todos extends PureComponent {
 
   }
 
-  props: Props
-
-  render (): React$Element<any> {
+  render () {
 
     const { setFilterCurrent, setFilterDone, todos } = this.props
 

@@ -8,13 +8,9 @@ type StateProps = {
   error: ?{ message: string },
 }
 
-function mapStateToProps (state: RootReducerState): StateProps {
-
-  return {
-    error: state.ui.error,
-  }
-
-}
+const mapStateToProps = ({ ui: { error } }: RootReducerState): StateProps => ({
+  error,
+})
 
 
 export default connect(mapStateToProps)(ErrorMessage)

@@ -8,11 +8,9 @@ import type { ReduxProps } from './Template.index'
 type Props = ReduxProps & {
 }
 
-class Template extends PureComponent {
+class Template extends PureComponent<void, Props, void> {
 
-  props: Props
-
-  render (): React$Element<any> {
+  render () {
 
     const { url } = this.props
 

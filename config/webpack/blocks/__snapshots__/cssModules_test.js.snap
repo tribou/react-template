@@ -83,7 +83,7 @@ Object {
                 "loader": "css-loader",
                 "options": Object {
                   "importLoaders": 1,
-                  "localIdentName": "[hash:base64:10]",
+                  "localIdentName": "[hash:base64:8]",
                   "minimize": true,
                   "modules": true,
                 },
@@ -108,7 +108,7 @@ Object {
                 "loader": "css-loader",
                 "options": Object {
                   "importLoaders": 1,
-                  "localIdentName": "[hash:base64:10]",
+                  "localIdentName": "[hash:base64:8]",
                   "minimize": true,
                   "modules": false,
                 },
@@ -201,7 +201,7 @@ Object {
             "loader": "css-loader/locals",
             "options": Object {
               "importLoaders": 0,
-              "localIdentName": "[hash:base64:10]",
+              "localIdentName": "[hash:base64:8]",
               "minimize": true,
               "modules": true,
             },
@@ -222,7 +222,7 @@ Object {
             "loader": "css-loader/locals",
             "options": Object {
               "importLoaders": 0,
-              "localIdentName": "[hash:base64:10]",
+              "localIdentName": "[hash:base64:8]",
               "minimize": true,
               "modules": false,
             },

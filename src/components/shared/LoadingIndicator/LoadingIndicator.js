@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { PureComponent } from 'react'
 import css from './LoadingIndicator.style.css'
 
 import type { ReduxProps } from './LoadingIndicator.index'
@@ -8,17 +8,21 @@ import type { ReduxProps } from './LoadingIndicator.index'
 type Props = ReduxProps & {
 }
 
-const LoadingIndicator = (props: Props): ?React$Element<*> => {
+class LoadingIndicator extends PureComponent<void, Props, void> {
 
-  const { weAreLoading } = props
+  render () {
 
-  if (!weAreLoading) return null
+    const { weAreLoading } = this.props
 
-  return (
-    <div className={css.loading}>
-      Loading...
-    </div>
-  )
+    if (!weAreLoading) return null
+
+    return (
+      <div className={css.loading}>
+        Loading...
+      </div>
+    )
+
+  }
 
 }
 

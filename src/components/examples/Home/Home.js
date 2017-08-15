@@ -9,25 +9,13 @@ import sprites from 'src/styles/sprites.css'
 import css from './Home.style.css'
 import type { ReduxProps } from './Home.index'
 
-type ReactProps = {
+type Props = ReduxProps & {
   history: Object,
 }
 
-type Props = ReduxProps & ReactProps
+class Home extends PureComponent<void, Props, void> {
 
-class Home extends PureComponent {
-
-  constructor (props: Props) {
-
-    super(props)
-    this.handleLogout = this.handleLogout.bind(this)
-
-  }
-
-  props: Props
-  handleLogout: Function
-
-  handleLogout () {
+  handleLogout = () => {
 
     const {
       logout,
@@ -38,7 +26,7 @@ class Home extends PureComponent {
 
   }
 
-  render (): React$Element<any> {
+  render () {
 
 
     const logoutButton = this.props.authenticated
