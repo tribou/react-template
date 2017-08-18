@@ -28,8 +28,7 @@ class Home extends PureComponent<void, Props, void> {
 
   render () {
 
-
-    const logoutButton = this.props.authenticated
+    const logoutButton = this.props.token
       ? (
         <button onClick={this.handleLogout}>Logout</button>
       )

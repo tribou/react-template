@@ -68,13 +68,13 @@ const routedHtml = (request: Object, reply: Function) => {
   const _request = { userAgent: request.headers['user-agent'] }
   request.log(['info', 'user-agent'], _request.userAgent)
 
-  const authenticated = typeof request.state[vars.appAuthCookieKey] !== 'undefined'
+  const token = request.state[vars.appAuthCookieKey]
 
   // Pass initial state to store along with server ENV vars
   const store = configureStore({
     auth: {
       ...authInitialState,
-      authenticated,
+      token,
     },
     env,
     request: _request,

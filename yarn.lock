@@ -6826,6 +6826,15 @@ recompose@0.23.4:
     hoist-non-react-statics "^1.0.0"
     symbol-observable "^1.0.4"
 
+recompose@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.25.0.tgz#e2ec723692ff0fdab3d62bd22c1da69af1985acd"
+  dependencies:
+    change-emitter "^0.1.2"
+    fbjs "^0.8.1"
+    hoist-non-react-statics "^1.0.0"
+    symbol-observable "^1.0.4"
+
 redeyed@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/redeyed/-/redeyed-1.0.1.tgz#e96c193b40c0816b00aec842698e61185e55498a"

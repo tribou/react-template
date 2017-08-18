@@ -10,13 +10,15 @@ import Profile from './Profile'
 type StateProps = {
   me: ProfileModel,
   error: ?string,
+  token: ?string,
 }
 
 const mapStateToProps = (
-  { examples: { profile } }: RootReducerState
+  { auth: { token }, examples: { profile } }: RootReducerState
 ): StateProps => ({
   me: profile.data,
   error: profile.error,
+  token,
 })
 
 

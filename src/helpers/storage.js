@@ -3,6 +3,8 @@ import Cookies from 'cookies-js'
 import { Base64 } from 'js-base64'
 import env, { isBrowser } from 'config/env'
 
+const { SECURE_COOKIE } = env
+
 const domain = isBrowser()
   ? window.location.hostname
   : null
@@ -21,9 +23,9 @@ export const setItem = async function setItem (
 ) {
 
   await Cookies.set(key, serialize(value), {
-    expires,
-    secure: env.SECURE_COOKIE === 'true',
+    secure: SECURE_COOKIE,
     domain,
+    expires,
   })
 
 }

@@ -1,5 +1,6 @@
 // @flow
 // import Debug from 'debug'
+import get from 'lodash/get'
 import { removeAuthToken, setAuthToken } from 'src/helpers/auth'
 import {
   loginMock as loginAPI,
@@ -13,7 +14,7 @@ export const LOGOUT = 'my-app/auth/LOGOUT'
 
 // Flow type for this reducer's initial state
 export type AuthState = {
-  authenticated: boolean,
+  token: ?string,
   user: Object,
   error: ?string,
   isFetching: boolean,
@@ -21,7 +22,7 @@ export type AuthState = {
 
 // Initial state with default values
 export const initialState: AuthState = {
-  authenticated: false,
+  token: undefined,
   user: {},
   error: '',
   isFetching: false,
@@ -42,7 +43,7 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
     case `${LOGIN}_FULFILLED`:
       return {
         ...state,
-        authenticated: true,
+        token: get(action, 'payload.data.account.jwt'),
         error: '',
         isFetching: false,
       }
@@ -50,7 +51,7 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
     case `${LOGIN}_REJECTED`:
       return {
         ...state,
-        authenticated: false,
+        token: undefined,
         error: action.payload,
         isFetching: false,
       }
@@ -59,14 +60,14 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
       return {
         ...state,
         // Optimistic
-        authenticated: false,
+        token: undefined,
         isFetching: true,
       }
 
     case `${LOGOUT}_FULFILLED`:
       return {
         ...state,
-        authenticated: false,
+        token: undefined,
         error: '',
         isFetching: false,
       }
@@ -75,7 +76,7 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
       return {
         ...state,
         // Always logout!
-        authenticated: false,
+        token: undefined,
         error: action.payload,
         isFetching: false,
       }
@@ -106,14 +107,10 @@ export const login = (
   (dispatch: GlobalDispatch<*>) => dispatch({
     type: LOGIN,
     payload: loginAPI({ username, password })
-      .then(({ data }) => {
-
-        setAuthToken(data.account.jwt)
-        history.push({
-          pathname: redirect,
-        })
-
-      }),
+      .then(({ data }) => setAuthToken(data.account.jwt))
+      .then(() => history.push({
+        pathname: redirect,
+      })),
   })
 
 export const logout = (history: Object, redirect: ?string): GlobalThunkAction =>

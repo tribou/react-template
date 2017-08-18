@@ -8,12 +8,12 @@ import Home from './Home'
 
 
 type StateProps = {
-  authenticated: boolean,
+  token: ?string,
 }
 
 const mapStateToProps = (
-  { auth: { authenticated } }: RootReducerState
-): StateProps => ({ authenticated })
+  { auth: { token } }: RootReducerState
+): StateProps => ({ token })
 
 
 type DispatchProps = {
