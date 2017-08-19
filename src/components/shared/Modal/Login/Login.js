@@ -15,7 +15,7 @@ type Props = ReduxProps & {
   asyncValidating: boolean,
 }
 
-class Login extends PureComponent<void, Props, void> {
+class Login extends PureComponent<Props> {
 
   handleClose = () => this.props.history.goBack()
 

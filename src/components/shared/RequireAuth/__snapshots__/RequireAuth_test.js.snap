@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders <Redirect> if no token 1`] = `
+<Redirect
+  push={false}
+  to="/home?m=login&redirect="
+/>
+`;

@@ -22,7 +22,7 @@ export type AuthState = {
 
 // Initial state with default values
 export const initialState: AuthState = {
-  token: undefined,
+  token: '',
   user: {},
   error: '',
   isFetching: false,
@@ -51,7 +51,7 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
     case `${LOGIN}_REJECTED`:
       return {
         ...state,
-        token: undefined,
+        token: '',
         error: action.payload,
         isFetching: false,
       }
@@ -60,14 +60,14 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
       return {
         ...state,
         // Optimistic
-        token: undefined,
+        token: '',
         isFetching: true,
       }
 
     case `${LOGOUT}_FULFILLED`:
       return {
         ...state,
-        token: undefined,
+        token: '',
         error: '',
         isFetching: false,
       }
@@ -76,7 +76,7 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
       return {
         ...state,
         // Always logout!
-        token: undefined,
+        token: '',
         error: action.payload,
         isFetching: false,
       }

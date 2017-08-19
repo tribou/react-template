@@ -4,7 +4,7 @@
 declare module 'enzyme' {
   declare type PredicateFunction<T: Wrapper> = (wrapper: T, index: number) => boolean;
   declare type NodeOrNodes = React$Element<any> | Array<React$Element<any>>;
-  declare type EnzymeSelector = string | ReactClass<any> | Object;
+  declare type EnzymeSelector = string | React$Component<any> | Object;
 
   // CheerioWrapper is a type alias for an actual cheerio instance
   // TODO: Reference correct type from cheerio's type declarations
@@ -80,6 +80,6 @@ declare module 'enzyme' {
   }
 
   declare export function shallow(node: React$Element<any>, options?: { context?: Object }): ShallowWrapper;
-  declare export function mount(node: React$Element<any>, options?: { context?: Object, attachTo?: HTMLElement, childContextTypes?: Object }): ReactWrapper;
+  declare export function mount(node: React$Element<any>, options?: { context?: Object, attachTo?: any, childContextTypes?: Object }): ReactWrapper;
   declare export function render(node: React$Element<any>, options?: { context?: Object }): CheerioWrapper;
 }

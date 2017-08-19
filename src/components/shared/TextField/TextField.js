@@ -14,7 +14,7 @@ type Props = {
 }
 
 // http://redux-form.com/6.4.3/examples/material-ui/
-class TextField extends PureComponent<void, Props, void> {
+class TextField extends PureComponent<Props> {
 
   getInputNode = () => this.input
 

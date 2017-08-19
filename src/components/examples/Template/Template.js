@@ -8,7 +8,7 @@ import type { ReduxProps } from './Template.index'
 type Props = ReduxProps & {
 }
 
-class Template extends PureComponent<void, Props, void> {
+class Template extends PureComponent<Props> {
 
   render () {
 

@@ -8,7 +8,7 @@ import type { ReduxProps } from './LoadingIndicator.index'
 type Props = ReduxProps & {
 }
 
-class LoadingIndicator extends PureComponent<void, Props, void> {
+class LoadingIndicator extends PureComponent<Props> {
 
   render () {
 

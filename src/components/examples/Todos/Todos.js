@@ -10,7 +10,7 @@ import type { ReduxProps } from './Todos.index'
 type Props = ReduxProps
 
 
-class Todos extends PureComponent<void, Props, void> {
+class Todos extends PureComponent<Props> {
 
   componentDidMount () {
 

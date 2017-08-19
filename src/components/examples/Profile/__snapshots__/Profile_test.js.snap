@@ -8,6 +8,7 @@ exports[`<Profile> renders the Profile content 1`] = `
     encodeSpecialCharacters={true}
     title="Profile"
   />
+  <withRouter(Connect(RequireAuth)) />
   <div
     className="content"
   >

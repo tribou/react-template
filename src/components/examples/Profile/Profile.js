@@ -1,19 +1,18 @@
 // @flow
 import React, { PureComponent } from 'react'
-import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 import Helmet from 'react-helmet'
+import RequireAuth from 'src/components/shared/RequireAuth/RequireAuth.index'
 import css from './Profile.style.css'
 
 import type { ReduxProps } from './Profile.index'
 
 type Props = ReduxProps & {
   history: Object,
-  location: Object,
 }
 
 
-class Profile extends PureComponent<void, Props, void> {
+class Profile extends PureComponent<Props> {
 
   componentDidMount () {
 
@@ -23,15 +22,12 @@ class Profile extends PureComponent<void, Props, void> {
 
   render () {
 
-    const { error, me, token, location } = this.props
-    const { hash, pathname, search } = location
-    const redirect = `${pathname}${search}${hash}`
-
-    if (!token) return <Redirect to={`/home?login=true&redirect=${encodeURIComponent(redirect)}`} />
+    const { error, me } = this.props
 
     return (
       <div className={css.profile}>
         <Helmet title="Profile" />
+        <RequireAuth />
         <div className={css.content}>
           Profile page
           <ul>

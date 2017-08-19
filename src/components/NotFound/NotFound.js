@@ -6,7 +6,7 @@ import Status from 'src/components/shared/Status/Status.index'
 import css from './NotFound.style.css'
 
 
-class NotFound extends PureComponent {
+class NotFound extends PureComponent<void> {
 
   render () {
 

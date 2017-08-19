@@ -13,7 +13,7 @@ type Props = ReduxProps & {
   history: Object,
 }
 
-class Home extends PureComponent<void, Props, void> {
+class Home extends PureComponent<Props> {
 
   handleLogout = () => {
 

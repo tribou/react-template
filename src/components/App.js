@@ -10,7 +10,6 @@ import type { ReduxProps } from './App.index'
 
 
 type Props = ReduxProps & {
-  location: Object,
   children: React$Element<*>,
 }
 
@@ -28,7 +27,6 @@ const App = (props: Props) => {
 
   const {
     ROOT_URL,
-    location,
   } = props
 
   return (
@@ -59,7 +57,7 @@ const App = (props: Props) => {
       {props.children}
 
       <ErrorMessage />
-      <Modal location={location} />
+      <Modal />
     </div>
   )
 

@@ -10,7 +10,7 @@ type ReactProps = {
 
 type Props = ReactProps
 
-class LinkReplace extends PureComponent<void, Props, void> {
+class LinkReplace extends PureComponent<Props> {
 
   handleClick = () => {
 

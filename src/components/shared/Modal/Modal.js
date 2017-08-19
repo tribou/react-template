@@ -1,94 +1,68 @@
 // @flow
-import React from 'react'
+import React, { PureComponent } from 'react'
+import get from 'lodash/get'
 import { isBrowser } from 'config/env'
 import { parse } from 'qs'
+import type { Location } from 'react-router'
 import Login from './Login/Login.index'
 import css from './Modal.style.css'
 
 type Props = {
-  location: Object,
+  location: Location,
 }
 
-const getStateModal = (props: Props) => {
+const getQuery = search => (
+    typeof search === 'string'
+    ? parse(search.substr(1))
+    : undefined
+  )
 
-  const { location } = props
+const WrappedModal = (props: Props) => {
 
-  // Client-only routes
-  if (!(location.state && location.state.modal)) return null
+  const search = get(props, 'location.search')
+  const modal = get(props, 'location.state.modal') || get(getQuery(search), 'm')
+  if (!modal) return null
 
-  switch (location.state.modal) {
-
-    // case 'reset-password-confirmation':
-      //   return <ResetPasswordConfirmation {...props} />
-
-    default:
-      return null
+  const modals = {
+    login: <Login {...props} />,
+    // 'reset-password': <ResetPassword {...props} />,
+    // 'recover-password': <RecoverPassword {...props} />,
+    default: null,
   }
 
-}
-
-const getQueryModal = (props: Props) => {
-
-  const { location } = props
-
-  let query = {}
-  if (location.search && location.search.length > 0) {
-
-    query = parse(location.search.substr(1))
-
-  }
-
-  if (query.login) {
-
-    return <Login {...props} />
-
-  }
-
-  // else if (query['reset-password']) {
-
-  //   return <ResetPassword {...props} />
-
-  // }
-
-  // else if (query['recover-password']) {
-
-  //   return <RecoverPassword {...props} />
-
-  // }
-
-  return null
+  return (
+    <div className={css.modal}>
+      {modals[modal] || modal.default}
+    </div>
+  )
 
 }
 
-const Modal = (props: Props) => {
+class Modal extends PureComponent<Props> {
 
-  const stateModal = getStateModal(props)
-  const queryModal = getQueryModal(props)
-
-  if (!stateModal && !queryModal) {
+  componentDidMount () {
 
     // TODO: side effect in stateless component...
     // quick fix to prevent scrolling
-    if (isBrowser()
-      && document
-      && document.body
-      && document.body.style) document.body.style.overflow = 'visible'
-    return null
+    const style = get(document, 'body.style')
+    if (isBrowser() && style) style.overflow = 'hidden'
 
   }
 
-  // TODO: side effect in stateless component...
-  // quick fix to prevent scrolling
-  if (isBrowser()
-      && document
-      && document.body
-      && document.body.style) document.body.style.overflow = 'hidden'
-  return (
-    <div className={css.modal}>
-      { getStateModal(props) }
-      { getQueryModal(props) }
-    </div>
-  )
+  componentWillUnmount () {
+
+    // TODO: side effect in stateless component...
+    // quick fix to prevent scrolling
+    const style = get(document, 'body.style')
+    if (isBrowser() && style) style.overflow = 'visible'
+
+  }
+
+  render () {
+
+    return <WrappedModal {...this.props} />
+
+  }
 
 }
 
