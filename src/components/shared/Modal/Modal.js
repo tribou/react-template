@@ -12,10 +12,10 @@ type Props = {
 }
 
 const getQuery = search => (
-    typeof search === 'string'
+  typeof search === 'string'
     ? parse(search.substr(1))
     : undefined
-  )
+)
 
 const WrappedModal = (props: Props) => {
 

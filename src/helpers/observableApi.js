@@ -106,9 +106,9 @@ class API {
 
     return Observable.fromPromise(axios.get(endpoint))
     // .do(x => log('do', x)) // Debugging
-    .map(API._parseResponse)
+      .map(API._parseResponse)
     // .do(x => log('do', x)) // Debugging
-    .catch(API._parseError)
+      .catch(API._parseError)
 
   }
 

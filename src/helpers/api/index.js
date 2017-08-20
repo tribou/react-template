@@ -11,17 +11,17 @@ const log = Debug('my-app:helpers:api')
 
 const getClient = (): Promise<Axios.Axios> =>
   getAuthToken()
-  .then(token =>
+    .then(token =>
 
-  // Defaults
-  Axios.create({
-    baseURL: env.API_URL,
-    timeout: 10000,
-    headers: {
-      Authorization: token ? `Basic ${token}` : undefined,
-      'Content-Type': 'application/json',
-    },
-  }))
+      // Defaults
+      Axios.create({
+        baseURL: env.API_URL,
+        timeout: 10000,
+        headers: {
+          Authorization: token ? `Basic ${token}` : undefined,
+          'Content-Type': 'application/json',
+        },
+      }))
 
 
 export type APIError = {

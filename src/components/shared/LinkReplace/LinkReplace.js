@@ -12,6 +12,10 @@ type Props = ReactProps
 
 class LinkReplace extends PureComponent<Props> {
 
+  // TODO: watch for resolution of
+  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
+  props: Props
+
   handleClick = () => {
 
     const {
@@ -73,6 +77,7 @@ class LinkReplace extends PureComponent<Props> {
 
 
   }
+
 }
 
 export default LinkReplace

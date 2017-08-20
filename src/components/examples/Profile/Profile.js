@@ -20,6 +20,10 @@ class Profile extends PureComponent<Props> {
 
   }
 
+  // TODO: watch for resolution of
+  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
+  props: Props
+
   render () {
 
     const { error, me } = this.props

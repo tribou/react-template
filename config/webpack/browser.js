@@ -58,7 +58,7 @@ const config = createConfig.vanilla([
     new webpack.HashedModuleIdsPlugin(),
     new WebpackChunkHash(),
     new CopyPlugin([
-    { from: 'static' },
+      { from: 'static' },
     ]),
     new AssetsPlugin({
       filename: 'assets.json',

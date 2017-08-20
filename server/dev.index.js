@@ -54,8 +54,8 @@ compiler.plugin('done', stats => {
 
   log('compiled', stats.toString({
     colors: true,
-      // Debugging options
-      // https://webpack.github.io/docs/node.js-api.html#stats-tojson
+    // Debugging options
+    // https://webpack.github.io/docs/node.js-api.html#stats-tojson
     chunks: false,
   }))
 
