@@ -26,13 +26,14 @@ const validate = values => {
 const onSubmit = (values, dispatch, props): Promise<*> => {
 
   const { usernameInput, passwordInput } = values
+  const { history } = props
   const search = parse(props.location.search.substr(1))
 
   return dispatch(login({
     username: usernameInput,
     password: passwordInput,
-    redirect: search.redirect,
-  }, props.history))
+  }))
+    .then(() => history.push({ pathname: search.redirect }))
 
 }
 

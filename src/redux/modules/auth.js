@@ -97,18 +97,15 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
 type LoginParams = {
   username: string,
   password: string,
-  redirect?: string,
 }
 
 export const login = (
-  { username, password, redirect }: LoginParams,
-  history: Object,
+  { username, password }: LoginParams,
 ): GlobalThunkAction =>
   (dispatch: GlobalDispatch<*>) => dispatch({
     type: LOGIN,
     payload: loginAPI({ username, password })
       .then(response => setAuthToken(response.data.account.jwt)
-        .then(() => history.push({ pathname: redirect }))
         .then(() => response)
       ),
   })

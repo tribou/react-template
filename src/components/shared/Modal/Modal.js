@@ -17,7 +17,7 @@ const getQuery = search => (
     : undefined
 )
 
-const WrappedModal = (props: Props) => {
+const Modal = (props: Props) => {
 
   const search = get(props, 'location.search')
   const modal = get(props, 'location.state.modal') || get(getQuery(search), 'm')
@@ -38,7 +38,7 @@ const WrappedModal = (props: Props) => {
 
 }
 
-class Modal extends PureComponent<Props> {
+class ModalWrapper extends PureComponent<Props> {
 
   componentDidMount () {
 
@@ -58,12 +58,16 @@ class Modal extends PureComponent<Props> {
 
   }
 
+  // TODO: watch for resolution of
+  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
+  props: Props
+
   render () {
 
-    return <WrappedModal {...this.props} />
+    return <Modal {...this.props} />
 
   }
 
 }
 
-export default Modal
+export default ModalWrapper
