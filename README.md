@@ -1,4 +1,6 @@
 # React Template
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Ftribou%2Freact-template.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Ftribou%2Freact-template?ref=badge_shield)
+
 
 React boilerplate with Hapi server-side rendering. Uses browser-sync refreshing
 with server-side HMR until react-hot-loader v3 stabilizes.
@@ -267,3 +269,7 @@ site can be reopened; and the new service worker will be active.
 
 For more info see the [`offline-plugin` updates
 doc](https://github.com/NekR/offline-plugin/blob/67cbd750f82229a41a12347d800bf3e9cc1a9ad7/docs/updates.md#serviceworker-and-appcache-update-process)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Ftribou%2Freact-template.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Ftribou%2Freact-template?ref=badge_large)
