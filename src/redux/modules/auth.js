@@ -107,10 +107,10 @@ export const login = (
   (dispatch: GlobalDispatch<*>) => dispatch({
     type: LOGIN,
     payload: loginAPI({ username, password })
-      .then(({ data }) => setAuthToken(data.account.jwt))
-      .then(() => history.push({
-        pathname: redirect,
-      })),
+      .then(response => setAuthToken(response.data.account.jwt)
+        .then(() => history.push({ pathname: redirect }))
+        .then(() => response)
+      ),
   })
 
 export const logout = (history: Object, redirect: ?string): GlobalThunkAction =>

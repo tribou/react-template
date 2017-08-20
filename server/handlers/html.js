@@ -7,6 +7,7 @@ import { renderToString } from 'react-dom/server'
 import Helmet from 'react-helmet'
 import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router'
+import { Base64 } from 'js-base64'
 import { getAssets } from 'server/utils'
 import configureStore from 'src/redux/store'
 import { initialState as authInitialState } from 'src/redux/modules/auth'
@@ -68,7 +69,7 @@ const routedHtml = (request: Object, reply: Function) => {
   const _request = { userAgent: request.headers['user-agent'] }
   request.log(['info', 'user-agent'], _request.userAgent)
 
-  const token = request.state[vars.appAuthCookieKey]
+  const token = Base64.decode(request.state[vars.appAuthCookieKey])
 
   // Pass initial state to store along with server ENV vars
   const store = configureStore({
