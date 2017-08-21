@@ -9,13 +9,13 @@ import Home from './Home'
 
 
 type OverrideProps = {
-  authenticated: any,
+  token?: string,
   logout: Function,
   history: Object,
 }
 
 const mockProps: OverrideProps = {
-  authenticated: false,
+  token: undefined,
   logout: () => {},
   history: {
     replace: () => {},
@@ -40,7 +40,7 @@ it('<Home> renders the logout button if authenticated', () => {
   const wrapper = shallow(
     <Home
       {...mockProps}
-      authenticated
+      token="test"
     />
   )
 

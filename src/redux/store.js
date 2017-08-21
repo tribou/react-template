@@ -9,7 +9,7 @@ import rootEpic from './epics'
 import rootReducer from './modules'
 
 
-function configureStore (preloadedState: Object): Object {
+function configureStore (preloadedState?: Object = {}): Object {
 
   const epicMiddleware = createEpicMiddleware(rootEpic)
 

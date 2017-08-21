@@ -14,10 +14,13 @@ type Props = {
 }
 
 // http://redux-form.com/6.4.3/examples/material-ui/
-class TextField extends PureComponent<void, Props, void> {
+class TextField extends PureComponent<Props> {
 
   getInputNode = () => this.input
 
+  // TODO: watch for resolution of
+  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
+  props: Props
   input: HTMLElement
 
   render () {
@@ -39,7 +42,7 @@ class TextField extends PureComponent<void, Props, void> {
       ...style,
     }
 
-  // http://www.material-ui.com/#/components/text-field
+    // http://www.material-ui.com/#/components/text-field
     return (
       <MuiTextField
         ref={ref => {

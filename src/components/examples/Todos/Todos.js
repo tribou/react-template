@@ -10,13 +10,17 @@ import type { ReduxProps } from './Todos.index'
 type Props = ReduxProps
 
 
-class Todos extends PureComponent<void, Props, void> {
+class Todos extends PureComponent<Props> {
 
   componentDidMount () {
 
     this.props.getTodos()
 
   }
+
+  // TODO: watch for resolution of
+  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
+  props: Props
 
   render () {
 

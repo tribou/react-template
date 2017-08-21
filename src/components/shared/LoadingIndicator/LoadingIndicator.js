@@ -8,7 +8,11 @@ import type { ReduxProps } from './LoadingIndicator.index'
 type Props = ReduxProps & {
 }
 
-class LoadingIndicator extends PureComponent<void, Props, void> {
+class LoadingIndicator extends PureComponent<Props> {
+
+  // TODO: watch for resolution of
+  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
+  props: Props
 
   render () {
 

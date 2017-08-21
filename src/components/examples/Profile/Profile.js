@@ -2,31 +2,27 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import Helmet from 'react-helmet'
-import { getAuthToken, requireAuth } from 'src/helpers/auth'
+import RequireAuth from 'src/components/shared/RequireAuth/RequireAuth.index'
 import css from './Profile.style.css'
 
 import type { ReduxProps } from './Profile.index'
 
 type Props = ReduxProps & {
-  location: Object,
   history: Object,
 }
 
 
-class Profile extends PureComponent<void, Props, void> {
-
-  componentWillMount () {
-
-    const { location, history } = this.props
-    requireAuth(getAuthToken, location, history)
-
-  }
+class Profile extends PureComponent<Props> {
 
   componentDidMount () {
 
     this.props.fetchProfile()
 
   }
+
+  // TODO: watch for resolution of
+  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
+  props: Props
 
   render () {
 
@@ -35,6 +31,7 @@ class Profile extends PureComponent<void, Props, void> {
     return (
       <div className={css.profile}>
         <Helmet title="Profile" />
+        <RequireAuth />
         <div className={css.content}>
           Profile page
           <ul>

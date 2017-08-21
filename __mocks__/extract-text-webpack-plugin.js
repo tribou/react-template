@@ -2,11 +2,9 @@
 
 const ExtractTextPlugin = jest.genMockFromModule('extract-text-webpack-plugin')
 
-ExtractTextPlugin.extract = (extract) => {
+ExtractTextPlugin.extract = extract =>
 
   // return the extract object to store in snapshot
-  return { extract }
-
-}
+   ({ extract })
 
 module.exports = ExtractTextPlugin

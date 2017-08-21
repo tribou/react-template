@@ -24,27 +24,27 @@ const fetchProfileEpic = (action$: Object) => action$.ofType(GET_PROFILE)
     // Create new observable inside mergeMap so we don't cancel the entire epic
     // during catch
     // https://redux-observable.js.org/docs/recipes/ErrorHandling.html
-     api.getProfile()
-    .map(response => {
+    api.getProfile()
+      .map(response => {
 
       // API serialization logic from API._parseResponse to Model
-      const result = response.data.results[0]
+        const result = response.data.results[0]
 
-      return {
-        firstName: result.name.first,
-        lastName: result.name.last,
-        email: result.email,
-        city: result.location.city,
-        dob: result.dob,
-        picture: result.picture.thumbnail,
-      }
+        return {
+          firstName: result.name.first,
+          lastName: result.name.last,
+          email: result.email,
+          city: result.location.city,
+          dob: result.dob,
+          picture: result.picture.thumbnail,
+        }
 
-    })
-    .map(fetchProfileSuccess)
-    .catch(error =>
+      })
+      .map(fetchProfileSuccess)
+      .catch(error =>
 
       // Return and don't throw here because we've handled it
-       Observable.of(fetchProfileError(error))))
+        Observable.of(fetchProfileError(error))))
 
 
 export default fetchProfileEpic

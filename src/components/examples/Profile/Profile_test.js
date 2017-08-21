@@ -13,12 +13,14 @@ type OverrideProps = {
   location: Object,
   history: Object,
   fetchProfile: Function,
+  token: ?string,
 }
 
 const mockProps: OverrideProps = {
   me: {
     get: () => null,
   },
+  token: 'test',
   error: '',
   location: {},
   history: {

@@ -3,10 +3,7 @@
 .*/build/.*
 .*/coverage/.*
 
-.*/node_modules/react-side-effect/node_modules/.*
-.*/node_modules/redux-offline/src/defaults/persist.native.js
-.*/node_modules/config-chain/test/broken.json
-.*/node_modules/npm/node_modules/config-chain/test/broken.json
+.*/node_modules/react-event-listener/.*
 
 
 [include]
@@ -35,4 +32,4 @@ module.name_mapper='^static\/' -> '<PROJECT_ROOT>/static/'
 
 
 [version]
-^0.50.0
+^0.53.0

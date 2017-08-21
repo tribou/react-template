@@ -13,7 +13,11 @@ type Props = ReduxProps & {
   history: Object,
 }
 
-class Home extends PureComponent<void, Props, void> {
+class Home extends PureComponent<Props> {
+
+  // TODO: watch for resolution of
+  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
+  props: Props
 
   handleLogout = () => {
 
@@ -28,8 +32,7 @@ class Home extends PureComponent<void, Props, void> {
 
   render () {
 
-
-    const logoutButton = this.props.authenticated
+    const logoutButton = this.props.token
       ? (
         <button onClick={this.handleLogout}>Logout</button>
       )

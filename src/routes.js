@@ -10,7 +10,6 @@ import Home from 'src/components/examples/Home/Home.index'
 import Profile from 'src/components/examples/Profile/Profile.index'
 import Todos from 'src/components/examples/Todos/Todos.index'
 
-
 const Routes = () => (
   <App>
     <Switch>
@@ -27,6 +26,5 @@ const Routes = () => (
     </Switch>
   </App>
 )
-
 
 export default Routes
