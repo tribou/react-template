@@ -3,17 +3,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
 import { logout } from 'src/redux/modules/auth'
-import type { RootReducerState } from 'src/redux/modules'
 import Home from './Home'
 
 
 type StateProps = {
-  token: ?string,
 }
 
-const mapStateToProps = (
-  { auth: { token } }: RootReducerState
-): StateProps => ({ token })
+const mapStateToProps = (): StateProps => ({})
 
 
 type DispatchProps = {

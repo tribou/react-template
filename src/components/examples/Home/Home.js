@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import { Link } from 'react-router-dom'
 import Cn from 'classnames'
 
+import RequireAuth from 'src/components/shared/RequireAuth/RequireAuth.index'
 import img from 'src/styles/images.css'
 import sprites from 'src/styles/sprites.css'
 import css from './Home.style.css'
@@ -32,12 +33,6 @@ class Home extends PureComponent<Props> {
 
   render () {
 
-    const logoutButton = this.props.token
-      ? (
-        <button onClick={this.handleLogout}>Logout</button>
-      )
-      : null
-
     return (
       <div className={css.home}>
         <Helmet title="Home" />
@@ -51,7 +46,9 @@ class Home extends PureComponent<Props> {
         <Link to="/todos">
           <div className={Cn(sprites.facebookIcon, css.link)} />
         </Link>
-        {logoutButton}
+        <RequireAuth>
+          <button onClick={this.handleLogout}>Logout</button>
+        </RequireAuth>
       </div>
     )
 
