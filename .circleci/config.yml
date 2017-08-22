@@ -67,7 +67,8 @@ jobs:
       - run:
           name: test-jest
           command: npm run test-jest -- --runInBand
-  bump-version:
+
+  bump-minor:
     working_directory: ~/app
     docker:
       - image: circleci/node:8
@@ -80,8 +81,24 @@ jobs:
           name: node-version
           command: node -v
       - run:
-          name: bump-version
-          command: bin/bump_version.sh
+          name: bump-minor
+          command: bin/bump_minor.sh
+
+  bump-patch:
+    working_directory: ~/app
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - run:
+          name: which-node
+          command: which node
+      - run:
+          name: node-version
+          command: node -v
+      - run:
+          name: bump-patch
+          command: bin/bump_patch.sh
 
   # The following wasn't working:
   #
@@ -107,10 +124,17 @@ workflows:
     jobs:
       - build
       - build-node-8
-      - bump-version:
+      - bump-minor:
           filters:
             branches:
               only: master
+          requires:
+            - build
+            - build-node-8
+      - bump-patch:
+          filters:
+            branches:
+              only: /hotfix\/.*/
           requires:
             - build
             - build-node-8
