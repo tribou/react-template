@@ -27,7 +27,7 @@ it('renders null if no modal state or query', () => {
     <Provider store={store}>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <MemoryRouter initialEntries={['/']}>
-          <Modal {...mockProps} />
+          <Modal />
         </MemoryRouter>
       </MuiThemeProvider>
     </Provider>

@@ -17,8 +17,13 @@ const errorDisplay = (store: Object) =>
 
       let message = 'An error has occurred.'
 
-      // If error message was passed in payload
-      if (typeof action.payload === 'string') {
+      // If error instance
+      if (action.payload instanceof Error) {
+
+        message = action.payload.message
+
+      }
+      else if (typeof action.payload === 'string') {
 
         message = action.payload
 
@@ -34,6 +39,7 @@ const errorDisplay = (store: Object) =>
         type: DISPLAY_ERROR,
         // return a new object each time
         payload: { message },
+        meta: { error: { action } },
       })
 
     }

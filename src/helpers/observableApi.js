@@ -1,18 +1,14 @@
 // @flow
 // Contains API-specific logic for the API service we're using
-import Axios from 'axios'
-import Debug from 'debug'
+// import Debug from 'debug'
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/observable/fromPromise'
 import 'rxjs/add/observable/of'
-import 'rxjs/add/observable/throw'
-import 'rxjs/add/operator/catch'
-import 'rxjs/add/operator/delay'
-import 'rxjs/add/operator/map'
-import type { $AxiosError, $AxiosXHR } from 'axios'
 import env from 'config/env'
+import { get } from 'src/helpers/api'
+import type { APIResponse } from 'src/helpers/api'
 
-const log = Debug('my-app:helpers:api')
+// const log = Debug('my-app:helpers:api')
 
 const mockProfileData = [
   { results: [{ gender: 'female', name: { title: 'miss', first: 'آیلین', last: 'زارعی' }, location: { street: '6717 کمیل', city: 'قائم‌شهر', state: 'چهارمحال و بختیاری', postcode: 21796 }, email: 'آیلین.زارعی@example.com', login: { username: 'smallgoose346', password: 'eating', salt: 'etu4TdkK', md5: 'c33ba12927777774d144277d29fb7244', sha1: 'af9a7a342167287e4d0dcab36feadf5aa8582b15', sha256: '4b4c27699e8121b54c8fe00bccc0294cb4eb59ba84748f897595ed401f10a101' }, dob: '1987-10-30 12:45:55', registered: '2003-04-11 20:51:23', phone: '044-41805528', cell: '0914-183-5953', id: { name: '', value: null }, picture: { large: 'https://randomuser.me/api/portraits/women/25.jpg', medium: 'https://randomuser.me/api/portraits/med/women/25.jpg', thumbnail: 'https://randomuser.me/api/portraits/thumb/women/25.jpg' }, nat: 'IR' }], info: { seed: '08c71049254e80b4', results: 1, page: 1, version: '1.1' } },
@@ -21,103 +17,14 @@ const mockProfileData = [
 ]
 
 
-type Defaults = {
-  url: string,
-  token: string,
-}
-
-const defaults = {
-  url: env.API_URL,
-  token: '',
-}
-
-export type APIError = {
-  statusCode: number,
-  data: Object,
-  error: boolean,
-}
-
-export type APIResponse = {
-  statusCode: number,
-  data: Object,
-}
-
-
 class API {
-
-
-  axios: Axios.Axios
-  token: string
-  url: string
-
-
-  constructor ({ url, token }: Defaults = defaults) {
-
-    this.url = url || ''
-    this.token = token || ''
-    this.axios = Axios.create({
-      baseURL: this.url,
-      // headers: {
-      //   Authorization: `Bearer ${this.token}`,
-      // },
-    })
-
-    log('Set API base url: %s', this.url)
-
-  }
-
-
-  // Standardize API error format across the app
-  // Decouple from implementation (here using axios)
-  static _parseError = (error: $AxiosError<*>): Observable<APIError> => {
-
-    // DEBUG: Print implementation-specific error information
-    log('_parseError: %s \n %o', error, error.response)
-
-    // _parseError is passed to Observable.catch()
-    // It must throw or return another Observable
-    return Observable.throw({
-      statusCode: error.response.status,
-      data: error.response.data,
-      error: true,
-    })
-
-  }
-
-
-  // Standardize API response format across the app
-  // Decouple from implementation (here using axios)
-  static _parseResponse = (response: $AxiosXHR<*>): APIResponse => {
-
-    log('_parseResponse: %o', response)
-
-    return {
-      statusCode: response.status,
-      data: response.data,
-    }
-
-  }
-
-
-  // GET request factory
-  get = (endpoint: string): Observable<*> => {
-
-    const { axios } = this
-
-    return Observable.fromPromise(axios.get(endpoint))
-    // .do(x => log('do', x)) // Debugging
-      .map(API._parseResponse)
-    // .do(x => log('do', x)) // Debugging
-      .catch(API._parseError)
-
-  }
 
 
   mock = (
     data: Object,
     delay: number = 500,
-  ): Observable<$AxiosXHR<*>> => Observable.of({
-    status: 200,
+  ): Observable<APIResponse> => Observable.of({
+    statusCode: 200,
     data,
   })
     .delay(delay)
@@ -129,7 +36,7 @@ class API {
     const url = '/' // api.randomuser.me
     return env.USE_MOCK_API
       ? this.getProfileMock()
-      : this.get(url)
+      : Observable.fromPromise(get(url))
 
   }
 

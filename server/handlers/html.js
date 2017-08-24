@@ -69,7 +69,10 @@ const routedHtml = (request: Object, reply: Function) => {
   const _request = { userAgent: request.headers['user-agent'] }
   request.log(['info', 'user-agent'], _request.userAgent)
 
-  const token = Base64.decode(request.state[vars.appAuthCookieKey])
+  const cookie = request.state[vars.appAuthCookieKey]
+  const token = cookie
+    ? Base64.decode(cookie)
+    : ''
 
   // Pass initial state to store along with server ENV vars
   const store = configureStore({

@@ -1,7 +1,9 @@
 // @flow
 import { Observable } from 'rxjs/Observable'
+import get from 'lodash/get'
 import 'rxjs/add/observable/of'
 import 'rxjs/add/operator/catch'
+import 'rxjs/add/operator/do'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/mergeMap'
 import {
@@ -27,24 +29,27 @@ const fetchProfileEpic = (action$: Object) => action$.ofType(GET_PROFILE)
     api.getProfile()
       .map(response => {
 
-      // API serialization logic from API._parseResponse to Model
-        const result = response.data.results[0]
+        // API serialization logic from API._parseResponse to Model
+        const result = get(response, 'data.results.0')
+        if (!result) throw new Error('No profile data')
 
         return {
-          firstName: result.name.first,
+          firstName: get(result, 'name.first'),
           lastName: result.name.last,
-          email: result.email,
-          city: result.location.city,
-          dob: result.dob,
-          picture: result.picture.thumbnail,
+          email: get(result, 'email'),
+          city: get(result, 'location.city'),
+          dob: get(result, 'dob'),
+          picture: get(result, 'picture.thumbnail'),
         }
 
       })
       .map(fetchProfileSuccess)
       .catch(error =>
 
-      // Return and don't throw here because we've handled it
-        Observable.of(fetchProfileError(error))))
+        // Return and don't throw here because we've handled it
+        Observable.of(fetchProfileError(error))
+
+      ))
 
 
 export default fetchProfileEpic
