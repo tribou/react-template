@@ -27,7 +27,7 @@ it('renders null if no modal state or query', () => {
     <Provider store={store}>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <MemoryRouter initialEntries={['/']}>
-          <Modal {...mockProps} />
+          <Modal />
         </MemoryRouter>
       </MuiThemeProvider>
     </Provider>
@@ -58,6 +58,12 @@ it('renders <Login> if query m=login', () => {
 
 it('renders <Login> if location.state = { modal: "login" }', () => {
 
+  const body = get(document, 'body')
+
+  const div = document.createElement('div')
+  div.id = 'test'
+  body.appendChild(div)
+
   const store = configureStore()
   const wrapper = mount(
     <Provider store={store}>
@@ -67,16 +73,25 @@ it('renders <Login> if location.state = { modal: "login" }', () => {
         </MemoryRouter>
       </MuiThemeProvider>
     </Provider>,
-    { attachTo: document.body })
+    { attachTo: div })
 
   expect(wrapper.find('Login').exists()).toEqual(true)
+
+  // cleanup
   wrapper.detach()
+  body.removeChild(div)
 
 })
 
 
 it('renders sets overflow to hidden when shown and visible when unmounting', () => {
 
+  const body = get(document, 'body')
+
+  const div = document.createElement('div')
+  div.id = 'test'
+  body.appendChild(div)
+
   const store = configureStore()
   const wrapper = mount(
     <Provider store={store}>
@@ -86,12 +101,14 @@ it('renders sets overflow to hidden when shown and visible when unmounting', () 
         </MemoryRouter>
       </MuiThemeProvider>
     </Provider>,
-    { attachTo: document.body })
+    { attachTo: div })
 
   const hidden = get(document, 'body.style.overflow')
   expect(hidden).toEqual('hidden')
 
+  // cleanup
   wrapper.detach()
+  body.removeChild(div)
 
   const visible = get(document, 'body.style.overflow')
   expect(visible).toEqual('visible')

@@ -16,7 +16,7 @@
 ##### Use Backup Background Colors.
 
 - When using background-image for large, above-the-fold content, also set a
-  background-color that closely matches the image.
+  background-color that closely matches the image tone.
 
 This provides a softer introduction to larger images that may not arrive until
 after the page has started loading.
@@ -32,10 +32,9 @@ Order summary:
 - Declare mixins at the top of the CSS sections. This keeps the mixin from
   accidentally overwriting other styles and give a better at-a-glance
   understanding when reviewing CSS classes.
-- Declare media queries at the bottom or end of the CSS property but before
-  nested classes. Since they are more specific, they will override existing
-  properties no matter the order. For readability, lets standardize on keeping
-  them last.
+- Declare media queries at the bottom or end of the CSS property. Since they
+  are more specific, they will override existing properties no matter the
+  order. For readability, lets standardize on keeping them last.
 
 ```scss
 /* BAD */
@@ -61,14 +60,14 @@ Order summary:
   @media (max-width: $screenSmMax) {
     margin-top: $navLogoTopPaddingSm;
   }
+}
 
-  .nestedClass {
-  ...
-  }
+.nestedClass {
+... /* Nested classes are NOT needed with CSS modules */
 }
 ```
 
-##### Approach each interface as "fluid"/aspect-ratio-driven by default.
+##### Approach large splash images/scenes as "fluid"/aspect-ratio-driven by default.
 
 - *Aspect Ratio should be a first-class citizen.*
 - Height is dynamically determined by width.
@@ -79,29 +78,9 @@ Order summary:
 
 Flexible aspect-ratio-driven images:  
 
-```scss
-.wrapper {
-  position: relative;
-}
+TODO: provide code examples
 
-.image {
-  background-image: url(image.png);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  padding-bottom: calc(($height / $width) * 100)%;
-}
-```
-
-```html
-<div class="wrapper">
-  <div class="image" />
-</div>
-```
-
-Use a container `<div>` to wrap an image and set the image height dynamically
-according to its aspect ratio. Currently developing the `fluid-image` mixin
-and/or a `<FluidImage name="image" />` component to accomplish this easily.
+For now, reference https://flashmobile-mx.herokuapp.com/ for a good example.
 
 ##### Use static image mixins where not "fluid."
 
