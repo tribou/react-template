@@ -33,6 +33,7 @@
     "babel-register": "^6.26.0",
     "browser-sync": "^2.18.13",
     "browser-sync-webpack-plugin": "^1.1.2",
+    "cheerio": "^1.0.0-rc.2",
     "chunk-manifest-webpack-plugin": "^1.1.2",
     "compression-webpack-plugin": "^1.0.0",
     "concurrently": "^3.5.0",

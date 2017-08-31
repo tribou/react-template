@@ -4,7 +4,8 @@
 // http://airbnb.io/enzyme/docs/api/index.html
 
 import React from 'react'
-import { shallow } from 'enzyme'
+import ReactDOM from 'react-dom/server'
+import Cheerio from 'cheerio'
 import vars from 'config/variables'
 import Html, { generateScript } from './Html'
 
@@ -52,15 +53,16 @@ it('<Html> embeds preloadedState prop in app-state script tag', () => {
 
   const state = { mystate: 'this' }
   const expected = generateScript(fobReduxStateVar, state)
-  const wrapper = shallow(
+
+  const string = ReactDOM.renderToString(
     <Html
       {...mockProps}
       preloadedState={state}
     />
   )
-  const actual = wrapper.find('#app-state').props().dangerouslySetInnerHTML.__html
+  const $ = Cheerio.load(string)
 
-  expect(actual).toBe(expected)
+  expect($('script').html()).toBe(expected)
 
 })
 
@@ -69,15 +71,16 @@ it('<Html> embeds css prop in style tag', () => {
 
   const css = '.myCss{height:0;}'
   const expected = css
-  const wrapper = shallow(
+
+  const string = ReactDOM.renderToString(
     <Html
       {...mockProps}
       css={css}
     />
   )
-  const actual = wrapper.find('head style').props().dangerouslySetInnerHTML.__html
+  const $ = Cheerio.load(string)
 
-  expect(actual).toBe(expected)
+  expect($('head style').html()).toBe(expected)
 
 })
 
@@ -91,22 +94,17 @@ it('<Html> embeds the vendor asset script', () => {
       js: asset,
     },
   }
-  const expected = true
-  const wrapper = shallow(
+
+  const string = ReactDOM.renderToString(
     <Html
       {...mockProps}
       assets={assets}
     />
   )
-  const actual = wrapper.find('body script').contains(
-    <script
-      defer
-      type="application/javascript"
-      src={asset}
-    />
-  )
+  const $ = Cheerio.load(string)
 
-  expect(actual).toBe(expected)
+  const target = $('body').find(`script[src="${asset}"]`)
+  expect(target.length).toBe(1)
 
 })
 
@@ -121,21 +119,16 @@ it('<Html> embeds the bundle asset script', () => {
       js: asset,
     },
   }
-  const expected = true
-  const wrapper = shallow(
+
+  const string = ReactDOM.renderToString(
     <Html
       {...mockProps}
       assets={assets}
     />
   )
-  const actual = wrapper.find('body script').contains(
-    <script
-      defer
-      type="application/javascript"
-      src={asset}
-    />
-  )
+  const $ = Cheerio.load(string)
 
-  expect(actual).toBe(expected)
+  const target = $('body').find(`script[src="${asset}"]`)
+  expect(target.length).toBe(1)
 
 })
