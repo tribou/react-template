@@ -5,6 +5,7 @@ exports[`<Todos> renders the Todos content 1`] = `
   className="todos"
 >
   <HelmetWrapper
+    defer={true}
     encodeSpecialCharacters={true}
     title="Todos"
   />

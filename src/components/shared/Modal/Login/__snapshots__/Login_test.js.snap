@@ -5,6 +5,7 @@ exports[`<Login> renders the Login content 1`] = `
   className="login"
 >
   <HelmetWrapper
+    defer={true}
     encodeSpecialCharacters={true}
     title="Login"
   />
@@ -69,6 +70,7 @@ exports[`<Login> renders when form is submitting 1`] = `
   className="login"
 >
   <HelmetWrapper
+    defer={true}
     encodeSpecialCharacters={true}
     title="Login"
   />
