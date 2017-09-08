@@ -48,7 +48,7 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "favicons-webpack-plugin": "0.0.7",
     "file-loader": "^0.11.2",
-    "flow-bin": "^0.53.1",
+    "flow-bin": "^0.54.1",
     "glob": "^7.1.2",
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",

@@ -11,8 +11,12 @@ const mockProps = {
   className: 'overriding-class',
   children: 'Link Text',
   history: {
+    push: jest.fn(),
     replace: jest.fn(),
   },
+  location: { pathname: '/' },
+  staticContext: {},
+  match: {},
 }
 
 it('<LinkReplace> renders the LinkReplace component', () => {

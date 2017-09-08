@@ -3,11 +3,10 @@ import React, { PureComponent } from 'react'
 import get from 'lodash/get'
 import { isBrowser } from 'config/env'
 import { parse } from 'qs'
-import type { ContextRouter } from 'react-router'
 import Login from './Login/Login.index'
 import css from './Modal.style.css'
 
-type Props = ContextRouter
+type Props = any
 
 const getQuery = search => (
   typeof search === 'string'
