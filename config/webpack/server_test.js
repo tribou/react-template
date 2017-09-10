@@ -1,8 +1,11 @@
 // @flow
-
+const serializer = require('jest-serializer-path')
 const config = require('./server')
 
-it('webpack server config matches snapshot', () => {
+expect.addSnapshotSerializer(serializer)
+
+
+it('matches snapshot', () => {
 
   expect(config).toMatchSnapshot()
 

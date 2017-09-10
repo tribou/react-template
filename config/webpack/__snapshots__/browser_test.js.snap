@@ -41,12 +41,7 @@ Object {
                   "modules": true,
                 },
               },
-              Object {
-                "loader": "postcss-loader",
-                "options": Object {
-                  "plugins": [Function],
-                },
-              },
+              "postcss-loader",
             ],
           },
         },
@@ -66,12 +61,7 @@ Object {
                   "modules": false,
                 },
               },
-              Object {
-                "loader": "postcss-loader",
-                "options": Object {
-                  "plugins": [Function],
-                },
-              },
+              "postcss-loader",
             ],
           },
         },
