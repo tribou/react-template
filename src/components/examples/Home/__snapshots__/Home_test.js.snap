@@ -5,6 +5,7 @@ exports[`renders the Home page content 1`] = `
   className="home"
 >
   <HelmetWrapper
+    defer={true}
     encodeSpecialCharacters={true}
     title="Home"
   />

@@ -5,6 +5,7 @@ exports[`<Profile> renders the Profile content 1`] = `
   className="profile"
 >
   <HelmetWrapper
+    defer={true}
     encodeSpecialCharacters={true}
     title="Profile"
   />

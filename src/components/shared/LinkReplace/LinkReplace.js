@@ -2,7 +2,10 @@
 import React, { PureComponent } from 'react'
 
 type ReactProps = {
+  location: Object,
   history: Object,
+  match: Object,
+  staticContext: ?Object,
   to: Object,
   className: any,
   children: React$Element<any> | string,

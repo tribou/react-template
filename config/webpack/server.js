@@ -1,7 +1,7 @@
 // @flow
 
 const Path = require('path')
-const webpack = require('webpack')
+const Webpack = require('webpack')
 
 const {
   addPlugins,
@@ -35,7 +35,7 @@ const config = createConfig.vanilla([
   getExternals(),
   cssModules(),
   addPlugins([
-    new webpack.BannerPlugin({
+    new Webpack.BannerPlugin({
       banner: 'require("source-map-support").install();',
       raw: true,
       entryOnly: false,
@@ -45,23 +45,23 @@ const config = createConfig.vanilla([
   env('development', [
     sourceMaps(),
     addPlugins([
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin(),
-      new webpack.NamedModulesPlugin(),
+      new Webpack.HotModuleReplacementPlugin(),
+      new Webpack.NoEmitOnErrorsPlugin(),
+      new Webpack.NamedModulesPlugin(),
     ]),
   ]),
 
   env('production', [
     sourceMaps('source-map'),
     addPlugins([
-      new webpack.optimize.ModuleConcatenationPlugin(),
-      new webpack.optimize.UglifyJsPlugin({
+      new Webpack.optimize.ModuleConcatenationPlugin(),
+      new Webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
         output: {
           comments: false,
         },
       }),
-      new webpack.LoaderOptionsPlugin({
+      new Webpack.LoaderOptionsPlugin({
         debug: false,
         minimize: true,
       }),

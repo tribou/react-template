@@ -15,23 +15,21 @@ const mixinsFiles = Path.join(__dirname, '../src/styles/mixins', '*.css')
 
 module.exports = function postcss () {
 
-  return [
-    PreCSS({
-      variables: {
-        variables,
-      },
-      mixins: {
-        mixinsFiles,
-      },
-    }),
-    Calc(),
-    Autoprefixer({
-      browsers: [
-        'not ie <= 10',
-        'not ie_mob <= 10',
-      ],
-      flexbox: 'no-2009',
-    }),
-  ]
+  return {
+    plugins: [
+      PreCSS({
+        variables: {
+          variables,
+        },
+        mixins: {
+          mixinsFiles,
+        },
+      }),
+      Calc(),
+      Autoprefixer({
+        flexbox: 'no-2009',
+      }),
+    ],
+  }
 
 }

@@ -8,7 +8,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 // const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
 const WebpackChunkHash = require('webpack-chunk-hash')
-const webpack = require('webpack')
+const Webpack = require('webpack')
 const vars = require('../../config/variables')
 
 const {
@@ -50,12 +50,12 @@ const config = createConfig.vanilla([
     exclude: /(\/webpack\/hot\/|offline-plugin\/runtime\.js$)/,
   }),
   addPlugins([
-    new webpack.DefinePlugin({
+    new Webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(NODE_ENV || 'development'),
       },
     }),
-    new webpack.HashedModuleIdsPlugin(),
+    new Webpack.HashedModuleIdsPlugin(),
     new WebpackChunkHash(),
     new CopyPlugin([
       { from: 'static' },
@@ -64,7 +64,7 @@ const config = createConfig.vanilla([
       filename: 'assets.json',
       path: Path.resolve(__dirname, '../../build'),
     }),
-    new webpack.optimize.CommonsChunkPlugin({
+    new Webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       minChunks: Infinity,
     }),
@@ -84,7 +84,7 @@ const config = createConfig.vanilla([
   env('production', [
     sourceMaps('source-map'),
     addPlugins([
-      new webpack.optimize.ModuleConcatenationPlugin(),
+      new Webpack.optimize.ModuleConcatenationPlugin(),
       new CompressionPlugin({
         asset: '[path].gz[query]',
         algorithm: 'gzip',
@@ -93,13 +93,13 @@ const config = createConfig.vanilla([
         threshold: 10240,
         minRatio: 0.8,
       }),
-      new webpack.optimize.UglifyJsPlugin({
+      new Webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
         output: {
           comments: false,
         },
       }),
-      new webpack.LoaderOptionsPlugin({
+      new Webpack.LoaderOptionsPlugin({
         debug: false,
         minimize: true,
       }),
