@@ -169,7 +169,7 @@
     "watch-flow": "nodemon -w . -i .eslintcache -i build -x npm run --silent flow",
     "watch-lint": "nodemon -w . -i .eslintcache -x npm run --silent lint-cache",
     "watch-test": "cross-env NODE_ENV=test jest --watch --notify --watchman",
-    "yarn": "npm run --silent yarn-bin -- install --ignore-scripts",
+    "yarn": "npm run --silent yarn-bin -- install",
     "yarn-bin": "node bin/yarn-${npm_package_engines_yarn}.js"
   }
 }
