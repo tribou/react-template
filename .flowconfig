@@ -24,6 +24,9 @@
 .*/Libraries/react-native/ReactNative.js
 
 
+.*/node_modules/react-native/.*
+
+
 [include]
 
 

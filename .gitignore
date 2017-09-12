@@ -92,3 +92,6 @@ buck-out/
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
+
+# iOS build files
+ios/main.jsbundle*
