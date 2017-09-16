@@ -6,12 +6,7 @@ plugins:
   - tribou
 
 settings:
-  flowtype:
-    onlyFilesWithFlowAnnotation: false
   import/resolver: webpack
-  import/no-extraneous-dependencies:
-    - error
-    - packageDir: '../'
 
 globals:
   # Global Flow Types
