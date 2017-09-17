@@ -1,5 +1,4 @@
 // @flow
-
 type Props = {
   children: React$Element<*>
 }
