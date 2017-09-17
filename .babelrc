@@ -9,7 +9,8 @@
       "modules": false
     }],
     "react",
-    "stage-3"
+    "stage-3",
+    "react-native"
   ],
   "env": {
     "test": {
@@ -23,7 +24,8 @@
           "modules": "commonjs"
         }],
         "react",
-        "stage-3"
+        "stage-3",
+        "react-native"
       ]
     }
   }

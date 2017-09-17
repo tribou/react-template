@@ -2,11 +2,11 @@
 import React, { PureComponent } from 'react'
 import Helmet from 'react-helmet'
 import { Link } from 'react-router-dom'
-import Status from 'src/components/shared/Status/Status.index'
+import Status from 'src/components/shared/Status'
 import css from './NotFound.style.css'
 
 
-class NotFound extends PureComponent {
+class NotFound extends PureComponent<void> {
 
   render () {
 

@@ -4,16 +4,21 @@ import Helmet from 'react-helmet'
 import { Link } from 'react-router-dom'
 import Cn from 'classnames'
 
+import RequireAuth from 'src/components/shared/RequireAuth'
 import img from 'src/styles/images.css'
 import sprites from 'src/styles/sprites.css'
 import css from './Home.style.css'
-import type { ReduxProps } from './Home.index'
+import type { ReduxProps } from './'
 
 type Props = ReduxProps & {
   history: Object,
 }
 
-class Home extends PureComponent<void, Props, void> {
+class Home extends PureComponent<Props> {
+
+  // TODO: watch for resolution of
+  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
+  props: Props
 
   handleLogout = () => {
 
@@ -28,13 +33,6 @@ class Home extends PureComponent<void, Props, void> {
 
   render () {
 
-
-    const logoutButton = this.props.authenticated
-      ? (
-        <button onClick={this.handleLogout}>Logout</button>
-      )
-      : null
-
     return (
       <div className={css.home}>
         <Helmet title="Home" />
@@ -48,7 +46,9 @@ class Home extends PureComponent<void, Props, void> {
         <Link to="/todos">
           <div className={Cn(sprites.facebookIcon, css.link)} />
         </Link>
-        {logoutButton}
+        <RequireAuth>
+          <button onClick={this.handleLogout}>Logout</button>
+        </RequireAuth>
       </div>
     )
 

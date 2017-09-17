@@ -2,7 +2,7 @@
 import React from 'react'
 import Snackbar from 'material-ui/Snackbar'
 
-import type { ReduxProps } from './ErrorMessage.index'
+import type { ReduxProps } from './'
 
 
 const autoHideDuration = 10000

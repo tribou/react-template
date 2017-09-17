@@ -3,13 +3,25 @@
   "scripts": {
   },
   "env": {
+    "NODE_ENV": {
+      "required": true
+    },
     "NPM_CONFIG_PRODUCTION": {
       "required": true
     },
     "ROLLBAR_ENV": {
       "required": true
     },
+    "ROLLBAR_TOKEN": {
+      "required": true
+    },
     "ROOT_URL": {
+      "required": true
+    },
+    "SECURE_COOKIE": {
+      "required": true
+    },
+    "SHOW_ERRORS": {
       "required": true
     }
   },

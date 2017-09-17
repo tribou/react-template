@@ -2,15 +2,15 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 
-import Modal from 'src/components/Modal/Modal.index'
-import LoadingIndicator from 'src/components/shared/LoadingIndicator/LoadingIndicator.index'
-import ErrorMessage from 'src/components/shared/ErrorMessage/ErrorMessage.index'
+import Modal from 'src/components/shared/Modal'
+import LoadingIndicator from 'src/components/shared/LoadingIndicator'
+import ErrorMessage from 'src/components/shared/ErrorMessage'
 import vars from 'config/variables'
-import type { ReduxProps } from './App.index'
+import type { ReduxProps } from './'
 
 
 type Props = ReduxProps & {
-  location: Object,
+  children: React$Element<*>,
 }
 
 const App = (props: Props) => {
@@ -27,7 +27,6 @@ const App = (props: Props) => {
 
   const {
     ROOT_URL,
-    location,
   } = props
 
   return (
@@ -58,7 +57,7 @@ const App = (props: Props) => {
       {props.children}
 
       <ErrorMessage />
-      <Modal location={location} />
+      <Modal />
     </div>
   )
 

@@ -5,7 +5,7 @@ Every component should be composed according to the following structure:
 ```
 src/components/
 └── Sample
-    ├── Sample.index.js
+    ├── index.js
     ├── Sample.js
     ├── Sample_test.js
     └── Sample.style.css
@@ -18,7 +18,7 @@ The parts are defined and used as follows:
 ```
     src/components/
 ->  └── Sample
-        ├── Sample.index.js
+        ├── index.js
         ├── Sample.js
         ├── Sample_test.js
         └── Sample.style.css
@@ -31,7 +31,7 @@ A component is encapsulated by a parent directory of the same name.
 ```
     src/components/
     └── Sample
----->   ├── Sample.index.js
+---->   ├── index.js
         ├── Sample.js
         ├── Sample_test.js
         └── Sample.style.css
@@ -55,8 +55,8 @@ Here is an example Container with example state and action mappings:
 import { connect } from 'react-redux'
 import type { RootReducerState } from 'src/redux/modules'
 import Todos from './Todos'
-import { setFilterCurrent, setFilterDone } from '../../../redux/modules/todos'
-import visibleTodos from '../../../selectors/visibleTodos'
+import { setFilterCurrent, setFilterDone } from 'src/redux/modules/todos'
+import visibleTodos from 'src/selectors/visibleTodos'
 
 
 type StateProps = {
@@ -108,8 +108,8 @@ other components.
 ```
     src/components/
     └── Sample
-        ├── Sample.index.js
----->   ├── Sample.index_test.js
+        ├── index.js
+---->   ├── index_test.js
         ├── Sample.js
         ├── Sample_test.js
         └── Sample.style.css
@@ -126,7 +126,7 @@ may not be required unless custom logic is included in the Container.
 ```
     src/components/
     └── Sample
-        ├── Sample.index.js
+        ├── index.js
 ---->   ├── Sample.js
         ├── Sample_test.js
         └── Sample.style.css
@@ -145,7 +145,7 @@ elements needed by the platform.
 ```
     src/components/
     └── Sample
-        ├── Sample.index.js
+        ├── index.js
         ├── Sample.js
 ---->   ├── Sample_test.js
         └── Sample.style.css
@@ -204,7 +204,7 @@ exports[`test <Template> renders the Template content 1`] = `
 ```
     src/components/
     └── Sample
-        ├── Sample.index.js
+        ├── index.js
         ├── Sample.js
         ├── Sample_test.js
 ---->   └── Sample.style.css
@@ -218,7 +218,7 @@ Web view component styles should be stored in [CSS Module][4] files ending in
 ```
     src/components/
     └── Sample
-        ├── Sample.index.js
+        ├── index.js
         ├── Sample.js
         ├── Sample_test.js
 ---->   ├── Sample.android.js

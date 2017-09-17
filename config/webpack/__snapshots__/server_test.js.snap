@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`webpack server config matches snapshot 1`] = `
+exports[`matches snapshot 1`] = `
 Object {
   "entry": Object {
     "server.js": Array [
@@ -32,12 +32,7 @@ Object {
               "modules": true,
             },
           },
-          Object {
-            "loader": "postcss-loader",
-            "options": Object {
-              "plugins": [Function],
-            },
-          },
+          "postcss-loader",
         ],
       },
       Object {
@@ -53,12 +48,7 @@ Object {
               "modules": false,
             },
           },
-          Object {
-            "loader": "postcss-loader",
-            "options": Object {
-              "plugins": [Function],
-            },
-          },
+          "postcss-loader",
         ],
       },
       Object {

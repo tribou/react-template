@@ -1,6 +1,5 @@
 // @flow
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const plugins = require('../../postcss')
 
 
 function wrapExtract ({ platform, use }
@@ -56,12 +55,7 @@ function getRule ({ fileType, platform, modules, NODE_ENV }
         localIdentName,
       },
     },
-    {
-      loader: 'postcss-loader',
-      options: {
-        plugins,
-      },
-    },
+    'postcss-loader',
   ]
 
   return {

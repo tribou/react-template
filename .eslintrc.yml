@@ -6,8 +6,6 @@ plugins:
   - tribou
 
 settings:
-  flowtype:
-    onlyFilesWithFlowAnnotation: false
   import/resolver: webpack
 
 globals:

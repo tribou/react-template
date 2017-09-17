@@ -9,7 +9,7 @@ import rootEpic from './epics'
 import rootReducer from './modules'
 
 
-function configureStore (preloadedState: Object): Object {
+function configureStore (preloadedState?: Object = {}): Object {
 
   const epicMiddleware = createEpicMiddleware(rootEpic)
 
@@ -38,6 +38,14 @@ function configureStore (preloadedState: Object): Object {
   )
 
   const store = createStore(rootReducer, preloadedState, enhancer)
+
+  // HMR in React Native
+  if (module.hot) {
+
+    module.hot.accept(() =>
+      store.replaceReducer(require('./modules/index').default)) // eslint-disable-line
+
+  }
 
   return store
 
