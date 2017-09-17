@@ -12,7 +12,7 @@ import { MemoryRouter } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'config/muiTheme'
 import InjectTapEventPlugin from 'react-tap-event-plugin'
-import Modal from './Modal.index'
+import Modal from './'
 
 InjectTapEventPlugin()
 

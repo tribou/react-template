@@ -2,13 +2,13 @@
 import React from 'react'
 import { Route, Redirect, Switch } from 'react-router'
 
-import App from 'src/components/App.index'
-import NotFound from 'src/components/NotFound/NotFound.index'
+import App from 'src/components'
+import NotFound from 'src/components/NotFound'
 
 // Examples
-import Home from 'src/components/examples/Home/Home.index'
-import Profile from 'src/components/examples/Profile/Profile.index'
-import Todos from 'src/components/examples/Todos/Todos.index'
+import Home from 'src/components/examples/Home'
+import Profile from 'src/components/examples/Profile'
+import Todos from 'src/components/examples/Todos'
 
 const Routes = () => (
   <App>

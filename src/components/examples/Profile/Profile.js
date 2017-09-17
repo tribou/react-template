@@ -2,10 +2,10 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import Helmet from 'react-helmet'
-import RequireAuth from 'src/components/shared/RequireAuth/RequireAuth.index'
+import RequireAuth from 'src/components/shared/RequireAuth'
 import css from './Profile.style.css'
 
-import type { ReduxProps } from './Profile.index'
+import type { ReduxProps } from './'
 
 type Props = ReduxProps & {
   history: Object,

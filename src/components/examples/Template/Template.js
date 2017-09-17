@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react'
 import css from './Template.style.css'
 
-import type { ReduxProps } from './Template.index'
+import type { ReduxProps } from './'
 
 
 type Props = ReduxProps & {
