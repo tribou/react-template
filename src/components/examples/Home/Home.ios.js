@@ -10,8 +10,13 @@ import {
   View,
 } from 'react-native'
 import styles from './Home.style'
+import type { ReduxProps } from './'
 
-class Home extends Component<void> {
+type Props = ReduxProps & {
+  history: Object,
+}
+
+class Home extends Component<Props> {
 
   render () {
 
