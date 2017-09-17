@@ -22576,8 +22576,8 @@ class Install {
       // write integrity hash
       yield _this7.integrityChecker.save(patterns, lockfileBasedOnResolver, _this7.flags, workspaceLayout, _this7.scripts.getArtifacts());
 
-      // --no-lockfile or --pure-lockfile flag
-      if (_this7.flags.lockfile === false || _this7.flags.pureLockfile) {
+      // --no-lockfile or --pure-lockfile or --frozen-lockfile flag
+      if (_this7.flags.lockfile === false || _this7.flags.pureLockfile || _this7.flags.frozenLockfile) {
         return;
       }
 
@@ -30055,15 +30055,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const DEFAULT_REGISTRY = 'https://registry.npmjs.org/';
 
-const REGEX_REGISTRY_PREFIX = /^https?:/;
+const REGEX_REGISTRY_HTTP_PROTOCOL = /^https?:/i;
+const REGEX_REGISTRY_PREFIX = /^(https?:)?\/\//i;
 const REGEX_REGISTRY_SUFFIX = /registry\/?$/;
 
 const SCOPE_SEPARATOR = exports.SCOPE_SEPARATOR = '%2f';
 // All scoped package names are of the format `@scope%2fpkg` from the use of NpmRegistry.escapeName
 // `(?:^|\/)` Match either the start of the string or a `/` but don't capture
 // `[^\/?]+?` Match any character that is not '/' or '?' and capture, up until the first occurance of:
-// `%2f` Match SCOPE_SEPARATOR, the escaped '/', and don't capture
-const SCOPED_PKG_REGEXP = /(?:^|\/)(@[^\/?]+?)(?=%2f)/;
+// `(?=%2f|\/)` Match SCOPE_SEPARATOR, the escaped '/', or a raw `/` and don't capture
+// The reason for matching a plain `/` is NPM registry being inconsistent about escaping `/` in
+// scoped package names: when you're fetching a tarball, it is not escaped, when you want info
+// about the package, it is escaped.
+const SCOPED_PKG_REGEXP = /(?:^|\/)(@[^\/?]+?)(?=%2f|\/)/;
 
 // TODO: Use the method from src/cli/commands/global.js for this instead
 function getGlobalPrefix() {
@@ -30119,12 +30123,12 @@ class NpmRegistry extends (_baseRegistry || _load_baseRegistry()).default {
   }
 
   getRequestUrl(registry, pathname) {
-    const isUrl = /^https?:/.test(pathname);
+    const isUrl = REGEX_REGISTRY_PREFIX.test(pathname);
 
     if (isUrl) {
       return pathname;
     } else {
-      return (_url || _load_url()).default.resolve(registry, pathname);
+      return (_url || _load_url()).default.resolve((0, (_misc || _load_misc()).addSuffix)(registry, '/'), pathname);
     }
   }
 
@@ -30292,7 +30296,7 @@ class NpmRegistry extends (_baseRegistry || _load_baseRegistry()).default {
 
   getRegistry(packageIdent) {
     // Try extracting registry from the url, then scoped registry, and default registry
-    if (packageIdent.match(/^https?:/)) {
+    if (packageIdent.match(REGEX_REGISTRY_PREFIX)) {
       const availableRegistries = this.getAvailableRegistries();
       const registry = availableRegistries.find(registry => packageIdent.startsWith(registry));
       if (registry) {
@@ -30353,7 +30357,7 @@ class NpmRegistry extends (_baseRegistry || _load_baseRegistry()).default {
   }
 
   getRegistryOption(registry, option) {
-    const pre = REGEX_REGISTRY_PREFIX;
+    const pre = REGEX_REGISTRY_HTTP_PROTOCOL;
     const suf = REGEX_REGISTRY_SUFFIX;
 
     // When registry is used config scope, the trailing '/' is required
@@ -30362,7 +30366,7 @@ class NpmRegistry extends (_baseRegistry || _load_baseRegistry()).default {
     // 1st attempt, try to get option for the given registry URL
     // 2nd attempt, remove the 'https?:' prefix of the registry URL
     // 3nd attempt, remove the 'registry/?' suffix of the registry URL
-    return this.getScopedOption(reg, option) || reg.match(pre) && this.getRegistryOption(reg.replace(pre, ''), option) || reg.match(suf) && this.getRegistryOption(reg.replace(suf, ''), option);
+    return this.getScopedOption(reg, option) || pre.test(reg) && this.getRegistryOption(reg.replace(pre, ''), option) || suf.test(reg) && this.getRegistryOption(reg.replace(suf, ''), option);
   }
 
   getRegistryOrGlobalOption(registry, option) {
@@ -47541,7 +47545,7 @@ nacl.setPRNG = function(fn) {
 module.exports = {
 	"name": "yarn",
 	"installationMethod": "unknown",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"license": "BSD-2-Clause",
 	"preferGlobal": true,
 	"description": "📦🐈 Fast, reliable, and secure dependency management.",
@@ -48403,7 +48407,7 @@ function setUserRequestedPackageVersions(deps, args) {
 function setFlags(commander) {
   commander.usage('upgrade [flags]');
   commander.option('-S, --scope <scope>', 'upgrade packages under the specified scope');
-  commander.option('--latest', 'list the latest version of packages, ignoring version ranges in package.json');
+  commander.option('-L, --latest', 'list the latest version of packages, ignoring version ranges in package.json');
   commander.option('-E, --exact', 'install exact version. Only used when --latest is specified.');
   commander.option('-T, --tilde', 'install most recent release with the same minor version. Only used when --latest is specified.');
   commander.option('-C, --caret', 'install most recent release with the same major version. Only used when --latest is specified.');
@@ -49888,7 +49892,7 @@ class FileResolver extends (_exoticResolver || _load_exoticResolver()).default {
 }
 exports.default = FileResolver;
 FileResolver.protocol = 'file';
-FileResolver.prefixMatcher = /^.{1,2}\//;
+FileResolver.prefixMatcher = /^\.{1,2}\//;
 
 /***/ }),
 /* 163 */
@@ -51065,7 +51069,7 @@ function extractRepositoryUrl(repository) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isNotFakeRoot = isNotFakeRoot;
+exports.isFakeRoot = isFakeRoot;
 exports.isRootUser = isRootUser;
 function getUid() {
   if (process.platform !== 'win32' && process.getuid) {
@@ -51074,8 +51078,8 @@ function getUid() {
   return null;
 }
 
-exports.default = isRootUser(getUid()) && isNotFakeRoot();
-function isNotFakeRoot() {
+exports.default = isRootUser(getUid()) && !isFakeRoot();
+function isFakeRoot() {
   return Boolean(process.env.FAKEROOTKEY);
 }
 
@@ -61362,7 +61366,7 @@ class TarballFetcher extends (_baseFetcher || _load_baseFetcher()).default {
           hash: actualHash
         });
       } else {
-        reject(new (_errors || _load_errors()).SecurityError(this.config.reporter.lang('fetchBadHashWithPath', this.packageName, this.remote.reference, expectHash, actualHash)));
+        reject(new (_errors || _load_errors()).SecurityError(this.config.reporter.lang('fetchBadHashWithPath', this.packageName, this.remote.reference, actualHash, expectHash)));
       }
     });
 
@@ -61420,8 +61424,7 @@ class TarballFetcher extends (_baseFetcher || _load_baseFetcher()).default {
         try {
           return yield registry.request(_this3.reference, {
             headers: {
-              'Accept-Encoding': 'gzip',
-              Accept: 'application/octet-stream'
+              'Accept-Encoding': 'gzip'
             },
             buffer: true,
             process: function (req, resolve, reject) {
@@ -62462,6 +62465,10 @@ class PackageResolver {
       // resolved to existing versions can be resolved to their best available version
       _this2.resolvePackagesWithExistingVersions();
 
+      for (const req of _this2.resolutionMap.delayQueue) {
+        _this2.resolveToResolution(req);
+      }
+
       activity.end();
       _this2.activity = null;
     })();
@@ -62496,19 +62503,23 @@ class PackageResolver {
           pattern = req.pattern;
 
 
-    if (!parentNames) {
+    if (!parentNames || this.flat) {
       return req;
     }
 
     const resolution = this.resolutionMap.find(pattern, parentNames);
 
     if (resolution) {
-      const resolutionManifest = this.getStrictResolvedPattern(resolution);
-      invariant(resolutionManifest._reference, 'resolutions should have a resolved reference');
+      const resolutionManifest = this.getResolvedPattern(resolution);
 
-      resolutionManifest._reference.patterns.push(pattern);
-      this.addPattern(pattern, resolutionManifest);
-      this.lockfile.removePattern(pattern);
+      if (resolutionManifest) {
+        invariant(resolutionManifest._reference, 'resolutions should have a resolved reference');
+        resolutionManifest._reference.patterns.push(pattern);
+        this.addPattern(pattern, resolutionManifest);
+        this.lockfile.removePattern(pattern);
+      } else {
+        this.resolutionMap.addToDelayQueue(req);
+      }
 
       return null;
     }
@@ -62641,6 +62652,7 @@ class ResolutionMap {
     this.resolutionsByPackage = (0, (_map || _load_map()).default)();
     this.config = config;
     this.reporter = config.reporter;
+    this.delayQueue = new Set();
   }
 
   init() {
@@ -62654,6 +62666,10 @@ class ResolutionMap {
         this.resolutionsByPackage[info.name] = [...resolution, info];
       }
     }
+  }
+
+  addToDelayQueue(req) {
+    this.delayQueue.add(req);
   }
 
   parsePatternInfo(globPattern, range) {
@@ -62928,8 +62944,10 @@ exports.default = function (from, to, reporter) {
   const parts = to.split('.');
   const fromParts = from.split('.');
 
-  const index = parts.findIndex((part, i) => part !== fromParts[i]);
-  const splitIndex = index >= 0 ? index : parts.length;
+  const splitIndex = parts.findIndex((part, i) => part !== fromParts[i]);
+  if (splitIndex === -1) {
+    return from;
+  }
 
   const colorized = reporter.format.green(parts.slice(splitIndex).join('.'));
   return parts.slice(0, splitIndex).concat(colorized).join('.');
@@ -80516,7 +80534,7 @@ function setFlags(commander) {}
 
 function run(config, reporter, flags, args) {
   const binFolder = path.join(config.cwd, config.registries[(_yarnResolver || _load_yarnResolver()).default.registry].folder, '.bin');
-  reporter.log(binFolder);
+  reporter.log(binFolder, { force: true });
   return Promise.resolve();
 }
 
@@ -80775,7 +80793,7 @@ var _buildSubCommands = (0, (_buildSubCommands2 || _load_buildSubCommands()).def
       return false;
     }
 
-    reporter.log(String(config.getOption(args[0])));
+    reporter.log(String(config.getOption(args[0])), { force: true });
     return true;
   },
 
@@ -84116,9 +84134,9 @@ function main(_ref) {
   (0, (_signalHandler || _load_signalHandler()).default)();
 
   // set global options
-  commander.version((_yarnVersion || _load_yarnVersion()).version, '--version');
+  commander.version((_yarnVersion || _load_yarnVersion()).version, '-v, --version');
   commander.usage('[command] [flags]');
-  commander.option('-v, --verbose', 'output verbose messages on internal operations');
+  commander.option('--verbose', 'output verbose messages on internal operations');
   commander.option('--offline', 'trigger an error if any required dependencies are not available in local cache');
   commander.option('--prefer-offline', 'use network only if dependencies are not available in local cache');
   commander.option('--strict-semver');
@@ -84155,38 +84173,63 @@ function main(_ref) {
   commander.option('--non-interactive', 'do not show interactive prompts');
   commander.option('--scripts-prepend-node-path [bool]', 'prepend the node executable dir to the PATH in scripts');
 
-  // get command name
-  let commandName = args.shift() || 'install';
-
   // if -v is the first command, then always exit after returning the version
-  if (commandName === '-v') {
+  if (args[0] === '-v') {
     console.log((_yarnVersion || _load_yarnVersion()).version.trim());
     process.exitCode = 0;
     return;
   }
 
-  if (commandName === '--help' || commandName === '-h') {
-    commandName = 'help';
+  // get command name
+  const firstNonFlagIndex = args.findIndex((arg, idx, arr) => {
+    const isOption = arg.startsWith('-');
+    const prev = idx > 0 && arr[idx - 1];
+    const prevOption = prev && prev.startsWith('-') && commander.optionFor(prev);
+    const boundToPrevOption = prevOption && prevOption.required;
+
+    return !isOption && !boundToPrevOption;
+  });
+  let preCommandArgs;
+  let commandName = '';
+  if (firstNonFlagIndex > -1) {
+    preCommandArgs = args.slice(0, firstNonFlagIndex);
+    commandName = args[firstNonFlagIndex];
+    args = args.slice(firstNonFlagIndex + 1);
+  } else {
+    preCommandArgs = args;
+    args = [];
   }
 
-  if (args.indexOf('--help') >= 0 || args.indexOf('-h') >= 0) {
-    args.unshift(commandName);
+  let isKnownCommand = Object.prototype.hasOwnProperty.call((_index3 || _load_index3()).default, commandName);
+  const isHelp = arg => arg === '--help' || arg === '-h';
+  const helpInPre = preCommandArgs.findIndex(isHelp);
+  const helpInArgs = args.findIndex(isHelp);
+  const setHelpMode = () => {
+    if (isKnownCommand) {
+      args.unshift(commandName);
+    }
     commandName = 'help';
-  }
+    isKnownCommand = true;
+  };
 
-  // if no args or command name looks like a flag then set default to `install`
-  if (commandName[0] === '-') {
-    args.unshift(commandName);
-    commandName = 'install';
+  if (helpInPre > -1) {
+    preCommandArgs.splice(helpInPre);
+    setHelpMode();
+  } else if (isKnownCommand && helpInArgs === 0) {
+    args.splice(helpInArgs);
+    setHelpMode();
   }
 
   let command;
-  if (Object.prototype.hasOwnProperty.call((_index3 || _load_index3()).default, commandName)) {
-    command = (_index3 || _load_index3()).default[commandName];
+  if (!commandName) {
+    commandName = 'install';
+    isKnownCommand = true;
   }
 
-  // if command is not recognized, then set default to `run`
-  if (!command) {
+  if (isKnownCommand) {
+    command = (_index3 || _load_index3()).default[commandName];
+  } else {
+    // if command is not recognized, then set default to `run`
     args.unshift(commandName);
     command = (_index3 || _load_index3()).default.run;
   }
@@ -84200,6 +84243,8 @@ function main(_ref) {
       warnAboutRunDashDash = true;
     }
   }
+
+  args = [...preCommandArgs, ...args];
 
   command.setFlags(commander);
   commander.parse([...startArgs,
@@ -84543,8 +84588,8 @@ function main(_ref) {
       onUnexpectedError(err);
     }
 
-    if ((_index3 || _load_index3()).default[commandName]) {
-      reporter.info((_index3 || _load_index3()).default[commandName].getDocsInfo);
+    if (command.getDocsInfo) {
+      reporter.info(command.getDocsInfo);
     }
 
     return exit(1);
@@ -86804,7 +86849,7 @@ class ConsoleReporter extends (_baseReporter || _load_baseReporter()).default {
       });
     }
 
-    this.log('' + value);
+    this.log(String(value), { force: true });
   }
 
   list(key, items, hints) {
@@ -87149,26 +87194,14 @@ class ConsoleReporter extends (_baseReporter || _load_baseReporter()).default {
         output: _this.stdout
       });
 
-      let rejectRef = function () {};
-      const killListener = function () {
-        rejectRef();
-      };
-
-      const handleKillFromInquirer = new Promise(function (resolve, reject) {
-        rejectRef = reject;
-      });
-
-      rl.addListener('SIGINT', killListener);
-
       var _options$name = options.name;
       const name = _options$name === undefined ? 'prompt' : _options$name;
       var _options$type = options.type;
       const type = _options$type === undefined ? 'input' : _options$type,
             validate = options.validate;
 
-      const answers = yield Promise.race([prompt([{ name, type, message, choices, pageSize, validate }]), handleKillFromInquirer]);
+      const answers = yield prompt([{ name, type, message, choices, pageSize, validate }]);
 
-      rl.removeListener('SIGINT', killListener);
       rl.close();
 
       return answers[name];
@@ -88408,11 +88441,12 @@ const semver = __webpack_require__(22);
 
 const REF_TAG_PREFIX = 'refs/tags/';
 const REF_BRANCH_PREFIX = 'refs/heads/';
+const REF_PR_PREFIX = 'refs/pull/';
 
 // This regex is designed to match output from git of the style:
 //   ebeb6eafceb61dd08441ffe086c77eb472842494  refs/tags/v0.21.0
 // and extract the hash and ref name as capture groups
-const GIT_REF_LINE_REGEXP = /^([a-fA-F0-9]+)\s+(refs\/(?:tags|heads)\/.*)$/;
+const GIT_REF_LINE_REGEXP = /^([a-fA-F0-9]+)\s+(refs\/(?:tags|heads|pull)\/.*)$/;
 
 const COMMIT_SHA_REGEXP = /^[a-f0-9]{5,40}$/;
 const REF_NAME_REGEXP = /^refs\/(tags|heads)\/(.+)$/;
@@ -88470,15 +88504,21 @@ const tryVersionAsTagName = (_ref7) => {
   return tryRef(refs, `${REF_TAG_PREFIX}${version}`);
 };
 
-const tryVersionAsBranchName = (_ref8) => {
+const tryVersionAsPullRequestNo = (_ref8) => {
   let version = _ref8.version,
       refs = _ref8.refs;
+  return tryRef(refs, `${REF_PR_PREFIX}${version}`);
+};
+
+const tryVersionAsBranchName = (_ref9) => {
+  let version = _ref9.version,
+      refs = _ref9.refs;
   return tryRef(refs, `${REF_BRANCH_PREFIX}${version}`);
 };
 
-const computeSemverNames = (_ref9) => {
-  let config = _ref9.config,
-      refs = _ref9.refs;
+const computeSemverNames = (_ref10) => {
+  let config = _ref10.config,
+      refs = _ref10.refs;
 
   const names = {
     tags: [],
@@ -88505,47 +88545,47 @@ const computeSemverNames = (_ref9) => {
 const findSemver = (version, config, namesList) => config.resolveConstraints(namesList, version);
 
 const tryVersionAsTagSemver = (() => {
-  var _ref10 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (_ref11, names) {
-    let version = _ref11.version,
-        config = _ref11.config,
-        refs = _ref11.refs;
+  var _ref11 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (_ref12, names) {
+    let version = _ref12.version,
+        config = _ref12.config,
+        refs = _ref12.refs;
 
     const result = yield findSemver(version, config, names.tags);
     return result ? tryRef(refs, `${REF_TAG_PREFIX}${result}`) : null;
   });
 
   return function tryVersionAsTagSemver(_x, _x2) {
-    return _ref10.apply(this, arguments);
+    return _ref11.apply(this, arguments);
   };
 })();
 
 const tryVersionAsBranchSemver = (() => {
-  var _ref12 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (_ref13, names) {
-    let version = _ref13.version,
-        config = _ref13.config,
-        refs = _ref13.refs;
+  var _ref13 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (_ref14, names) {
+    let version = _ref14.version,
+        config = _ref14.config,
+        refs = _ref14.refs;
 
     const result = yield findSemver(version, config, names.heads);
     return result ? tryRef(refs, `${REF_BRANCH_PREFIX}${result}`) : null;
   });
 
   return function tryVersionAsBranchSemver(_x3, _x4) {
-    return _ref12.apply(this, arguments);
+    return _ref13.apply(this, arguments);
   };
 })();
 
 const tryVersionAsSemverRange = (() => {
-  var _ref14 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (options) {
+  var _ref15 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (options) {
     const names = computeSemverNames(options);
     return (yield tryVersionAsTagSemver(options, names)) || tryVersionAsBranchSemver(options, names);
   });
 
   return function tryVersionAsSemverRange(_x5) {
-    return _ref14.apply(this, arguments);
+    return _ref15.apply(this, arguments);
   };
 })();
 
-const VERSION_RESOLUTION_STEPS = [tryEmptyVersionAsDefaultBranch, tryVersionAsGitCommit, tryVersionAsFullRef, tryVersionAsTagName, tryVersionAsBranchName, tryVersionAsSemverRange, tryWildcardVersionAsDefaultBranch];
+const VERSION_RESOLUTION_STEPS = [tryEmptyVersionAsDefaultBranch, tryVersionAsGitCommit, tryVersionAsFullRef, tryVersionAsTagName, tryVersionAsPullRequestNo, tryVersionAsBranchName, tryVersionAsSemverRange, tryWildcardVersionAsDefaultBranch];
 
 /**
  * Resolve a git-url hash (version) to a git commit sha and branch/tag ref
@@ -88553,7 +88593,7 @@ const VERSION_RESOLUTION_STEPS = [tryEmptyVersionAsDefaultBranch, tryVersionAsGi
  */
 
 const resolveVersion = exports.resolveVersion = (() => {
-  var _ref15 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (options) {
+  var _ref16 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (options) {
     for (const testFunction of VERSION_RESOLUTION_STEPS) {
       const result = yield testFunction(options);
       if (result !== null) {
@@ -88564,7 +88604,7 @@ const resolveVersion = exports.resolveVersion = (() => {
   });
 
   return function resolveVersion(_x6) {
-    return _ref15.apply(this, arguments);
+    return _ref16.apply(this, arguments);
   };
 })();
 
