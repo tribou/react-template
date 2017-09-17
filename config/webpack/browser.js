@@ -58,7 +58,7 @@ const config = createConfig.vanilla([
     new Webpack.HashedModuleIdsPlugin(),
     new WebpackChunkHash(),
     new CopyPlugin([
-      { from: 'static' },
+      { from: 'static', ignore: ['**/package.json', '**/.eslintrc*'] },
     ]),
     new AssetsPlugin({
       filename: 'assets.json',

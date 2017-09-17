@@ -1,0 +1,7 @@
+---
+settings:
+  import/external-module-folders:
+    - ../node_modules
+  import/resolver:
+    webpack:
+      config: ../webpack.config.js

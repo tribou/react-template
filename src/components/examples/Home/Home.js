@@ -4,11 +4,11 @@ import Helmet from 'react-helmet'
 import { Link } from 'react-router-dom'
 import Cn from 'classnames'
 
-import RequireAuth from 'src/components/shared/RequireAuth/RequireAuth.index'
+import RequireAuth from 'src/components/shared/RequireAuth'
 import img from 'src/styles/images.css'
 import sprites from 'src/styles/sprites.css'
 import css from './Home.style.css'
-import type { ReduxProps } from './Home.index'
+import type { ReduxProps } from './'
 
 type Props = ReduxProps & {
   history: Object,

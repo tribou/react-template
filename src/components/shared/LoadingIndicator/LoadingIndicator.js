@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react'
 import css from './LoadingIndicator.style.css'
 
-import type { ReduxProps } from './LoadingIndicator.index'
+import type { ReduxProps } from './'
 
 
 type Props = ReduxProps & {

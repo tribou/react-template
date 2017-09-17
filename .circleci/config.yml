@@ -67,6 +67,9 @@ jobs:
       - run:
           name: test-jest
           command: npm run test-jest -- --runInBand
+      - run:
+          name: test-react-native
+          command: npm run test-rn -- --runInBand
 
   bump-minor:
     working_directory: ~/app

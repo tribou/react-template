@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import Helmet from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { Field } from 'redux-form'
-import TextField from 'src/components/shared/TextField/TextField.index'
+import TextField from 'src/components/shared/TextField'
 import css from './Login.style.css'
 
 import type { ReduxProps } from './Login.index'

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import { Redirect } from 'react-router'
 import type { Location } from 'react-router'
 
-import type { ReduxProps } from './RequireAuth.index'
+import type { ReduxProps } from './'
 
 
 type Props = ReduxProps & {

@@ -10,11 +10,11 @@ const domain = isBrowser()
   : null
 
 
-const serialize = (string: string): string =>
+export const serialize = (string: string): string =>
   Base64.encode(string)
 
 
-const deserialize = (string: string): string =>
+export const deserialize = (string: string): string =>
   Base64.decode(string)
 
 
