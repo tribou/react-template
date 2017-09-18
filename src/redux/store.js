@@ -3,7 +3,7 @@ import { applyMiddleware, createStore, compose } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
-import { devToolsEnhancer } from 'redux-devtools-extension/logOnlyInProduction'
+import devTools from 'src/redux/devtools'
 import errorDisplayMiddleware from 'src/redux/middleware/errorDisplay'
 import rootEpic from './epics'
 import rootReducer from './modules'
@@ -34,7 +34,7 @@ function configureStore (preloadedState?: Object = {}): Object {
 
   const enhancer = compose(
     applyMiddleware(...middleware),
-    devToolsEnhancer({})
+    devTools()
   )
 
   const store = createStore(rootReducer, preloadedState, enhancer)
