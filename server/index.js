@@ -8,44 +8,23 @@ import Vision from 'vision'
 import Routes from 'server/routes'
 
 // Plugins
+import HttpsRedirectPlugin from 'server/plugins/httpsRedirect'
 import HealthCheckPlugin from 'server/plugins/health'
 
 
-const ENV = process.env.NODE_ENV
+const { NODE_ENV, PORT } = process.env
 
 const server = new Hapi.Server()
 
 server.connection({
   host: '0.0.0.0',
-  port: process.env.PORT || 8000,
+  port: PORT || 8000,
   routes: {
     cors: true,
     security: {
       xframe: 'sameorigin',
     },
   },
-})
-
-// Redirect to HTTPS
-server.ext('onRequest', (request, reply) => {
-
-  if (ENV !== 'production') return reply.continue()
-
-  const redirect = request.headers['x-forwarded-proto'] === 'http'
-  const host = request.headers['x-forwarded-host'] || request.headers.host
-
-  const path = `https://${host}${request.url.path}`
-
-  if (redirect) {
-
-    server.log(['info', 'http_redirect'], path)
-    return reply()
-      .redirect(path)
-      .code(301)
-
-  }
-  return reply.continue()
-
 })
 
 // Register Hapi plugins
@@ -82,6 +61,7 @@ const plugins = [
       },
     },
   },
+  HttpsRedirectPlugin,
   HealthCheckPlugin,
 ]
 
@@ -111,18 +91,11 @@ function startServer (done: ?Function): Object {
 
     return server.start((): any => {
 
-      if (ENV) {
-
-        server.log(['info'], `NODE_ENV: ${ENV}`)
-
-      }
+      if (NODE_ENV) server.log(['info'], `NODE_ENV: ${NODE_ENV}`)
       server.log(['info'], `Server running at: ${server.info.uri}`)
 
-      if (done) {
+      if (done) done()
 
-        done()
-
-      }
       return server
 
     })
