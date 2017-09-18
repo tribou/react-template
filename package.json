@@ -161,7 +161,7 @@
     "deploy-prod": "heroku pipelines:promote -a my-app-staging",
     "lsp": "heroku releases -a my-app",
     "lss": "heroku releases -a my-app-staging",
-    "devtools-server": "echo 'Hit Cmd+Ctrl+ArrowUp to open remote monitoring in Chrome'; remotedev --hostname=localhost --port=8001",
+    "devtools-server": "echo; echo; echo 'Hit Cmd+Ctrl+ArrowUp to open remote monitoring in Chrome'; echo; echo; remotedev --hostname=localhost --port=8001",
     "dev": "npm run yarn && rimraf build && concurrently -n 'APP,FLOW' -p '[{name}]' 'cross-env DEBUG=my-app* DEBUG_COLORS=true SHOW_ERRORS=true NODE_ENV=development nodemon -x node server/dev.index.js' 'npm run --silent watch-flow'",
     "dev-mock": "npm run yarn && rimraf build && concurrently -n 'APP,FLOW' -p '[{name}]' 'cross-env USE_MOCK_API=true DEBUG=my-app* DEBUG_COLORS=true SHOW_ERRORS=true NODE_ENV=development nodemon -x node server/dev.index.js' 'npm run --silent watch-flow'",
     "dev-a": "npm run yarn && react-native run-android && npm run devtools-server",
