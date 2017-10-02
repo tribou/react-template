@@ -8,50 +8,32 @@ import css from './Modal.style.css'
 
 type Props = any
 
-const getQuery = search => (
-  typeof search === 'string'
-    ? parse(search.substr(1))
-    : undefined
-)
 
-const Modal = (props: Props) => {
+class Modal extends PureComponent<Props> {
 
-  const search = get(props, 'location.search')
-  const modal = get(props, 'location.state.modal') || get(getQuery(search), 'm')
-  if (!modal) return null
-
-  const modals = {
-    login: <Login {...props} />,
-    // 'reset-password': <ResetPassword {...props} />,
-    // 'recover-password': <RecoverPassword {...props} />,
-    default: null,
-  }
-
-  return (
-    <div className={css.modal}>
-      {modals[modal] || modal.default}
-    </div>
+  static getQuery = search => (
+    typeof search === 'string'
+      ? parse(search.substr(1))
+      : undefined
   )
 
-}
+  getModal = () => {
 
-class ModalWrapper extends PureComponent<Props> {
+    const search = get(this.props, 'location.search')
+    const modal = get(this.props, 'location.state.modal',
+      get(Modal.getQuery(search), 'm', 'default'))
 
-  componentDidMount () {
 
-    // TODO: side effect in stateless component...
-    // quick fix to prevent scrolling
-    const style = get(document, 'body.style')
-    if (isBrowser() && style) style.overflow = 'hidden'
+    // Define modals here
+    const modals = {
+      login: <Login {...this.props} />,
+      // 'reset-password': <ResetPassword {...props} />,
+      // 'recover-password': <RecoverPassword {...props} />,
+      default: null,
+    }
 
-  }
 
-  componentWillUnmount () {
-
-    // TODO: side effect in stateless component...
-    // quick fix to prevent scrolling
-    const style = get(document, 'body.style')
-    if (isBrowser() && style) style.overflow = 'visible'
+    return modals[modal]
 
   }
 
@@ -61,10 +43,40 @@ class ModalWrapper extends PureComponent<Props> {
 
   render () {
 
-    return <Modal {...this.props} />
+    const modal = this.getModal()
+
+
+    // Side-effect for web
+    const style = typeof document !== 'undefined'
+      ? get(document, 'body.style')
+      : undefined
+
+    if (
+      !modal
+      && isBrowser()
+      && style
+      && style.overflow
+      && style.overflow === 'hidden'
+    ) {
+
+      style.overflow = 'visible'
+      return null
+
+    }
+
+    if (isBrowser() && style) style.overflow = 'hidden'
+
+
+    return modal
+      ? (
+        <div className={css.modal}>
+          {modal}
+        </div>
+      )
+      : null
 
   }
 
 }
 
-export default ModalWrapper
+export default Modal

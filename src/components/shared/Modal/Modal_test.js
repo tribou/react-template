@@ -33,7 +33,7 @@ it('renders null if no modal state or query', () => {
     </Provider>
   )
 
-  expect(wrapper.find('Modal').html()).toEqual(null)
+  expect(wrapper.find('Login').exists()).toEqual(false)
 
 })
 
@@ -110,7 +110,33 @@ it('renders sets overflow to hidden when shown and visible when unmounting', () 
   wrapper.detach()
   body.removeChild(div)
 
+})
+
+
+it('sets overflow to visible when rendering null', () => {
+
+  const body = get(document, 'body')
+
+  const div = document.createElement('div')
+  div.id = 'test'
+  body.appendChild(div)
+
+  const store = configureStore()
+  const wrapper = mount(
+    <Provider store={store}>
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
+        <MemoryRouter initialEntries={[{ pathname: '/' }]}>
+          <Modal {...mockProps} />
+        </MemoryRouter>
+      </MuiThemeProvider>
+    </Provider>,
+    { attachTo: div })
+
   const visible = get(document, 'body.style.overflow')
   expect(visible).toEqual('visible')
+
+  // cleanup
+  wrapper.detach()
+  body.removeChild(div)
 
 })
