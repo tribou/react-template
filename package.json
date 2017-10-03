@@ -7,7 +7,7 @@
   "engines": {
     "node": ">=6.4.x <9",
     "npm": ">=5",
-    "yarn": "1.0.2"
+    "yarn": "1.1.0"
   },
   "repository": {
     "type": "git",
