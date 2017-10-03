@@ -7,7 +7,7 @@
   "engines": {
     "node": ">=6.4.x <9",
     "npm": ">=5",
-    "yarn": "1.0.2"
+    "yarn": "1.1.0"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "autoprefixer": "^7.1.4",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^8.0.1",
     "babel-jest": "^21.0.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-class-properties": "^6.11.5",
@@ -48,7 +48,7 @@
     "eslint-plugin-tribou": "^1.2.2",
     "extract-text-webpack-plugin": "^3.0.0",
     "favicons-webpack-plugin": "0.0.7",
-    "file-loader": "^0.11.2",
+    "file-loader": "^1.1.4",
     "flow-bin": "^0.54.1",
     "glob": "^7.1.2",
     "husky": "^0.14.3",
