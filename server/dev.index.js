@@ -35,7 +35,8 @@ compiler.plugin('done', stats => {
 
   // eslint-disable-next-line
   console.log('\n')
-  if (stats.hasErrors()) return
+  log('Webpack compiler done')
+  if (stats.hasErrors()) log('\n\nERRORS\n\n')
 
   // Not working with webpack/hot/signal :( ...probably `concurrently`
   // if (!outputProcess) {
@@ -103,5 +104,7 @@ compiler.watch({}, (err, stats) => {
     })
 
   }
+
+  // log('\n\nWATCH\n\n')
 
 })

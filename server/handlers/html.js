@@ -36,11 +36,11 @@ const routedHtml = (request: Object, reply: Function) => {
 
     module.hot.accept([
       'src/routes',
-      'src/helpers/auth',
       'src/redux/store',
       'src/redux/modules/auth',
       'config/env',
       'config/variables',
+      'server/utils',
     ], () => {})
 
   }

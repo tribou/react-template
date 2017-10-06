@@ -1,5 +1,5 @@
 // @flow
-
+const Path = require('path')
 
 function eslint () {
 
@@ -14,7 +14,9 @@ function eslint () {
             {
               loader: 'eslint-loader',
               options: {
-                configFile: '.eslintrc.yml',
+                // TODO
+                // Not working after React Native relative paths
+                configFile: Path.resolve(__dirname, '../../../.eslintrc.yml'),
               },
             },
           ],
