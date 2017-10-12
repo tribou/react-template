@@ -17,6 +17,7 @@ function getEntry (entry/* : ?(string | Object | Array<*>) */) {
       return {
         entry: {
           bundle: [
+            'react-hot-loader/patch',
             'sanitize.css/sanitize.css',
             'tachyons-clears',
             'tachyons-display',

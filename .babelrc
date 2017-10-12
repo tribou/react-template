@@ -16,7 +16,8 @@
     "test": {
       "plugins": [
         "transform-class-properties",
-        "transform-object-assign"
+        "transform-object-assign",
+        "react-hot-loader/babel"
       ],
       "presets": [
         ["env", {

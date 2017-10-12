@@ -98,6 +98,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-helmet": "^5.2.0",
+    "react-hot-loader": "^3.0.0",
     "react-native": "0.42.x",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
