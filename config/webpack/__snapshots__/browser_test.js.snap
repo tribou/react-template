@@ -4,6 +4,7 @@ exports[`webpack config matches snapshot 1`] = `
 Object {
   "entry": Object {
     "bundle": Array [
+      "react-hot-loader/patch",
       "sanitize.css/sanitize.css",
       "tachyons-clears",
       "tachyons-display",

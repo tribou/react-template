@@ -8,6 +8,7 @@ import InjectTapEventPlugin from 'react-tap-event-plugin'
 import Rollbar from 'rollbar/dist/rollbar.umd.min'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { AppContainer } from 'react-hot-loader'
 import configureStore from 'src/redux/store'
 import { loadSuccess } from 'src/redux/modules/init'
 import rollbarConfig from 'config/rollbar'
@@ -48,18 +49,38 @@ window.onload = () => {
 
 }
 
-ReactDOM.render(
+const render = (Root: React$Element<*>) => {
 
+  ReactDOM.render(
+    <AppContainer>
+      { Root }
+    </AppContainer>,
+    document.getElementById('react-mount')
+  )
+
+}
+
+const App = (
   <Provider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme()}>
       <Router>
         <Routes />
       </Router>
     </MuiThemeProvider>
-  </Provider>,
-
-  document.getElementById('react-mount')
+  </Provider>
 )
+
+render(App)
+
+if (module.hot) {
+
+  module.hot.accept('src/routes', () => {
+
+    render(App)
+
+  })
+
+}
 
 // Progressively apply ServiceWorker updates so browser can simply be refreshed
 // to reflect changes with window.location.reload()
