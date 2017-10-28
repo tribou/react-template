@@ -82,7 +82,7 @@ const config = createConfig.vanilla([
 
   env('development', [
     sourceMaps(),
-    // eslint(),
+    eslint(),
   ]),
 
   env('production', [
