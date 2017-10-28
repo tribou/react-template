@@ -29,6 +29,7 @@ function babel () {
                   ['env', {
                     loose: true,
                     modules: false,
+                    useBuiltIns: 'entry',
                   }],
                   'react',
                   'stage-3',

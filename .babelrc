@@ -6,7 +6,8 @@
   "presets": [
     ["env", {
       "loose": true,
-      "modules": false
+      "modules": false,
+      "useBuiltIns": "entry"
     }],
     "react",
     "stage-3",

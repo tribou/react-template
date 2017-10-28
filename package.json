@@ -82,6 +82,7 @@
     "boom": "^5.2.0",
     "classnames": "^2.2.5",
     "cookies-js": "^1.2.3",
+    "core-js": "^2.5.1",
     "debug": "^3.0.1",
     "fetch-ponyfill": "^4.1.0",
     "good": "^7.3.0",

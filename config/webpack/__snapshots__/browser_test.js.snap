@@ -39,6 +39,7 @@ Object {
                 Object {
                   "loose": true,
                   "modules": false,
+                  "useBuiltIns": "entry",
                 },
               ],
               "react",
