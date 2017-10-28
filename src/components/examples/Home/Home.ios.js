@@ -4,7 +4,7 @@
  * @flow
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
   Text,
   View,
@@ -16,7 +16,7 @@ type Props = ReduxProps & {
   history: Object,
 }
 
-class Home extends Component<Props> {
+class Home extends PureComponent<Props> {
 
   render () {
 
