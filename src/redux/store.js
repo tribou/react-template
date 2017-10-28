@@ -43,7 +43,7 @@ function configureStore (preloadedState?: Object = {}): Object {
   if (module.hot) {
 
     module.hot.accept(() =>
-      store.replaceReducer(require('./modules/index').default)) // eslint-disable-line
+      store.replaceReducer(require('./modules').default)) // eslint-disable-line
 
   }
 

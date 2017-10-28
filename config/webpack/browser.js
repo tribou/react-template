@@ -21,7 +21,11 @@ const {
 
 const babel = require('./blocks/babel')
 const cssModules = require('./blocks/cssModules')
+
+// TODO
+// Relative paths not working after React Native relative paths were resolved
 const eslint = require('./blocks/eslint')
+
 const getEntry = require('./blocks/getEntry')
 const getResolve = require('./blocks/getResolve')
 const getTarget = require('./blocks/getTarget')

@@ -35,7 +35,8 @@ compiler.plugin('done', stats => {
 
   // eslint-disable-next-line
   console.log('\n')
-  if (stats.hasErrors()) return
+  log('Webpack compiler done')
+  if (stats.hasErrors()) log('\n\nERRORS\n\n')
 
   // Not working with webpack/hot/signal :( ...probably `concurrently`
   // if (!outputProcess) {
@@ -55,8 +56,9 @@ compiler.plugin('done', stats => {
   log('compiled', stats.toString({
     colors: true,
     // Debugging options
-    // https://webpack.github.io/docs/node.js-api.html#stats-tojson
+    // https://webpack.js.org/configuration/stats/#stats
     chunks: false,
+    modules: false,
   }))
 
   Bs.reload()
@@ -103,5 +105,7 @@ compiler.watch({}, (err, stats) => {
     })
 
   }
+
+  // log('\n\nWATCH\n\n')
 
 })

@@ -1,6 +1,4 @@
 // @flow
-
-
 function eslint () {
 
   // eslint-disable-next-line arrow-parens
@@ -13,9 +11,6 @@ function eslint () {
           use: [
             {
               loader: 'eslint-loader',
-              options: {
-                configFile: '.eslintrc.yml',
-              },
             },
           ],
           exclude: /node_modules/,

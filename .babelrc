@@ -6,27 +6,11 @@
   "presets": [
     ["env", {
       "loose": true,
-      "modules": false
+      "modules": false,
+      "useBuiltIns": "entry"
     }],
     "react",
     "stage-3",
     "react-native"
-  ],
-  "env": {
-    "test": {
-      "plugins": [
-        "transform-class-properties",
-        "transform-object-assign"
-      ],
-      "presets": [
-        ["env", {
-          "loose": true,
-          "modules": "commonjs"
-        }],
-        "react",
-        "stage-3",
-        "react-native"
-      ]
-    }
-  }
+  ]
 }

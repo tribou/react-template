@@ -24,7 +24,29 @@ Object {
       Object {
         "exclude": /node_modules/,
         "test": /\\\\\\.\\(js\\|jsx\\)\\$/,
-        "use": "babel-loader?cacheDirectory=false",
+        "use": Object {
+          "loader": "babel-loader",
+          "options": Object {
+            "babelrc": false,
+            "cacheDirectory": false,
+            "plugins": Array [
+              "transform-class-properties",
+              "transform-object-assign",
+            ],
+            "presets": Array [
+              Array [
+                "env",
+                Object {
+                  "loose": true,
+                  "modules": false,
+                  "useBuiltIns": "entry",
+                },
+              ],
+              "react",
+              "stage-3",
+            ],
+          },
+        },
       },
       Object {
         "exclude": /node_modules/,
@@ -154,6 +176,7 @@ Object {
       "chunkNames": Array [
         "manifest",
       ],
+      "deepChildren": undefined,
       "filenameTemplate": undefined,
       "ident": "<PROJECT_ROOT>/node_modules/webpack/lib/optimize/CommonsChunkPlugin.js0",
       "minChunks": Infinity,
