@@ -56,8 +56,9 @@ compiler.plugin('done', stats => {
   log('compiled', stats.toString({
     colors: true,
     // Debugging options
-    // https://webpack.github.io/docs/node.js-api.html#stats-tojson
+    // https://webpack.js.org/configuration/stats/#stats
     chunks: false,
+    modules: false,
   }))
 
   Bs.reload()
