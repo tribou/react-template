@@ -1168,7 +1168,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.tribou.reactTemplate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tribou.reactTemplate;
 				PRODUCT_NAME = reactTemplate;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1188,7 +1188,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.tribou.reactTemplate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tribou.reactTemplate;
 				PRODUCT_NAME = reactTemplate;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
