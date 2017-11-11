@@ -7,6 +7,7 @@ target 'reactTemplate' do
 
   # Pods for reactTemplate
   pod 'Firebase/Core'
+  pod 'Firebase/Crash'
 
   # target 'reactTemplate-tvOSTests' do
   #   inherit! :search_paths
