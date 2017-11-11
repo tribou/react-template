@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "270019689202",
+    "firebase_url": "https://react-template-tribou.firebaseio.com",
+    "project_id": "react-template-tribou",
+    "storage_bucket": "react-template-tribou.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270019689202:android:61e1a7b94366e50a",
+        "android_client_info": {
+          "package_name": "com.reacttemplate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270019689202-jmdal6uucn6nhndb6en0kic0mt6e4kfk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reacttemplate",
+            "certificate_hash": "ccf06ea5307cc9f28c55e3e42b1076c68183b392"
+          }
+        },
+        {
+          "client_id": "270019689202-hkait8lbcqpruvgmnthr3q80c980a1hv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgQSNYAEz1Bym-CH0gxQcAmEFjxONA0kk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270019689202-2n89t9hbdp693de7p8vm95it3etbok2o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tribou.ReactTemplate"
+              }
+            },
+            {
+              "client_id": "270019689202-hkait8lbcqpruvgmnthr3q80c980a1hv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
