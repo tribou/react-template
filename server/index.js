@@ -5,12 +5,14 @@ import Hapi from 'hapi'
 import HapiReactViews from 'hapi-react-views'
 import Inert from 'inert'
 import Vision from 'vision'
-import Routes from 'server/routes'
 
 // Plugins
 import HttpsRedirectPlugin from 'server/plugins/httpsRedirect'
 import HealthCheckPlugin from 'server/plugins/health'
 import Logger from 'server/plugins/logger'
+import Robots from 'server/plugins/routes/robots'
+import StaticContent from 'server/plugins/routes/staticContent'
+import DefaultRoute from 'server/plugins/routes/default'
 
 
 const { NODE_ENV, PORT } = process.env
@@ -23,6 +25,9 @@ const plugins = [
   HttpsRedirectPlugin,
   HealthCheckPlugin,
   Logger,
+  Robots,
+  StaticContent,
+  DefaultRoute,
 ]
 
 
@@ -55,8 +60,6 @@ async function startServer () {
       renderMethod: 'renderToString',
     },
   })
-
-  server.route(Routes)
 
   await server.start()
 
