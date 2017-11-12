@@ -1,9 +1,10 @@
 // flow-typed signature: a18e8395a43c22fe55906624f2a7ddb9
 // flow-typed version: e351e417db/enzyme_v3.x.x/flow_>=v0.53.x
 
-import * as React from "react";
+import * as React from 'react'
 
-declare module "enzyme" {
+declare module 'enzyme' {
+
   declare type PredicateFunction<T: Wrapper> = (
     wrapper: T,
     index: number
@@ -41,6 +42,7 @@ declare module "enzyme" {
     text(): string,
     html(): string,
     get(index: number): React.Node,
+    getElement(): React.Node,
     getNodes(): Array<React.Node>,
     getDOMNode(): HTMLElement | HTMLInputElement,
     at(index: number): this,
@@ -122,4 +124,5 @@ declare module "enzyme" {
     ShallowWrapper: typeof ShallowWrapper,
     ReactWrapper: typeof ReactWrapper
   };
+
 }
