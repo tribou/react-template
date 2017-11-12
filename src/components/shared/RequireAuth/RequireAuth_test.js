@@ -74,7 +74,7 @@ it('renders nothing if children and token is not present', () => {
     </RequireAuth>
   )
 
-  expect(wrapper.getNode()).toEqual(null)
+  expect(wrapper.getElement()).toEqual(null)
 
 })
 
@@ -88,6 +88,6 @@ it('renders nothing if no children and token is present', () => {
     />
   )
 
-  expect(wrapper.getNode()).toEqual(null)
+  expect(wrapper.getElement()).toEqual(null)
 
 })
