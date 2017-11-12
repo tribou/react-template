@@ -11,7 +11,7 @@ type Props = any
 
 class Modal extends PureComponent<Props> {
 
-  static getQuery = search => (
+  static getQuery = (search: any) => (
     typeof search === 'string'
       ? parse(search.substr(1))
       : undefined

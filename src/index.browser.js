@@ -48,6 +48,9 @@ window.onload = () => {
 
 }
 
+// $FlowFixMe
+const mountNode: Element = document.getElementById('react-mount')
+
 ReactDOM.render(
 
   <Provider store={store}>
@@ -58,7 +61,7 @@ ReactDOM.render(
     </MuiThemeProvider>
   </Provider>,
 
-  document.getElementById('react-mount')
+  mountNode
 )
 
 // Progressively apply ServiceWorker updates so browser can simply be refreshed
@@ -73,9 +76,12 @@ OfflineRuntime.install({
   },
 })
 
-if (process.env.NODE_ENV === 'development') {
+// No worky in React 16
+// https://reactjs.org/blog/2017/09/26/react-v16.0.html#react-addons
+//
+// if (process.env.NODE_ENV === 'development') {
 
-  const Perf = require('react-addons-perf') // eslint-disable-line
-  window.Perf = Perf
+//   const Perf = require('react-addons-perf') // eslint-disable-line
+//   window.Perf = Perf
 
-}
+// }

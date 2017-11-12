@@ -1,7 +1,8 @@
-// flow-typed signature: 7627e810d20bf559c4ab92290976ff78
-// flow-typed version: 061be1f95c/react-router_v4.x.x/flow_>=v0.53.x
+// flow-typed signature: 1e6728f0a649edac3689d6e2db7487a7
+// flow-typed version: 01716df816/react-router_v4.x.x/flow_>=v0.53.x
 
-declare module "react-router" {
+declare module 'react-router' {
+
   // NOTE: many of these are re-exported by react-router-dom and
   // react-router-native, so when making changes, please be sure to update those
   // as well.
@@ -62,9 +63,9 @@ declare module "react-router" {
     callback: (confirmed: boolean) => void
   ) => void;
 
-  declare type StaticRouterContext = {|
+  declare type StaticRouterContext = {
     url?: string
-  |};
+  };
 
   declare export class StaticRouter extends React$Component<{
     basename?: string,
@@ -99,7 +100,7 @@ declare module "react-router" {
   declare export class Route extends React$Component<{
     component?: React$ComponentType<*>,
     render?: (router: ContextRouter) => React$Node,
-    children?: React$ComponentType<ContextRouter>,
+    children?: React$ComponentType<ContextRouter> | React$Node,
     path?: string,
     exact?: boolean,
     strict?: boolean
@@ -123,4 +124,5 @@ declare module "react-router" {
     pathname: string,
     options?: MatchPathOptions | string
   ): null | Match;
+
 }
