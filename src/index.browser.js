@@ -51,7 +51,7 @@ window.onload = () => {
 // $FlowFixMe
 const mountNode: Element = document.getElementById('react-mount')
 
-ReactDOM.render(
+ReactDOM.hydrate(
 
   <Provider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme()}>

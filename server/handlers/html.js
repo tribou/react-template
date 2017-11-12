@@ -1,5 +1,4 @@
 // @flow
-import Boom from 'boom'
 import Fs from 'fs'
 import Path from 'path'
 import React from 'react'
@@ -14,23 +13,13 @@ import { initialState as authInitialState } from 'src/redux/modules/auth'
 import Routes from 'src/routes'
 import env from 'config/env'
 import vars from 'config/variables'
+import { getTodos } from 'src/redux/modules/examples/todos'
 
 // Material-UI
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'config/muiTheme'
 
-// Default render options for react templates
-// 'renderToStaticMarkup' omits react data properties
-// 'renderToString' is used for re-hydrating on client-side
-const defaultRenderOptions = {
-  runtimeOptions: {
-    docType: '<!DOCTYPE html>',
-    renderMethod: 'renderToString',
-  },
-}
-
-
-const routedHtml = (request: Object, reply: Function) => {
+const routedHtml = async (request: Object, h: Function) => {
 
   if (module.hot) {
 
@@ -54,20 +43,18 @@ const routedHtml = (request: Object, reply: Function) => {
   try {
 
     css = Fs.readFileSync(cssFile, 'utf-8')
-    request.log(['info', 'css'], css.length)
 
   }
   catch (error) {
 
-    request.log(['error', 'css'], error)
+    console.error(error)
 
   }
 
-  request.log(['info'], request.url.href)
-
   // Inject server request info
   const _request = { userAgent: request.headers['user-agent'] }
-  request.log(['info', 'user-agent'], _request.userAgent)
+
+  const muiTheme = getMuiTheme(_request.userAgent)
 
   const cookie = request.state[vars.appAuthCookieKey]
   const token = cookie
@@ -84,11 +71,19 @@ const routedHtml = (request: Object, reply: Function) => {
     request: _request,
   })
 
-  const muiTheme = getMuiTheme(_request.userAgent)
+
+  // DISPATCH ASYNC SERVER-SIDE CALLS HERE
+  //
+  // SEO, meta tags, etc
+  //
+  // Can simply await any redux-promise-middleware action
+  await store.dispatch(getTodos())
+  // If you're getting meta tags info, be sure to set using react-helmet inside
+  // the respective component. (Don't mess with it here)
+
 
   // Let react-router match the raw URL to generate the
   // RouterContext here on the server
-
   const context = {}
 
   // Get rendered router context
@@ -105,10 +100,13 @@ const routedHtml = (request: Object, reply: Function) => {
     </Provider>
   )
 
+
+  // Redirects that can return early
+  //
   // Only redirect, no code
   if (context.url && !context.code) {
 
-    return reply
+    return h.response()
       .redirect(context.url)
       .temporary()
 
@@ -116,11 +114,12 @@ const routedHtml = (request: Object, reply: Function) => {
   // Both redirect and code! ZOMG!
   else if (context.url && context.code) {
 
-    return reply
+    return h.response()
       .redirect(context.url)
       .code(context.code)
 
   }
+
 
   // Get resulting store state
   const preloadedState = store.getState()
@@ -128,7 +127,6 @@ const routedHtml = (request: Object, reply: Function) => {
   // Get resulting head info
   const head = Helmet.rewind()
 
-  // Inject the RouterContext into the props sent to the layout
   const htmlProps = {
     assets,
     children,
@@ -138,26 +136,12 @@ const routedHtml = (request: Object, reply: Function) => {
   }
 
   // Render the layout with props
-  return request.render(
-    'Html',
-    htmlProps,
-    defaultRenderOptions,
-    (errorLayout: string, output: string): any => {
+  const response = h.view('Html', htmlProps)
 
-      if (errorLayout) {
+  // If code but no redirect (e.g. 4xx page, 5xx page...)
+  if (!context.url && context.code) return response.code(context.code)
 
-        request.log(['error', 'view'], errorLayout)
-        return reply(Boom.serverTimeout(errorLayout))
-
-      }
-
-      // No redirect, only code
-      if (!context.url && context.code) return reply(output).code(context.code)
-
-      return reply(output)
-
-    }
-  )
+  return response
 
 }
 
