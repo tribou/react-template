@@ -85,7 +85,7 @@ function reducer (state: TodosState = initialState, action: GlobalFSA<*>) {
 // https://github.com/pburtchaell/redux-promise-middleware/blob/master/docs/guides/chaining-actions.md
 // Which, in turn, uses Flux Standard Action (FSA) notation
 // https://github.com/acdlite/flux-standard-action
-export const getTodos = () => (dispatch: GlobalDispatch<*>) => dispatch({
+export const getTodos = () => ({
   type: GET_TODOS,
   payload: getTodosApi(),
 })

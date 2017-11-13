@@ -16,9 +16,6 @@ import Modal from './'
 
 InjectTapEventPlugin()
 
-const mockProps = {
-}
-
 
 it('renders null if no modal state or query', () => {
 
@@ -45,7 +42,7 @@ it('renders <Login> if query m=login', () => {
     <Provider store={store}>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <MemoryRouter initialEntries={['/?m=login']}>
-          <Modal {...mockProps} />
+          <Modal />
         </MemoryRouter>
       </MuiThemeProvider>
     </Provider>
@@ -69,7 +66,7 @@ it('renders <Login> if location.state = { modal: "login" }', () => {
     <Provider store={store}>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <MemoryRouter initialEntries={[{ state: { modal: 'login' } }]}>
-          <Modal {...mockProps} />
+          <Modal />
         </MemoryRouter>
       </MuiThemeProvider>
     </Provider>,
@@ -97,7 +94,7 @@ it('renders sets overflow to hidden when shown and visible when unmounting', () 
     <Provider store={store}>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <MemoryRouter initialEntries={[{ state: { modal: 'login' } }]}>
-          <Modal {...mockProps} />
+          <Modal />
         </MemoryRouter>
       </MuiThemeProvider>
     </Provider>,
@@ -126,7 +123,7 @@ it('sets overflow to visible when rendering null', () => {
     <Provider store={store}>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <MemoryRouter initialEntries={[{ pathname: '/' }]}>
-          <Modal {...mockProps} />
+          <Modal />
         </MemoryRouter>
       </MuiThemeProvider>
     </Provider>,

@@ -2,12 +2,13 @@
 import React, { PureComponent } from 'react'
 import { Redirect } from 'react-router'
 import type { Location } from 'react-router'
+import type { Node } from 'react'
 
 import type { ReduxProps } from './'
 
 
 type Props = ReduxProps & {
-  children?: React$Element<*>,
+  children?: Node,
   location: Location,
   to?: string,
 }

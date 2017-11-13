@@ -8,6 +8,7 @@ import { shallow } from 'enzyme'
 import vars from 'config/variables'
 import Html, { generateScript } from './Html'
 
+
 const { fobReduxStateVar } = vars
 
 

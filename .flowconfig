@@ -4,6 +4,7 @@
 .*/coverage/.*
 
 .*/node_modules/react-event-listener/.*
+.*/node_modules/vision/test/templates/invalid/helpers/bad1.json
 
 
 ; React Native
@@ -76,4 +77,4 @@ unsafe.enable_getters_and_setters=true
 
 
 [version]
-^0.54.1
+^0.59.0

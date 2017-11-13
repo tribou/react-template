@@ -13,6 +13,7 @@ export type EnvState = {
   USE_MOCK_API: boolean,
   SECURE_COOKIE: boolean,
   SHOW_ERRORS: boolean,
+  ROBOTS_ALLOWED: boolean,
 
   ROLLBAR_ENV: string,
   ROLLBAR_TOKEN: string,
@@ -30,6 +31,7 @@ const {
   USE_MOCK_API,
   SECURE_COOKIE,
   SHOW_ERRORS,
+  ROBOTS_ALLOWED,
 
   ROLLBAR_ENV,
   ROLLBAR_TOKEN,
@@ -51,6 +53,7 @@ const env: EnvState = {
   USE_MOCK_API: USE_MOCK_API === 'true',
   SECURE_COOKIE: SECURE_COOKIE === 'true',
   SHOW_ERRORS: SHOW_ERRORS === 'true',
+  ROBOTS_ALLOWED: ROBOTS_ALLOWED === 'true',
 
   // Rollbar.io
   ROLLBAR_ENV: ROLLBAR_ENV || 'development',
