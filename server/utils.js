@@ -66,3 +66,25 @@ export function getAssets (): BuildAssets {
   return _getAssets()
 
 }
+
+
+export function getCss (file: string = 'styles.css'): ?string {
+
+  const cssPath = `./public/${file}`
+  const cssFile = Path.resolve(__dirname, cssPath)
+  let css = ''
+
+  try {
+
+    css = Fs.readFileSync(cssFile, 'utf-8')
+
+  }
+  catch (error) {
+
+    console.error(error)
+
+  }
+
+  return css
+
+}

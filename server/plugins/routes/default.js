@@ -1,13 +1,11 @@
 // @flow
-import Fs from 'fs'
-import Path from 'path'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import Helmet from 'react-helmet'
 import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router'
 import { Base64 } from 'js-base64'
-import { getAssets } from 'server/utils'
+import { getAssets, getCss } from 'server/utils'
 import configureStore from 'src/redux/store'
 import { initialState as authInitialState } from 'src/redux/modules/auth'
 import Routes from 'src/routes'
@@ -39,23 +37,6 @@ export default {
             'config/variables',
             'server/utils',
           ], () => {})
-
-        }
-
-        // Paths relative to inside build/ only in prod
-        const assets = getAssets()
-        const cssPath = './public/styles.css'
-        const cssFile = Path.resolve(__dirname, cssPath)
-        let css = ''
-
-        try {
-
-          css = Fs.readFileSync(cssFile, 'utf-8')
-
-        }
-        catch (error) {
-
-          console.error(error)
 
         }
 
@@ -136,9 +117,9 @@ export default {
         const head = Helmet.rewind()
 
         const htmlProps = {
-          assets,
+          assets: getAssets(),
           children,
-          css,
+          css: getCss(),
           head,
           preloadedState,
         }

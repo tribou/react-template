@@ -1,4 +1,27 @@
 {
   "name": "reactTemplate",
-  "displayName": "reactTemplate"
+  "displayName": "reactTemplate",
+  "env": {
+    "API_URL": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    },
+    "NPM_CONFIG_PRODUCTION": {
+      "required": true
+    },
+    "SECURE_COOKIE": {
+      "required": true
+    },
+    "SHOW_ERRORS": {
+      "required": true
+    },
+    "ROLLBAR_ENV": {
+      "required": true
+    },
+    "ROLLBAR_TOKEN": {
+      "required": true
+    }
+  }
 }
