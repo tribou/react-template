@@ -55,7 +55,7 @@
     "identity-obj-proxy": "^3.0.0",
     "imageoptim-cli": "^1.14.8",
     "jest": "^21.0.2",
-    "jest-serializer-path": "^0.1.2",
+    "jest-serializer-path": "^0.1.5",
     "json-loader": "^0.5.7",
     "nock": "^9.0.14",
     "node-notifier": "^5.1.2",
