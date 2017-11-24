@@ -83,7 +83,7 @@ module.exports = require("path");
 
 exports.__esModule = true;
 
-var _promise = __webpack_require__(172);
+var _promise = __webpack_require__(173);
 
 var _promise2 = _interopRequireDefault(_promise);
 
@@ -201,7 +201,7 @@ let buildActionsForCopy = (() => {
         // TODO https://github.com/yarnpkg/yarn/issues/3751
         // related to bundled dependencies handling
         if (files.has(dest.toLowerCase())) {
-          reporter.warn(`The case-insensitive file ${dest} shouldn't be copied twice in one bulk copy`);
+          reporter.verbose(`The case-insensitive file ${dest} shouldn't be copied twice in one bulk copy`);
         } else {
           files.add(dest.toLowerCase());
         }
@@ -615,20 +615,26 @@ let copyBulk = exports.copyBulk = (() => {
 
     const currentlyWriting = new Map();
 
-    yield (_promise || _load_promise()).queue(fileActions, function (data) {
-      const writePromise = currentlyWriting.get(data.dest);
-      if (writePromise) {
-        return writePromise;
-      }
+    yield (_promise || _load_promise()).queue(fileActions, (() => {
+      var _ref8 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (data) {
+        let writePromise;
+        while (writePromise = currentlyWriting.get(data.dest)) {
+          yield writePromise;
+        }
 
-      reporter.verbose(reporter.lang('verboseFileCopy', data.src, data.dest));
-      const copier = safeCopyFile(data, function () {
-        return currentlyWriting.delete(data.dest);
+        reporter.verbose(reporter.lang('verboseFileCopy', data.src, data.dest));
+        const copier = safeCopyFile(data, function () {
+          return currentlyWriting.delete(data.dest);
+        });
+        currentlyWriting.set(data.dest, copier);
+        events.onProgress(data.dest);
+        return copier;
       });
-      currentlyWriting.set(data.dest, copier);
-      events.onProgress(data.dest);
-      return copier;
-    }, CONCURRENT_QUEUE_ITEMS);
+
+      return function (_x20) {
+        return _ref8.apply(this, arguments);
+      };
+    })(), CONCURRENT_QUEUE_ITEMS);
 
     // we need to copy symlinks last as they could reference files we were copying
     const symlinkActions = actions.symlink;
@@ -645,7 +651,7 @@ let copyBulk = exports.copyBulk = (() => {
 })();
 
 let hardlinkBulk = exports.hardlinkBulk = (() => {
-  var _ref8 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (queue, reporter, _events) {
+  var _ref9 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (queue, reporter, _events) {
     const events = {
       onStart: _events && _events.onStart || noop,
       onProgress: _events && _events.onProgress || noop,
@@ -660,7 +666,7 @@ let hardlinkBulk = exports.hardlinkBulk = (() => {
     const fileActions = actions.link;
 
     yield (_promise || _load_promise()).queue(fileActions, (() => {
-      var _ref9 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (data) {
+      var _ref10 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (data) {
         reporter.verbose(reporter.lang('verboseFileLink', data.src, data.dest));
         if (data.removeDest) {
           yield unlink(data.dest);
@@ -668,8 +674,8 @@ let hardlinkBulk = exports.hardlinkBulk = (() => {
         yield link(data.src, data.dest);
       });
 
-      return function (_x23) {
-        return _ref9.apply(this, arguments);
+      return function (_x24) {
+        return _ref10.apply(this, arguments);
       };
     })(), CONCURRENT_QUEUE_ITEMS);
 
@@ -682,13 +688,13 @@ let hardlinkBulk = exports.hardlinkBulk = (() => {
     });
   });
 
-  return function hardlinkBulk(_x20, _x21, _x22) {
-    return _ref8.apply(this, arguments);
+  return function hardlinkBulk(_x21, _x22, _x23) {
+    return _ref9.apply(this, arguments);
   };
 })();
 
 let readFileAny = exports.readFileAny = (() => {
-  var _ref10 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (files) {
+  var _ref11 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (files) {
     for (const file of files) {
       if (yield exists(file)) {
         return readFile(file);
@@ -697,23 +703,23 @@ let readFileAny = exports.readFileAny = (() => {
     return null;
   });
 
-  return function readFileAny(_x24) {
-    return _ref10.apply(this, arguments);
-  };
-})();
-
-let readJson = exports.readJson = (() => {
-  var _ref11 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (loc) {
-    return (yield readJsonAndFile(loc)).object;
-  });
-
-  return function readJson(_x25) {
+  return function readFileAny(_x25) {
     return _ref11.apply(this, arguments);
   };
 })();
 
-let readJsonAndFile = exports.readJsonAndFile = (() => {
+let readJson = exports.readJson = (() => {
   var _ref12 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (loc) {
+    return (yield readJsonAndFile(loc)).object;
+  });
+
+  return function readJson(_x26) {
+    return _ref12.apply(this, arguments);
+  };
+})();
+
+let readJsonAndFile = exports.readJsonAndFile = (() => {
+  var _ref13 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (loc) {
     const file = yield readFile(loc);
     try {
       return {
@@ -726,13 +732,13 @@ let readJsonAndFile = exports.readJsonAndFile = (() => {
     }
   });
 
-  return function readJsonAndFile(_x26) {
-    return _ref12.apply(this, arguments);
+  return function readJsonAndFile(_x27) {
+    return _ref13.apply(this, arguments);
   };
 })();
 
 let find = exports.find = (() => {
-  var _ref13 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (filename, dir) {
+  var _ref14 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (filename, dir) {
     const parts = dir.split((_path || _load_path()).default.sep);
 
     while (parts.length) {
@@ -748,13 +754,13 @@ let find = exports.find = (() => {
     return false;
   });
 
-  return function find(_x27, _x28) {
-    return _ref13.apply(this, arguments);
+  return function find(_x28, _x29) {
+    return _ref14.apply(this, arguments);
   };
 })();
 
 let symlink = exports.symlink = (() => {
-  var _ref14 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (src, dest) {
+  var _ref15 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (src, dest) {
     try {
       const stats = yield lstat(dest);
 
@@ -798,13 +804,13 @@ let symlink = exports.symlink = (() => {
     }
   });
 
-  return function symlink(_x29, _x30) {
-    return _ref14.apply(this, arguments);
+  return function symlink(_x30, _x31) {
+    return _ref15.apply(this, arguments);
   };
 })();
 
 let walk = exports.walk = (() => {
-  var _ref15 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (dir, relativeDir) {
+  var _ref16 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (dir, relativeDir) {
     let ignoreBasenames = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : new Set();
 
     let files = [];
@@ -836,13 +842,13 @@ let walk = exports.walk = (() => {
     return files;
   });
 
-  return function walk(_x31, _x32) {
-    return _ref15.apply(this, arguments);
+  return function walk(_x32, _x33) {
+    return _ref16.apply(this, arguments);
   };
 })();
 
 let getFileSizeOnDisk = exports.getFileSizeOnDisk = (() => {
-  var _ref16 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (loc) {
+  var _ref17 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (loc) {
     const stat = yield lstat(loc);
     const size = stat.size,
           blockSize = stat.blksize;
@@ -851,13 +857,13 @@ let getFileSizeOnDisk = exports.getFileSizeOnDisk = (() => {
     return Math.ceil(size / blockSize) * blockSize;
   });
 
-  return function getFileSizeOnDisk(_x34) {
-    return _ref16.apply(this, arguments);
+  return function getFileSizeOnDisk(_x35) {
+    return _ref17.apply(this, arguments);
   };
 })();
 
 let getEolFromFile = (() => {
-  var _ref17 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (path) {
+  var _ref18 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (path) {
     if (!(yield exists(path))) {
       return undefined;
     }
@@ -875,13 +881,13 @@ let getEolFromFile = (() => {
     return undefined;
   });
 
-  return function getEolFromFile(_x35) {
-    return _ref17.apply(this, arguments);
+  return function getEolFromFile(_x36) {
+    return _ref18.apply(this, arguments);
   };
 })();
 
 let writeFilePreservingEol = exports.writeFilePreservingEol = (() => {
-  var _ref18 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (path, data) {
+  var _ref19 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (path, data) {
     const eol = (yield getEolFromFile(path)) || (_os || _load_os()).default.EOL;
     if (eol !== '\n') {
       data = data.replace(/\n/g, eol);
@@ -889,13 +895,13 @@ let writeFilePreservingEol = exports.writeFilePreservingEol = (() => {
     yield writeFile(path, data);
   });
 
-  return function writeFilePreservingEol(_x36, _x37) {
-    return _ref18.apply(this, arguments);
+  return function writeFilePreservingEol(_x37, _x38) {
+    return _ref19.apply(this, arguments);
   };
 })();
 
 let hardlinksWork = exports.hardlinksWork = (() => {
-  var _ref19 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (dir) {
+  var _ref20 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (dir) {
     const filename = 'test-file' + Math.random();
     const file = (_path || _load_path()).default.join(dir, filename);
     const fileLink = (_path || _load_path()).default.join(dir, filename + '-link');
@@ -911,8 +917,8 @@ let hardlinksWork = exports.hardlinksWork = (() => {
     return true;
   });
 
-  return function hardlinksWork(_x38) {
-    return _ref19.apply(this, arguments);
+  return function hardlinksWork(_x39) {
+    return _ref20.apply(this, arguments);
   };
 })();
 
@@ -920,20 +926,20 @@ let hardlinksWork = exports.hardlinksWork = (() => {
 
 
 let makeTempDir = exports.makeTempDir = (() => {
-  var _ref20 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (prefix) {
+  var _ref21 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (prefix) {
     const dir = (_path || _load_path()).default.join((_os || _load_os()).default.tmpdir(), `yarn-${prefix || ''}-${Date.now()}-${Math.random()}`);
     yield unlink(dir);
     yield mkdirp(dir);
     return dir;
   });
 
-  return function makeTempDir(_x39) {
-    return _ref20.apply(this, arguments);
+  return function makeTempDir(_x40) {
+    return _ref21.apply(this, arguments);
   };
 })();
 
 let readFirstAvailableStream = exports.readFirstAvailableStream = (() => {
-  var _ref21 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (paths) {
+  var _ref22 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (paths) {
     var _this = this;
 
     let stream;
@@ -961,13 +967,13 @@ let readFirstAvailableStream = exports.readFirstAvailableStream = (() => {
     return { stream, triedPaths };
   });
 
-  return function readFirstAvailableStream(_x40) {
-    return _ref21.apply(this, arguments);
+  return function readFirstAvailableStream(_x41) {
+    return _ref22.apply(this, arguments);
   };
 })();
 
 let getFirstSuitableFolder = exports.getFirstSuitableFolder = (() => {
-  var _ref22 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (paths) {
+  var _ref23 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (paths) {
     let mode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : constants.W_OK | constants.X_OK;
 
     const result = {
@@ -993,8 +999,8 @@ let getFirstSuitableFolder = exports.getFirstSuitableFolder = (() => {
     return result;
   });
 
-  return function getFirstSuitableFolder(_x41) {
-    return _ref22.apply(this, arguments);
+  return function getFirstSuitableFolder(_x42) {
+    return _ref23.apply(this, arguments);
   };
 })();
 
@@ -1030,7 +1036,7 @@ function _load_path() {
 var _blockingQueue;
 
 function _load_blockingQueue() {
-  return _blockingQueue = _interopRequireDefault(__webpack_require__(79));
+  return _blockingQueue = _interopRequireDefault(__webpack_require__(80));
 }
 
 var _promise;
@@ -1048,7 +1054,7 @@ function _load_promise2() {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -1072,7 +1078,7 @@ const rename = exports.rename = (0, (_promise2 || _load_promise2()).promisify)((
 const access = exports.access = (0, (_promise2 || _load_promise2()).promisify)((_fs || _load_fs()).default.access);
 const stat = exports.stat = (0, (_promise2 || _load_promise2()).promisify)((_fs || _load_fs()).default.stat);
 const unlink = exports.unlink = (0, (_promise2 || _load_promise2()).promisify)(__webpack_require__(227));
-const mkdirp = exports.mkdirp = (0, (_promise2 || _load_promise2()).promisify)(__webpack_require__(114));
+const mkdirp = exports.mkdirp = (0, (_promise2 || _load_promise2()).promisify)(__webpack_require__(115));
 const exists = exports.exists = (0, (_promise2 || _load_promise2()).promisify)((_fs || _load_fs()).default.exists, true);
 const lstat = exports.lstat = (0, (_promise2 || _load_promise2()).promisify)((_fs || _load_fs()).default.lstat);
 const chmod = exports.chmod = (0, (_promise2 || _load_promise2()).promisify)((_fs || _load_fs()).default.chmod);
@@ -1108,8 +1114,8 @@ const copyFile = (_fs || _load_fs()).default.copyFile ? // Don't use `promisify`
   };
 })();
 const fsSymlink = (0, (_promise2 || _load_promise2()).promisify)((_fs || _load_fs()).default.symlink);
-const invariant = __webpack_require__(7);
-const stripBOM = __webpack_require__(119);
+const invariant = __webpack_require__(6);
+const stripBOM = __webpack_require__(120);
 
 const noop = () => {};
 
@@ -1208,150 +1214,6 @@ module.exports = require("fs");
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.isProduction = isProduction;
-exports.getPathKey = getPathKey;
-const os = __webpack_require__(41);
-const path = __webpack_require__(0);
-const userHome = __webpack_require__(62).default;
-const isWebpackBundle = __webpack_require__(217);
-
-const DEPENDENCY_TYPES = exports.DEPENDENCY_TYPES = ['devDependencies', 'dependencies', 'optionalDependencies', 'peerDependencies'];
-
-const SUPPORTED_NODE_VERSIONS = exports.SUPPORTED_NODE_VERSIONS = '^4.8.0 || ^5.7.0 || ^6.2.2 || ^8.0.0';
-
-const YARN_REGISTRY = exports.YARN_REGISTRY = 'https://registry.yarnpkg.com';
-
-const YARN_DOCS = exports.YARN_DOCS = 'https://yarnpkg.com/en/docs/cli/';
-const YARN_INSTALLER_SH = exports.YARN_INSTALLER_SH = 'https://yarnpkg.com/install.sh';
-const YARN_INSTALLER_MSI = exports.YARN_INSTALLER_MSI = 'https://yarnpkg.com/latest.msi';
-
-const SELF_UPDATE_VERSION_URL = exports.SELF_UPDATE_VERSION_URL = 'https://yarnpkg.com/latest-version';
-const SELF_UPDATE_TARBALL_URL = exports.SELF_UPDATE_TARBALL_URL = 'https://yarnpkg.com/latest.tar.gz';
-const SELF_UPDATE_DOWNLOAD_FOLDER = exports.SELF_UPDATE_DOWNLOAD_FOLDER = 'updates';
-
-// cache version, bump whenever we make backwards incompatible changes
-const CACHE_VERSION = exports.CACHE_VERSION = 1;
-
-// lockfile version, bump whenever we make backwards incompatible changes
-const LOCKFILE_VERSION = exports.LOCKFILE_VERSION = 1;
-
-// max amount of network requests to perform concurrently
-const NETWORK_CONCURRENCY = exports.NETWORK_CONCURRENCY = 8;
-
-// HTTP timeout used when downloading packages
-const NETWORK_TIMEOUT = exports.NETWORK_TIMEOUT = 30 * 1000; // in milliseconds
-
-// max amount of child processes to execute concurrently
-const CHILD_CONCURRENCY = exports.CHILD_CONCURRENCY = 5;
-
-const REQUIRED_PACKAGE_KEYS = exports.REQUIRED_PACKAGE_KEYS = ['name', 'version', '_uid'];
-
-function getDirectory(category) {
-  // use %LOCALAPPDATA%/Yarn on Windows
-  if (process.platform === 'win32' && process.env.LOCALAPPDATA) {
-    return path.join(process.env.LOCALAPPDATA, 'Yarn', category);
-  }
-
-  // otherwise use ~/.{category}/yarn
-  return path.join(userHome, `.${category}`, 'yarn');
-}
-
-function getPreferredCacheDirectories() {
-  const preferredCacheDirectories = [];
-
-  if (process.platform === 'darwin') {
-    preferredCacheDirectories.push(path.join(userHome, 'Library', 'Caches', 'Yarn'));
-  } else {
-    preferredCacheDirectories.push(getDirectory('cache'));
-  }
-
-  preferredCacheDirectories.push(path.join(os.tmpdir(), '.yarn-cache'));
-
-  return preferredCacheDirectories;
-}
-
-const PREFERRED_MODULE_CACHE_DIRECTORIES = exports.PREFERRED_MODULE_CACHE_DIRECTORIES = getPreferredCacheDirectories();
-const CONFIG_DIRECTORY = exports.CONFIG_DIRECTORY = getDirectory('config');
-const LINK_REGISTRY_DIRECTORY = exports.LINK_REGISTRY_DIRECTORY = path.join(CONFIG_DIRECTORY, 'link');
-const GLOBAL_MODULE_DIRECTORY = exports.GLOBAL_MODULE_DIRECTORY = path.join(CONFIG_DIRECTORY, 'global');
-
-const NODE_BIN_PATH = exports.NODE_BIN_PATH = process.execPath;
-const YARN_BIN_PATH = exports.YARN_BIN_PATH = getYarnBinPath();
-
-// Webpack needs to be configured with node.__dirname/__filename = false
-function getYarnBinPath() {
-  if (isWebpackBundle) {
-    return __filename;
-  } else {
-    return path.join(__dirname, '..', 'bin', 'yarn.js');
-  }
-}
-
-const NODE_MODULES_FOLDER = exports.NODE_MODULES_FOLDER = 'node_modules';
-const NODE_PACKAGE_JSON = exports.NODE_PACKAGE_JSON = 'package.json';
-
-const POSIX_GLOBAL_PREFIX = exports.POSIX_GLOBAL_PREFIX = `${process.env.DESTDIR || ''}/usr/local`;
-const FALLBACK_GLOBAL_PREFIX = exports.FALLBACK_GLOBAL_PREFIX = path.join(userHome, '.yarn');
-
-const META_FOLDER = exports.META_FOLDER = '.yarn-meta';
-const INTEGRITY_FILENAME = exports.INTEGRITY_FILENAME = '.yarn-integrity';
-const LOCKFILE_FILENAME = exports.LOCKFILE_FILENAME = 'yarn.lock';
-const METADATA_FILENAME = exports.METADATA_FILENAME = '.yarn-metadata.json';
-const TARBALL_FILENAME = exports.TARBALL_FILENAME = '.yarn-tarball.tgz';
-const CLEAN_FILENAME = exports.CLEAN_FILENAME = '.yarnclean';
-const ACCESS_FILENAME = exports.ACCESS_FILENAME = '.yarn-access';
-
-const DEFAULT_INDENT = exports.DEFAULT_INDENT = '  ';
-const SINGLE_INSTANCE_PORT = exports.SINGLE_INSTANCE_PORT = 31997;
-const SINGLE_INSTANCE_FILENAME = exports.SINGLE_INSTANCE_FILENAME = '.yarn-single-instance';
-
-const ENV_PATH_KEY = exports.ENV_PATH_KEY = getPathKey(process.platform, process.env);
-
-function isProduction() {
-  let env = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.env;
-
-  return env.NODE_ENV === 'production';
-}
-
-function getPathKey(platform, env) {
-  let pathKey = 'PATH';
-
-  // windows calls its path "Path" usually, but this is not guaranteed.
-  if (platform === 'win32') {
-    pathKey = 'Path';
-
-    for (const key in env) {
-      if (key.toLowerCase() === 'path') {
-        pathKey = key;
-      }
-    }
-  }
-
-  return pathKey;
-}
-
-const VERSION_COLOR_SCHEME = exports.VERSION_COLOR_SCHEME = {
-  major: 'red',
-  premajor: 'red',
-  minor: 'yellow',
-  preminor: 'yellow',
-  patch: 'green',
-  prepatch: 'green',
-  prerelease: 'red',
-  unchanged: 'white',
-  unknown: 'red'
-};
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -1408,6 +1270,150 @@ module.exports = invariant;
 
 
 /***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getPathKey = getPathKey;
+const os = __webpack_require__(41);
+const path = __webpack_require__(0);
+const userHome = __webpack_require__(62).default;
+const isWebpackBundle = __webpack_require__(218);
+
+const DEPENDENCY_TYPES = exports.DEPENDENCY_TYPES = ['devDependencies', 'dependencies', 'optionalDependencies', 'peerDependencies'];
+const RESOLUTIONS = exports.RESOLUTIONS = 'resolutions';
+const MANIFEST_FIELDS = exports.MANIFEST_FIELDS = [RESOLUTIONS, ...DEPENDENCY_TYPES];
+
+const SUPPORTED_NODE_VERSIONS = exports.SUPPORTED_NODE_VERSIONS = '^4.8.0 || ^5.7.0 || ^6.2.2 || >=8.0.0';
+
+const YARN_REGISTRY = exports.YARN_REGISTRY = 'https://registry.yarnpkg.com';
+
+const YARN_DOCS = exports.YARN_DOCS = 'https://yarnpkg.com/en/docs/cli/';
+const YARN_INSTALLER_SH = exports.YARN_INSTALLER_SH = 'https://yarnpkg.com/install.sh';
+const YARN_INSTALLER_MSI = exports.YARN_INSTALLER_MSI = 'https://yarnpkg.com/latest.msi';
+
+const SELF_UPDATE_VERSION_URL = exports.SELF_UPDATE_VERSION_URL = 'https://yarnpkg.com/latest-version';
+const SELF_UPDATE_TARBALL_URL = exports.SELF_UPDATE_TARBALL_URL = 'https://yarnpkg.com/latest.tar.gz';
+const SELF_UPDATE_DOWNLOAD_FOLDER = exports.SELF_UPDATE_DOWNLOAD_FOLDER = 'updates';
+
+// cache version, bump whenever we make backwards incompatible changes
+const CACHE_VERSION = exports.CACHE_VERSION = 1;
+
+// lockfile version, bump whenever we make backwards incompatible changes
+const LOCKFILE_VERSION = exports.LOCKFILE_VERSION = 1;
+
+// max amount of network requests to perform concurrently
+const NETWORK_CONCURRENCY = exports.NETWORK_CONCURRENCY = 8;
+
+// HTTP timeout used when downloading packages
+const NETWORK_TIMEOUT = exports.NETWORK_TIMEOUT = 30 * 1000; // in milliseconds
+
+// max amount of child processes to execute concurrently
+const CHILD_CONCURRENCY = exports.CHILD_CONCURRENCY = 5;
+
+const REQUIRED_PACKAGE_KEYS = exports.REQUIRED_PACKAGE_KEYS = ['name', 'version', '_uid'];
+
+function getDirectory(category) {
+  // use %LOCALAPPDATA%/Yarn on Windows
+  if (process.platform === 'win32' && process.env.LOCALAPPDATA) {
+    return path.join(process.env.LOCALAPPDATA, 'Yarn', category);
+  }
+
+  // otherwise use ~/.{category}/yarn
+  return path.join(userHome, `.${category}`, 'yarn');
+}
+
+function getPreferredCacheDirectories() {
+  const preferredCacheDirectories = [];
+
+  if (process.platform === 'darwin') {
+    preferredCacheDirectories.push(path.join(userHome, 'Library', 'Caches', 'Yarn'));
+  } else {
+    preferredCacheDirectories.push(getDirectory('cache'));
+  }
+
+  if (process.getuid) {
+    // $FlowFixMe: process.getuid exists, dammit
+    preferredCacheDirectories.push(path.join(os.tmpdir(), `.yarn-cache-${process.getuid()}`));
+  }
+
+  preferredCacheDirectories.push(path.join(os.tmpdir(), `.yarn-cache`));
+
+  return preferredCacheDirectories;
+}
+
+const PREFERRED_MODULE_CACHE_DIRECTORIES = exports.PREFERRED_MODULE_CACHE_DIRECTORIES = getPreferredCacheDirectories();
+const CONFIG_DIRECTORY = exports.CONFIG_DIRECTORY = getDirectory('config');
+const LINK_REGISTRY_DIRECTORY = exports.LINK_REGISTRY_DIRECTORY = path.join(CONFIG_DIRECTORY, 'link');
+const GLOBAL_MODULE_DIRECTORY = exports.GLOBAL_MODULE_DIRECTORY = path.join(CONFIG_DIRECTORY, 'global');
+
+const NODE_BIN_PATH = exports.NODE_BIN_PATH = process.execPath;
+const YARN_BIN_PATH = exports.YARN_BIN_PATH = getYarnBinPath();
+
+// Webpack needs to be configured with node.__dirname/__filename = false
+function getYarnBinPath() {
+  if (isWebpackBundle) {
+    return __filename;
+  } else {
+    return path.join(__dirname, '..', 'bin', 'yarn.js');
+  }
+}
+
+const NODE_MODULES_FOLDER = exports.NODE_MODULES_FOLDER = 'node_modules';
+const NODE_PACKAGE_JSON = exports.NODE_PACKAGE_JSON = 'package.json';
+
+const POSIX_GLOBAL_PREFIX = exports.POSIX_GLOBAL_PREFIX = `${process.env.DESTDIR || ''}/usr/local`;
+const FALLBACK_GLOBAL_PREFIX = exports.FALLBACK_GLOBAL_PREFIX = path.join(userHome, '.yarn');
+
+const META_FOLDER = exports.META_FOLDER = '.yarn-meta';
+const INTEGRITY_FILENAME = exports.INTEGRITY_FILENAME = '.yarn-integrity';
+const LOCKFILE_FILENAME = exports.LOCKFILE_FILENAME = 'yarn.lock';
+const METADATA_FILENAME = exports.METADATA_FILENAME = '.yarn-metadata.json';
+const TARBALL_FILENAME = exports.TARBALL_FILENAME = '.yarn-tarball.tgz';
+const CLEAN_FILENAME = exports.CLEAN_FILENAME = '.yarnclean';
+const ACCESS_FILENAME = exports.ACCESS_FILENAME = '.yarn-access';
+
+const DEFAULT_INDENT = exports.DEFAULT_INDENT = '  ';
+const SINGLE_INSTANCE_PORT = exports.SINGLE_INSTANCE_PORT = 31997;
+const SINGLE_INSTANCE_FILENAME = exports.SINGLE_INSTANCE_FILENAME = '.yarn-single-instance';
+
+const ENV_PATH_KEY = exports.ENV_PATH_KEY = getPathKey(process.platform, process.env);
+
+function getPathKey(platform, env) {
+  let pathKey = 'PATH';
+
+  // windows calls its path "Path" usually, but this is not guaranteed.
+  if (platform === 'win32') {
+    pathKey = 'Path';
+
+    for (const key in env) {
+      if (key.toLowerCase() === 'path') {
+        pathKey = key;
+      }
+    }
+  }
+
+  return pathKey;
+}
+
+const VERSION_COLOR_SCHEME = exports.VERSION_COLOR_SCHEME = {
+  major: 'red',
+  premajor: 'red',
+  minor: 'yellow',
+  preminor: 'yellow',
+  patch: 'green',
+  prepatch: 'green',
+  prerelease: 'red',
+  unchanged: 'white',
+  unknown: 'red'
+};
+
+/***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
@@ -1439,7 +1445,6 @@ $exports.store = store;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.consumeStream = consumeStream;
 exports.sortAlpha = sortAlpha;
 exports.entries = entries;
 exports.removePrefix = removePrefix;
@@ -1449,25 +1454,7 @@ exports.hyphenate = hyphenate;
 exports.camelCase = camelCase;
 exports.compareSortedArrays = compareSortedArrays;
 exports.sleep = sleep;
-const _camelCase = __webpack_require__(176);
-
-function consumeStream(stream) {
-  return new Promise((resolve, reject) => {
-    const buffers = [];
-
-    stream.on(`data`, buffer => {
-      buffers.push(buffer);
-    });
-
-    stream.on(`end`, () => {
-      resolve(Buffer.concat(buffers));
-    });
-
-    stream.on(`error`, error => {
-      reject(error);
-    });
-  });
-}
+const _camelCase = __webpack_require__(177);
 
 function sortAlpha(a, b) {
   // sort alphabetically in a deterministic way
@@ -1555,7 +1542,7 @@ function sleep(ms) {
 // Copyright (c) 2012, Mark Cavage. All rights reserved.
 // Copyright 2015 Joyent, Inc.
 
-var assert = __webpack_require__(19);
+var assert = __webpack_require__(20);
 var Stream = __webpack_require__(25).Stream;
 var util = __webpack_require__(2);
 
@@ -1786,7 +1773,7 @@ function _load_asyncToGenerator() {
 var _parse;
 
 function _load_parse() {
-  return _parse = __webpack_require__(76);
+  return _parse = __webpack_require__(77);
 }
 
 Object.defineProperty(exports, 'parse', {
@@ -1799,7 +1786,7 @@ Object.defineProperty(exports, 'parse', {
 var _stringify;
 
 function _load_stringify() {
-  return _stringify = __webpack_require__(153);
+  return _stringify = __webpack_require__(154);
 }
 
 Object.defineProperty(exports, 'stringify', {
@@ -1820,19 +1807,19 @@ function _load_misc() {
 var _normalizePattern;
 
 function _load_normalizePattern() {
-  return _normalizePattern = __webpack_require__(29);
+  return _normalizePattern = __webpack_require__(31);
 }
 
 var _parse2;
 
 function _load_parse2() {
-  return _parse2 = _interopRequireDefault(__webpack_require__(76));
+  return _parse2 = _interopRequireDefault(__webpack_require__(77));
 }
 
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 var _fs;
@@ -1845,7 +1832,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 const path = __webpack_require__(0);
 
@@ -2115,338 +2102,6 @@ module.exports = function(module) {
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = nullify;
-function nullify() {
-  let obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-  if (Array.isArray(obj)) {
-    for (const item of obj) {
-      nullify(item);
-    }
-  } else if (obj !== null && typeof obj === 'object' || typeof obj === 'function') {
-    Object.setPrototypeOf(obj, null);
-
-    // for..in can only be applied to 'object', not 'function'
-    if (typeof obj === 'object') {
-      for (const key in obj) {
-        nullify(obj[key]);
-      }
-    }
-  }
-
-  return obj;
-}
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Copyright 2015 Joyent, Inc.
-
-module.exports = {
-	bufferSplit: bufferSplit,
-	addRSAMissing: addRSAMissing,
-	calculateDSAPublic: calculateDSAPublic,
-	mpNormalize: mpNormalize,
-	ecNormalize: ecNormalize,
-	countZeros: countZeros,
-	assertCompatible: assertCompatible,
-	isCompatible: isCompatible,
-	opensslKeyDeriv: opensslKeyDeriv,
-	opensshCipherInfo: opensshCipherInfo
-};
-
-var assert = __webpack_require__(11);
-var PrivateKey = __webpack_require__(24);
-var crypto = __webpack_require__(8);
-
-var MAX_CLASS_DEPTH = 3;
-
-function isCompatible(obj, klass, needVer) {
-	if (obj === null || typeof (obj) !== 'object')
-		return (false);
-	if (needVer === undefined)
-		needVer = klass.prototype._sshpkApiVersion;
-	if (obj instanceof klass &&
-	    klass.prototype._sshpkApiVersion[0] == needVer[0])
-		return (true);
-	var proto = Object.getPrototypeOf(obj);
-	var depth = 0;
-	while (proto.constructor.name !== klass.name) {
-		proto = Object.getPrototypeOf(proto);
-		if (!proto || ++depth > MAX_CLASS_DEPTH)
-			return (false);
-	}
-	if (proto.constructor.name !== klass.name)
-		return (false);
-	var ver = proto._sshpkApiVersion;
-	if (ver === undefined)
-		ver = klass._oldVersionDetect(obj);
-	if (ver[0] != needVer[0] || ver[1] < needVer[1])
-		return (false);
-	return (true);
-}
-
-function assertCompatible(obj, klass, needVer, name) {
-	if (name === undefined)
-		name = 'object';
-	assert.ok(obj, name + ' must not be null');
-	assert.object(obj, name + ' must be an object');
-	if (needVer === undefined)
-		needVer = klass.prototype._sshpkApiVersion;
-	if (obj instanceof klass &&
-	    klass.prototype._sshpkApiVersion[0] == needVer[0])
-		return;
-	var proto = Object.getPrototypeOf(obj);
-	var depth = 0;
-	while (proto.constructor.name !== klass.name) {
-		proto = Object.getPrototypeOf(proto);
-		assert.ok(proto && ++depth <= MAX_CLASS_DEPTH,
-		    name + ' must be a ' + klass.name + ' instance');
-	}
-	assert.strictEqual(proto.constructor.name, klass.name,
-	    name + ' must be a ' + klass.name + ' instance');
-	var ver = proto._sshpkApiVersion;
-	if (ver === undefined)
-		ver = klass._oldVersionDetect(obj);
-	assert.ok(ver[0] == needVer[0] && ver[1] >= needVer[1],
-	    name + ' must be compatible with ' + klass.name + ' klass ' +
-	    'version ' + needVer[0] + '.' + needVer[1]);
-}
-
-var CIPHER_LEN = {
-	'des-ede3-cbc': { key: 7, iv: 8 },
-	'aes-128-cbc': { key: 16, iv: 16 }
-};
-var PKCS5_SALT_LEN = 8;
-
-function opensslKeyDeriv(cipher, salt, passphrase, count) {
-	assert.buffer(salt, 'salt');
-	assert.buffer(passphrase, 'passphrase');
-	assert.number(count, 'iteration count');
-
-	var clen = CIPHER_LEN[cipher];
-	assert.object(clen, 'supported cipher');
-
-	salt = salt.slice(0, PKCS5_SALT_LEN);
-
-	var D, D_prev, bufs;
-	var material = new Buffer(0);
-	while (material.length < clen.key + clen.iv) {
-		bufs = [];
-		if (D_prev)
-			bufs.push(D_prev);
-		bufs.push(passphrase);
-		bufs.push(salt);
-		D = Buffer.concat(bufs);
-		for (var j = 0; j < count; ++j)
-			D = crypto.createHash('md5').update(D).digest();
-		material = Buffer.concat([material, D]);
-		D_prev = D;
-	}
-
-	return ({
-	    key: material.slice(0, clen.key),
-	    iv: material.slice(clen.key, clen.key + clen.iv)
-	});
-}
-
-/* Count leading zero bits on a buffer */
-function countZeros(buf) {
-	var o = 0, obit = 8;
-	while (o < buf.length) {
-		var mask = (1 << obit);
-		if ((buf[o] & mask) === mask)
-			break;
-		obit--;
-		if (obit < 0) {
-			o++;
-			obit = 8;
-		}
-	}
-	return (o*8 + (8 - obit) - 1);
-}
-
-function bufferSplit(buf, chr) {
-	assert.buffer(buf);
-	assert.string(chr);
-
-	var parts = [];
-	var lastPart = 0;
-	var matches = 0;
-	for (var i = 0; i < buf.length; ++i) {
-		if (buf[i] === chr.charCodeAt(matches))
-			++matches;
-		else if (buf[i] === chr.charCodeAt(0))
-			matches = 1;
-		else
-			matches = 0;
-
-		if (matches >= chr.length) {
-			var newPart = i + 1;
-			parts.push(buf.slice(lastPart, newPart - matches));
-			lastPart = newPart;
-			matches = 0;
-		}
-	}
-	if (lastPart <= buf.length)
-		parts.push(buf.slice(lastPart, buf.length));
-
-	return (parts);
-}
-
-function ecNormalize(buf, addZero) {
-	assert.buffer(buf);
-	if (buf[0] === 0x00 && buf[1] === 0x04) {
-		if (addZero)
-			return (buf);
-		return (buf.slice(1));
-	} else if (buf[0] === 0x04) {
-		if (!addZero)
-			return (buf);
-	} else {
-		while (buf[0] === 0x00)
-			buf = buf.slice(1);
-		if (buf[0] === 0x02 || buf[0] === 0x03)
-			throw (new Error('Compressed elliptic curve points ' +
-			    'are not supported'));
-		if (buf[0] !== 0x04)
-			throw (new Error('Not a valid elliptic curve point'));
-		if (!addZero)
-			return (buf);
-	}
-	var b = new Buffer(buf.length + 1);
-	b[0] = 0x0;
-	buf.copy(b, 1);
-	return (b);
-}
-
-function mpNormalize(buf) {
-	assert.buffer(buf);
-	while (buf.length > 1 && buf[0] === 0x00 && (buf[1] & 0x80) === 0x00)
-		buf = buf.slice(1);
-	if ((buf[0] & 0x80) === 0x80) {
-		var b = new Buffer(buf.length + 1);
-		b[0] = 0x00;
-		buf.copy(b, 1);
-		buf = b;
-	}
-	return (buf);
-}
-
-function bigintToMpBuf(bigint) {
-	var buf = new Buffer(bigint.toByteArray());
-	buf = mpNormalize(buf);
-	return (buf);
-}
-
-function calculateDSAPublic(g, p, x) {
-	assert.buffer(g);
-	assert.buffer(p);
-	assert.buffer(x);
-	try {
-		var bigInt = __webpack_require__(56).BigInteger;
-	} catch (e) {
-		throw (new Error('To load a PKCS#8 format DSA private key, ' +
-		    'the node jsbn library is required.'));
-	}
-	g = new bigInt(g);
-	p = new bigInt(p);
-	x = new bigInt(x);
-	var y = g.modPow(x, p);
-	var ybuf = bigintToMpBuf(y);
-	return (ybuf);
-}
-
-function addRSAMissing(key) {
-	assert.object(key);
-	assertCompatible(key, PrivateKey, [1, 1]);
-	try {
-		var bigInt = __webpack_require__(56).BigInteger;
-	} catch (e) {
-		throw (new Error('To write a PEM private key from ' +
-		    'this source, the node jsbn lib is required.'));
-	}
-
-	var d = new bigInt(key.part.d.data);
-	var buf;
-
-	if (!key.part.dmodp) {
-		var p = new bigInt(key.part.p.data);
-		var dmodp = d.mod(p.subtract(1));
-
-		buf = bigintToMpBuf(dmodp);
-		key.part.dmodp = {name: 'dmodp', data: buf};
-		key.parts.push(key.part.dmodp);
-	}
-	if (!key.part.dmodq) {
-		var q = new bigInt(key.part.q.data);
-		var dmodq = d.mod(q.subtract(1));
-
-		buf = bigintToMpBuf(dmodq);
-		key.part.dmodq = {name: 'dmodq', data: buf};
-		key.parts.push(key.part.dmodq);
-	}
-}
-
-function opensshCipherInfo(cipher) {
-	var inf = {};
-	switch (cipher) {
-	case '3des-cbc':
-		inf.keySize = 24;
-		inf.blockSize = 8;
-		inf.opensslName = 'des-ede3-cbc';
-		break;
-	case 'blowfish-cbc':
-		inf.keySize = 16;
-		inf.blockSize = 8;
-		inf.opensslName = 'bf-cbc';
-		break;
-	case 'aes128-cbc':
-	case 'aes128-ctr':
-	case 'aes128-gcm@openssh.com':
-		inf.keySize = 16;
-		inf.blockSize = 16;
-		inf.opensslName = 'aes-128-' + cipher.slice(7, 10);
-		break;
-	case 'aes192-cbc':
-	case 'aes192-ctr':
-	case 'aes192-gcm@openssh.com':
-		inf.keySize = 24;
-		inf.blockSize = 16;
-		inf.opensslName = 'aes-192-' + cipher.slice(7, 10);
-		break;
-	case 'aes256-cbc':
-	case 'aes256-ctr':
-	case 'aes256-gcm@openssh.com':
-		inf.keySize = 32;
-		inf.blockSize = 16;
-		inf.opensslName = 'aes-256-' + cipher.slice(7, 10);
-		break;
-	default:
-		throw (new Error(
-		    'Unsupported openssl cipher "' + cipher + '"'));
-	}
-	return (inf);
-}
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports) {
-
-module.exports = require("assert");
-
-/***/ }),
-/* 20 */
 /***/ (function(module, exports) {
 
 exports = module.exports = SemVer;
@@ -3655,6 +3310,338 @@ function prerelease(version, loose) {
 
 
 /***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = nullify;
+function nullify() {
+  let obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  if (Array.isArray(obj)) {
+    for (const item of obj) {
+      nullify(item);
+    }
+  } else if (obj !== null && typeof obj === 'object' || typeof obj === 'function') {
+    Object.setPrototypeOf(obj, null);
+
+    // for..in can only be applied to 'object', not 'function'
+    if (typeof obj === 'object') {
+      for (const key in obj) {
+        nullify(obj[key]);
+      }
+    }
+  }
+
+  return obj;
+}
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Copyright 2015 Joyent, Inc.
+
+module.exports = {
+	bufferSplit: bufferSplit,
+	addRSAMissing: addRSAMissing,
+	calculateDSAPublic: calculateDSAPublic,
+	mpNormalize: mpNormalize,
+	ecNormalize: ecNormalize,
+	countZeros: countZeros,
+	assertCompatible: assertCompatible,
+	isCompatible: isCompatible,
+	opensslKeyDeriv: opensslKeyDeriv,
+	opensshCipherInfo: opensshCipherInfo
+};
+
+var assert = __webpack_require__(11);
+var PrivateKey = __webpack_require__(24);
+var crypto = __webpack_require__(8);
+
+var MAX_CLASS_DEPTH = 3;
+
+function isCompatible(obj, klass, needVer) {
+	if (obj === null || typeof (obj) !== 'object')
+		return (false);
+	if (needVer === undefined)
+		needVer = klass.prototype._sshpkApiVersion;
+	if (obj instanceof klass &&
+	    klass.prototype._sshpkApiVersion[0] == needVer[0])
+		return (true);
+	var proto = Object.getPrototypeOf(obj);
+	var depth = 0;
+	while (proto.constructor.name !== klass.name) {
+		proto = Object.getPrototypeOf(proto);
+		if (!proto || ++depth > MAX_CLASS_DEPTH)
+			return (false);
+	}
+	if (proto.constructor.name !== klass.name)
+		return (false);
+	var ver = proto._sshpkApiVersion;
+	if (ver === undefined)
+		ver = klass._oldVersionDetect(obj);
+	if (ver[0] != needVer[0] || ver[1] < needVer[1])
+		return (false);
+	return (true);
+}
+
+function assertCompatible(obj, klass, needVer, name) {
+	if (name === undefined)
+		name = 'object';
+	assert.ok(obj, name + ' must not be null');
+	assert.object(obj, name + ' must be an object');
+	if (needVer === undefined)
+		needVer = klass.prototype._sshpkApiVersion;
+	if (obj instanceof klass &&
+	    klass.prototype._sshpkApiVersion[0] == needVer[0])
+		return;
+	var proto = Object.getPrototypeOf(obj);
+	var depth = 0;
+	while (proto.constructor.name !== klass.name) {
+		proto = Object.getPrototypeOf(proto);
+		assert.ok(proto && ++depth <= MAX_CLASS_DEPTH,
+		    name + ' must be a ' + klass.name + ' instance');
+	}
+	assert.strictEqual(proto.constructor.name, klass.name,
+	    name + ' must be a ' + klass.name + ' instance');
+	var ver = proto._sshpkApiVersion;
+	if (ver === undefined)
+		ver = klass._oldVersionDetect(obj);
+	assert.ok(ver[0] == needVer[0] && ver[1] >= needVer[1],
+	    name + ' must be compatible with ' + klass.name + ' klass ' +
+	    'version ' + needVer[0] + '.' + needVer[1]);
+}
+
+var CIPHER_LEN = {
+	'des-ede3-cbc': { key: 7, iv: 8 },
+	'aes-128-cbc': { key: 16, iv: 16 }
+};
+var PKCS5_SALT_LEN = 8;
+
+function opensslKeyDeriv(cipher, salt, passphrase, count) {
+	assert.buffer(salt, 'salt');
+	assert.buffer(passphrase, 'passphrase');
+	assert.number(count, 'iteration count');
+
+	var clen = CIPHER_LEN[cipher];
+	assert.object(clen, 'supported cipher');
+
+	salt = salt.slice(0, PKCS5_SALT_LEN);
+
+	var D, D_prev, bufs;
+	var material = new Buffer(0);
+	while (material.length < clen.key + clen.iv) {
+		bufs = [];
+		if (D_prev)
+			bufs.push(D_prev);
+		bufs.push(passphrase);
+		bufs.push(salt);
+		D = Buffer.concat(bufs);
+		for (var j = 0; j < count; ++j)
+			D = crypto.createHash('md5').update(D).digest();
+		material = Buffer.concat([material, D]);
+		D_prev = D;
+	}
+
+	return ({
+	    key: material.slice(0, clen.key),
+	    iv: material.slice(clen.key, clen.key + clen.iv)
+	});
+}
+
+/* Count leading zero bits on a buffer */
+function countZeros(buf) {
+	var o = 0, obit = 8;
+	while (o < buf.length) {
+		var mask = (1 << obit);
+		if ((buf[o] & mask) === mask)
+			break;
+		obit--;
+		if (obit < 0) {
+			o++;
+			obit = 8;
+		}
+	}
+	return (o*8 + (8 - obit) - 1);
+}
+
+function bufferSplit(buf, chr) {
+	assert.buffer(buf);
+	assert.string(chr);
+
+	var parts = [];
+	var lastPart = 0;
+	var matches = 0;
+	for (var i = 0; i < buf.length; ++i) {
+		if (buf[i] === chr.charCodeAt(matches))
+			++matches;
+		else if (buf[i] === chr.charCodeAt(0))
+			matches = 1;
+		else
+			matches = 0;
+
+		if (matches >= chr.length) {
+			var newPart = i + 1;
+			parts.push(buf.slice(lastPart, newPart - matches));
+			lastPart = newPart;
+			matches = 0;
+		}
+	}
+	if (lastPart <= buf.length)
+		parts.push(buf.slice(lastPart, buf.length));
+
+	return (parts);
+}
+
+function ecNormalize(buf, addZero) {
+	assert.buffer(buf);
+	if (buf[0] === 0x00 && buf[1] === 0x04) {
+		if (addZero)
+			return (buf);
+		return (buf.slice(1));
+	} else if (buf[0] === 0x04) {
+		if (!addZero)
+			return (buf);
+	} else {
+		while (buf[0] === 0x00)
+			buf = buf.slice(1);
+		if (buf[0] === 0x02 || buf[0] === 0x03)
+			throw (new Error('Compressed elliptic curve points ' +
+			    'are not supported'));
+		if (buf[0] !== 0x04)
+			throw (new Error('Not a valid elliptic curve point'));
+		if (!addZero)
+			return (buf);
+	}
+	var b = new Buffer(buf.length + 1);
+	b[0] = 0x0;
+	buf.copy(b, 1);
+	return (b);
+}
+
+function mpNormalize(buf) {
+	assert.buffer(buf);
+	while (buf.length > 1 && buf[0] === 0x00 && (buf[1] & 0x80) === 0x00)
+		buf = buf.slice(1);
+	if ((buf[0] & 0x80) === 0x80) {
+		var b = new Buffer(buf.length + 1);
+		b[0] = 0x00;
+		buf.copy(b, 1);
+		buf = b;
+	}
+	return (buf);
+}
+
+function bigintToMpBuf(bigint) {
+	var buf = new Buffer(bigint.toByteArray());
+	buf = mpNormalize(buf);
+	return (buf);
+}
+
+function calculateDSAPublic(g, p, x) {
+	assert.buffer(g);
+	assert.buffer(p);
+	assert.buffer(x);
+	try {
+		var bigInt = __webpack_require__(56).BigInteger;
+	} catch (e) {
+		throw (new Error('To load a PKCS#8 format DSA private key, ' +
+		    'the node jsbn library is required.'));
+	}
+	g = new bigInt(g);
+	p = new bigInt(p);
+	x = new bigInt(x);
+	var y = g.modPow(x, p);
+	var ybuf = bigintToMpBuf(y);
+	return (ybuf);
+}
+
+function addRSAMissing(key) {
+	assert.object(key);
+	assertCompatible(key, PrivateKey, [1, 1]);
+	try {
+		var bigInt = __webpack_require__(56).BigInteger;
+	} catch (e) {
+		throw (new Error('To write a PEM private key from ' +
+		    'this source, the node jsbn lib is required.'));
+	}
+
+	var d = new bigInt(key.part.d.data);
+	var buf;
+
+	if (!key.part.dmodp) {
+		var p = new bigInt(key.part.p.data);
+		var dmodp = d.mod(p.subtract(1));
+
+		buf = bigintToMpBuf(dmodp);
+		key.part.dmodp = {name: 'dmodp', data: buf};
+		key.parts.push(key.part.dmodp);
+	}
+	if (!key.part.dmodq) {
+		var q = new bigInt(key.part.q.data);
+		var dmodq = d.mod(q.subtract(1));
+
+		buf = bigintToMpBuf(dmodq);
+		key.part.dmodq = {name: 'dmodq', data: buf};
+		key.parts.push(key.part.dmodq);
+	}
+}
+
+function opensshCipherInfo(cipher) {
+	var inf = {};
+	switch (cipher) {
+	case '3des-cbc':
+		inf.keySize = 24;
+		inf.blockSize = 8;
+		inf.opensslName = 'des-ede3-cbc';
+		break;
+	case 'blowfish-cbc':
+		inf.keySize = 16;
+		inf.blockSize = 8;
+		inf.opensslName = 'bf-cbc';
+		break;
+	case 'aes128-cbc':
+	case 'aes128-ctr':
+	case 'aes128-gcm@openssh.com':
+		inf.keySize = 16;
+		inf.blockSize = 16;
+		inf.opensslName = 'aes-128-' + cipher.slice(7, 10);
+		break;
+	case 'aes192-cbc':
+	case 'aes192-ctr':
+	case 'aes192-gcm@openssh.com':
+		inf.keySize = 24;
+		inf.blockSize = 16;
+		inf.opensslName = 'aes-192-' + cipher.slice(7, 10);
+		break;
+	case 'aes256-cbc':
+	case 'aes256-ctr':
+	case 'aes256-gcm@openssh.com':
+		inf.keySize = 32;
+		inf.blockSize = 16;
+		inf.opensslName = 'aes-256-' + cipher.slice(7, 10);
+		break;
+	default:
+		throw (new Error(
+		    'Unsupported openssl cipher "' + cipher + '"'));
+	}
+	return (inf);
+}
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+module.exports = require("assert");
+
+/***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
@@ -3846,11 +3833,11 @@ module.exports = Key;
 var assert = __webpack_require__(11);
 var algs = __webpack_require__(22);
 var crypto = __webpack_require__(8);
-var Fingerprint = __webpack_require__(116);
+var Fingerprint = __webpack_require__(117);
 var Signature = __webpack_require__(46);
 var DiffieHellman = __webpack_require__(319).DiffieHellman;
 var errs = __webpack_require__(45);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var PrivateKey = __webpack_require__(24);
 var edCompat;
 
@@ -3867,10 +3854,10 @@ var formats = {};
 formats['auto'] = __webpack_require__(321);
 formats['pem'] = __webpack_require__(58);
 formats['pkcs1'] = __webpack_require__(228);
-formats['pkcs8'] = __webpack_require__(117);
+formats['pkcs8'] = __webpack_require__(118);
 formats['rfc4253'] = __webpack_require__(75);
 formats['ssh'] = __webpack_require__(322);
-formats['ssh-private'] = __webpack_require__(144);
+formats['ssh-private'] = __webpack_require__(145);
 formats['openssh'] = formats['ssh-private'];
 
 function Key(opts) {
@@ -4126,11 +4113,11 @@ module.exports = PrivateKey;
 var assert = __webpack_require__(11);
 var algs = __webpack_require__(22);
 var crypto = __webpack_require__(8);
-var Fingerprint = __webpack_require__(116);
+var Fingerprint = __webpack_require__(117);
 var Signature = __webpack_require__(46);
 var errs = __webpack_require__(45);
 var util = __webpack_require__(2);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var dhe = __webpack_require__(319);
 var generateECDSA = dhe.generateECDSA;
 var generateED25519 = dhe.generateED25519;
@@ -4153,9 +4140,9 @@ var formats = {};
 formats['auto'] = __webpack_require__(321);
 formats['pem'] = __webpack_require__(58);
 formats['pkcs1'] = __webpack_require__(228);
-formats['pkcs8'] = __webpack_require__(117);
+formats['pkcs8'] = __webpack_require__(118);
 formats['rfc4253'] = __webpack_require__(75);
-formats['ssh-private'] = __webpack_require__(144);
+formats['ssh-private'] = __webpack_require__(145);
 formats['openssh'] = formats['ssh-private'];
 formats['ssh'] = formats['ssh-private'];
 
@@ -4211,7 +4198,7 @@ PrivateKey.prototype.derive = function (newType, newSize) {
 
 	if (this.type === 'ed25519' && newType === 'curve25519') {
 		if (ed === undefined)
-			ed = __webpack_require__(218);
+			ed = __webpack_require__(219);
 
 		priv = this.part.r.data;
 		if (priv[0] === 0x00)
@@ -4230,7 +4217,7 @@ PrivateKey.prototype.derive = function (newType, newSize) {
 		}));
 	} else if (this.type === 'curve25519' && newType === 'ed25519') {
 		if (ed === undefined)
-			ed = __webpack_require__(218);
+			ed = __webpack_require__(219);
 
 		priv = this.part.r.data;
 		if (priv[0] === 0x00)
@@ -21488,68 +21475,6 @@ module.exports = function(it){
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP         = __webpack_require__(38)
-  , createDesc = __webpack_require__(83);
-module.exports = __webpack_require__(32) ? function(object, key, value){
-  return dP.f(object, key, createDesc(1, value));
-} : function(object, key, value){
-  object[key] = value;
-  return object;
-};
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.normalizePattern = normalizePattern;
-
-/**
- * Explode and normalize a pattern into its name and range.
- */
-
-function normalizePattern(pattern) {
-  let hasVersion = false;
-  let range = 'latest';
-  let name = pattern;
-
-  // if we're a scope then remove the @ and add it back later
-  let isScoped = false;
-  if (name[0] === '@') {
-    isScoped = true;
-    name = name.slice(1);
-  }
-
-  // take first part as the name
-  const parts = name.split('@');
-  if (parts.length > 1) {
-    name = parts.shift();
-    range = parts.join('@');
-
-    if (range) {
-      hasVersion = true;
-    } else {
-      range = '*';
-    }
-  }
-
-  // add back @ scope suffix
-  if (isScoped) {
-    name = `@${name}`;
-  }
-
-  return { name, range, hasVersion };
-}
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -21561,7 +21486,7 @@ exports.wrapLifecycle = exports.run = exports.install = exports.Install = undefi
 var _extends2;
 
 function _load_extends() {
-  return _extends2 = _interopRequireDefault(__webpack_require__(36));
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
 }
 
 var _asyncToGenerator2;
@@ -21656,7 +21581,7 @@ exports.setFlags = setFlags;
 var _index;
 
 function _load_index() {
-  return _index = _interopRequireDefault(__webpack_require__(168));
+  return _index = _interopRequireDefault(__webpack_require__(169));
 }
 
 var _errors;
@@ -21668,7 +21593,7 @@ function _load_errors() {
 var _integrityChecker;
 
 function _load_integrityChecker() {
-  return _integrityChecker = _interopRequireDefault(__webpack_require__(159));
+  return _integrityChecker = _interopRequireDefault(__webpack_require__(160));
 }
 
 var _lockfile;
@@ -21710,19 +21635,19 @@ function _load_packageResolver() {
 var _packageLinker;
 
 function _load_packageLinker() {
-  return _packageLinker = _interopRequireDefault(__webpack_require__(160));
+  return _packageLinker = _interopRequireDefault(__webpack_require__(161));
 }
 
 var _index2;
 
 function _load_index2() {
-  return _index2 = __webpack_require__(34);
+  return _index2 = __webpack_require__(35);
 }
 
 var _index3;
 
 function _load_index3() {
-  return _index3 = __webpack_require__(35);
+  return _index3 = __webpack_require__(36);
 }
 
 var _autoclean;
@@ -21734,13 +21659,13 @@ function _load_autoclean() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _normalizePattern;
 
 function _load_normalizePattern() {
-  return _normalizePattern = __webpack_require__(29);
+  return _normalizePattern = __webpack_require__(31);
 }
 
 var _fs;
@@ -21752,7 +21677,7 @@ function _load_fs() {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 var _yarnVersion;
@@ -21764,7 +21689,7 @@ function _load_yarnVersion() {
 var _workspaceLayout;
 
 function _load_workspaceLayout() {
-  return _workspaceLayout = _interopRequireDefault(__webpack_require__(80));
+  return _workspaceLayout = _interopRequireDefault(__webpack_require__(81));
 }
 
 var _resolutionMap;
@@ -21779,10 +21704,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const emoji = __webpack_require__(301);
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 const path = __webpack_require__(0);
-const semver = __webpack_require__(20);
-const uuid = __webpack_require__(88);
+const semver = __webpack_require__(17);
+const uuid = __webpack_require__(89);
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
@@ -21853,7 +21778,14 @@ function normalizeFlags(config, rawFlags) {
     dev: !!rawFlags.dev,
     optional: !!rawFlags.optional,
     exact: !!rawFlags.exact,
-    tilde: !!rawFlags.tilde
+    tilde: !!rawFlags.tilde,
+    ignoreWorkspaceRootCheck: !!rawFlags.ignoreWorkspaceRootCheck,
+
+    // outdated, update-interactive
+    includeWorkspaceDeps: !!rawFlags.includeWorkspaceDeps,
+
+    // remove, update
+    workspaceRootIsCwd: rawFlags.workspaceRootIsCwd !== false
   };
 
   if (config.getOption('ignore-scripts')) {
@@ -21893,7 +21825,6 @@ class Install {
     this.integrityChecker = new (_integrityChecker || _load_integrityChecker()).default(config);
     this.linker = new (_packageLinker || _load_packageLinker()).default(config, this.resolver);
     this.scripts = new (_packageInstallScripts || _load_packageInstallScripts()).default(config, this.resolver, this.flags.force);
-    this.ignoreWorkspaces = false;
   }
 
   /**
@@ -21915,6 +21846,12 @@ class Install {
       const usedPatterns = [];
       let workspaceLayout;
 
+      // some commands should always run in the context of the entire workspace
+      const cwd = _this.flags.includeWorkspaceDeps || _this.flags.workspaceRootIsCwd ? _this.config.lockfileFolder : _this.config.cwd;
+
+      // non-workspaces are always root, otherwise check for workspace root
+      const cwdIsRoot = !_this.config.workspaceRootFolder || _this.config.lockfileFolder === cwd;
+
       // exclude package names that are in install args
       const excludeNames = [];
       for (const pattern of excludePatterns) {
@@ -21928,10 +21865,24 @@ class Install {
         excludeNames.push(parts.name);
       }
 
+      const stripExcluded = function (manifest) {
+        for (const exclude of excludeNames) {
+          if (manifest.dependencies && manifest.dependencies[exclude]) {
+            delete manifest.dependencies[exclude];
+          }
+          if (manifest.devDependencies && manifest.devDependencies[exclude]) {
+            delete manifest.devDependencies[exclude];
+          }
+          if (manifest.optionalDependencies && manifest.optionalDependencies[exclude]) {
+            delete manifest.optionalDependencies[exclude];
+          }
+        }
+      };
+
       for (const registry of Object.keys((_index2 || _load_index2()).registries)) {
         const filename = (_index2 || _load_index2()).registries[registry].filename;
 
-        const loc = path.join(_this.config.lockfileFolder, filename);
+        const loc = path.join(cwd, filename);
         if (!(yield (_fs || _load_fs()).exists(loc))) {
           continue;
         }
@@ -21939,7 +21890,7 @@ class Install {
         _this.rootManifestRegistries.push(registry);
 
         const projectManifestJson = yield _this.config.readJson(loc);
-        yield (0, (_index || _load_index()).default)(projectManifestJson, _this.config.lockfileFolder, _this.config, true);
+        yield (0, (_index || _load_index()).default)(projectManifestJson, cwd, _this.config, cwdIsRoot);
 
         Object.assign(_this.resolutions, projectManifestJson.resolutions);
         Object.assign(manifest, projectManifestJson);
@@ -21988,7 +21939,7 @@ class Install {
 
             _this.rootPatternsToOrigin[pattern] = depType;
             patterns.push(pattern);
-            deps.push({ pattern, registry, hint, optional });
+            deps.push({ pattern, registry, hint, optional, workspaceName: manifest.name, workspaceLoc: manifest._loc });
           }
         };
 
@@ -21996,27 +21947,50 @@ class Install {
         pushDeps('devDependencies', projectManifestJson, { hint: 'dev', optional: false }, !_this.config.production);
         pushDeps('optionalDependencies', projectManifestJson, { hint: 'optional', optional: true }, true);
 
-        if (_this.config.workspaceRootFolder && !_this.ignoreWorkspaces) {
-          const workspacesRoot = path.dirname(loc);
-          const workspaces = yield _this.config.resolveWorkspaces(workspacesRoot, projectManifestJson);
+        if (_this.config.workspaceRootFolder) {
+          const workspaceLoc = cwdIsRoot ? loc : path.join(_this.config.lockfileFolder, filename);
+          const workspacesRoot = path.dirname(workspaceLoc);
+
+          let workspaceManifestJson = projectManifestJson;
+          if (!cwdIsRoot) {
+            // the manifest we read before was a child workspace, so get the root
+            workspaceManifestJson = yield _this.config.readJson(workspaceLoc);
+            yield (0, (_index || _load_index()).default)(workspaceManifestJson, workspacesRoot, _this.config, true);
+          }
+
+          const workspaces = yield _this.config.resolveWorkspaces(workspacesRoot, workspaceManifestJson);
           workspaceLayout = new (_workspaceLayout || _load_workspaceLayout()).default(workspaces, _this.config);
+
           // add virtual manifest that depends on all workspaces, this way package hoisters and resolvers will work fine
+          const workspaceDependencies = (0, (_extends2 || _load_extends()).default)({}, workspaceManifestJson.dependencies);
+          for (const workspaceName of Object.keys(workspaces)) {
+            const workspaceManifest = workspaces[workspaceName].manifest;
+            workspaceDependencies[workspaceName] = workspaceManifest.version;
+
+            // include dependencies from all workspaces
+            if (_this.flags.includeWorkspaceDeps) {
+              pushDeps('dependencies', workspaceManifest, { hint: null, optional: false }, true);
+              pushDeps('devDependencies', workspaceManifest, { hint: 'dev', optional: false }, !_this.config.production);
+              pushDeps('optionalDependencies', workspaceManifest, { hint: 'optional', optional: true }, true);
+            }
+          }
           const virtualDependencyManifest = {
             _uid: '',
             name: `workspace-aggregator-${uuid.v4()}`,
             version: '1.0.0',
             _registry: 'npm',
             _loc: workspacesRoot,
-            dependencies: {}
+            dependencies: workspaceDependencies,
+            devDependencies: (0, (_extends2 || _load_extends()).default)({}, workspaceManifestJson.devDependencies),
+            optionalDependencies: (0, (_extends2 || _load_extends()).default)({}, workspaceManifestJson.optionalDependencies)
           };
           workspaceLayout.virtualManifestName = virtualDependencyManifest.name;
-          virtualDependencyManifest.dependencies = {};
-          for (const workspaceName of Object.keys(workspaces)) {
-            virtualDependencyManifest.dependencies[workspaceName] = workspaces[workspaceName].manifest.version;
-          }
           const virtualDep = {};
           virtualDep[virtualDependencyManifest.name] = virtualDependencyManifest.version;
           workspaces[virtualDependencyManifest.name] = { loc: workspacesRoot, manifest: virtualDependencyManifest };
+
+          // ensure dependencies that should be excluded are stripped from the correct manifest
+          stripExcluded(cwdIsRoot ? virtualDependencyManifest : workspaces[projectManifestJson.name].manifest);
 
           pushDeps('workspaces', { workspaces: virtualDep }, { hint: 'workspaces', optional: false }, true);
         }
@@ -22038,13 +22012,6 @@ class Install {
         workspaceLayout
       };
     })();
-  }
-
-  /**
-   * Sets the value of `ignoreWorkspaces` for install commands that should skip workspaces
-   */
-  setIgnoreWorkspaces(ignoreWorkspaces) {
-    this.ignoreWorkspaces = ignoreWorkspaces;
   }
 
   /**
@@ -22085,6 +22052,12 @@ class Install {
 
       if (match.integrityFileMissing && haveLockfile) {
         // Integrity file missing, force script installations
+        _this2.scripts.setForce(true);
+        return false;
+      }
+
+      if (match.hardRefreshRequired) {
+        // e.g. node version doesn't match, force script installations
         _this2.scripts.setForce(true);
         return false;
       }
@@ -22187,6 +22160,7 @@ class Install {
       steps.push((() => {
         var _ref5 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (curr, total) {
           _this4.reporter.step(curr, total, _this4.reporter.lang('resolvingPackages'), emoji.get('mag'));
+          _this4.resolutionMap.setTopLevelPatterns(rawPatterns);
           yield _this4.resolver.init(_this4.prepareRequests(depRequests), {
             isFlat: _this4.flags.flat,
             isFrozen: _this4.flags.frozenLockfile,
@@ -22647,29 +22621,120 @@ function setFlags(commander) {
 }
 
 /***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _assign = __webpack_require__(454);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _assign2.default || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP         = __webpack_require__(38)
+  , createDesc = __webpack_require__(84);
+module.exports = __webpack_require__(33) ? function(object, key, value){
+  return dP.f(object, key, createDesc(1, value));
+} : function(object, key, value){
+  object[key] = value;
+  return object;
+};
+
+/***/ }),
 /* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.normalizePattern = normalizePattern;
+
+/**
+ * Explode and normalize a pattern into its name and range.
+ */
+
+function normalizePattern(pattern) {
+  let hasVersion = false;
+  let range = 'latest';
+  let name = pattern;
+
+  // if we're a scope then remove the @ and add it back later
+  let isScoped = false;
+  if (name[0] === '@') {
+    isScoped = true;
+    name = name.slice(1);
+  }
+
+  // take first part as the name
+  const parts = name.split('@');
+  if (parts.length > 1) {
+    name = parts.shift();
+    range = parts.join('@');
+
+    if (range) {
+      hasVersion = true;
+    } else {
+      range = '*';
+    }
+  }
+
+  // add back @ scope suffix
+  if (isScoped) {
+    name = `@${name}`;
+  }
+
+  return { name, range, hasVersion };
+}
+
+/***/ }),
+/* 32 */
 /***/ (function(module, exports) {
 
 module.exports = {};
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(82)(function(){
+module.exports = !__webpack_require__(83)(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var escapeStringRegexp = __webpack_require__(206);
+var escapeStringRegexp = __webpack_require__(207);
 var ansiStyles = __webpack_require__(557);
-var stripAnsi = __webpack_require__(215);
+var stripAnsi = __webpack_require__(216);
 var hasAnsi = __webpack_require__(532);
 var supportsColor = __webpack_require__(560);
 var defineProps = Object.defineProperties;
@@ -22785,7 +22850,7 @@ module.exports.supportsColor = supportsColor;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22818,7 +22883,7 @@ const registries = exports.registries = {
 const registryNames = exports.registryNames = Object.keys(registries);
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22840,7 +22905,7 @@ function _load_baseResolver() {
 var _npmResolver;
 
 function _load_npmResolver() {
-  return _npmResolver = _interopRequireDefault(__webpack_require__(165));
+  return _npmResolver = _interopRequireDefault(__webpack_require__(166));
 }
 
 var _yarnResolver;
@@ -22870,7 +22935,7 @@ function _load_githubResolver() {
 var _fileResolver;
 
 function _load_fileResolver() {
-  return _fileResolver = _interopRequireDefault(__webpack_require__(163));
+  return _fileResolver = _interopRequireDefault(__webpack_require__(164));
 }
 
 var _linkResolver;
@@ -22888,7 +22953,7 @@ function _load_gitlabResolver() {
 var _gistResolver;
 
 function _load_gistResolver() {
-  return _gistResolver = _interopRequireDefault(__webpack_require__(164));
+  return _gistResolver = _interopRequireDefault(__webpack_require__(165));
 }
 
 var _bitbucketResolver;
@@ -22900,7 +22965,7 @@ function _load_bitbucketResolver() {
 var _hostedGitResolver;
 
 function _load_hostedGitResolver() {
-  return _hostedGitResolver = __webpack_require__(78);
+  return _hostedGitResolver = __webpack_require__(79);
 }
 
 var _registryResolver;
@@ -22959,35 +23024,6 @@ for (const key in registries) {
 }
 
 /***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _assign = __webpack_require__(454);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _assign2.default || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
-
-/***/ }),
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23017,11 +23053,11 @@ module.exports = function(fn, that, length){
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject       = __webpack_require__(26)
-  , IE8_DOM_DEFINE = __webpack_require__(184)
-  , toPrimitive    = __webpack_require__(199)
+  , IE8_DOM_DEFINE = __webpack_require__(185)
+  , toPrimitive    = __webpack_require__(200)
   , dP             = Object.defineProperty;
 
-exports.f = __webpack_require__(32) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+exports.f = __webpack_require__(33) ? Object.defineProperty : function defineProperty(O, P, Attributes){
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
@@ -23042,7 +23078,7 @@ try {
   if (typeof util.inherits !== 'function') throw '';
   module.exports = util.inherits;
 } catch (e) {
-  module.exports = __webpack_require__(213);
+  module.exports = __webpack_require__(214);
 }
 
 
@@ -29372,9 +29408,9 @@ var assert = __webpack_require__(11);
 var algs = __webpack_require__(22);
 var crypto = __webpack_require__(8);
 var errs = __webpack_require__(45);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var asn1 = __webpack_require__(50);
-var SSHBuffer = __webpack_require__(145);
+var SSHBuffer = __webpack_require__(146);
 
 var InvalidAlgorithmError = errs.InvalidAlgorithmError;
 var SignatureParseError = errs.SignatureParseError;
@@ -29704,13 +29740,13 @@ exports.spawn = spawn;
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _blockingQueue;
 
 function _load_blockingQueue() {
-  return _blockingQueue = _interopRequireDefault(__webpack_require__(79));
+  return _blockingQueue = _interopRequireDefault(__webpack_require__(80));
 }
 
 var _errors;
@@ -29731,7 +29767,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 /* global child_process$spawnOpts */
 
-const child = __webpack_require__(149);
+const child = __webpack_require__(150);
 
 const queue = exports.queue = new (_blockingQueue || _load_blockingQueue()).default('child', (_constants || _load_constants()).CHILD_CONCURRENCY);
 
@@ -29986,7 +30022,7 @@ function _load_asyncToGenerator() {
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 var _fs;
@@ -29998,7 +30034,7 @@ function _load_fs() {
 var _npmResolver;
 
 function _load_npmResolver() {
-  return _npmResolver = _interopRequireDefault(__webpack_require__(165));
+  return _npmResolver = _interopRequireDefault(__webpack_require__(166));
 }
 
 var _envReplace;
@@ -30066,7 +30102,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const DEFAULT_REGISTRY = 'https://registry.npmjs.org/';
-
 const REGEX_REGISTRY_HTTP_PROTOCOL = /^https?:/i;
 const REGEX_REGISTRY_PREFIX = /^(https?:)?\/\//i;
 const REGEX_REGISTRY_SUFFIX = /registry\/?$/;
@@ -30101,10 +30136,10 @@ function getGlobalPrefix() {
   }
 }
 
-const PATH_CONFIG_OPTIONS = ['cache', 'cafile', 'prefix', 'userconfig'];
+const PATH_CONFIG_OPTIONS = new Set(['cache', 'cafile', 'prefix', 'userconfig']);
 
 function isPathConfigOption(key) {
-  return PATH_CONFIG_OPTIONS.indexOf(key) >= 0;
+  return PATH_CONFIG_OPTIONS.has(key);
 }
 
 function normalizePath(val) {
@@ -30113,7 +30148,7 @@ function normalizePath(val) {
   }
 
   if (typeof val !== 'string') {
-    val = '' + val;
+    val = String(val);
   }
 
   return (0, (_path || _load_path()).resolveWithHome)(val);
@@ -30260,11 +30295,22 @@ class NpmRegistry extends (_baseRegistry || _load_baseRegistry()).default {
     })();
   }
 
+  static getConfigEnv() {
+    let env = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.env;
+
+    // To match NPM's behavior, HOME is always the user's home directory.
+    const overrideEnv = {
+      HOME: (_userHomeDir2 || _load_userHomeDir2()).home
+    };
+    return Object.assign({}, env, overrideEnv);
+  }
+
   static normalizeConfig(config) {
+    const env = NpmRegistry.getConfigEnv();
     config = (_baseRegistry || _load_baseRegistry()).default.normalizeConfig(config);
 
     for (const key in config) {
-      config[key] = (0, (_envReplace || _load_envReplace()).default)(config[key]);
+      config[key] = (0, (_envReplace || _load_envReplace()).default)(config[key], env);
       if (isPathConfigOption(key)) {
         config[key] = normalizePath(config[key]);
       }
@@ -30491,8 +30537,8 @@ function queue(arr, promiseProducer) {
  */
 
 var _ = __webpack_require__(27);
-var chalk = __webpack_require__(33);
-var runAsync = __webpack_require__(142);
+var chalk = __webpack_require__(34);
+var runAsync = __webpack_require__(143);
 var Choices = __webpack_require__(544);
 var ScreenManager = __webpack_require__(555);
 
@@ -30630,7 +30676,7 @@ Prompt.prototype.getQuestion = function () {
 
 "use strict";
 
-var rx = __webpack_require__(143);
+var rx = __webpack_require__(144);
 
 function normalizeKeypressEvents(value, key) {
   return {value: value, key: key || {}};
@@ -32052,7 +32098,7 @@ try {
 } catch (er) {}
 
 var GLOBSTAR = minimatch.GLOBSTAR = Minimatch.GLOBSTAR = {}
-var expand = __webpack_require__(174)
+var expand = __webpack_require__(175)
 
 var plTypes = {
   '!': { open: '(?:(?!(?:', close: '))[^/]*?)'},
@@ -32983,13 +33029,13 @@ var assert = __webpack_require__(11);
 var asn1 = __webpack_require__(50);
 var crypto = __webpack_require__(8);
 var algs = __webpack_require__(22);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
 
 var pkcs1 = __webpack_require__(228);
-var pkcs8 = __webpack_require__(117);
-var sshpriv = __webpack_require__(144);
+var pkcs8 = __webpack_require__(118);
+var sshpriv = __webpack_require__(145);
 var rfc4253 = __webpack_require__(75);
 
 var errors = __webpack_require__(45);
@@ -33189,7 +33235,7 @@ module.exports = {
   cleanUpVarErrors: cleanUpVarErrors,
   schemaHasRules: schemaHasRules,
   schemaHasRulesExcept: schemaHasRulesExcept,
-  stableStringify: __webpack_require__(220),
+  stableStringify: __webpack_require__(221),
   toQuotedString: toQuotedString,
   getPathExpr: getPathExpr,
   getPath: getPath,
@@ -33477,7 +33523,7 @@ exports.home = undefined;
 var _rootUser;
 
 function _load_rootUser() {
-  return _rootUser = _interopRequireDefault(__webpack_require__(170));
+  return _rootUser = _interopRequireDefault(__webpack_require__(171));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -33528,7 +33574,7 @@ module.exports = function(it){
 var global    = __webpack_require__(13)
   , core      = __webpack_require__(21)
   , ctx       = __webpack_require__(37)
-  , hide      = __webpack_require__(28)
+  , hide      = __webpack_require__(30)
   , PROTOTYPE = 'prototype';
 
 var $export = function(type, name, source){
@@ -33625,7 +33671,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(126)
+var IObject = __webpack_require__(127)
   , defined = __webpack_require__(64);
 module.exports = function(it){
   return IObject(defined(it));
@@ -33684,15 +33730,15 @@ var Minimatch = minimatch.Minimatch
 var inherits = __webpack_require__(39)
 var EE = __webpack_require__(47).EventEmitter
 var path = __webpack_require__(0)
-var assert = __webpack_require__(19)
+var assert = __webpack_require__(20)
 var isAbsolute = __webpack_require__(73)
-var globSync = __webpack_require__(210)
+var globSync = __webpack_require__(211)
 var common = __webpack_require__(113)
 var alphasort = common.alphasort
 var alphasorti = common.alphasorti
 var setopts = common.setopts
 var ownProp = common.ownProp
-var inflight = __webpack_require__(212)
+var inflight = __webpack_require__(213)
 var util = __webpack_require__(2)
 var childrenIgnored = common.childrenIgnored
 var isIgnored = common.isIgnored
@@ -34431,7 +34477,7 @@ Glob.prototype._stat2 = function (f, abs, er, stat, cb) {
 /* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var wrappy = __webpack_require__(89)
+var wrappy = __webpack_require__(90)
 module.exports = wrappy(once)
 module.exports.strict = wrappy(onceStrict)
 
@@ -34521,9 +34567,9 @@ if (process.env.READABLE_STREAM === 'disable' && Stream) {
   exports.Stream = Stream || exports;
   exports.Readable = exports;
   exports.Writable = __webpack_require__(310);
-  exports.Duplex = __webpack_require__(86);
+  exports.Duplex = __webpack_require__(87);
   exports.Transform = __webpack_require__(309);
-  exports.PassThrough = __webpack_require__(611);
+  exports.PassThrough = __webpack_require__(612);
 }
 
 
@@ -34548,10 +34594,10 @@ module.exports = {
 
 var assert = __webpack_require__(11);
 var algs = __webpack_require__(22);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
-var SSHBuffer = __webpack_require__(145);
+var SSHBuffer = __webpack_require__(146);
 
 function algToKeyType(alg) {
 	assert.string(alg);
@@ -34681,6 +34727,12 @@ function write(key, options) {
 
 /***/ }),
 /* 76 */
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
+
+/***/ }),
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34706,19 +34758,19 @@ function _load_util() {
 var _invariant;
 
 function _load_invariant() {
-  return _invariant = _interopRequireDefault(__webpack_require__(7));
+  return _invariant = _interopRequireDefault(__webpack_require__(6));
 }
 
 var _stripBom;
 
 function _load_stripBom() {
-  return _stripBom = _interopRequireDefault(__webpack_require__(119));
+  return _stripBom = _interopRequireDefault(__webpack_require__(120));
 }
 
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 var _errors;
@@ -34730,7 +34782,7 @@ function _load_errors() {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -35121,7 +35173,7 @@ function parseWithConflict(str, fileLoc) {
 }
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35154,7 +35206,7 @@ function _load_index() {
 var _isCi;
 
 function _load_isCi() {
-  return _isCi = _interopRequireDefault(__webpack_require__(216));
+  return _isCi = _interopRequireDefault(__webpack_require__(217));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -35424,7 +35476,7 @@ class BaseReporter {
 exports.default = BaseReporter;
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35451,7 +35503,7 @@ function _load_errors() {
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(34);
+  return _index = __webpack_require__(35);
 }
 
 var _gitResolver;
@@ -35469,13 +35521,13 @@ function _load_exoticResolver() {
 var _git;
 
 function _load_git() {
-  return _git = _interopRequireDefault(__webpack_require__(166));
+  return _git = _interopRequireDefault(__webpack_require__(167));
 }
 
 var _guessName;
 
 function _load_guessName() {
-  return _guessName = _interopRequireDefault(__webpack_require__(167));
+  return _guessName = _interopRequireDefault(__webpack_require__(168));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -35733,7 +35785,7 @@ class HostedGitResolver extends (_exoticResolver || _load_exoticResolver()).defa
 exports.default = HostedGitResolver;
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35746,12 +35798,12 @@ Object.defineProperty(exports, "__esModule", {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const debug = __webpack_require__(204)('yarn');
+const debug = __webpack_require__(205)('yarn');
 
 class BlockingQueue {
   constructor(alias) {
@@ -35776,6 +35828,10 @@ class BlockingQueue {
     }
 
     this.stuckTimer = setTimeout(this.stuckTick, 5000);
+
+    // We need to check the existense of unref because of https://github.com/facebook/jest/issues/4559
+    // $FlowFixMe: Node's setInterval returns a Timeout, not a Number
+    this.stuckTimer.unref && this.stuckTimer.unref();
   }
 
   stuckTick() {
@@ -35807,6 +35863,7 @@ class BlockingQueue {
     if (this.running[key]) {
       delete this.running[key];
       this.runningCount--;
+      clearTimeout(this.stuckTimer);
 
       if (this.warnedStuck) {
         this.warnedStuck = false;
@@ -35871,7 +35928,7 @@ class BlockingQueue {
 exports.default = BlockingQueue;
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35884,10 +35941,10 @@ Object.defineProperty(exports, "__esModule", {
 var _normalizePattern2;
 
 function _load_normalizePattern() {
-  return _normalizePattern2 = __webpack_require__(29);
+  return _normalizePattern2 = __webpack_require__(31);
 }
 
-const semver = __webpack_require__(20);
+const semver = __webpack_require__(17);
 
 class WorkspaceLayout {
   constructor(workspaces, config) {
@@ -35915,7 +35972,7 @@ class WorkspaceLayout {
 exports.default = WorkspaceLayout;
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
@@ -35943,7 +36000,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports) {
 
 module.exports = function(exec){
@@ -35955,7 +36012,7 @@ module.exports = function(exec){
 };
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports) {
 
 module.exports = function(bitmap, value){
@@ -35968,7 +36025,7 @@ module.exports = function(bitmap, value){
 };
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
@@ -35979,12 +36036,12 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $at  = __webpack_require__(197)(true);
+var $at  = __webpack_require__(198)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
 __webpack_require__(102)(String, 'String', function(iterated){
@@ -36002,7 +36059,7 @@ __webpack_require__(102)(String, 'String', function(iterated){
 });
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36083,10 +36140,10 @@ function forEach(xs, f) {
 }
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var buffer = __webpack_require__(120)
+var buffer = __webpack_require__(121)
 
 if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
   module.exports = buffer
@@ -36147,11 +36204,11 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var v1 = __webpack_require__(666);
-var v4 = __webpack_require__(667);
+var v1 = __webpack_require__(667);
+var v4 = __webpack_require__(668);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -36161,7 +36218,7 @@ module.exports = uuid;
 
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports) {
 
 // Returns a wrapper function that returns a wrapped callback
@@ -36198,12 +36255,6 @@ function wrappy (fn, cb) {
   }
 }
 
-
-/***/ }),
-/* 90 */
-/***/ (function(module, exports) {
-
-module.exports = require("tty");
 
 /***/ }),
 /* 91 */
@@ -36275,7 +36326,7 @@ function _load_path() {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // This will be bundled directly in the .js file for production builds
-var _require = __webpack_require__(148); /**
+var _require = __webpack_require__(149); /**
                                                * Determines the current version of Yarn itself.
                                                * 
                                                */
@@ -36500,13 +36551,13 @@ function _load_errors() {
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(34);
+  return _index = __webpack_require__(35);
 }
 
 var _baseReporter;
 
 function _load_baseReporter() {
-  return _baseReporter = _interopRequireDefault(__webpack_require__(77));
+  return _baseReporter = _interopRequireDefault(__webpack_require__(78));
 }
 
 var _buildSubCommands2;
@@ -36524,13 +36575,13 @@ function _load_lockfile() {
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 var _add;
 
 function _load_add() {
-  return _add = __webpack_require__(121);
+  return _add = __webpack_require__(122);
 }
 
 var _remove;
@@ -36542,7 +36593,7 @@ function _load_remove() {
 var _upgrade;
 
 function _load_upgrade() {
-  return _upgrade = __webpack_require__(158);
+  return _upgrade = __webpack_require__(159);
 }
 
 var _upgradeInteractive;
@@ -36554,13 +36605,13 @@ function _load_upgradeInteractive() {
 var _packageLinker;
 
 function _load_packageLinker() {
-  return _packageLinker = __webpack_require__(160);
+  return _packageLinker = __webpack_require__(161);
 }
 
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 var _fs;
@@ -36903,13 +36954,13 @@ function _load_path() {
 var _invariant;
 
 function _load_invariant() {
-  return _invariant = _interopRequireDefault(__webpack_require__(7));
+  return _invariant = _interopRequireDefault(__webpack_require__(6));
 }
 
 var _semver;
 
 function _load_semver() {
-  return _semver = _interopRequireDefault(__webpack_require__(20));
+  return _semver = _interopRequireDefault(__webpack_require__(17));
 }
 
 var _validate;
@@ -36933,7 +36984,7 @@ function _load_packageReference() {
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(35);
+  return _index = __webpack_require__(36);
 }
 
 var _errors;
@@ -36945,13 +36996,13 @@ function _load_errors() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _version;
 
 function _load_version() {
-  return _version = _interopRequireWildcard(__webpack_require__(171));
+  return _version = _interopRequireWildcard(__webpack_require__(172));
 }
 
 var _workspaceResolver;
@@ -36969,17 +37020,19 @@ function _load_fs() {
 var _normalizePattern4;
 
 function _load_normalizePattern() {
-  return _normalizePattern4 = __webpack_require__(29);
+  return _normalizePattern4 = __webpack_require__(31);
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const micromatch = __webpack_require__(114);
+
 class PackageRequest {
   constructor(req, resolver) {
     this.parentRequest = req.parentRequest;
-    this.parentNames = [];
+    this.parentNames = req.parentNames || [];
     this.lockfile = resolver.lockfile;
     this.registry = req.registry;
     this.reporter = resolver.reporter;
@@ -36998,8 +37051,9 @@ class PackageRequest {
 
     if (shrunk && shrunk.resolved) {
       const resolvedParts = (_version || _load_version()).explodeHashedUrl(shrunk.resolved);
-      // If it's a private git url set remote to 'git'.
-      const preferredRemoteType = resolvedParts.url.startsWith('git+ssh://') ? 'git' : remoteType;
+
+      // Detect Git protocols (git://HOST/PATH or git+PROTOCOL://HOST/PATH)
+      const preferredRemoteType = /^git(\+[a-z0-9]+)?:\/\//.test(resolvedParts.url) ? 'git' : remoteType;
 
       return {
         name: shrunk.name,
@@ -37300,7 +37354,7 @@ class PackageRequest {
    * Gets all of the outdated packages and sorts them appropriately
    */
 
-  static getOutdatedPackages(lockfile, install, config, reporter, filterByPatterns) {
+  static getOutdatedPackages(lockfile, install, config, reporter, filterByPatterns, flags) {
     return (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
       var _ref3 = yield install.fetchRequestFromCwd();
 
@@ -37320,14 +37374,16 @@ class PackageRequest {
           return (0, (_normalizePattern4 || _load_normalizePattern()).normalizePattern)(pattern).name;
         });
         depReqPatterns = depReqPatterns.filter(function (dep) {
-          return filterByNames.indexOf((0, (_normalizePattern4 || _load_normalizePattern()).normalizePattern)(dep.pattern).name) >= 0;
+          return filterByNames.indexOf((0, (_normalizePattern4 || _load_normalizePattern()).normalizePattern)(dep.pattern).name) >= 0 || flags && flags.pattern && micromatch.contains((0, (_normalizePattern4 || _load_normalizePattern()).normalizePattern)(dep.pattern).name, flags.pattern);
         });
       }
 
       const deps = yield Promise.all(depReqPatterns.map((() => {
         var _ref4 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (_ref5) {
           let pattern = _ref5.pattern,
-              hint = _ref5.hint;
+              hint = _ref5.hint,
+              workspaceName = _ref5.workspaceName,
+              workspaceLoc = _ref5.workspaceLoc;
 
           const locked = lockfile.getLocked(pattern);
           if (!locked) {
@@ -37356,7 +37412,18 @@ class PackageRequest {
             url = _ref6.url;
           }
 
-          return { name, current, wanted, latest, url, hint, range: normalized.range, upgradeTo: '' };
+          return {
+            name,
+            current,
+            wanted,
+            latest,
+            url,
+            hint,
+            range: normalized.range,
+            upgradeTo: '',
+            workspaceName: workspaceName || '',
+            workspaceLoc: workspaceLoc || ''
+          };
         });
 
         return function (_x) {
@@ -37369,12 +37436,11 @@ class PackageRequest {
         let current = _ref7.current,
             latest = _ref7.latest,
             wanted = _ref7.wanted;
-        return latest === 'exotic' || latest !== 'exotic' && ((_semver || _load_semver()).default.lt(current, wanted) || (_semver || _load_semver()).default.lt(current, latest));
+        return latest === 'exotic' || (_semver || _load_semver()).default.lt(current, wanted) || (_semver || _load_semver()).default.lt(current, latest);
       };
       const orderByName = function (depA, depB) {
         return depA.name.localeCompare(depB.name);
       };
-
       return deps.filter(isDepOld).sort(orderByName);
     })();
   }
@@ -37438,7 +37504,7 @@ function _load_asyncToGenerator() {
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(35);
+  return _index = __webpack_require__(36);
 }
 
 var _misc;
@@ -37450,19 +37516,19 @@ function _load_misc() {
 var _version;
 
 function _load_version() {
-  return _version = _interopRequireWildcard(__webpack_require__(171));
+  return _version = _interopRequireWildcard(__webpack_require__(172));
 }
 
 var _guessName;
 
 function _load_guessName() {
-  return _guessName = _interopRequireDefault(__webpack_require__(167));
+  return _guessName = _interopRequireDefault(__webpack_require__(168));
 }
 
 var _index2;
 
 function _load_index2() {
-  return _index2 = __webpack_require__(34);
+  return _index2 = __webpack_require__(35);
 }
 
 var _exoticResolver;
@@ -37474,7 +37540,7 @@ function _load_exoticResolver() {
 var _git;
 
 function _load_git() {
-  return _git = _interopRequireDefault(__webpack_require__(166));
+  return _git = _interopRequireDefault(__webpack_require__(167));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -37663,7 +37729,7 @@ function _load_slicedToArray() {
 var _extends2;
 
 function _load_extends() {
-  return _extends2 = _interopRequireDefault(__webpack_require__(36));
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
 }
 
 var _asyncToGenerator2;
@@ -37924,7 +37990,7 @@ function _load_errors() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _child;
@@ -37942,7 +38008,7 @@ function _load_fs() {
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(35);
+  return _index = __webpack_require__(36);
 }
 
 var _fixCmdWinSlashes;
@@ -37961,7 +38027,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 const path = __webpack_require__(0);
 
@@ -38080,7 +38146,7 @@ function _load_errors() {
 var _util;
 
 function _load_util() {
-  return _util = __webpack_require__(169);
+  return _util = __webpack_require__(170);
 }
 
 var _typos;
@@ -38221,13 +38287,13 @@ module.exports = __webpack_require__(13).document && document.documentElement;
 
 var LIBRARY        = __webpack_require__(103)
   , $export        = __webpack_require__(66)
-  , redefine       = __webpack_require__(194)
-  , hide           = __webpack_require__(28)
+  , redefine       = __webpack_require__(195)
+  , hide           = __webpack_require__(30)
   , has            = __webpack_require__(43)
-  , Iterators      = __webpack_require__(31)
-  , $iterCreate    = __webpack_require__(186)
+  , Iterators      = __webpack_require__(32)
+  , $iterCreate    = __webpack_require__(187)
   , setToStringTag = __webpack_require__(67)
-  , getPrototypeOf = __webpack_require__(191)
+  , getPrototypeOf = __webpack_require__(192)
   , ITERATOR       = __webpack_require__(9)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
   , FF_ITERATOR    = '@@iterator'
@@ -38311,7 +38377,7 @@ module.exports = function(key){
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx                = __webpack_require__(37)
-  , invoke             = __webpack_require__(185)
+  , invoke             = __webpack_require__(186)
   , html               = __webpack_require__(101)
   , cel                = __webpack_require__(65)
   , global             = __webpack_require__(13)
@@ -38410,9 +38476,9 @@ module.exports = function(key){
 /* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof   = __webpack_require__(81)
+var classof   = __webpack_require__(82)
   , ITERATOR  = __webpack_require__(9)('iterator')
-  , Iterators = __webpack_require__(31);
+  , Iterators = __webpack_require__(32);
 module.exports = __webpack_require__(21).getIteratorMethod = function(it){
   if(it != undefined)return it[ITERATOR]
     || it['@@iterator']
@@ -38423,10 +38489,10 @@ module.exports = __webpack_require__(21).getIteratorMethod = function(it){
 /* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(200);
+__webpack_require__(201);
 var global        = __webpack_require__(13)
-  , hide          = __webpack_require__(28)
-  , Iterators     = __webpack_require__(31)
+  , hide          = __webpack_require__(30)
+  , Iterators     = __webpack_require__(32)
   , TO_STRING_TAG = __webpack_require__(9)('toStringTag');
 
 for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
@@ -38775,7 +38841,7 @@ var origRealpathSync = fs.realpathSync
 
 var version = process.version
 var ok = /^v[0-5]\./.test(version)
-var old = __webpack_require__(209)
+var old = __webpack_require__(210)
 
 function newError (er) {
   return er && er.syscall === 'realpath' && (
@@ -39080,6 +39146,444 @@ function childrenIgnored (self, path) {
 /* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+/*!
+ * micromatch <https://github.com/jonschlinkert/micromatch>
+ *
+ * Copyright (c) 2014-2015, Jon Schlinkert.
+ * Licensed under the MIT License.
+ */
+
+
+
+var expand = __webpack_require__(585);
+var utils = __webpack_require__(223);
+
+/**
+ * The main function. Pass an array of filepaths,
+ * and a string or array of glob patterns
+ *
+ * @param  {Array|String} `files`
+ * @param  {Array|String} `patterns`
+ * @param  {Object} `opts`
+ * @return {Array} Array of matches
+ */
+
+function micromatch(files, patterns, opts) {
+  if (!files || !patterns) return [];
+  opts = opts || {};
+
+  if (typeof opts.cache === 'undefined') {
+    opts.cache = true;
+  }
+
+  if (!Array.isArray(patterns)) {
+    return match(files, patterns, opts);
+  }
+
+  var len = patterns.length, i = 0;
+  var omit = [], keep = [];
+
+  while (len--) {
+    var glob = patterns[i++];
+    if (typeof glob === 'string' && glob.charCodeAt(0) === 33 /* ! */) {
+      omit.push.apply(omit, match(files, glob.slice(1), opts));
+    } else {
+      keep.push.apply(keep, match(files, glob, opts));
+    }
+  }
+  return utils.diff(keep, omit);
+}
+
+/**
+ * Return an array of files that match the given glob pattern.
+ *
+ * This function is called by the main `micromatch` function If you only
+ * need to pass a single pattern you might get very minor speed improvements
+ * using this function.
+ *
+ * @param  {Array} `files`
+ * @param  {String} `pattern`
+ * @param  {Object} `options`
+ * @return {Array}
+ */
+
+function match(files, pattern, opts) {
+  if (utils.typeOf(files) !== 'string' && !Array.isArray(files)) {
+    throw new Error(msg('match', 'files', 'a string or array'));
+  }
+
+  files = utils.arrayify(files);
+  opts = opts || {};
+
+  var negate = opts.negate || false;
+  var orig = pattern;
+
+  if (typeof pattern === 'string') {
+    negate = pattern.charAt(0) === '!';
+    if (negate) {
+      pattern = pattern.slice(1);
+    }
+
+    // we need to remove the character regardless,
+    // so the above logic is still needed
+    if (opts.nonegate === true) {
+      negate = false;
+    }
+  }
+
+  var _isMatch = matcher(pattern, opts);
+  var len = files.length, i = 0;
+  var res = [];
+
+  while (i < len) {
+    var file = files[i++];
+    var fp = utils.unixify(file, opts);
+
+    if (!_isMatch(fp)) { continue; }
+    res.push(fp);
+  }
+
+  if (res.length === 0) {
+    if (opts.failglob === true) {
+      throw new Error('micromatch.match() found no matches for: "' + orig + '".');
+    }
+
+    if (opts.nonull || opts.nullglob) {
+      res.push(utils.unescapeGlob(orig));
+    }
+  }
+
+  // if `negate` was defined, diff negated files
+  if (negate) { res = utils.diff(files, res); }
+
+  // if `ignore` was defined, diff ignored filed
+  if (opts.ignore && opts.ignore.length) {
+    pattern = opts.ignore;
+    opts = utils.omit(opts, ['ignore']);
+    res = utils.diff(res, micromatch(res, pattern, opts));
+  }
+
+  if (opts.nodupes) {
+    return utils.unique(res);
+  }
+  return res;
+}
+
+/**
+ * Returns a function that takes a glob pattern or array of glob patterns
+ * to be used with `Array#filter()`. (Internally this function generates
+ * the matching function using the [matcher] method).
+ *
+ * ```js
+ * var fn = mm.filter('[a-c]');
+ * ['a', 'b', 'c', 'd', 'e'].filter(fn);
+ * //=> ['a', 'b', 'c']
+ * ```
+ * @param  {String|Array} `patterns` Can be a glob or array of globs.
+ * @param  {Options} `opts` Options to pass to the [matcher] method.
+ * @return {Function} Filter function to be passed to `Array#filter()`.
+ */
+
+function filter(patterns, opts) {
+  if (!Array.isArray(patterns) && typeof patterns !== 'string') {
+    throw new TypeError(msg('filter', 'patterns', 'a string or array'));
+  }
+
+  patterns = utils.arrayify(patterns);
+  var len = patterns.length, i = 0;
+  var patternMatchers = Array(len);
+  while (i < len) {
+    patternMatchers[i] = matcher(patterns[i++], opts);
+  }
+
+  return function(fp) {
+    if (fp == null) return [];
+    var len = patternMatchers.length, i = 0;
+    var res = true;
+
+    fp = utils.unixify(fp, opts);
+    while (i < len) {
+      var fn = patternMatchers[i++];
+      if (!fn(fp)) {
+        res = false;
+        break;
+      }
+    }
+    return res;
+  };
+}
+
+/**
+ * Returns true if the filepath contains the given
+ * pattern. Can also return a function for matching.
+ *
+ * ```js
+ * isMatch('foo.md', '*.md', {});
+ * //=> true
+ *
+ * isMatch('*.md', {})('foo.md')
+ * //=> true
+ * ```
+ * @param  {String} `fp`
+ * @param  {String} `pattern`
+ * @param  {Object} `opts`
+ * @return {Boolean}
+ */
+
+function isMatch(fp, pattern, opts) {
+  if (typeof fp !== 'string') {
+    throw new TypeError(msg('isMatch', 'filepath', 'a string'));
+  }
+
+  fp = utils.unixify(fp, opts);
+  if (utils.typeOf(pattern) === 'object') {
+    return matcher(fp, pattern);
+  }
+  return matcher(pattern, opts)(fp);
+}
+
+/**
+ * Returns true if the filepath matches the
+ * given pattern.
+ */
+
+function contains(fp, pattern, opts) {
+  if (typeof fp !== 'string') {
+    throw new TypeError(msg('contains', 'pattern', 'a string'));
+  }
+
+  opts = opts || {};
+  opts.contains = (pattern !== '');
+  fp = utils.unixify(fp, opts);
+
+  if (opts.contains && !utils.isGlob(pattern)) {
+    return fp.indexOf(pattern) !== -1;
+  }
+  return matcher(pattern, opts)(fp);
+}
+
+/**
+ * Returns true if a file path matches any of the
+ * given patterns.
+ *
+ * @param  {String} `fp` The filepath to test.
+ * @param  {String|Array} `patterns` Glob patterns to use.
+ * @param  {Object} `opts` Options to pass to the `matcher()` function.
+ * @return {String}
+ */
+
+function any(fp, patterns, opts) {
+  if (!Array.isArray(patterns) && typeof patterns !== 'string') {
+    throw new TypeError(msg('any', 'patterns', 'a string or array'));
+  }
+
+  patterns = utils.arrayify(patterns);
+  var len = patterns.length;
+
+  fp = utils.unixify(fp, opts);
+  while (len--) {
+    var isMatch = matcher(patterns[len], opts);
+    if (isMatch(fp)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Filter the keys of an object with the given `glob` pattern
+ * and `options`
+ *
+ * @param  {Object} `object`
+ * @param  {Pattern} `object`
+ * @return {Array}
+ */
+
+function matchKeys(obj, glob, options) {
+  if (utils.typeOf(obj) !== 'object') {
+    throw new TypeError(msg('matchKeys', 'first argument', 'an object'));
+  }
+
+  var fn = matcher(glob, options);
+  var res = {};
+
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key) && fn(key)) {
+      res[key] = obj[key];
+    }
+  }
+  return res;
+}
+
+/**
+ * Return a function for matching based on the
+ * given `pattern` and `options`.
+ *
+ * @param  {String} `pattern`
+ * @param  {Object} `options`
+ * @return {Function}
+ */
+
+function matcher(pattern, opts) {
+  // pattern is a function
+  if (typeof pattern === 'function') {
+    return pattern;
+  }
+  // pattern is a regex
+  if (pattern instanceof RegExp) {
+    return function(fp) {
+      return pattern.test(fp);
+    };
+  }
+
+  if (typeof pattern !== 'string') {
+    throw new TypeError(msg('matcher', 'pattern', 'a string, regex, or function'));
+  }
+
+  // strings, all the way down...
+  pattern = utils.unixify(pattern, opts);
+
+  // pattern is a non-glob string
+  if (!utils.isGlob(pattern)) {
+    return utils.matchPath(pattern, opts);
+  }
+  // pattern is a glob string
+  var re = makeRe(pattern, opts);
+
+  // `matchBase` is defined
+  if (opts && opts.matchBase) {
+    return utils.hasFilename(re, opts);
+  }
+  // `matchBase` is not defined
+  return function(fp) {
+    fp = utils.unixify(fp, opts);
+    return re.test(fp);
+  };
+}
+
+/**
+ * Create and cache a regular expression for matching
+ * file paths.
+ *
+ * If the leading character in the `glob` is `!`, a negation
+ * regex is returned.
+ *
+ * @param  {String} `glob`
+ * @param  {Object} `options`
+ * @return {RegExp}
+ */
+
+function toRegex(glob, options) {
+  // clone options to prevent  mutating the original object
+  var opts = Object.create(options || {});
+  var flags = opts.flags || '';
+  if (opts.nocase && flags.indexOf('i') === -1) {
+    flags += 'i';
+  }
+
+  var parsed = expand(glob, opts);
+
+  // pass in tokens to avoid parsing more than once
+  opts.negated = opts.negated || parsed.negated;
+  opts.negate = opts.negated;
+  glob = wrapGlob(parsed.pattern, opts);
+  var re;
+
+  try {
+    re = new RegExp(glob, flags);
+    return re;
+  } catch (err) {
+    err.reason = 'micromatch invalid regex: (' + re + ')';
+    if (opts.strict) throw new SyntaxError(err);
+  }
+
+  // we're only here if a bad pattern was used and the user
+  // passed `options.silent`, so match nothing
+  return /$^/;
+}
+
+/**
+ * Create the regex to do the matching. If the leading
+ * character in the `glob` is `!` a negation regex is returned.
+ *
+ * @param {String} `glob`
+ * @param {Boolean} `negate`
+ */
+
+function wrapGlob(glob, opts) {
+  var prefix = (opts && !opts.contains) ? '^' : '';
+  var after = (opts && !opts.contains) ? '$' : '';
+  glob = ('(?:' + glob + ')' + after);
+  if (opts && opts.negate) {
+    return prefix + ('(?!^' + glob + ').*$');
+  }
+  return prefix + glob;
+}
+
+/**
+ * Create and cache a regular expression for matching file paths.
+ * If the leading character in the `glob` is `!`, a negation
+ * regex is returned.
+ *
+ * @param  {String} `glob`
+ * @param  {Object} `options`
+ * @return {RegExp}
+ */
+
+function makeRe(glob, opts) {
+  if (utils.typeOf(glob) !== 'string') {
+    throw new Error(msg('makeRe', 'glob', 'a string'));
+  }
+  return utils.cache(toRegex, glob, opts);
+}
+
+/**
+ * Make error messages consistent. Follows this format:
+ *
+ * ```js
+ * msg(methodName, argNumber, nativeType);
+ * // example:
+ * msg('matchKeys', 'first', 'an object');
+ * ```
+ *
+ * @param  {String} `method`
+ * @param  {String} `num`
+ * @param  {String} `type`
+ * @return {String}
+ */
+
+function msg(method, what, type) {
+  return 'micromatch.' + method + '(): ' + what + ' should be ' + type + '.';
+}
+
+/**
+ * Public methods
+ */
+
+/* eslint no-multi-spaces: 0 */
+micromatch.any       = any;
+micromatch.braces    = micromatch.braceExpand = utils.braces;
+micromatch.contains  = contains;
+micromatch.expand    = expand;
+micromatch.filter    = filter;
+micromatch.isMatch   = isMatch;
+micromatch.makeRe    = makeRe;
+micromatch.match     = match;
+micromatch.matcher   = matcher;
+micromatch.matchKeys = matchKeys;
+
+/**
+ * Expose `micromatch`
+ */
+
+module.exports = micromatch;
+
+
+/***/ }),
+/* 115 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var path = __webpack_require__(0);
 var fs = __webpack_require__(5);
 var _0777 = parseInt('0777', 8);
@@ -39181,7 +39685,7 @@ mkdirP.sync = function sync (p, opts, made) {
 
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright 2016 Joyent, Inc.
@@ -39191,19 +39695,19 @@ module.exports = Certificate;
 var assert = __webpack_require__(11);
 var algs = __webpack_require__(22);
 var crypto = __webpack_require__(8);
-var Fingerprint = __webpack_require__(116);
+var Fingerprint = __webpack_require__(117);
 var Signature = __webpack_require__(46);
 var errs = __webpack_require__(45);
 var util = __webpack_require__(2);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
-var Identity = __webpack_require__(118);
+var Identity = __webpack_require__(119);
 
 var formats = {};
-formats['openssh'] = __webpack_require__(649);
+formats['openssh'] = __webpack_require__(650);
 formats['x509'] = __webpack_require__(323);
-formats['pem'] = __webpack_require__(650);
+formats['pem'] = __webpack_require__(651);
 
 var CertificateParseError = errs.CertificateParseError;
 var InvalidAlgorithmError = errs.InvalidAlgorithmError;
@@ -39564,7 +40068,7 @@ Certificate._oldVersionDetect = function (obj) {
 
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright 2015 Joyent, Inc.
@@ -39576,8 +40080,8 @@ var algs = __webpack_require__(22);
 var crypto = __webpack_require__(8);
 var errs = __webpack_require__(45);
 var Key = __webpack_require__(23);
-var Certificate = __webpack_require__(115);
-var utils = __webpack_require__(18);
+var Certificate = __webpack_require__(116);
+var utils = __webpack_require__(19);
 
 var FingerprintFormatError = errs.FingerprintFormatError;
 var InvalidAlgorithmError = errs.InvalidAlgorithmError;
@@ -39731,7 +40235,7 @@ Fingerprint._oldVersionDetect = function (obj) {
 
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright 2015 Joyent, Inc.
@@ -39749,7 +40253,7 @@ module.exports = {
 var assert = __webpack_require__(11);
 var asn1 = __webpack_require__(50);
 var algs = __webpack_require__(22);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
 var pem = __webpack_require__(58);
@@ -40242,7 +40746,7 @@ function writePkcs8ECDSAPrivate(key, der) {
 
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright 2017 Joyent, Inc.
@@ -40252,11 +40756,11 @@ module.exports = Identity;
 var assert = __webpack_require__(11);
 var algs = __webpack_require__(22);
 var crypto = __webpack_require__(8);
-var Fingerprint = __webpack_require__(116);
+var Fingerprint = __webpack_require__(117);
 var Signature = __webpack_require__(46);
 var errs = __webpack_require__(45);
 var util = __webpack_require__(2);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var asn1 = __webpack_require__(50);
 
 /*JSSTYLED*/
@@ -40525,7 +41029,7 @@ Identity._oldVersionDetect = function (obj) {
 
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40546,13 +41050,13 @@ module.exports = x => {
 
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports) {
 
 module.exports = require("buffer");
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40600,19 +41104,19 @@ function _load_lockfile() {
 var _normalizePattern2;
 
 function _load_normalizePattern() {
-  return _normalizePattern2 = __webpack_require__(29);
+  return _normalizePattern2 = __webpack_require__(31);
 }
 
 var _workspaceLayout;
 
 function _load_workspaceLayout() {
-  return _workspaceLayout = _interopRequireDefault(__webpack_require__(80));
+  return _workspaceLayout = _interopRequireDefault(__webpack_require__(81));
 }
 
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(35);
+  return _index = __webpack_require__(36);
 }
 
 var _list;
@@ -40624,7 +41128,7 @@ function _load_list() {
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 var _errors;
@@ -40636,7 +41140,7 @@ function _load_errors() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _fs;
@@ -40648,7 +41152,7 @@ function _load_fs() {
 var _invariant;
 
 function _load_invariant() {
-  return _invariant = _interopRequireDefault(__webpack_require__(7));
+  return _invariant = _interopRequireDefault(__webpack_require__(6));
 }
 
 var _path;
@@ -40660,7 +41164,7 @@ function _load_path() {
 var _semver;
 
 function _load_semver() {
-  return _semver = _interopRequireDefault(__webpack_require__(20));
+  return _semver = _interopRequireDefault(__webpack_require__(17));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -40673,16 +41177,6 @@ class Add extends (_install || _load_install()).Install {
     this.args = args;
     // only one flag is supported, so we can figure out which one was passed to `yarn add`
     this.flagToOrigin = [flags.dev && 'devDependencies', flags.optional && 'optionalDependencies', flags.peer && 'peerDependencies', 'dependencies'].filter(Boolean).shift();
-
-    if (this.config.workspaceRootFolder && this.config.cwd === this.config.workspaceRootFolder) {
-      this.setIgnoreWorkspaces(true);
-      // flagsToOrgin defaults to being a hard `dependency` when no flags are passed (see above),
-      // so it incorrectly throws a warning when upgrading existing devDependencies in workspace root
-      // To allow for a successful upgrade, override flagsToOrigin when `existing` flag is passed by `upgrade` command
-      if (flags.existing) {
-        this.flagToOrigin = '';
-      }
-    }
   }
 
   /**
@@ -40781,10 +41275,11 @@ class Add extends (_install || _load_install()).Install {
     var _this2 = this;
 
     return (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
-      if (_this2.ignoreWorkspaces) {
-        if (_this2.flagToOrigin === 'dependencies') {
-          throw new (_errors || _load_errors()).MessageError(_this2.reporter.lang('workspacesPreferDevDependencies'));
-        }
+      const isWorkspaceRoot = _this2.config.workspaceRootFolder && _this2.config.cwd === _this2.config.workspaceRootFolder;
+
+      // running "yarn add something" in a workspace root is often a mistake
+      if (isWorkspaceRoot && !_this2.flags.ignoreWorkspaceRootCheck) {
+        throw new (_errors || _load_errors()).MessageError(_this2.reporter.lang('workspacesAddRootCheck'));
       }
 
       _this2.addedPatterns = [];
@@ -40865,6 +41360,10 @@ class Add extends (_install || _load_install()).Install {
 
         object[target] = object[target] || {};
         object[target][pkg.name] = version;
+
+        if (target !== _this4.flagToOrigin) {
+          _this4.reporter.warn(_this4.reporter.lang('moduleAlreadyInManifest', pkg.name, depType, _this4.flagToOrigin));
+        }
       }
 
       yield _this4.config.saveRootManifests(manifests);
@@ -40879,6 +41378,7 @@ function hasWrapper(commander) {
 
 function setFlags(commander) {
   commander.usage('add [packages ...] [flags]');
+  commander.option('-W, --ignore-workspace-root-check', 'required to run yarn add inside a workspace root');
   commander.option('-D, --dev', 'save package to your `devDependencies`');
   commander.option('-P, --peer', 'save package to your `peerDependencies`');
   commander.option('-O, --optional', 'save package to your `optionalDependencies`');
@@ -40887,7 +41387,7 @@ function setFlags(commander) {
 }
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40906,13 +41406,13 @@ function _load_asyncToGenerator() {
 var _index;
 
 function _load_index() {
-  return _index = _interopRequireDefault(__webpack_require__(168));
+  return _index = _interopRequireDefault(__webpack_require__(169));
 }
 
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _fs;
@@ -40998,7 +41498,7 @@ class BaseFetcher {
 exports.default = BaseFetcher;
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41041,13 +41541,13 @@ class HashStream extends stream.Transform {
 exports.HashStream = HashStream;
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Load modules
 
 var Http = __webpack_require__(49);
-var Hoek = __webpack_require__(133);
+var Hoek = __webpack_require__(134);
 
 
 // Declare internals
@@ -41365,12 +41865,12 @@ exports.badImplementation = function (message, data) {
 
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const escapeStringRegexp = __webpack_require__(206);
+const escapeStringRegexp = __webpack_require__(207);
 const ansiStyles = __webpack_require__(374);
 const supportsColor = __webpack_require__(460);
 
@@ -41592,7 +42092,7 @@ module.exports.supportsColor = supportsColor;
 
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
@@ -41602,11 +42102,11 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 };
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
-var Iterators  = __webpack_require__(31)
+var Iterators  = __webpack_require__(32)
   , ITERATOR   = __webpack_require__(9)('iterator')
   , ArrayProto = Array.prototype;
 
@@ -41615,7 +42115,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
@@ -41632,7 +42132,7 @@ module.exports = function(iterator, fn, value, entries){
 };
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ITERATOR     = __webpack_require__(9)('iterator')
@@ -41658,11 +42158,11 @@ module.exports = function(exec, skipClosing){
 };
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys       = __webpack_require__(192)
+var $keys       = __webpack_require__(193)
   , enumBugKeys = __webpack_require__(100);
 
 module.exports = Object.keys || function keys(O){
@@ -41670,7 +42170,7 @@ module.exports = Object.keys || function keys(O){
 };
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Basic Javascript Elliptic Curve implementation
@@ -42237,13 +42737,13 @@ module.exports = exports
 
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Load modules
 
 var Sntp = __webpack_require__(318);
-var Boom = __webpack_require__(124);
+var Boom = __webpack_require__(125);
 
 
 // Declare internals
@@ -42427,7 +42927,7 @@ exports.unauthorized = function (message, attributes) {
 
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Load modules
@@ -43426,12 +43926,12 @@ exports.shallow = function (source) {
 
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright 2012 Joyent, Inc.  All rights reserved.
 
-var assert = __webpack_require__(135);
+var assert = __webpack_require__(136);
 var sshpk = __webpack_require__(229);
 var util = __webpack_require__(2);
 
@@ -43544,13 +44044,13 @@ module.exports = {
 
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright (c) 2012, Mark Cavage. All rights reserved.
 // Copyright 2015 Joyent, Inc.
 
-var assert = __webpack_require__(19);
+var assert = __webpack_require__(20);
 var Stream = __webpack_require__(25).Stream;
 var util = __webpack_require__(2);
 
@@ -43756,13 +44256,13 @@ module.exports = _setExports(process.env.NODE_NDEBUG);
 
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var chalk = __webpack_require__(33);
-var figures = __webpack_require__(208);
+var chalk = __webpack_require__(34);
+var figures = __webpack_require__(209);
 
 /**
  * Separator object
@@ -43797,14 +44297,14 @@ Separator.prototype.toString = function () {
 
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var _ = __webpack_require__(27);
-var chalk = __webpack_require__(33);
+var chalk = __webpack_require__(34);
 
 /**
  * The paginator keep trakcs of a pointer index in a list and return
@@ -43842,7 +44342,7 @@ Paginator.prototype.paginate = function (output, active, pageSize) {
 
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports) {
 
 /*!
@@ -43859,7 +44359,7 @@ module.exports = function isExtglob(str) {
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -43869,7 +44369,7 @@ module.exports = function isExtglob(str) {
  * Licensed under the MIT License.
  */
 
-var isExtglob = __webpack_require__(138);
+var isExtglob = __webpack_require__(139);
 
 module.exports = function isGlob(str) {
   return typeof str === 'string'
@@ -43878,7 +44378,7 @@ module.exports = function isGlob(str) {
 };
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44366,7 +44866,7 @@ module.exports = ns;
 
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44387,7 +44887,7 @@ module.exports = ns;
  * You should have received a copy of the license along with this program.
  */
 
-var core = __webpack_require__(140);
+var core = __webpack_require__(141);
 
     /**
      * @exports jodid25519/utils
@@ -44571,7 +45071,7 @@ module.exports = ns;
 
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44639,27 +45139,27 @@ runAsync.cb = function (func, cb) {
 
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Rx = __webpack_require__(40);
-__webpack_require__(633);
 __webpack_require__(634);
 __webpack_require__(635);
-__webpack_require__(315);
 __webpack_require__(636);
+__webpack_require__(315);
 __webpack_require__(637);
 __webpack_require__(638);
 __webpack_require__(639);
-__webpack_require__(316);
 __webpack_require__(640);
+__webpack_require__(316);
 __webpack_require__(641);
+__webpack_require__(642);
 
 module.exports = Rx;
 
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright 2015 Joyent, Inc.
@@ -44673,14 +45173,14 @@ module.exports = {
 var assert = __webpack_require__(11);
 var asn1 = __webpack_require__(50);
 var algs = __webpack_require__(22);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var crypto = __webpack_require__(8);
 
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
 var pem = __webpack_require__(58);
 var rfc4253 = __webpack_require__(75);
-var SSHBuffer = __webpack_require__(145);
+var SSHBuffer = __webpack_require__(146);
 var errors = __webpack_require__(45);
 
 var bcrypt;
@@ -44926,7 +45426,7 @@ function write(key, options) {
 
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright 2015 Joyent, Inc.
@@ -45080,13 +45580,13 @@ SSHBuffer.prototype.write = function (buf) {
 
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var chownr = __webpack_require__(462)
 var tar = __webpack_require__(325)
 var pump = __webpack_require__(304)
-var mkdirp = __webpack_require__(114)
+var mkdirp = __webpack_require__(115)
 var fs = __webpack_require__(5)
 var path = __webpack_require__(0)
 var os = __webpack_require__(41)
@@ -45409,7 +45909,7 @@ function mkdirfix (name, opts, cb) {
 
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function(nacl) {
@@ -47803,13 +48303,13 @@ nacl.setPRNG = function(fn) {
 
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports) {
 
 module.exports = {
 	"name": "yarn",
 	"installationMethod": "unknown",
-	"version": "1.1.0",
+	"version": "1.3.2",
 	"license": "BSD-2-Clause",
 	"preferGlobal": true,
 	"description": "📦🐈 Fast, reliable, and secure dependency management.",
@@ -47844,6 +48344,7 @@ module.exports = {
 		"normalize-url": "^1.9.1",
 		"object-path": "^0.11.2",
 		"proper-lockfile": "^2.0.0",
+		"puka": "^1.0.0",
 		"read": "^1.0.7",
 		"request": "^2.81.0",
 		"request-capture-har": "^1.2.2",
@@ -47868,6 +48369,8 @@ module.exports = {
 		"babel-preset-node5": "^10.2.0",
 		"babel-preset-stage-0": "^6.0.0",
 		"babylon": "^6.5.0",
+		"commitizen": "^2.9.6",
+		"cz-conventional-changelog": "^2.0.0",
 		"eslint": "^4.3.0",
 		"eslint-config-fb-strict": "^20.1.0-delta.3",
 		"eslint-plugin-babel": "^4.0.0",
@@ -47916,8 +48419,10 @@ module.exports = {
 		"release-branch": "./scripts/release-branch.sh",
 		"test": "yarn lint && yarn test-only",
 		"test-ci": "yarn build && yarn test-only",
-		"test-only": "node --max_old_space_size=4096 node_modules/jest/bin/jest.js --coverage --verbose",
-		"watch": "gulp watch"
+		"test-only": "node --max_old_space_size=4096 node_modules/jest/bin/jest.js --verbose",
+		"test-coverage": "node --max_old_space_size=4096 node_modules/jest/bin/jest.js --coverage --verbose",
+		"watch": "gulp watch",
+		"commit": "git-cz"
 	},
 	"jest": {
 		"collectCoverageFrom": [
@@ -47932,35 +48437,40 @@ module.exports = {
 			"updates/",
 			"/_(temp|mock|install|init|helpers).js$"
 		]
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
 	}
 };
-
-/***/ }),
-/* 149 */
-/***/ (function(module, exports) {
-
-module.exports = require("child_process");
 
 /***/ }),
 /* 150 */
 /***/ (function(module, exports) {
 
-module.exports = require("https");
+module.exports = require("child_process");
 
 /***/ }),
 /* 151 */
 /***/ (function(module, exports) {
 
-module.exports = require("querystring");
+module.exports = require("https");
 
 /***/ }),
 /* 152 */
 /***/ (function(module, exports) {
 
-module.exports = require("readline");
+module.exports = require("querystring");
 
 /***/ }),
 /* 153 */
+/***/ (function(module, exports) {
+
+module.exports = require("readline");
+
+/***/ }),
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47980,13 +48490,13 @@ function _load_misc() {
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 var _package;
 
 function _load_package() {
-  return _package = __webpack_require__(148);
+  return _package = __webpack_require__(149);
 }
 
 const NODE_VERSION = process.version;
@@ -48095,7 +48605,7 @@ function stringify(obj, noHeader, enableVersions) {
 }
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48147,7 +48657,7 @@ Object.defineProperty(exports, 'EventReporter', {
 var _jsonReporter;
 
 function _load_jsonReporter() {
-  return _jsonReporter = __webpack_require__(162);
+  return _jsonReporter = __webpack_require__(163);
 }
 
 Object.defineProperty(exports, 'JSONReporter', {
@@ -48173,7 +48683,7 @@ Object.defineProperty(exports, 'NoopReporter', {
 var _baseReporter;
 
 function _load_baseReporter() {
-  return _baseReporter = __webpack_require__(77);
+  return _baseReporter = __webpack_require__(78);
 }
 
 Object.defineProperty(exports, 'Reporter', {
@@ -48186,7 +48696,7 @@ Object.defineProperty(exports, 'Reporter', {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports) {
 
 // Copyright 2011 Mark Cavage <mcavage@gmail.com> All rights reserved.
@@ -48205,7 +48715,7 @@ module.exports = {
 
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports) {
 
 // Copyright 2011 Mark Cavage <mcavage@gmail.com> All rights reserved.
@@ -48247,7 +48757,7 @@ module.exports = {
 
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48437,7 +48947,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const zlib = __webpack_require__(232);
 const path = __webpack_require__(0);
-const tar = __webpack_require__(146);
+const tar = __webpack_require__(147);
 const fs2 = __webpack_require__(5);
 
 const FOLDERS_IGNORE = [
@@ -48462,7 +48972,7 @@ function hasWrapper(commander, args) {
 }
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48481,29 +48991,35 @@ function _load_asyncToGenerator() {
 
 let run = exports.run = (() => {
   var _ref = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (config, reporter, flags, args) {
-    const lockfile = yield (_lockfile || _load_lockfile()).default.fromDirectory(config.lockfileFolder);
-    const deps = yield getOutdated(config, reporter, flags, lockfile, args);
-
-    // do not pass the --latest flag to add, otherwise it may ignore the version ranges we already determined.
-    const addFlags = Object.assign({}, flags, { force: true, latest: false, existing: true });
-
-    setUserRequestedPackageVersions(deps, args);
-
-    if (!deps.length) {
-      reporter.success(reporter.lang('allDependenciesUpToDate'));
-      return;
-    }
-
-    // remove deps being upgraded from the lockfile, or else Add will use the already-installed version
-    // instead of the latest for the range.
-    deps.forEach(function (dep) {
-      return lockfile.removePattern(dep.upgradeTo);
+    let addArgs = [];
+    const upgradeAll = args.length === 0;
+    const addFlags = Object.assign({}, flags, {
+      force: true,
+      ignoreWorkspaceRootCheck: true,
+      workspaceRootIsCwd: config.cwd === config.lockfileFolder
     });
+    const lockfile = yield (_lockfile || _load_lockfile()).default.fromDirectory(config.lockfileFolder, reporter);
+    const deps = yield getOutdated(config, reporter, flags, lockfile, args);
+    const install = new (_install || _load_install()).Install(flags, config, reporter, lockfile);
 
-    const addArgs = deps.map(function (dep) {
+    var _ref2 = yield install.fetchRequestFromCwd();
+
+    const packagePatterns = _ref2.requests;
+
+
+    setUserRequestedPackageVersions(deps, args, flags.latest, packagePatterns, reporter);
+    cleanLockfile(lockfile, deps, packagePatterns, reporter);
+    addArgs = deps.map(function (dep) {
       return dep.upgradeTo;
     });
-    const add = new (_add || _load_add()).Add(addArgs, addFlags, config, reporter, lockfile);
+
+    if (flags.scope && validScopeRegex.test(flags.scope)) {
+      addArgs = addArgs.filter(function (depName) {
+        return depName.startsWith(flags.scope);
+      });
+    }
+
+    const add = new (_add || _load_add()).Add(addArgs, addFlags, config, reporter, upgradeAll ? new (_lockfile || _load_lockfile()).default() : lockfile);
     yield add.init();
   });
 
@@ -48513,43 +49029,9 @@ let run = exports.run = (() => {
 })();
 
 let getOutdated = exports.getOutdated = (() => {
-  var _ref2 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (config, reporter, flags, lockfile, patterns) {
+  var _ref3 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (config, reporter, flags, lockfile, patterns) {
     const install = new (_install || _load_install()).Install(flags, config, reporter, lockfile);
     const outdatedFieldName = flags.latest ? 'latest' : 'wanted';
-
-    // this function attempts to determine the range operator on the semver range.
-    // this will only handle the simple cases of a semver starting with '^', '~', '>', '>=', '<=', or an exact version.
-    // "exotic" semver ranges will not be handled.
-    const getRangeOperator = function (version) {
-      const result = basicSemverOperatorRegex.exec(version);
-      return result ? result[1] || '' : '^';
-    };
-
-    // Attempt to preserve the range operator from the package.json specified semver range.
-    // If an explicit operator was specified using --exact, --tilde, --caret, then that will take precedence.
-    const buildPatternToUpgradeTo = function (dep, flags) {
-      if (dep.latest === 'exotic') {
-        return dep.url;
-      }
-
-      const toLatest = flags.latest;
-      const toVersion = toLatest ? dep.latest : dep.range;
-      let rangeOperator = '';
-
-      if (toLatest) {
-        if (flags.caret) {
-          rangeOperator = '^';
-        } else if (flags.tilde) {
-          rangeOperator = '~';
-        } else if (flags.exact) {
-          rangeOperator = '';
-        } else {
-          rangeOperator = getRangeOperator(dep.range);
-        }
-      }
-
-      return `${dep.name}@${rangeOperator}${toVersion}`;
-    };
 
     // ensure scope is of the form `@scope/`
     const normalizeScope = function () {
@@ -48568,14 +49050,6 @@ let getOutdated = exports.getOutdated = (() => {
       return dep.current !== dep[outdatedFieldName];
     };
 
-    const scopeFilter = function (dep) {
-      if (validScopeRegex.test(flags.scope)) {
-        return dep.name.startsWith(flags.scope);
-      }
-
-      return true;
-    };
-
     if (!flags.latest) {
       // these flags only have an affect when --latest is used
       flags.tilde = false;
@@ -48585,26 +49059,28 @@ let getOutdated = exports.getOutdated = (() => {
 
     normalizeScope();
 
-    const deps = (yield (_packageRequest || _load_packageRequest()).default.getOutdatedPackages(lockfile, install, config, reporter, patterns)).filter(versionFilter).filter(scopeFilter);
+    const deps = (yield (_packageRequest || _load_packageRequest()).default.getOutdatedPackages(lockfile, install, config, reporter, patterns, flags)).filter(versionFilter).filter(scopeFilter.bind(this, flags));
     deps.forEach(function (dep) {
-      return dep.upgradeTo = buildPatternToUpgradeTo(dep, flags);
+      dep.upgradeTo = buildPatternToUpgradeTo(dep, flags);
+      reporter.verbose(reporter.lang('verboseUpgradeBecauseOutdated', dep.name, dep.upgradeTo));
     });
 
     return deps;
   });
 
   return function getOutdated(_x5, _x6, _x7, _x8, _x9) {
-    return _ref2.apply(this, arguments);
+    return _ref3.apply(this, arguments);
   };
 })();
 
+exports.cleanLockfile = cleanLockfile;
 exports.setFlags = setFlags;
 exports.hasWrapper = hasWrapper;
 
 var _add;
 
 function _load_add() {
-  return _add = __webpack_require__(121);
+  return _add = __webpack_require__(122);
 }
 
 var _lockfile;
@@ -48622,13 +49098,13 @@ function _load_packageRequest() {
 var _normalizePattern;
 
 function _load_normalizePattern() {
-  return _normalizePattern = __webpack_require__(29);
+  return _normalizePattern = __webpack_require__(31);
 }
 
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -48638,23 +49114,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const basicSemverOperatorRegex = new RegExp('^(\\^|~|>|<=|>=)?[^ |&,]+$');
 
 // used to detect if a passed parameter is a scope or a package name.
-const validScopeRegex = /^@[a-zA-Z0-9-][a-zA-Z0-9_.-]*\/$/g;
+
+
+const validScopeRegex = /^@[a-zA-Z0-9-][a-zA-Z0-9_.-]*\/$/;
 
 // If specific versions were requested for packages, override what getOutdated reported as the latest to install
 // Also add ones that are missing, since the requested packages may not have been outdated at all.
-function setUserRequestedPackageVersions(deps, args) {
+function setUserRequestedPackageVersions(deps, args, latest, packagePatterns, reporter) {
   args.forEach(requestedPattern => {
-    const normalized = (0, (_normalizePattern || _load_normalizePattern()).normalizePattern)(requestedPattern);
-    const newPattern = `${normalized.name}@${normalized.range}`;
     let found = false;
+    let normalized = (0, (_normalizePattern || _load_normalizePattern()).normalizePattern)(requestedPattern);
 
+    // if the user specified a package name without a version range, then that implies "latest"
+    // but if the latest flag is not passed then we need to use the version range from package.json
+    if (!normalized.hasVersion && !latest) {
+      packagePatterns.forEach(packagePattern => {
+        const packageNormalized = (0, (_normalizePattern || _load_normalizePattern()).normalizePattern)(packagePattern.pattern);
+        if (packageNormalized.name === normalized.name) {
+          normalized = packageNormalized;
+        }
+      });
+    }
+
+    const newPattern = `${normalized.name}@${normalized.range}`;
+
+    // if this dependency is already in the outdated list,
+    // just update the upgradeTo to whatever version the user requested.
     deps.forEach(dep => {
       if (normalized.hasVersion && dep.name === normalized.name) {
         found = true;
         dep.upgradeTo = newPattern;
+        reporter.verbose(reporter.lang('verboseUpgradeBecauseRequested', requestedPattern, newPattern));
       }
     });
 
+    // if this dependency was not in the outdated list,
+    // then add a new entry
     if (normalized.hasVersion && !found) {
       deps.push({
         name: normalized.name,
@@ -48664,10 +49159,78 @@ function setUserRequestedPackageVersions(deps, args) {
         hint: '',
         range: '',
         current: '',
-        upgradeTo: newPattern
+        upgradeTo: newPattern,
+        workspaceName: '',
+        workspaceLoc: ''
       });
+      reporter.verbose(reporter.lang('verboseUpgradeBecauseRequested', requestedPattern, newPattern));
     }
   });
+}
+
+// this function attempts to determine the range operator on the semver range.
+// this will only handle the simple cases of a semver starting with '^', '~', '>', '>=', '<=', or an exact version.
+// "exotic" semver ranges will not be handled.
+function getRangeOperator(version) {
+  const result = basicSemverOperatorRegex.exec(version);
+  return result ? result[1] || '' : '^';
+}
+
+// Attempt to preserve the range operator from the package.json specified semver range.
+// If an explicit operator was specified using --exact, --tilde, --caret, then that will take precedence.
+function buildPatternToUpgradeTo(dep, flags) {
+  if (dep.latest === 'exotic') {
+    return dep.url;
+  }
+
+  const toLatest = flags.latest;
+  const toVersion = toLatest ? dep.latest : dep.range;
+  let rangeOperator = '';
+
+  if (toLatest) {
+    if (flags.caret) {
+      rangeOperator = '^';
+    } else if (flags.tilde) {
+      rangeOperator = '~';
+    } else if (flags.exact) {
+      rangeOperator = '';
+    } else {
+      rangeOperator = getRangeOperator(dep.range);
+    }
+  }
+
+  return `${dep.name}@${rangeOperator}${toVersion}`;
+}
+
+function scopeFilter(flags, dep) {
+  if (validScopeRegex.test(flags.scope)) {
+    return dep.name.startsWith(flags.scope);
+  }
+  return true;
+}
+
+// Remove deps being upgraded from the lockfile, or else Add will use the already-installed version
+// instead of the latest for the range.
+// We do this recursively so that when Yarn installs the potentially updated transitive deps,
+// it may upgrade them too instead of just using the "locked" version from the lockfile.
+// Transitive dependencies that are also a direct dependency are skipped.
+function cleanLockfile(lockfile, deps, packagePatterns, reporter) {
+  function cleanDepFromLockfile(pattern, depth) {
+    const lockManifest = lockfile.getLocked(pattern);
+    if (!lockManifest || depth > 1 && packagePatterns.some(packagePattern => packagePattern.pattern === pattern)) {
+      reporter.verbose(reporter.lang('verboseUpgradeNotUnlocking', pattern));
+      return;
+    }
+
+    const dependencies = Object.assign({}, lockManifest.dependencies || {}, lockManifest.optionalDependencies || {});
+    const depPatterns = Object.keys(dependencies).map(key => `${key}@${dependencies[key]}`);
+    reporter.verbose(reporter.lang('verboseUpgradeUnlocking', pattern));
+    lockfile.removePattern(pattern);
+    depPatterns.forEach(pattern => cleanDepFromLockfile(pattern, depth + 1));
+  }
+
+  const patterns = deps.map(dep => dep.upgradeTo);
+  patterns.forEach(pattern => cleanDepFromLockfile(pattern, 1));
 }
 
 function setFlags(commander) {
@@ -48675,6 +49238,7 @@ function setFlags(commander) {
   commander.option('-S, --scope <scope>', 'upgrade packages under the specified scope');
   commander.option('-L, --latest', 'list the latest version of packages, ignoring version ranges in package.json');
   commander.option('-E, --exact', 'install exact version. Only used when --latest is specified.');
+  commander.option('-P, --pattern [pattern]', 'upgrade packages that match pattern');
   commander.option('-T, --tilde', 'install most recent release with the same minor version. Only used when --latest is specified.');
   commander.option('-C, --caret', 'install most recent release with the same major version. Only used when --latest is specified.');
 }
@@ -48686,7 +49250,7 @@ function hasWrapper(commander, args) {
 const requireLockfile = exports.requireLockfile = true;
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48700,7 +49264,7 @@ exports.integrityErrors = undefined;
 var _extends2;
 
 function _load_extends() {
-  return _extends2 = _interopRequireDefault(__webpack_require__(36));
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
 }
 
 var _asyncToGenerator2;
@@ -48712,7 +49276,7 @@ function _load_asyncToGenerator() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _fs;
@@ -48730,14 +49294,14 @@ function _load_misc() {
 var _workspaceLayout;
 
 function _load_workspaceLayout() {
-  return _workspaceLayout = _interopRequireDefault(__webpack_require__(80));
+  return _workspaceLayout = _interopRequireDefault(__webpack_require__(81));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 const path = __webpack_require__(0);
 
 const integrityErrors = exports.integrityErrors = {
@@ -48747,10 +49311,12 @@ const integrityErrors = exports.integrityErrors = {
   FLAGS_DONT_MATCH: 'integrityFlagsDontMatch',
   LINKED_MODULES_DONT_MATCH: 'integrityCheckLinkedModulesDontMatch',
   PATTERNS_DONT_MATCH: 'integrityPatternsDontMatch',
-  MODULES_FOLDERS_MISSING: 'integrityModulesFoldersMissing'
+  MODULES_FOLDERS_MISSING: 'integrityModulesFoldersMissing',
+  NODE_VERSION_DOESNT_MATCH: 'integrityNodeDoesntMatch'
 };
 
 const INTEGRITY_FILE_DEFAULTS = () => ({
+  nodeVersion: process.version,
   modulesFolders: [],
   flags: [],
   linkedModules: [],
@@ -49002,6 +49568,10 @@ class InstallationIntegrityChecker {
       return 'LINKED_MODULES_DONT_MATCH';
     }
 
+    if (actual.nodeVersion !== expected.nodeVersion) {
+      return 'NODE_VERSION_DOESNT_MATCH';
+    }
+
     let relevantExpectedFlags = expected.flags.slice();
 
     // If we run "yarn" after "yarn --check-files", we shouldn't fail the less strict validation
@@ -49090,7 +49660,8 @@ class InstallationIntegrityChecker {
         integrityFileMissing: false,
         integrityMatches: integrityMatches === 'OK',
         integrityError: integrityMatches === 'OK' ? undefined : integrityMatches,
-        missingPatterns
+        missingPatterns,
+        hardRefreshRequired: integrityMatches === 'NODE_VERSION_DOESNT_MATCH'
       };
     })();
   }
@@ -49150,7 +49721,7 @@ class InstallationIntegrityChecker {
 exports.default = InstallationIntegrityChecker;
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49203,7 +49774,7 @@ function _load_packageHoister() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _promise;
@@ -49239,14 +49810,14 @@ function _load_semver() {
 var _workspaceLayout;
 
 function _load_workspaceLayout() {
-  return _workspaceLayout = _interopRequireDefault(__webpack_require__(80));
+  return _workspaceLayout = _interopRequireDefault(__webpack_require__(81));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 const cmdShim = (_promise || _load_promise()).promisify(__webpack_require__(465));
 const path = __webpack_require__(0);
@@ -49478,30 +50049,44 @@ class PackageLinker {
         }
       }
 
-      // keep track of all scoped paths to remove empty scopes after copy
+      const possibleExtraneous = new Set();
       const scopedPaths = new Set();
 
-      // register root & scoped packages as being possibly extraneous
-      const possibleExtraneous = new Set();
-      for (const folder of _this2.config.registryFolders) {
-        const loc = path.join(_this2.config.cwd, folder);
+      const findExtraneousFiles = (() => {
+        var _ref11 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (basePath) {
+          for (const folder of _this2.config.registryFolders) {
+            const loc = path.join(basePath, folder);
 
-        if (yield (_fs || _load_fs()).exists(loc)) {
-          const files = yield (_fs || _load_fs()).readdir(loc);
-          let filepath;
-          for (const file of files) {
-            filepath = path.join(loc, file);
-            if (file[0] === '@') {
-              // it's a scope, not a package
-              scopedPaths.add(filepath);
-              const subfiles = yield (_fs || _load_fs()).readdir(filepath);
-              for (const subfile of subfiles) {
-                possibleExtraneous.add(path.join(filepath, subfile));
+            if (yield (_fs || _load_fs()).exists(loc)) {
+              const files = yield (_fs || _load_fs()).readdir(loc);
+
+              for (const file of files) {
+                const filepath = path.join(loc, file);
+
+                // it's a scope, not a package
+                if (file[0] === '@') {
+                  scopedPaths.add(filepath);
+
+                  for (const subfile of yield (_fs || _load_fs()).readdir(filepath)) {
+                    possibleExtraneous.add(path.join(filepath, subfile));
+                  }
+                } else {
+                  possibleExtraneous.add(filepath);
+                }
               }
-            } else {
-              possibleExtraneous.add(filepath);
             }
           }
+        });
+
+        return function findExtraneousFiles(_x5) {
+          return _ref11.apply(this, arguments);
+        };
+      })();
+
+      yield findExtraneousFiles(_this2.config.lockfileFolder);
+      if (workspaceLayout) {
+        for (const workspaceName of Object.keys(workspaceLayout.workspaces)) {
+          yield findExtraneousFiles(workspaceLayout.workspaces[workspaceName].loc);
         }
       }
 
@@ -49530,8 +50115,13 @@ class PackageLinker {
         const stat = yield (_fs || _load_fs()).lstat(entryPath);
 
         if (stat.isSymbolicLink()) {
-          const packageName = entry;
-          linkTargets.set(packageName, (yield (_fs || _load_fs()).readlink(entryPath)));
+          try {
+            const entryTarget = yield (_fs || _load_fs()).realpath(entryPath);
+            linkTargets.set(entry, entryTarget);
+          } catch (err) {
+            _this2.reporter.warn(_this2.reporter.lang('linkTargetMissing', entry));
+            yield (_fs || _load_fs()).unlink(entryPath);
+          }
         } else if (stat.isDirectory() && entry[0] === '@') {
           // if the entry is directory beginning with '@', then we're dealing with a package scope, which
           // means we must iterate inside to retrieve the package names it contains
@@ -49543,7 +50133,13 @@ class PackageLinker {
 
             if (stat2.isSymbolicLink()) {
               const packageName = `${scopeName}/${entry2}`;
-              linkTargets.set(packageName, (yield (_fs || _load_fs()).readlink(entryPath2)));
+              try {
+                const entryTarget = yield (_fs || _load_fs()).realpath(entryPath2);
+                linkTargets.set(packageName, entryTarget);
+              } catch (err) {
+                _this2.reporter.warn(_this2.reporter.lang('linkTargetMissing', packageName));
+                yield (_fs || _load_fs()).unlink(entryPath2);
+              }
             }
           }
         }
@@ -49557,7 +50153,7 @@ class PackageLinker {
           packageName = `${scopeName}/${packageName}`;
         }
 
-        if ((yield (_fs || _load_fs()).lstat(loc)).isSymbolicLink() && linkTargets.has(packageName) && linkTargets.get(packageName) === (yield (_fs || _load_fs()).readlink(loc))) {
+        if ((yield (_fs || _load_fs()).lstat(loc)).isSymbolicLink() && linkTargets.has(packageName) && linkTargets.get(packageName) === (yield (_fs || _load_fs()).realpath(loc))) {
           possibleExtraneous.delete(loc);
           copyQueue.delete(loc);
         }
@@ -49617,11 +50213,11 @@ class PackageLinker {
 
         // create links in transient dependencies
         yield (_promise || _load_promise()).queue(flatTree, (() => {
-          var _ref11 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (_ref12) {
-            var _ref13 = (0, (_slicedToArray2 || _load_slicedToArray()).default)(_ref12, 2);
+          var _ref12 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (_ref13) {
+            var _ref14 = (0, (_slicedToArray2 || _load_slicedToArray()).default)(_ref13, 2);
 
-            let dest = _ref13[0],
-                pkg = _ref13[1].pkg;
+            let dest = _ref14[0],
+                pkg = _ref14[1].pkg;
 
             if (pkg._reference && pkg._reference.location) {
               const binLoc = path.join(dest, _this2.config.getFolder(pkg));
@@ -49630,36 +50226,36 @@ class PackageLinker {
             }
           });
 
-          return function (_x5) {
-            return _ref11.apply(this, arguments);
+          return function (_x6) {
+            return _ref12.apply(this, arguments);
           };
         })(), linkBinConcurrency);
 
         // create links at top level for all dependencies.
         yield (_promise || _load_promise()).queue(topLevelDependencies, (() => {
-          var _ref14 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (_ref15) {
-            var _ref16 = (0, (_slicedToArray2 || _load_slicedToArray()).default)(_ref15, 2);
+          var _ref15 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (_ref16) {
+            var _ref17 = (0, (_slicedToArray2 || _load_slicedToArray()).default)(_ref16, 2);
 
-            let dest = _ref16[0],
-                pkg = _ref16[1];
+            let dest = _ref17[0],
+                pkg = _ref17[1];
 
             if (pkg._reference && pkg._reference.location && pkg.bin && Object.keys(pkg.bin).length) {
-              const binLoc = path.join(_this2.config.cwd, _this2.config.getFolder(pkg));
+              const binLoc = path.join(_this2.config.lockfileFolder, _this2.config.getFolder(pkg));
               yield _this2.linkSelfDependencies(pkg, dest, binLoc);
               tickBin();
             }
           });
 
-          return function (_x6) {
-            return _ref14.apply(this, arguments);
+          return function (_x7) {
+            return _ref15.apply(this, arguments);
           };
         })(), linkBinConcurrency);
       }
 
-      for (const _ref17 of flatTree) {
-        var _ref18 = (0, (_slicedToArray2 || _load_slicedToArray()).default)(_ref17, 2);
+      for (const _ref18 of flatTree) {
+        var _ref19 = (0, (_slicedToArray2 || _load_slicedToArray()).default)(_ref18, 2);
 
-        const pkg = _ref18[1].pkg;
+        const pkg = _ref19[1].pkg;
 
         yield _this2._warnForMissingBundledDependencies(pkg);
       }
@@ -49668,13 +50264,13 @@ class PackageLinker {
 
   determineTopLevelBinLinks(flatTree) {
     const linksToCreate = new Map();
-    for (const _ref19 of flatTree) {
-      var _ref20 = (0, (_slicedToArray2 || _load_slicedToArray()).default)(_ref19, 2);
+    for (const _ref20 of flatTree) {
+      var _ref21 = (0, (_slicedToArray2 || _load_slicedToArray()).default)(_ref20, 2);
 
-      const dest = _ref20[0];
-      var _ref20$ = _ref20[1];
-      const pkg = _ref20$.pkg;
-      const isDirectRequire = _ref20$.isDirectRequire;
+      const dest = _ref21[0];
+      var _ref21$ = _ref21[1];
+      const pkg = _ref21$.pkg;
+      const isDirectRequire = _ref21$.isDirectRequire;
       const name = pkg.name;
 
 
@@ -49694,6 +50290,21 @@ class PackageLinker {
       }
       const ref = pkg._reference;
       invariant(ref, 'Package reference is missing');
+      // TODO: We are taking the "shortest" ref tree but there may be multiple ref trees with the same length
+      const refTree = ref.requests.map(req => req.parentNames).sort((arr1, arr2) => arr1.length - arr2.length)[0];
+
+      const getLevelDistance = pkgRef => {
+        let minDistance = Infinity;
+        for (const req of pkgRef.requests) {
+          const distance = refTree.length - req.parentNames.length;
+
+          if (distance >= 0 && distance < minDistance && req.parentNames.every((name, idx) => name === refTree[idx])) {
+            minDistance = distance;
+          }
+        }
+
+        return minDistance;
+      };
 
       for (const peerDepName in peerDeps) {
         const range = peerDeps[peerDepName];
@@ -49701,28 +50312,28 @@ class PackageLinker {
 
         let peerError = 'unmetPeer';
         let resolvedLevelDistance = Infinity;
-        let resolvedPeerPkgPattern;
+        let resolvedPeerPkg;
         for (const peerPkg of peerPkgs) {
           const peerPkgRef = peerPkg._reference;
           if (!(peerPkgRef && peerPkgRef.patterns)) {
             continue;
           }
-          const levelDistance = ref.level - peerPkgRef.level;
-          if (levelDistance >= 0 && levelDistance < resolvedLevelDistance) {
+          const levelDistance = getLevelDistance(peerPkgRef);
+          if (isFinite(levelDistance) && levelDistance < resolvedLevelDistance) {
             if (this._satisfiesPeerDependency(range, peerPkgRef.version)) {
               resolvedLevelDistance = levelDistance;
-              resolvedPeerPkgPattern = peerPkgRef.patterns;
-              this.reporter.verbose(this.reporter.lang('selectedPeer', `${pkg.name}@${pkg.version}`, `${peerDepName}@${range}`, peerPkgRef.level));
+              resolvedPeerPkg = peerPkgRef;
             } else {
               peerError = 'incorrectPeer';
             }
           }
         }
 
-        if (resolvedPeerPkgPattern) {
-          ref.addDependencies(resolvedPeerPkgPattern);
+        if (resolvedPeerPkg) {
+          ref.addDependencies(resolvedPeerPkg.patterns);
+          this.reporter.verbose(this.reporter.lang('selectedPeer', `${pkg.name}@${pkg.version}`, `${peerDepName}@${resolvedPeerPkg.version}`, resolvedPeerPkg.level));
         } else {
-          this.reporter.warn(this.reporter.lang(peerError, `${pkg.name}@${pkg.version}`, `${peerDepName}@${range}`));
+          this.reporter.warn(this.reporter.lang(peerError, `${refTree.join(' > ')} > ${pkg.name}@${pkg.version}`, `${peerDepName}@${range}`));
         }
       }
     }
@@ -49753,10 +50364,10 @@ class PackageLinker {
   init(patterns, workspaceLayout) {
     var _this4 = this;
 
-    var _ref21 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var _ref22 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-    let linkDuplicates = _ref21.linkDuplicates,
-        ignoreOptional = _ref21.ignoreOptional;
+    let linkDuplicates = _ref22.linkDuplicates,
+        ignoreOptional = _ref22.ignoreOptional;
     return (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
       _this4.resolvePeerModules();
       yield _this4.copyModules(patterns, workspaceLayout, { linkDuplicates, ignoreOptional });
@@ -49766,7 +50377,7 @@ class PackageLinker {
 exports.default = PackageLinker;
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49780,10 +50391,17 @@ exports.toStartOfLine = toStartOfLine;
 exports.writeOnNthLine = writeOnNthLine;
 exports.clearNthLine = clearNthLine;
 
+var _tty;
 
-const readline = __webpack_require__(152);
+function _load_tty() {
+  return _tty = _interopRequireDefault(__webpack_require__(76));
+}
 
-var _require = __webpack_require__(125);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const readline = __webpack_require__(153);
+
+var _require = __webpack_require__(126);
 
 const supportsColor = _require.supportsColor;
 
@@ -49793,6 +50411,12 @@ const CLEAR_RIGHT_OF_CURSOR = 1;
 
 function clearLine(stdout) {
   if (!supportsColor) {
+    if (stdout instanceof (_tty || _load_tty()).default.WriteStream) {
+      if (stdout.columns > 0) {
+        stdout.write(`\r${' '.repeat(stdout.columns - 1)}`);
+      }
+      stdout.write(`\r`);
+    }
     return;
   }
 
@@ -49802,6 +50426,7 @@ function clearLine(stdout) {
 
 function toStartOfLine(stdout) {
   if (!supportsColor) {
+    stdout.write('\r');
     return;
   }
 
@@ -49843,7 +50468,7 @@ function clearNthLine(stdout, n) {
 }
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49856,13 +50481,13 @@ Object.defineProperty(exports, "__esModule", {
 var _extends2;
 
 function _load_extends() {
-  return _extends2 = _interopRequireDefault(__webpack_require__(36));
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
 }
 
 var _baseReporter;
 
 function _load_baseReporter() {
-  return _baseReporter = _interopRequireDefault(__webpack_require__(77));
+  return _baseReporter = _interopRequireDefault(__webpack_require__(78));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -50025,7 +50650,7 @@ class JSONReporter extends (_baseReporter || _load_baseReporter()).default {
 exports.default = JSONReporter;
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50051,13 +50676,13 @@ function _load_path() {
 var _invariant;
 
 function _load_invariant() {
-  return _invariant = _interopRequireDefault(__webpack_require__(7));
+  return _invariant = _interopRequireDefault(__webpack_require__(6));
 }
 
 var _uuid;
 
 function _load_uuid() {
-  return _uuid = _interopRequireDefault(__webpack_require__(88));
+  return _uuid = _interopRequireDefault(__webpack_require__(89));
 }
 
 var _errors;
@@ -50163,7 +50788,7 @@ FileResolver.protocol = 'file';
 FileResolver.prefixMatcher = /^\.{1,2}\//;
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50239,7 +50864,7 @@ exports.default = GistResolver;
 GistResolver.protocol = 'gist';
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50282,7 +50907,7 @@ function _load_npmRegistry2() {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 var _fs;
@@ -50294,18 +50919,19 @@ function _load_fs() {
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const inquirer = __webpack_require__(214);
+const inquirer = __webpack_require__(215);
 
-const tty = __webpack_require__(90);
-const invariant = __webpack_require__(7);
+const tty = __webpack_require__(76);
+const invariant = __webpack_require__(6);
 const path = __webpack_require__(0);
+const semver = __webpack_require__(17);
 
 const NPM_REGISTRY = /http[s]:\/\/registry.npmjs.org/g;
 const NPM_REGISTRY_ID = 'npm';
@@ -50320,6 +50946,14 @@ class NpmResolver extends (_registryResolver || _load_registryResolver()).defaul
 
       if (range in body['dist-tags']) {
         range = body['dist-tags'][range];
+      }
+
+      // If the latest tag in the registry satisfies the requested range, then use that.
+      // Otherwise we will fall back to semver maxSatisfying.
+      // This mimics logic in NPM. See issue #3560
+      const latestVersion = body['dist-tags'] ? body['dist-tags'].latest : undefined;
+      if (latestVersion && semver.satisfies(latestVersion, range)) {
+        return body.versions[latestVersion];
       }
 
       const satisfied = yield config.resolveConstraints(Object.keys(body.versions), range);
@@ -50497,7 +51131,7 @@ exports.default = NpmResolver;
 NpmResolver.registry = NPM_REGISTRY_ID;
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50517,6 +51151,48 @@ var _asyncToGenerator2;
 
 function _load_asyncToGenerator() {
   return _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(1));
+}
+
+var _extends2;
+
+function _load_extends() {
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
+}
+
+var _invariant;
+
+function _load_invariant() {
+  return _invariant = _interopRequireDefault(__webpack_require__(6));
+}
+
+var _string_decoder;
+
+function _load_string_decoder() {
+  return _string_decoder = __webpack_require__(231);
+}
+
+var _tarFs;
+
+function _load_tarFs() {
+  return _tarFs = _interopRequireDefault(__webpack_require__(147));
+}
+
+var _tarStream;
+
+function _load_tarStream() {
+  return _tarStream = _interopRequireDefault(__webpack_require__(325));
+}
+
+var _url;
+
+function _load_url() {
+  return _url = _interopRequireDefault(__webpack_require__(14));
+}
+
+var _fs;
+
+function _load_fs() {
+  return _fs = __webpack_require__(5);
 }
 
 var _errors;
@@ -50540,38 +51216,28 @@ function _load_gitRefResolver() {
 var _crypto;
 
 function _load_crypto() {
-  return _crypto = _interopRequireWildcard(__webpack_require__(123));
-}
-
-var _fs;
-
-function _load_fs() {
-  return _fs = _interopRequireWildcard(__webpack_require__(4));
-}
-
-var _map;
-
-function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _crypto = _interopRequireWildcard(__webpack_require__(124));
 }
 
 var _fs2;
 
 function _load_fs2() {
-  return _fs2 = __webpack_require__(5);
+  return _fs2 = _interopRequireWildcard(__webpack_require__(4));
+}
+
+var _map;
+
+function _load_map() {
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
-
-const StringDecoder = __webpack_require__(231).StringDecoder;
-const tarFs = __webpack_require__(146);
-const tarStream = __webpack_require__(325);
-const url = __webpack_require__(14);
-
+const GIT_PROTOCOL_PREFIX = 'git+';
+const SSH_PROTOCOL = 'ssh:';
+const SCP_PATH_PREFIX = '/:';
 
 const supportsArchiveCache = (0, (_map || _load_map()).default)({
   'github.com': false });
@@ -50581,6 +51247,25 @@ const handleSpawnError = err => {
     throw err;
   }
 };
+
+const SHORTHAND_SERVICES = (0, (_map || _load_map()).default)({
+  'github:': parsedUrl => (0, (_extends2 || _load_extends()).default)({}, parsedUrl, {
+    slashes: true,
+    auth: 'git',
+    protocol: SSH_PROTOCOL,
+    host: 'github.com',
+    hostname: 'github.com',
+    pathname: `/${parsedUrl.hostname}${parsedUrl.pathname}`
+  }),
+  'bitbucket:': parsedUrl => (0, (_extends2 || _load_extends()).default)({}, parsedUrl, {
+    slashes: true,
+    auth: 'git',
+    protocol: SSH_PROTOCOL,
+    host: 'bitbucket.com',
+    hostname: 'bitbucket.com',
+    pathname: `/${parsedUrl.hostname}${parsedUrl.pathname}`
+  })
+});
 
 class Git {
   constructor(config, gitUrl, hash) {
@@ -50600,27 +51285,33 @@ class Git {
    */
   static npmUrlToGitUrl(npmUrl) {
     // Expand shortened format first if needed
-    npmUrl = npmUrl.replace(/^github:/, 'git+ssh://git@github.com/');
+    let parsed = (_url || _load_url()).default.parse(npmUrl);
+    const expander = parsed.protocol && SHORTHAND_SERVICES[parsed.protocol];
+    if (expander) {
+      parsed = expander(parsed);
+    }
+
+    if (parsed.protocol && parsed.protocol.startsWith(GIT_PROTOCOL_PREFIX)) {
+      parsed.protocol = parsed.protocol.slice(GIT_PROTOCOL_PREFIX.length);
+    }
 
     // Special case in npm, where ssh:// prefix is stripped to pass scp-like syntax
     // which in git works as remote path only if there are no slashes before ':'.
-    const match = npmUrl.match(/^git\+ssh:\/\/((?:[^@:\/]+@)?([^@:\/]+):([^/]*).*)/);
-    // Additionally, if the host part is digits-only, npm falls back to
-    // interpreting it as an SSH URL with a port number.
-    if (match && /[^0-9]/.test(match[3])) {
+    // See #3146.
+    if (parsed.protocol === SSH_PROTOCOL && parsed.hostname && parsed.path && parsed.path.startsWith(SCP_PATH_PREFIX) && parsed.port === null) {
+      const auth = parsed.auth ? parsed.auth + '@' : '';
+      const pathname = parsed.path.slice(SCP_PATH_PREFIX.length);
       return {
-        hostname: match[2],
-        protocol: 'ssh:',
-        repository: match[1]
+        hostname: parsed.hostname,
+        protocol: parsed.protocol,
+        repository: `${auth}${parsed.hostname}:${pathname}`
       };
     }
 
-    const repository = npmUrl.replace(/^git\+/, '');
-    const parsed = url.parse(repository);
     return {
       hostname: parsed.hostname || null,
       protocol: parsed.protocol || 'file:',
-      repository
+      repository: (_url || _load_url()).default.format((0, (_extends2 || _load_extends()).default)({}, parsed, { hash: '' }))
     };
   }
 
@@ -50737,7 +51428,7 @@ class Git {
       const hashStream = new (_crypto || _load_crypto()).HashStream();
       yield (0, (_gitSpawn || _load_gitSpawn()).spawn)(['archive', `--remote=${_this.gitUrl.repository}`, _this.ref], {
         process(proc, resolve, reject, done) {
-          const writeStream = (0, (_fs2 || _load_fs2()).createWriteStream)(dest);
+          const writeStream = (0, (_fs || _load_fs()).createWriteStream)(dest);
           proc.on('error', reject);
           writeStream.on('error', reject);
           writeStream.on('end', done);
@@ -50759,7 +51450,7 @@ class Git {
       yield (0, (_gitSpawn || _load_gitSpawn()).spawn)(['archive', _this2.hash], {
         cwd: _this2.cwd,
         process(proc, resolve, reject, done) {
-          const writeStream = (0, (_fs2 || _load_fs2()).createWriteStream)(dest);
+          const writeStream = (0, (_fs || _load_fs()).createWriteStream)(dest);
           proc.on('error', reject);
           writeStream.on('error', reject);
           writeStream.on('open', function () {
@@ -50791,7 +51482,7 @@ class Git {
     return (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
       yield (0, (_gitSpawn || _load_gitSpawn()).spawn)(['archive', `--remote=${_this3.gitUrl.repository}`, _this3.ref], {
         process(proc, update, reject, done) {
-          const extractor = tarFs.extract(dest, {
+          const extractor = (_tarFs || _load_tarFs()).default.extract(dest, {
             dmode: 0o555, // all dirs should be readable
             fmode: 0o444 });
           extractor.on('error', reject);
@@ -50811,7 +51502,7 @@ class Git {
       yield (0, (_gitSpawn || _load_gitSpawn()).spawn)(['archive', _this4.hash], {
         cwd: _this4.cwd,
         process(proc, resolve, reject, done) {
-          const extractor = tarFs.extract(dest, {
+          const extractor = (_tarFs || _load_tarFs()).default.extract(dest, {
             dmode: 0o555, // all dirs should be readable
             fmode: 0o444 });
 
@@ -50835,8 +51526,8 @@ class Git {
           cwd = this.cwd;
 
 
-    return (_fs || _load_fs()).lockQueue.push(gitUrl.repository, (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
-      if (yield (_fs || _load_fs()).exists(cwd)) {
+    return (_fs2 || _load_fs2()).lockQueue.push(gitUrl.repository, (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
+      if (yield (_fs2 || _load_fs2()).exists(cwd)) {
         yield (0, (_gitSpawn || _load_gitSpawn()).spawn)(['pull'], { cwd });
       } else {
         yield (0, (_gitSpawn || _load_gitSpawn()).spawn)(['clone', gitUrl.repository, cwd]);
@@ -50865,13 +51556,13 @@ class Git {
       try {
         return yield (0, (_gitSpawn || _load_gitSpawn()).spawn)(['archive', `--remote=${_this6.gitUrl.repository}`, _this6.ref, filename], {
           process(proc, update, reject, done) {
-            const parser = tarStream.extract();
+            const parser = (_tarStream || _load_tarStream()).default.extract();
 
             parser.on('error', reject);
             parser.on('finish', done);
 
             parser.on('entry', (header, stream, next) => {
-              const decoder = new StringDecoder('utf8');
+              const decoder = new (_string_decoder || _load_string_decoder()).StringDecoder('utf8');
               let fileContent = '';
 
               stream.on('data', buffer => {
@@ -50902,7 +51593,7 @@ class Git {
     var _this7 = this;
 
     return (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
-      invariant(_this7.fetched, 'Repo not fetched');
+      (0, (_invariant || _load_invariant()).default)(_this7.fetched, 'Repo not fetched');
 
       try {
         return yield (0, (_gitSpawn || _load_gitSpawn()).spawn)(['show', `${_this7.hash}:${filename}`], {
@@ -51052,7 +51743,7 @@ class Git {
 exports.default = Git;
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51121,7 +51812,7 @@ function guessName(source) {
 }
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51208,7 +51899,7 @@ exports.default = (() => {
 })();
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51225,7 +51916,7 @@ exports.extractDescription = extractDescription;
 exports.extractRepositoryUrl = extractRepositoryUrl;
 
 
-const validateLicense = __webpack_require__(668);
+const validateLicense = __webpack_require__(669);
 
 function isValidLicense(license) {
   return !!license && validateLicense(license).validForNewPackages;
@@ -51328,7 +52019,7 @@ function extractRepositoryUrl(repository) {
 }
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51356,7 +52047,7 @@ function isRootUser(uid) {
 }
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51376,13 +52067,13 @@ function explodeHashedUrl(url) {
 }
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(179), __esModule: true };
+module.exports = { "default": __webpack_require__(180), __esModule: true };
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports) {
 
 module.exports = balanced;
@@ -51446,11 +52137,11 @@ function range(a, b, str) {
 
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var concatMap = __webpack_require__(178);
-var balanced = __webpack_require__(173);
+var concatMap = __webpack_require__(179);
+var balanced = __webpack_require__(174);
 
 module.exports = expandTop;
 
@@ -51653,13 +52344,13 @@ function expand(str, isTop) {
 
 
 /***/ }),
-/* 175 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var buffer = __webpack_require__(120);
+var buffer = __webpack_require__(121);
 var Buffer = buffer.Buffer;
 var SlowBuffer = buffer.SlowBuffer;
 var MAX_LEN = buffer.kMaxLength || 2147483647;
@@ -51768,7 +52459,7 @@ exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
 
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51839,7 +52530,7 @@ module.exports = function (str) {
 
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports) {
 
 function Caseless (dict) {
@@ -51912,7 +52603,7 @@ module.exports.httpify = function (resp, headers) {
 
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports) {
 
 module.exports = function (xs, fn) {
@@ -51931,23 +52622,23 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(201);
-__webpack_require__(85);
-__webpack_require__(109);
 __webpack_require__(202);
+__webpack_require__(86);
+__webpack_require__(109);
+__webpack_require__(203);
 module.exports = __webpack_require__(21).Promise;
 
 /***/ }),
-/* 180 */
+/* 181 */
 /***/ (function(module, exports) {
 
 module.exports = function(){ /* empty */ };
 
 /***/ }),
-/* 181 */
+/* 182 */
 /***/ (function(module, exports) {
 
 module.exports = function(it, Constructor, name, forbiddenField){
@@ -51957,14 +52648,14 @@ module.exports = function(it, Constructor, name, forbiddenField){
 };
 
 /***/ }),
-/* 182 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(70)
-  , toLength  = __webpack_require__(84)
-  , toIndex   = __webpack_require__(198);
+  , toLength  = __webpack_require__(85)
+  , toIndex   = __webpack_require__(199);
 module.exports = function(IS_INCLUDES){
   return function($this, el, fromIndex){
     var O      = toIObject($this)
@@ -51983,14 +52674,14 @@ module.exports = function(IS_INCLUDES){
 };
 
 /***/ }),
-/* 183 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx         = __webpack_require__(37)
-  , call        = __webpack_require__(128)
-  , isArrayIter = __webpack_require__(127)
+  , call        = __webpack_require__(129)
+  , isArrayIter = __webpack_require__(128)
   , anObject    = __webpack_require__(26)
-  , toLength    = __webpack_require__(84)
+  , toLength    = __webpack_require__(85)
   , getIterFn   = __webpack_require__(108)
   , BREAK       = {}
   , RETURN      = {};
@@ -52013,15 +52704,15 @@ exports.BREAK  = BREAK;
 exports.RETURN = RETURN;
 
 /***/ }),
-/* 184 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(32) && !__webpack_require__(82)(function(){
+module.exports = !__webpack_require__(33) && !__webpack_require__(83)(function(){
   return Object.defineProperty(__webpack_require__(65)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
-/* 185 */
+/* 186 */
 /***/ (function(module, exports) {
 
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
@@ -52042,18 +52733,18 @@ module.exports = function(fn, args, that){
 };
 
 /***/ }),
-/* 186 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var create         = __webpack_require__(189)
-  , descriptor     = __webpack_require__(83)
+var create         = __webpack_require__(190)
+  , descriptor     = __webpack_require__(84)
   , setToStringTag = __webpack_require__(67)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(28)(IteratorPrototype, __webpack_require__(9)('iterator'), function(){ return this; });
+__webpack_require__(30)(IteratorPrototype, __webpack_require__(9)('iterator'), function(){ return this; });
 
 module.exports = function(Constructor, NAME, next){
   Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
@@ -52061,7 +52752,7 @@ module.exports = function(Constructor, NAME, next){
 };
 
 /***/ }),
-/* 187 */
+/* 188 */
 /***/ (function(module, exports) {
 
 module.exports = function(done, value){
@@ -52069,7 +52760,7 @@ module.exports = function(done, value){
 };
 
 /***/ }),
-/* 188 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global    = __webpack_require__(13)
@@ -52142,12 +52833,12 @@ module.exports = function(){
 };
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(26)
-  , dPs         = __webpack_require__(190)
+  , dPs         = __webpack_require__(191)
   , enumBugKeys = __webpack_require__(100)
   , IE_PROTO    = __webpack_require__(68)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
@@ -52189,14 +52880,14 @@ module.exports = Object.create || function create(O, Properties){
 
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP       = __webpack_require__(38)
   , anObject = __webpack_require__(26)
-  , getKeys  = __webpack_require__(130);
+  , getKeys  = __webpack_require__(131);
 
-module.exports = __webpack_require__(32) ? Object.defineProperties : function defineProperties(O, Properties){
+module.exports = __webpack_require__(33) ? Object.defineProperties : function defineProperties(O, Properties){
   anObject(O);
   var keys   = getKeys(Properties)
     , length = keys.length
@@ -52207,7 +52898,7 @@ module.exports = __webpack_require__(32) ? Object.defineProperties : function de
 };
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
@@ -52225,12 +52916,12 @@ module.exports = Object.getPrototypeOf || function(O){
 };
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has          = __webpack_require__(43)
   , toIObject    = __webpack_require__(70)
-  , arrayIndexOf = __webpack_require__(182)(false)
+  , arrayIndexOf = __webpack_require__(183)(false)
   , IE_PROTO     = __webpack_require__(68)('IE_PROTO');
 
 module.exports = function(object, names){
@@ -52247,10 +52938,10 @@ module.exports = function(object, names){
 };
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var hide = __webpack_require__(28);
+var hide = __webpack_require__(30);
 module.exports = function(target, src, safe){
   for(var key in src){
     if(safe && target[key])target[key] = src[key];
@@ -52259,13 +52950,13 @@ module.exports = function(target, src, safe){
 };
 
 /***/ }),
-/* 194 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(28);
+module.exports = __webpack_require__(30);
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52273,7 +52964,7 @@ module.exports = __webpack_require__(28);
 var global      = __webpack_require__(13)
   , core        = __webpack_require__(21)
   , dP          = __webpack_require__(38)
-  , DESCRIPTORS = __webpack_require__(32)
+  , DESCRIPTORS = __webpack_require__(33)
   , SPECIES     = __webpack_require__(9)('species');
 
 module.exports = function(KEY){
@@ -52285,7 +52976,7 @@ module.exports = function(KEY){
 };
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
@@ -52298,7 +52989,7 @@ module.exports = function(O, D){
 };
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(69)
@@ -52320,7 +53011,7 @@ module.exports = function(TO_STRING){
 };
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(69)
@@ -52332,7 +53023,7 @@ module.exports = function(index, length){
 };
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
@@ -52349,14 +53040,14 @@ module.exports = function(it, S){
 };
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(180)
-  , step             = __webpack_require__(187)
-  , Iterators        = __webpack_require__(31)
+var addToUnscopables = __webpack_require__(181)
+  , step             = __webpack_require__(188)
+  , Iterators        = __webpack_require__(32)
   , toIObject        = __webpack_require__(70);
 
 // 22.1.3.4 Array.prototype.entries()
@@ -52389,13 +53080,13 @@ addToUnscopables('values');
 addToUnscopables('entries');
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52403,15 +53094,15 @@ addToUnscopables('entries');
 var LIBRARY            = __webpack_require__(103)
   , global             = __webpack_require__(13)
   , ctx                = __webpack_require__(37)
-  , classof            = __webpack_require__(81)
+  , classof            = __webpack_require__(82)
   , $export            = __webpack_require__(66)
   , isObject           = __webpack_require__(44)
   , aFunction          = __webpack_require__(63)
-  , anInstance         = __webpack_require__(181)
-  , forOf              = __webpack_require__(183)
-  , speciesConstructor = __webpack_require__(196)
+  , anInstance         = __webpack_require__(182)
+  , forOf              = __webpack_require__(184)
+  , speciesConstructor = __webpack_require__(197)
   , task               = __webpack_require__(105).set
-  , microtask          = __webpack_require__(188)()
+  , microtask          = __webpack_require__(189)()
   , PROMISE            = 'Promise'
   , TypeError          = global.TypeError
   , process            = global.process
@@ -52603,7 +53294,7 @@ if(!USE_NATIVE){
     this._h = 0;              // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
     this._n = false;          // <- notify
   };
-  Internal.prototype = __webpack_require__(193)($Promise.prototype, {
+  Internal.prototype = __webpack_require__(194)($Promise.prototype, {
     // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
     then: function then(onFulfilled, onRejected){
       var reaction    = newPromiseCapability(speciesConstructor(this, $Promise));
@@ -52630,7 +53321,7 @@ if(!USE_NATIVE){
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, {Promise: $Promise});
 __webpack_require__(67)($Promise, PROMISE);
-__webpack_require__(195)(PROMISE);
+__webpack_require__(196)(PROMISE);
 Wrapper = __webpack_require__(21)[PROMISE];
 
 // statics
@@ -52654,7 +53345,7 @@ $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
     return capability.promise;
   }
 });
-$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(129)(function(iter){
+$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(130)(function(iter){
   $Promise.all(iter)['catch'](empty);
 })), PROMISE, {
   // 25.4.4.1 Promise.all(iterable)
@@ -52700,7 +53391,7 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(129)(functio
 });
 
 /***/ }),
-/* 203 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -52891,7 +53582,7 @@ function localstorage() {
 
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -52900,21 +53591,21 @@ function localstorage() {
  */
 
 if (typeof process !== 'undefined' && process.type === 'renderer') {
-  module.exports = __webpack_require__(203);
+  module.exports = __webpack_require__(204);
 } else {
-  module.exports = __webpack_require__(205);
+  module.exports = __webpack_require__(206);
 }
 
 
 /***/ }),
-/* 205 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var tty = __webpack_require__(90);
+var tty = __webpack_require__(76);
 var util = __webpack_require__(2);
 
 /**
@@ -53159,7 +53850,7 @@ exports.enable(load());
 
 
 /***/ }),
-/* 206 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53177,7 +53868,7 @@ module.exports = function (str) {
 
 
 /***/ }),
-/* 207 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53270,12 +53961,12 @@ module.exports = function extend() {
 
 
 /***/ }),
-/* 208 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const escapeStringRegexp = __webpack_require__(206);
+const escapeStringRegexp = __webpack_require__(207);
 
 const platform = process.platform;
 
@@ -53424,7 +54115,7 @@ module.exports = Object.assign(fn, figures);
 
 
 /***/ }),
-/* 209 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -53733,7 +54424,7 @@ exports.realpath = function realpath(p, cache, cb) {
 
 
 /***/ }),
-/* 210 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = globSync
@@ -53746,7 +54437,7 @@ var Minimatch = minimatch.Minimatch
 var Glob = __webpack_require__(71).Glob
 var util = __webpack_require__(2)
 var path = __webpack_require__(0)
-var assert = __webpack_require__(19)
+var assert = __webpack_require__(20)
 var isAbsolute = __webpack_require__(73)
 var common = __webpack_require__(113)
 var alphasort = common.alphasort
@@ -54225,14 +54916,14 @@ GlobSync.prototype._makeAbs = function (f) {
 
 
 /***/ }),
-/* 211 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Load modules
 
 var Crypto = __webpack_require__(8);
 var Url = __webpack_require__(14);
-var Utils = __webpack_require__(132);
+var Utils = __webpack_require__(133);
 
 
 // Declare internals
@@ -54357,10 +55048,10 @@ exports.timestampMessage = function (credentials, localtimeOffsetMsec) {
 
 
 /***/ }),
-/* 212 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var wrappy = __webpack_require__(89)
+var wrappy = __webpack_require__(90)
 var reqs = Object.create(null)
 var once = __webpack_require__(72)
 
@@ -54417,7 +55108,7 @@ function slice (args) {
 
 
 /***/ }),
-/* 213 */
+/* 214 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -54446,7 +55137,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 214 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -54462,7 +55153,7 @@ var inquirer = module.exports;
 
 inquirer.prompts = {};
 
-inquirer.Separator = __webpack_require__(136);
+inquirer.Separator = __webpack_require__(137);
 
 inquirer.ui = {
   BottomBar: __webpack_require__(553),
@@ -54536,7 +55227,7 @@ inquirer.restoreDefaultPrompts = function () {
 
 
 /***/ }),
-/* 215 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54549,7 +55240,7 @@ module.exports = function (str) {
 
 
 /***/ }),
-/* 216 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54559,7 +55250,7 @@ module.exports = __webpack_require__(463).isCI
 
 
 /***/ }),
-/* 217 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // @flow
@@ -54572,7 +55263,7 @@ module.exports = typeof __webpack_require__ !== "undefined";
 
 
 /***/ }),
-/* 218 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54589,8 +55280,8 @@ module.exports = typeof __webpack_require__ !== "undefined";
 
 var dh = __webpack_require__(573);
 var eddsa = __webpack_require__(574);
-var curve255 = __webpack_require__(219);
-var utils = __webpack_require__(141);
+var curve255 = __webpack_require__(220);
+var utils = __webpack_require__(142);
     
     /**
      * @exports jodid25519
@@ -54614,7 +55305,7 @@ module.exports = ns;
 
 
 /***/ }),
-/* 219 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54634,8 +55325,8 @@ module.exports = ns;
  * You should have received a copy of the license along with this program.
  */
 
-var core = __webpack_require__(140);
-var utils = __webpack_require__(141);
+var core = __webpack_require__(141);
+var utils = __webpack_require__(142);
 
     /**
      * @exports jodid25519/curve255
@@ -54842,7 +55533,7 @@ module.exports = ns;
 
 
 /***/ }),
-/* 220 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(577);
@@ -54932,7 +55623,7 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 221 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isBuffer = __webpack_require__(561);
@@ -55054,444 +55745,6 @@ module.exports = function kindOf(val) {
 
 
 /***/ }),
-/* 222 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*!
- * micromatch <https://github.com/jonschlinkert/micromatch>
- *
- * Copyright (c) 2014-2015, Jon Schlinkert.
- * Licensed under the MIT License.
- */
-
-
-
-var expand = __webpack_require__(585);
-var utils = __webpack_require__(223);
-
-/**
- * The main function. Pass an array of filepaths,
- * and a string or array of glob patterns
- *
- * @param  {Array|String} `files`
- * @param  {Array|String} `patterns`
- * @param  {Object} `opts`
- * @return {Array} Array of matches
- */
-
-function micromatch(files, patterns, opts) {
-  if (!files || !patterns) return [];
-  opts = opts || {};
-
-  if (typeof opts.cache === 'undefined') {
-    opts.cache = true;
-  }
-
-  if (!Array.isArray(patterns)) {
-    return match(files, patterns, opts);
-  }
-
-  var len = patterns.length, i = 0;
-  var omit = [], keep = [];
-
-  while (len--) {
-    var glob = patterns[i++];
-    if (typeof glob === 'string' && glob.charCodeAt(0) === 33 /* ! */) {
-      omit.push.apply(omit, match(files, glob.slice(1), opts));
-    } else {
-      keep.push.apply(keep, match(files, glob, opts));
-    }
-  }
-  return utils.diff(keep, omit);
-}
-
-/**
- * Return an array of files that match the given glob pattern.
- *
- * This function is called by the main `micromatch` function If you only
- * need to pass a single pattern you might get very minor speed improvements
- * using this function.
- *
- * @param  {Array} `files`
- * @param  {String} `pattern`
- * @param  {Object} `options`
- * @return {Array}
- */
-
-function match(files, pattern, opts) {
-  if (utils.typeOf(files) !== 'string' && !Array.isArray(files)) {
-    throw new Error(msg('match', 'files', 'a string or array'));
-  }
-
-  files = utils.arrayify(files);
-  opts = opts || {};
-
-  var negate = opts.negate || false;
-  var orig = pattern;
-
-  if (typeof pattern === 'string') {
-    negate = pattern.charAt(0) === '!';
-    if (negate) {
-      pattern = pattern.slice(1);
-    }
-
-    // we need to remove the character regardless,
-    // so the above logic is still needed
-    if (opts.nonegate === true) {
-      negate = false;
-    }
-  }
-
-  var _isMatch = matcher(pattern, opts);
-  var len = files.length, i = 0;
-  var res = [];
-
-  while (i < len) {
-    var file = files[i++];
-    var fp = utils.unixify(file, opts);
-
-    if (!_isMatch(fp)) { continue; }
-    res.push(fp);
-  }
-
-  if (res.length === 0) {
-    if (opts.failglob === true) {
-      throw new Error('micromatch.match() found no matches for: "' + orig + '".');
-    }
-
-    if (opts.nonull || opts.nullglob) {
-      res.push(utils.unescapeGlob(orig));
-    }
-  }
-
-  // if `negate` was defined, diff negated files
-  if (negate) { res = utils.diff(files, res); }
-
-  // if `ignore` was defined, diff ignored filed
-  if (opts.ignore && opts.ignore.length) {
-    pattern = opts.ignore;
-    opts = utils.omit(opts, ['ignore']);
-    res = utils.diff(res, micromatch(res, pattern, opts));
-  }
-
-  if (opts.nodupes) {
-    return utils.unique(res);
-  }
-  return res;
-}
-
-/**
- * Returns a function that takes a glob pattern or array of glob patterns
- * to be used with `Array#filter()`. (Internally this function generates
- * the matching function using the [matcher] method).
- *
- * ```js
- * var fn = mm.filter('[a-c]');
- * ['a', 'b', 'c', 'd', 'e'].filter(fn);
- * //=> ['a', 'b', 'c']
- * ```
- * @param  {String|Array} `patterns` Can be a glob or array of globs.
- * @param  {Options} `opts` Options to pass to the [matcher] method.
- * @return {Function} Filter function to be passed to `Array#filter()`.
- */
-
-function filter(patterns, opts) {
-  if (!Array.isArray(patterns) && typeof patterns !== 'string') {
-    throw new TypeError(msg('filter', 'patterns', 'a string or array'));
-  }
-
-  patterns = utils.arrayify(patterns);
-  var len = patterns.length, i = 0;
-  var patternMatchers = Array(len);
-  while (i < len) {
-    patternMatchers[i] = matcher(patterns[i++], opts);
-  }
-
-  return function(fp) {
-    if (fp == null) return [];
-    var len = patternMatchers.length, i = 0;
-    var res = true;
-
-    fp = utils.unixify(fp, opts);
-    while (i < len) {
-      var fn = patternMatchers[i++];
-      if (!fn(fp)) {
-        res = false;
-        break;
-      }
-    }
-    return res;
-  };
-}
-
-/**
- * Returns true if the filepath contains the given
- * pattern. Can also return a function for matching.
- *
- * ```js
- * isMatch('foo.md', '*.md', {});
- * //=> true
- *
- * isMatch('*.md', {})('foo.md')
- * //=> true
- * ```
- * @param  {String} `fp`
- * @param  {String} `pattern`
- * @param  {Object} `opts`
- * @return {Boolean}
- */
-
-function isMatch(fp, pattern, opts) {
-  if (typeof fp !== 'string') {
-    throw new TypeError(msg('isMatch', 'filepath', 'a string'));
-  }
-
-  fp = utils.unixify(fp, opts);
-  if (utils.typeOf(pattern) === 'object') {
-    return matcher(fp, pattern);
-  }
-  return matcher(pattern, opts)(fp);
-}
-
-/**
- * Returns true if the filepath matches the
- * given pattern.
- */
-
-function contains(fp, pattern, opts) {
-  if (typeof fp !== 'string') {
-    throw new TypeError(msg('contains', 'pattern', 'a string'));
-  }
-
-  opts = opts || {};
-  opts.contains = (pattern !== '');
-  fp = utils.unixify(fp, opts);
-
-  if (opts.contains && !utils.isGlob(pattern)) {
-    return fp.indexOf(pattern) !== -1;
-  }
-  return matcher(pattern, opts)(fp);
-}
-
-/**
- * Returns true if a file path matches any of the
- * given patterns.
- *
- * @param  {String} `fp` The filepath to test.
- * @param  {String|Array} `patterns` Glob patterns to use.
- * @param  {Object} `opts` Options to pass to the `matcher()` function.
- * @return {String}
- */
-
-function any(fp, patterns, opts) {
-  if (!Array.isArray(patterns) && typeof patterns !== 'string') {
-    throw new TypeError(msg('any', 'patterns', 'a string or array'));
-  }
-
-  patterns = utils.arrayify(patterns);
-  var len = patterns.length;
-
-  fp = utils.unixify(fp, opts);
-  while (len--) {
-    var isMatch = matcher(patterns[len], opts);
-    if (isMatch(fp)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
- * Filter the keys of an object with the given `glob` pattern
- * and `options`
- *
- * @param  {Object} `object`
- * @param  {Pattern} `object`
- * @return {Array}
- */
-
-function matchKeys(obj, glob, options) {
-  if (utils.typeOf(obj) !== 'object') {
-    throw new TypeError(msg('matchKeys', 'first argument', 'an object'));
-  }
-
-  var fn = matcher(glob, options);
-  var res = {};
-
-  for (var key in obj) {
-    if (obj.hasOwnProperty(key) && fn(key)) {
-      res[key] = obj[key];
-    }
-  }
-  return res;
-}
-
-/**
- * Return a function for matching based on the
- * given `pattern` and `options`.
- *
- * @param  {String} `pattern`
- * @param  {Object} `options`
- * @return {Function}
- */
-
-function matcher(pattern, opts) {
-  // pattern is a function
-  if (typeof pattern === 'function') {
-    return pattern;
-  }
-  // pattern is a regex
-  if (pattern instanceof RegExp) {
-    return function(fp) {
-      return pattern.test(fp);
-    };
-  }
-
-  if (typeof pattern !== 'string') {
-    throw new TypeError(msg('matcher', 'pattern', 'a string, regex, or function'));
-  }
-
-  // strings, all the way down...
-  pattern = utils.unixify(pattern, opts);
-
-  // pattern is a non-glob string
-  if (!utils.isGlob(pattern)) {
-    return utils.matchPath(pattern, opts);
-  }
-  // pattern is a glob string
-  var re = makeRe(pattern, opts);
-
-  // `matchBase` is defined
-  if (opts && opts.matchBase) {
-    return utils.hasFilename(re, opts);
-  }
-  // `matchBase` is not defined
-  return function(fp) {
-    fp = utils.unixify(fp, opts);
-    return re.test(fp);
-  };
-}
-
-/**
- * Create and cache a regular expression for matching
- * file paths.
- *
- * If the leading character in the `glob` is `!`, a negation
- * regex is returned.
- *
- * @param  {String} `glob`
- * @param  {Object} `options`
- * @return {RegExp}
- */
-
-function toRegex(glob, options) {
-  // clone options to prevent  mutating the original object
-  var opts = Object.create(options || {});
-  var flags = opts.flags || '';
-  if (opts.nocase && flags.indexOf('i') === -1) {
-    flags += 'i';
-  }
-
-  var parsed = expand(glob, opts);
-
-  // pass in tokens to avoid parsing more than once
-  opts.negated = opts.negated || parsed.negated;
-  opts.negate = opts.negated;
-  glob = wrapGlob(parsed.pattern, opts);
-  var re;
-
-  try {
-    re = new RegExp(glob, flags);
-    return re;
-  } catch (err) {
-    err.reason = 'micromatch invalid regex: (' + re + ')';
-    if (opts.strict) throw new SyntaxError(err);
-  }
-
-  // we're only here if a bad pattern was used and the user
-  // passed `options.silent`, so match nothing
-  return /$^/;
-}
-
-/**
- * Create the regex to do the matching. If the leading
- * character in the `glob` is `!` a negation regex is returned.
- *
- * @param {String} `glob`
- * @param {Boolean} `negate`
- */
-
-function wrapGlob(glob, opts) {
-  var prefix = (opts && !opts.contains) ? '^' : '';
-  var after = (opts && !opts.contains) ? '$' : '';
-  glob = ('(?:' + glob + ')' + after);
-  if (opts && opts.negate) {
-    return prefix + ('(?!^' + glob + ').*$');
-  }
-  return prefix + glob;
-}
-
-/**
- * Create and cache a regular expression for matching file paths.
- * If the leading character in the `glob` is `!`, a negation
- * regex is returned.
- *
- * @param  {String} `glob`
- * @param  {Object} `options`
- * @return {RegExp}
- */
-
-function makeRe(glob, opts) {
-  if (utils.typeOf(glob) !== 'string') {
-    throw new Error(msg('makeRe', 'glob', 'a string'));
-  }
-  return utils.cache(toRegex, glob, opts);
-}
-
-/**
- * Make error messages consistent. Follows this format:
- *
- * ```js
- * msg(methodName, argNumber, nativeType);
- * // example:
- * msg('matchKeys', 'first', 'an object');
- * ```
- *
- * @param  {String} `method`
- * @param  {String} `num`
- * @param  {String} `type`
- * @return {String}
- */
-
-function msg(method, what, type) {
-  return 'micromatch.' + method + '(): ' + what + ' should be ' + type + '.';
-}
-
-/**
- * Public methods
- */
-
-/* eslint no-multi-spaces: 0 */
-micromatch.any       = any;
-micromatch.braces    = micromatch.braceExpand = utils.braces;
-micromatch.contains  = contains;
-micromatch.expand    = expand;
-micromatch.filter    = filter;
-micromatch.isMatch   = isMatch;
-micromatch.makeRe    = makeRe;
-micromatch.match     = match;
-micromatch.matcher   = matcher;
-micromatch.matchKeys = matchKeys;
-
-/**
- * Expose `micromatch`
- */
-
-module.exports = micromatch;
-
-
-/***/ }),
 /* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -55512,13 +55765,13 @@ utils.unique = __webpack_require__(378);
 utils.braces = __webpack_require__(456);
 utils.brackets = __webpack_require__(490);
 utils.extglob = __webpack_require__(497);
-utils.isExtglob = __webpack_require__(138);
-utils.isGlob = __webpack_require__(139);
-utils.typeOf = __webpack_require__(221);
+utils.isExtglob = __webpack_require__(139);
+utils.isGlob = __webpack_require__(140);
+utils.typeOf = __webpack_require__(222);
 utils.normalize = __webpack_require__(592);
 utils.omit = __webpack_require__(595);
 utils.parseGlob = __webpack_require__(598);
-utils.cache = __webpack_require__(614);
+utils.cache = __webpack_require__(615);
 
 /**
  * Get the filename of a filepath
@@ -55864,7 +56117,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 var jsonSafeStringify = __webpack_require__(576)
   , crypto = __webpack_require__(8)
-  , Buffer = __webpack_require__(87).Buffer
+  , Buffer = __webpack_require__(88).Buffer
 
 var defer = typeof setImmediate === 'undefined'
   ? process.nextTick
@@ -55935,7 +56188,7 @@ exports.defer                 = defer
 module.exports = rimraf
 rimraf.sync = rimrafSync
 
-var assert = __webpack_require__(19)
+var assert = __webpack_require__(20)
 var path = __webpack_require__(0)
 var fs = __webpack_require__(5)
 var glob = __webpack_require__(71)
@@ -56313,13 +56566,13 @@ module.exports = {
 var assert = __webpack_require__(11);
 var asn1 = __webpack_require__(50);
 var algs = __webpack_require__(22);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
 var pem = __webpack_require__(58);
 
-var pkcs8 = __webpack_require__(117);
+var pkcs8 = __webpack_require__(118);
 var readECDSACurve = pkcs8.readECDSACurve;
 
 function read(buf, options) {
@@ -56630,11 +56883,11 @@ function writePkcs1ECDSAPrivate(der, key) {
 // Copyright 2015 Joyent, Inc.
 
 var Key = __webpack_require__(23);
-var Fingerprint = __webpack_require__(116);
+var Fingerprint = __webpack_require__(117);
 var Signature = __webpack_require__(46);
 var PrivateKey = __webpack_require__(24);
-var Certificate = __webpack_require__(115);
-var Identity = __webpack_require__(118);
+var Certificate = __webpack_require__(116);
+var Identity = __webpack_require__(119);
 var errs = __webpack_require__(45);
 
 module.exports = {
@@ -56700,7 +56953,7 @@ Object.defineProperty(exports, "__esModule", {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _access;
@@ -56712,7 +56965,7 @@ function _load_access() {
 var _add;
 
 function _load_add() {
-  return _add = _interopRequireWildcard(__webpack_require__(121));
+  return _add = _interopRequireWildcard(__webpack_require__(122));
 }
 
 var _autoclean;
@@ -56796,7 +57049,7 @@ function _load_init() {
 var _install;
 
 function _load_install() {
-  return _install = _interopRequireWildcard(__webpack_require__(30));
+  return _install = _interopRequireWildcard(__webpack_require__(28));
 }
 
 var _licenses;
@@ -56844,7 +57097,7 @@ function _load_owner() {
 var _pack;
 
 function _load_pack() {
-  return _pack = _interopRequireWildcard(__webpack_require__(157));
+  return _pack = _interopRequireWildcard(__webpack_require__(158));
 }
 
 var _publish;
@@ -56886,7 +57139,7 @@ function _load_unlink() {
 var _upgrade;
 
 function _load_upgrade() {
-  return _upgrade = _interopRequireWildcard(__webpack_require__(158));
+  return _upgrade = _interopRequireWildcard(__webpack_require__(159));
 }
 
 var _version;
@@ -56935,7 +57188,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-const chalk = __webpack_require__(125);
+const chalk = __webpack_require__(126);
 
 
 const getDocsLink = name => `${(_constants || _load_constants()).YARN_DOCS}${name || ''}`;
@@ -57026,7 +57279,7 @@ function _load_path() {
 var _index;
 
 function _load_index() {
-  return _index = _interopRequireDefault(__webpack_require__(168));
+  return _index = _interopRequireDefault(__webpack_require__(169));
 }
 
 var _errors;
@@ -57044,7 +57297,7 @@ function _load_fs() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _packageConstraintResolver;
@@ -57062,19 +57315,19 @@ function _load_requestManager() {
 var _index2;
 
 function _load_index2() {
-  return _index2 = __webpack_require__(34);
+  return _index2 = __webpack_require__(35);
 }
 
 var _index3;
 
 function _load_index3() {
-  return _index3 = __webpack_require__(154);
+  return _index3 = __webpack_require__(155);
 }
 
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -57083,10 +57336,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const detectIndent = __webpack_require__(484);
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 const path = __webpack_require__(0);
-const micromatch = __webpack_require__(222);
-const isCi = __webpack_require__(216);
+const micromatch = __webpack_require__(114);
+const isCi = __webpack_require__(217);
 
 function sortObject(object) {
   const sortedObject = {};
@@ -57180,12 +57433,12 @@ class Config {
    */
 
   getOption(key) {
-    let expand = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    let resolve = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
     const value = this.registries.yarn.getOption(key);
 
-    if (expand && typeof value === 'string') {
-      return (0, (_path || _load_path()).expandPath)(value);
+    if (resolve && typeof value === 'string' && value.length) {
+      return (0, (_path || _load_path()).resolveWithHome)(value);
     }
 
     return value;
@@ -57245,7 +57498,9 @@ class Config {
 
         // instantiate registry
         const registry = new Registry(_this.cwd, _this.registries, _this.requestManager, _this.reporter);
-        yield registry.init();
+        yield registry.init({
+          registry: opts.registry
+        });
 
         _this.registries[key] = registry;
         _this.registryFolders.push(registry.folder);
@@ -57261,10 +57516,12 @@ class Config {
 
       _this.networkTimeout = opts.networkTimeout || Number(_this.getOption('network-timeout')) || (_constants || _load_constants()).NETWORK_TIMEOUT;
 
+      const httpProxy = opts.httpProxy || _this.getOption('proxy');
+      const httpsProxy = opts.httpsProxy || _this.getOption('https-proxy');
       _this.requestManager.setOptions({
         userAgent: String(_this.getOption('user-agent')),
-        httpProxy: String(opts.httpProxy || _this.getOption('proxy') || ''),
-        httpsProxy: String(opts.httpsProxy || _this.getOption('https-proxy') || ''),
+        httpProxy: httpProxy === false ? false : String(httpProxy || ''),
+        httpsProxy: httpsProxy === false ? false : String(httpsProxy || ''),
         strictSSL: Boolean(_this.getOption('strict-ssl')),
         ca: Array.prototype.concat(opts.ca || _this.getOption('ca') || []).map(String),
         cafile: String(opts.cafile || _this.getOption('cafile', true) || ''),
@@ -57313,12 +57570,10 @@ class Config {
       yield (_fs || _load_fs()).mkdirp(_this.cacheFolder);
       yield (_fs || _load_fs()).mkdirp(_this.tempFolder);
 
-      if (opts.production === 'false') {
-        _this.production = false;
-      } else if (_this.getOption('production') || process.env.NODE_ENV === 'production' && process.env.NPM_CONFIG_PRODUCTION !== 'false' && process.env.YARN_PRODUCTION !== 'false') {
-        _this.production = true;
+      if (opts.production !== undefined) {
+        _this.production = Boolean(opts.production);
       } else {
-        _this.production = !!opts.production;
+        _this.production = Boolean(_this.getOption('production')) || process.env.NODE_ENV === 'production' && process.env.NPM_CONFIG_PRODUCTION !== 'false' && process.env.YARN_PRODUCTION !== 'false';
       }
 
       if (_this.workspaceRootFolder && !_this.workspacesEnabled) {
@@ -57854,7 +58109,7 @@ function isOffline() {
  */
 
 var EventEmitter = __webpack_require__(47).EventEmitter;
-var spawn = __webpack_require__(149).spawn;
+var spawn = __webpack_require__(150).spawn;
 var readlink = __webpack_require__(509).readlinkSync;
 var path = __webpack_require__(0);
 var dirname = path.dirname;
@@ -60817,7 +61072,7 @@ exports.hasWrapper = hasWrapper;
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(34);
+  return _index = __webpack_require__(35);
 }
 
 var _filter;
@@ -60829,7 +61084,7 @@ function _load_filter() {
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 var _fs;
@@ -60875,6 +61130,11 @@ Gulpfile.js
 Gruntfile.js
 
 # configs
+appveyor.yml
+circle.yml
+codeship-services.yml
+codeship-steps.yml
+wercker.yml
 .tern-project
 .gitattributes
 .editorconfig
@@ -60884,11 +61144,9 @@ Gruntfile.js
 .flowconfig
 .documentup.json
 .yarn-metadata.json
-.*.yml
-*.yml
+.travis.yml
 
 # misc
-*.gz
 *.md
 `.trim();
 
@@ -61316,13 +61574,13 @@ function _load_errors() {
 var _integrityChecker;
 
 function _load_integrityChecker() {
-  return _integrityChecker = _interopRequireDefault(__webpack_require__(159));
+  return _integrityChecker = _interopRequireDefault(__webpack_require__(160));
 }
 
 var _integrityChecker2;
 
 function _load_integrityChecker2() {
-  return _integrityChecker2 = __webpack_require__(159);
+  return _integrityChecker2 = __webpack_require__(160);
 }
 
 var _lockfile;
@@ -61340,14 +61598,14 @@ function _load_fs() {
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const semver = __webpack_require__(20);
+const semver = __webpack_require__(17);
 
 const path = __webpack_require__(0);
 
@@ -61489,7 +61747,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 const path = __webpack_require__(0);
 
@@ -61668,7 +61926,7 @@ let run = exports.run = (() => {
     });
 
     let activePatterns = [];
-    if ((0, (_constants || _load_constants()).isProduction)()) {
+    if (config.production) {
       const devDeps = getDevDeps(manifest);
       activePatterns = patterns.filter(function (pattern) {
         return !devDeps.has(pattern);
@@ -61687,15 +61945,18 @@ let run = exports.run = (() => {
 
 
     if (args.length) {
+      reporter.warn(reporter.lang('deprecatedListArgs'));
+    }
+    if (args.length || flags.pattern) {
       trees = trees.filter(function (tree) {
-        return filterTree(tree, args);
+        return filterTree(tree, args, flags.pattern);
       });
     }
 
     reporter.tree('list', trees);
   });
 
-  return function run(_x7, _x8, _x9, _x10) {
+  return function run(_x8, _x9, _x10, _x11) {
     return _ref10.apply(this, arguments);
   };
 })();
@@ -61710,7 +61971,7 @@ exports.getDevDeps = getDevDeps;
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 var _lockfile;
@@ -61719,16 +61980,11 @@ function _load_lockfile() {
   return _lockfile = _interopRequireDefault(__webpack_require__(12));
 }
 
-var _constants;
-
-function _load_constants() {
-  return _constants = __webpack_require__(6);
-}
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
-const micromatch = __webpack_require__(222);
+const invariant = __webpack_require__(6);
+
+const micromatch = __webpack_require__(114);
 
 const requireLockfile = exports.requireLockfile = true;
 
@@ -61762,6 +62018,7 @@ function hasWrapper(commander, args) {
 
 function setFlags(commander) {
   commander.option('--depth [depth]', 'Limit the depth of the shown dependencies');
+  commander.option('--pattern [pattern]', 'Filter dependencies by pattern');
 }
 
 function getReqDepth(inputDepth) {
@@ -61769,14 +62026,16 @@ function getReqDepth(inputDepth) {
 }
 
 function filterTree(tree, filters) {
+  let pattern = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+
   if (tree.children) {
-    tree.children = tree.children.filter(child => filterTree(child, filters));
+    tree.children = tree.children.filter(child => filterTree(child, filters, pattern));
   }
 
   const notDim = tree.color !== 'dim';
   const hasChildren = tree.children == null ? false : tree.children.length > 0;
   const name = tree.name.slice(0, tree.name.lastIndexOf('@'));
-  const found = micromatch.any(name, filters);
+  const found = micromatch.any(name, filters) || micromatch.contains(name, pattern);
 
   return notDim && (found || hasChildren);
 }
@@ -61800,7 +62059,7 @@ exports.run = exports.requireLockfile = undefined;
 var _extends2;
 
 function _load_extends() {
-  return _extends2 = _interopRequireDefault(__webpack_require__(36));
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
 }
 
 var _slicedToArray2;
@@ -61825,7 +62084,7 @@ let run = exports.run = (() => {
     let step = 0;
 
     // load manifests
-    const lockfile = yield (_lockfile || _load_lockfile()).default.fromDirectory(config.cwd);
+    const lockfile = yield (_lockfile || _load_lockfile()).default.fromDirectory(config.lockfileFolder);
     const rootManifests = yield config.getRootManifests();
     const manifests = [];
 
@@ -61848,7 +62107,10 @@ let run = exports.run = (() => {
 
         const possibleManifestLoc = path.join(config.cwd, registry.folder, name);
         if (yield (_fs || _load_fs()).exists(possibleManifestLoc)) {
-          manifests.push([possibleManifestLoc, yield config.readManifest(possibleManifestLoc, registryName)]);
+          const manifest = yield config.maybeReadManifest(possibleManifestLoc, registryName);
+          if (manifest) {
+            manifests.push([possibleManifestLoc, manifest]);
+          }
         }
       }
 
@@ -61873,7 +62135,8 @@ let run = exports.run = (() => {
 
     // reinstall so we can get the updated lockfile
     reporter.step(++step, totalSteps, reporter.lang('uninstallRegenerate'));
-    const reinstall = new (_install || _load_install()).Install((0, (_extends2 || _load_extends()).default)({ force: true }, flags), config, new (_index2 || _load_index2()).NoopReporter(), lockfile);
+    const installFlags = (0, (_extends2 || _load_extends()).default)({ force: true, workspaceRootIsCwd: true }, flags);
+    const reinstall = new (_install || _load_install()).Install(installFlags, config, new (_index2 || _load_index2()).NoopReporter(), lockfile);
     yield reinstall.init();
 
     //
@@ -61897,13 +62160,13 @@ function _load_lockfile() {
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(34);
+  return _index = __webpack_require__(35);
 }
 
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 var _errors;
@@ -61915,7 +62178,7 @@ function _load_errors() {
 var _index2;
 
 function _load_index2() {
-  return _index2 = __webpack_require__(154);
+  return _index2 = __webpack_require__(155);
 }
 
 var _fs;
@@ -61927,7 +62190,7 @@ function _load_fs() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -62082,7 +62345,7 @@ function _load_errors() {
 var _normalizePattern2;
 
 function _load_normalizePattern() {
-  return _normalizePattern2 = __webpack_require__(29);
+  return _normalizePattern2 = __webpack_require__(31);
 }
 
 var _validate;
@@ -62189,6 +62452,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.run = exports.requireLockfile = undefined;
 
+var _extends2;
+
+function _load_extends() {
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
+}
+
 var _asyncToGenerator2;
 
 function _load_asyncToGenerator() {
@@ -62200,18 +62469,21 @@ let run = exports.run = (() => {
     const outdatedFieldName = flags.latest ? 'latest' : 'wanted';
     const lockfile = yield (_lockfile || _load_lockfile()).default.fromDirectory(config.lockfileFolder);
 
-    const deps = yield (0, (_upgrade || _load_upgrade()).getOutdated)(config, reporter, flags, lockfile, args);
+    const deps = yield (0, (_upgrade || _load_upgrade()).getOutdated)(config, reporter, (0, (_extends2 || _load_extends()).default)({}, flags, { includeWorkspaceDeps: true }), lockfile, args);
 
     if (deps.length === 0) {
       reporter.success(reporter.lang('allDependenciesUpToDate'));
       return;
     }
 
+    const usesWorkspaces = !!config.workspaceRootFolder;
+
     const maxLengthArr = {
       name: 'name'.length,
       current: 'from'.length,
       range: 'latest'.length,
-      [outdatedFieldName]: 'to'.length
+      [outdatedFieldName]: 'to'.length,
+      workspaceName: 'workspace'.length
     };
 
     const keysWithDynamicLength = ['name', 'current', outdatedFieldName];
@@ -62219,6 +62491,10 @@ let run = exports.run = (() => {
     if (!flags.latest) {
       maxLengthArr.range = 'range'.length;
       keysWithDynamicLength.push('range');
+    }
+
+    if (usesWorkspaces) {
+      keysWithDynamicLength.push('workspaceName');
     }
 
     deps.forEach(function (dep) {
@@ -62252,7 +62528,12 @@ let run = exports.run = (() => {
       const latest = (0, (_colorizeDiff || _load_colorizeDiff()).default)(dep.current, padding(outdatedFieldName), reporter);
       const url = reporter.format.cyan(dep.url);
       const range = reporter.format.blue(flags.latest ? 'latest' : padding('range'));
-      return `${name}  ${range}  ${current}  ❯  ${latest}  ${url}`;
+      if (usesWorkspaces) {
+        const workspace = padding('workspaceName');
+        return `${name}  ${range}  ${current}  ❯  ${latest}  ${workspace}  ${url}`;
+      } else {
+        return `${name}  ${range}  ${current}  ❯  ${latest}  ${url}`;
+      }
     };
 
     const makeHeaderRow = function () {
@@ -62261,7 +62542,12 @@ let run = exports.run = (() => {
       const from = headerPadding('from', 'current');
       const to = headerPadding('to', outdatedFieldName);
       const url = reporter.format.bold.underline('url');
-      return `  ${name}  ${range}  ${from}     ${to}  ${url}`;
+      if (usesWorkspaces) {
+        const workspace = headerPadding('workspace', 'workspaceName');
+        return `  ${name}  ${range}  ${from}     ${to}  ${workspace}  ${url}`;
+      } else {
+        return `  ${name}  ${range}  ${from}     ${to}  ${url}`;
+      }
     };
 
     const groupedDeps = deps.reduce(function (acc, dep) {
@@ -62295,7 +62581,7 @@ let run = exports.run = (() => {
       const red = reporter.format.red('<red>');
       const yellow = reporter.format.yellow('<yellow>');
       const green = reporter.format.green('<green>');
-      reporter.info(reporter.lang('legendColorsForUpgradeInteractive', red, yellow, green));
+      reporter.info(reporter.lang('legendColorsForVersionUpdates', red, yellow, green));
 
       const answers = yield reporter.prompt('Choose which packages to update.', choices, {
         name: 'packages',
@@ -62316,30 +62602,39 @@ let run = exports.run = (() => {
         };
       };
 
-      yield [null, 'dev', 'optional', 'peer'].reduce((() => {
-        var _ref4 = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (promise, hint) {
-          // Wait for previous promise to resolve
-          yield promise;
-          // Reset dependency flags
-          flags.dev = hint === 'dev';
-          flags.peer = hint === 'peer';
-          flags.optional = hint === 'optional';
-          const deps = answers.filter(isHint(hint)).map(getPattern);
-          if (deps.length) {
-            for (const pattern of deps) {
-              lockfile.removePattern(pattern);
-            }
-            reporter.info(reporter.lang('updateInstalling', getNameFromHint(hint)));
-            const add = new (_add || _load_add()).Add(deps, flags, config, reporter, lockfile);
-            return add.init();
-          }
-          return Promise.resolve();
-        });
+      for (const hint of [null, 'dev', 'optional', 'peer']) {
+        // Reset dependency flags
+        flags.dev = hint === 'dev';
+        flags.peer = hint === 'peer';
+        flags.optional = hint === 'optional';
+        flags.ignoreWorkspaceRootCheck = true;
+        flags.includeWorkspaceDeps = false;
+        flags.workspaceRootIsCwd = false;
+        const deps = answers.filter(isHint(hint));
+        if (deps.length) {
+          const install = new (_install || _load_install()).Install(flags, config, reporter, lockfile);
 
-        return function (_x5, _x6) {
-          return _ref4.apply(this, arguments);
-        };
-      })(), Promise.resolve());
+          var _ref4 = yield install.fetchRequestFromCwd();
+
+          const packagePatterns = _ref4.requests;
+
+          const depsByWorkspace = deps.reduce(function (acc, dep) {
+            const workspaceLoc = dep.workspaceLoc;
+
+            const xs = acc[workspaceLoc] || [];
+            acc[workspaceLoc] = xs.concat(dep);
+            return acc;
+          }, {});
+          for (const loc of Object.keys(depsByWorkspace)) {
+            const patterns = depsByWorkspace[loc].map(getPattern);
+            (0, (_upgrade || _load_upgrade()).cleanLockfile)(lockfile, deps, packagePatterns, reporter);
+            reporter.info(reporter.lang('updateInstalling', getNameFromHint(hint)));
+            config.cwd = path.resolve(path.dirname(loc));
+            const add = new (_add || _load_add()).Add(patterns, flags, config, reporter, lockfile);
+            yield add.init();
+          }
+        }
+      }
     } catch (e) {
       Promise.reject(e);
     }
@@ -62356,7 +62651,7 @@ exports.hasWrapper = hasWrapper;
 var _inquirer;
 
 function _load_inquirer() {
-  return _inquirer = _interopRequireDefault(__webpack_require__(214));
+  return _inquirer = _interopRequireDefault(__webpack_require__(215));
 }
 
 var _lockfile;
@@ -62368,13 +62663,13 @@ function _load_lockfile() {
 var _add;
 
 function _load_add() {
-  return _add = __webpack_require__(121);
+  return _add = __webpack_require__(122);
 }
 
 var _upgrade;
 
 function _load_upgrade() {
-  return _upgrade = __webpack_require__(158);
+  return _upgrade = __webpack_require__(159);
 }
 
 var _colorForVersions;
@@ -62389,7 +62684,15 @@ function _load_colorizeDiff() {
   return _colorizeDiff = _interopRequireDefault(__webpack_require__(275));
 }
 
+var _install;
+
+function _load_install() {
+  return _install = __webpack_require__(28);
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const path = __webpack_require__(0);
 
 const requireLockfile = exports.requireLockfile = true;
 
@@ -62575,7 +62878,7 @@ exports.hasWrapper = hasWrapper;
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(34);
+  return _index = __webpack_require__(35);
 }
 
 var _executeLifecycleScript;
@@ -62605,15 +62908,15 @@ function _load_fs() {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
-const semver = __webpack_require__(20);
+const invariant = __webpack_require__(6);
+const semver = __webpack_require__(17);
 const path = __webpack_require__(0);
 
 const NEW_VERSION_FLAG = '--new-version [version]';
@@ -62664,19 +62967,19 @@ function _load_errors() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _crypto;
 
 function _load_crypto() {
-  return _crypto = _interopRequireWildcard(__webpack_require__(123));
+  return _crypto = _interopRequireWildcard(__webpack_require__(124));
 }
 
 var _baseFetcher;
 
 function _load_baseFetcher() {
-  return _baseFetcher = _interopRequireDefault(__webpack_require__(122));
+  return _baseFetcher = _interopRequireDefault(__webpack_require__(123));
 }
 
 var _fs;
@@ -62697,12 +63000,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const path = __webpack_require__(0);
 
-const tarFs = __webpack_require__(146);
+const tarFs = __webpack_require__(147);
 const url = __webpack_require__(14);
 const fs = __webpack_require__(5);
 const stream = __webpack_require__(25);
 const gunzip = __webpack_require__(510);
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 class TarballFetcher extends (_baseFetcher || _load_baseFetcher()).default {
   setupMirrorFromCache() {
@@ -62934,7 +63237,7 @@ function _load_errors() {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 var _misc;
@@ -62951,8 +63254,8 @@ function _load_yarnVersion() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
-const semver = __webpack_require__(20);
+const invariant = __webpack_require__(6);
+const semver = __webpack_require__(17);
 
 const VERSIONS = Object.assign({}, process.versions, {
   yarn: (_yarnVersion || _load_yarnVersion()).version
@@ -63310,7 +63613,7 @@ function _load_asyncToGenerator() {
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(35);
+  return _index = __webpack_require__(36);
 }
 
 var _packageRequest;
@@ -63322,7 +63625,7 @@ function _load_packageRequest() {
 var _normalizePattern2;
 
 function _load_normalizePattern() {
-  return _normalizePattern2 = __webpack_require__(29);
+  return _normalizePattern2 = __webpack_require__(31);
 }
 
 var _requestManager;
@@ -63334,7 +63637,7 @@ function _load_requestManager() {
 var _blockingQueue;
 
 function _load_blockingQueue() {
-  return _blockingQueue = _interopRequireDefault(__webpack_require__(79));
+  return _blockingQueue = _interopRequireDefault(__webpack_require__(80));
 }
 
 var _lockfile;
@@ -63346,13 +63649,13 @@ function _load_lockfile() {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 var _workspaceLayout;
 
 function _load_workspaceLayout() {
-  return _workspaceLayout = _interopRequireDefault(__webpack_require__(80));
+  return _workspaceLayout = _interopRequireDefault(__webpack_require__(81));
 }
 
 var _resolutionMap;
@@ -63363,9 +63666,9 @@ function _load_resolutionMap() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
-const semver = __webpack_require__(20);
+const semver = __webpack_require__(17);
 
 class PackageResolver {
   constructor(config, lockfile) {
@@ -63884,9 +64187,11 @@ class PackageResolver {
         _this2.resolveToResolution(req);
       }
 
-      for (const dep of deps) {
-        const name = (0, (_normalizePattern2 || _load_normalizePattern()).normalizePattern)(dep.pattern).name;
-        _this2.optimizeResolutions(name);
+      if (isFlat) {
+        for (const dep of deps) {
+          const name = (0, (_normalizePattern2 || _load_normalizePattern()).normalizePattern)(dep.pattern).name;
+          _this2.optimizeResolutions(name);
+        }
       }
 
       activity.end();
@@ -63908,11 +64213,19 @@ class PackageResolver {
       return;
     }
 
+    // reverse sort, so we'll find the maximum satisfying version first
     const availableVersions = this.getAllInfoForPatterns(collapsablePatterns).map(manifest => manifest.version);
-    const combinedRange = collapsablePatterns.map(pattern => (0, (_normalizePattern2 || _load_normalizePattern()).normalizePattern)(pattern).range).join(' ');
-    const singleVersion = semver.maxSatisfying(availableVersions, combinedRange);
-    if (singleVersion) {
-      this.collapsePackageVersions(name, singleVersion, collapsablePatterns);
+    availableVersions.sort(semver.rcompare);
+
+    const ranges = collapsablePatterns.map(pattern => (0, (_normalizePattern2 || _load_normalizePattern()).normalizePattern)(pattern).range);
+
+    // find the most recent version that satisfies all patterns (if one exists), and
+    // collapse to that version.
+    for (const version of availableVersions) {
+      if (ranges.every(range => semver.satisfies(version, range))) {
+        this.collapsePackageVersions(name, version, collapsablePatterns);
+        return;
+      }
     }
   }
 
@@ -63958,7 +64271,9 @@ class PackageResolver {
         invariant(resolutionManifest._reference, 'resolutions should have a resolved reference');
         resolutionManifest._reference.patterns.push(pattern);
         this.addPattern(pattern, resolutionManifest);
-        this.lockfile.removePattern(pattern);
+        if (!this.resolutionMap.topLevelPatterns.has(pattern)) {
+          this.lockfile.removePattern(pattern);
+        }
       } else {
         this.resolutionMap.addToDelayQueue(req);
       }
@@ -64044,7 +64359,7 @@ Object.defineProperty(exports, "__esModule", {
 var _semver;
 
 function _load_semver() {
-  return _semver = _interopRequireDefault(__webpack_require__(20));
+  return _semver = _interopRequireDefault(__webpack_require__(17));
 }
 
 var _minimatch;
@@ -64056,13 +64371,13 @@ function _load_minimatch() {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 var _normalizePattern2;
 
 function _load_normalizePattern() {
-  return _normalizePattern2 = __webpack_require__(29);
+  return _normalizePattern2 = __webpack_require__(31);
 }
 
 var _parsePackagePath;
@@ -64080,7 +64395,7 @@ function _load_parsePackagePath2() {
 var _resolvers;
 
 function _load_resolvers() {
-  return _resolvers = __webpack_require__(35);
+  return _resolvers = __webpack_require__(36);
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -64094,6 +64409,7 @@ class ResolutionMap {
     this.config = config;
     this.reporter = config.reporter;
     this.delayQueue = new Set();
+    this.topLevelPatterns = new Set();
   }
 
   init() {
@@ -64111,6 +64427,10 @@ class ResolutionMap {
 
   addToDelayQueue(req) {
     this.delayQueue.add(req);
+  }
+
+  setTopLevelPatterns(patterns) {
+    this.topLevelPatterns = new Set(patterns);
   }
 
   parsePatternInfo(globPattern, range) {
@@ -64188,7 +64508,7 @@ Object.defineProperty(exports, "__esModule", {
 var _hostedGitResolver;
 
 function _load_hostedGitResolver() {
-  return _hostedGitResolver = _interopRequireDefault(__webpack_require__(78));
+  return _hostedGitResolver = _interopRequireDefault(__webpack_require__(79));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -64327,7 +64647,7 @@ Object.defineProperty(exports, "__esModule", {
 var _npmResolver;
 
 function _load_npmResolver() {
-  return _npmResolver = _interopRequireDefault(__webpack_require__(165));
+  return _npmResolver = _interopRequireDefault(__webpack_require__(166));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -64359,13 +64679,13 @@ exports.default = function (from, to) {
 var _semver;
 
 function _load_semver() {
-  return _semver = _interopRequireDefault(__webpack_require__(20));
+  return _semver = _interopRequireDefault(__webpack_require__(17));
 }
 
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -64415,7 +64735,7 @@ function _load_misc() {
   return _misc = __webpack_require__(10);
 }
 
-const mm = __webpack_require__(222);
+const mm = __webpack_require__(114);
 const path = __webpack_require__(0);
 
 const WHITESPACE_RE = /^\s+$/;
@@ -64574,7 +64894,7 @@ exports.spawn = undefined;
 var _extends2;
 
 function _load_extends() {
-  return _extends2 = _interopRequireDefault(__webpack_require__(36));
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
 }
 
 var _path;
@@ -64606,6 +64926,10 @@ const sshExecutable = (_path || _load_path()).default.basename(sshCommand.toLowe
 const sshBatchArgs = BATCH_MODE_ARGS.get(sshExecutable);
 
 if (!env.GIT_SSH_COMMAND && sshBatchArgs) {
+  // We have to manually specify `GIT_SSH_VARIANT`,
+  // because it's not automatically set when using `GIT_SSH_COMMAND` instead of `GIT_SSH`
+  // See: https://github.com/yarnpkg/yarn/issues/4729
+  env.GIT_SSH_VARIANT = sshExecutable;
   env.GIT_SSH_COMMAND = `"${sshCommand}" ${sshBatchArgs}`;
 }
 
@@ -64653,7 +64977,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getPosixPath = getPosixPath;
-exports.expandPath = expandPath;
 exports.resolveWithHome = resolveWithHome;
 
 var _path;
@@ -64668,17 +64991,9 @@ function getPosixPath(path) {
   return path.replace(/\\/g, '/');
 }
 
-function expandPath(path) {
-  if (process.platform !== 'win32') {
-    path = path.replace(/^\s*~(?=$|\/|\\)/, userHome);
-  }
-
-  return path;
-}
-
 function resolveWithHome(path) {
   const homePattern = process.platform === 'win32' ? /^~(\/|\\)/ : /^~\//;
-  if (path.match(homePattern)) {
+  if (homePattern.test(path)) {
     return (0, (_path || _load_path()).resolve)(userHome, path.substr(2));
   }
 
@@ -64717,13 +65032,13 @@ function _load_dnscache() {
 var _invariant;
 
 function _load_invariant() {
-  return _invariant = _interopRequireDefault(__webpack_require__(7));
+  return _invariant = _interopRequireDefault(__webpack_require__(6));
 }
 
 var _requestCaptureHar;
 
 function _load_requestCaptureHar() {
-  return _requestCaptureHar = _interopRequireDefault(__webpack_require__(618));
+  return _requestCaptureHar = _interopRequireDefault(__webpack_require__(619));
 }
 
 var _errors;
@@ -64735,13 +65050,13 @@ function _load_errors() {
 var _blockingQueue;
 
 function _load_blockingQueue() {
-  return _blockingQueue = _interopRequireDefault(__webpack_require__(79));
+  return _blockingQueue = _interopRequireDefault(__webpack_require__(80));
 }
 
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _network;
@@ -64753,7 +65068,7 @@ function _load_network() {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -64778,9 +65093,9 @@ class RequestManager {
     this._requestModule = null;
     this.offlineQueue = [];
     this.captureHar = false;
-    this.httpsProxy = null;
+    this.httpsProxy = '';
     this.ca = null;
-    this.httpProxy = null;
+    this.httpProxy = '';
     this.strictSSL = true;
     this.userAgent = '';
     this.reporter = reporter;
@@ -64805,11 +65120,13 @@ class RequestManager {
     }
 
     if (opts.httpProxy != null) {
-      this.httpProxy = opts.httpProxy;
+      this.httpProxy = opts.httpProxy || '';
     }
 
-    if (opts.httpsProxy != null) {
-      this.httpsProxy = opts.httpsProxy;
+    if (opts.httpsProxy === '') {
+      this.httpsProxy = opts.httpProxy || '';
+    } else {
+      this.httpsProxy = opts.httpsProxy || '';
     }
 
     if (opts.strictSSL !== null && typeof opts.strictSSL !== 'undefined') {
@@ -64862,7 +65179,7 @@ class RequestManager {
 
   _getRequestModule() {
     if (!this._requestModule) {
-      const request = __webpack_require__(619);
+      const request = __webpack_require__(620);
       if (this.captureHar) {
         this._requestCaptureHar = new (_requestCaptureHar || _load_requestCaptureHar()).default(request);
         this._requestModule = this._requestCaptureHar.request.bind(this._requestCaptureHar);
@@ -64970,7 +65287,7 @@ class RequestManager {
 
   queueForOffline(opts) {
     if (!this.offlineQueue.length) {
-      this.reporter.warn(this.reporter.lang('offlineRetrying'));
+      this.reporter.info(this.reporter.lang('offlineRetrying'));
       this.initOfflineRetry();
     }
 
@@ -65056,7 +65373,7 @@ class RequestManager {
           const errMsg = body && body.message || reporter.lang('requestError', params.url, res.statusCode);
           reject(new Error(errMsg));
         } else {
-          if (res.statusCode === 400 || res.statusCode === 404 || res.statusCode === 401) {
+          if ([400, 401, 404].concat(params.rejectStatusCode || []).indexOf(res.statusCode) !== -1) {
             body = false;
           }
           resolve(body);
@@ -65070,11 +65387,9 @@ class RequestManager {
 
     let proxy = this.httpProxy;
     if (params.url.startsWith('https:')) {
-      proxy = this.httpsProxy || proxy;
+      proxy = this.httpsProxy;
     }
-    if (proxy) {
-      params.proxy = proxy;
-    }
+    params.proxy = String(proxy);
 
     if (this.ca != null) {
       params.ca = this.ca;
@@ -65142,7 +65457,7 @@ exports.default = RequestManager;
 "use strict";
 
 
-var crypto_hash_sha512 = __webpack_require__(147).lowlevel.crypto_hash;
+var crypto_hash_sha512 = __webpack_require__(148).lowlevel.crypto_hash;
 
 /*
  * This file is a 1:1 port from the OpenBSD blowfish.c and bcrypt_pbkdf.c. As a
@@ -65704,7 +66019,7 @@ module.exports = {
 
 "use strict";
 
-const restoreCursor = __webpack_require__(629);
+const restoreCursor = __webpack_require__(630);
 
 let hidden = false;
 
@@ -67055,7 +67370,7 @@ CombinedStream.prototype._emitError = function(err) {
 // Load modules
 
 var Crypto = __webpack_require__(8);
-var Boom = __webpack_require__(124);
+var Boom = __webpack_require__(125);
 
 
 // Declare internals
@@ -67129,7 +67444,7 @@ exports.fixedTimeComparison = function (a, b) {
 var stream = __webpack_require__(74)
 var eos = __webpack_require__(487)
 var inherits = __webpack_require__(39)
-var shift = __webpack_require__(651)
+var shift = __webpack_require__(652)
 
 var SIGNAL_FLUSH = new Buffer([0])
 
@@ -67362,7 +67677,7 @@ module.exports = Duplexify
 
 var crypto = __webpack_require__(8);
 var BigInteger = __webpack_require__(56).BigInteger;
-var ECPointFp = __webpack_require__(131).ECPointFp;
+var ECPointFp = __webpack_require__(132).ECPointFp;
 exports.ECCurves = __webpack_require__(489);
 
 // zero prepad
@@ -67516,7 +67831,7 @@ module.exports = eos;
  * extsprintf.js: extended POSIX-style sprintf
  */
 
-var mod_assert = __webpack_require__(19);
+var mod_assert = __webpack_require__(20);
 var mod_util = __webpack_require__(2);
 
 /*
@@ -67734,7 +68049,7 @@ else if (/\bgfs4\b/i.test(process.env.NODE_DEBUG || ''))
 if (/\bgfs4\b/i.test(process.env.NODE_DEBUG || '')) {
   process.on('exit', function() {
     debug(queue)
-    __webpack_require__(19).equal(queue.length, 0)
+    __webpack_require__(20).equal(queue.length, 0)
   })
 }
 
@@ -67984,7 +68299,7 @@ function retry () {
 
 var _ = __webpack_require__(27);
 var MuteStream = __webpack_require__(300);
-var readline = __webpack_require__(152);
+var readline = __webpack_require__(153);
 
 /**
  * Base interface class other can inherits from
@@ -68127,7 +68442,7 @@ exports.clearLine = function (rl, len) {
 
 
 
-var typeOf = __webpack_require__(221);
+var typeOf = __webpack_require__(222);
 
 module.exports = function isNumber(num) {
   var type = typeOf(num);
@@ -69071,8 +69386,8 @@ module.exports = {
 "use strict";
 
 
-var stringify = __webpack_require__(606);
-var parse = __webpack_require__(605);
+var stringify = __webpack_require__(607);
+var parse = __webpack_require__(606);
 var formats = __webpack_require__(305);
 
 module.exports = {
@@ -69306,9 +69621,9 @@ var EElistenerCount = function (emitter, type) {
 var Stream = __webpack_require__(311);
 /*</replacement>*/
 
-var Buffer = __webpack_require__(120).Buffer;
+var Buffer = __webpack_require__(121).Buffer;
 /*<replacement>*/
-var bufferShim = __webpack_require__(175);
+var bufferShim = __webpack_require__(176);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -69326,7 +69641,7 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __webpack_require__(612);
+var BufferList = __webpack_require__(613);
 var StringDecoder;
 
 util.inherits(Readable, Stream);
@@ -69348,7 +69663,7 @@ function prependListener(emitter, event, fn) {
 }
 
 function ReadableState(options, stream) {
-  Duplex = Duplex || __webpack_require__(86);
+  Duplex = Duplex || __webpack_require__(87);
 
   options = options || {};
 
@@ -69417,7 +69732,7 @@ function ReadableState(options, stream) {
 }
 
 function Readable(options) {
-  Duplex = Duplex || __webpack_require__(86);
+  Duplex = Duplex || __webpack_require__(87);
 
   if (!(this instanceof Readable)) return new Readable(options);
 
@@ -70263,7 +70578,7 @@ function indexOf(xs, x) {
 
 module.exports = Transform;
 
-var Duplex = __webpack_require__(86);
+var Duplex = __webpack_require__(87);
 
 /*<replacement>*/
 var util = __webpack_require__(110);
@@ -70434,7 +70749,7 @@ util.inherits = __webpack_require__(39);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __webpack_require__(665)
+  deprecate: __webpack_require__(666)
 };
 /*</replacement>*/
 
@@ -70442,9 +70757,9 @@ var internalUtil = {
 var Stream = __webpack_require__(311);
 /*</replacement>*/
 
-var Buffer = __webpack_require__(120).Buffer;
+var Buffer = __webpack_require__(121).Buffer;
 /*<replacement>*/
-var bufferShim = __webpack_require__(175);
+var bufferShim = __webpack_require__(176);
 /*</replacement>*/
 
 util.inherits(Writable, Stream);
@@ -70459,7 +70774,7 @@ function WriteReq(chunk, encoding, cb) {
 }
 
 function WritableState(options, stream) {
-  Duplex = Duplex || __webpack_require__(86);
+  Duplex = Duplex || __webpack_require__(87);
 
   options = options || {};
 
@@ -70593,7 +70908,7 @@ if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.protot
 }
 
 function Writable(options) {
-  Duplex = Duplex || __webpack_require__(86);
+  Duplex = Duplex || __webpack_require__(87);
 
   // Writable ctor is applied to Duplexes, too.
   // `realHasInstance` is necessary because using plain `instanceof`
@@ -70964,7 +71279,7 @@ module.exports = __webpack_require__(25);
 "use strict";
 
 
-var Buffer = __webpack_require__(87).Buffer;
+var Buffer = __webpack_require__(88).Buffer;
 
 var isEncoding = Buffer.isEncoding || function (encoding) {
   encoding = '' + encoding;
@@ -71267,7 +71582,7 @@ module.exports = function repeat(ele, num) {
 "use strict";
 
 
-var tough = __webpack_require__(661)
+var tough = __webpack_require__(662)
 
 var Cookie = tough.Cookie
   , CookieJar = tough.CookieJar
@@ -72174,8 +72489,8 @@ exports.jar = function(store) {
 // Note: since nyc uses this module to output coverage, any lines
 // that are in the direct sync flow of nyc's outputCoverage are
 // ignored, since we can never get coverage for them.
-var assert = __webpack_require__(19)
-var signals = __webpack_require__(642)
+var assert = __webpack_require__(20)
+var signals = __webpack_require__(643)
 
 var EE = __webpack_require__(47)
 /* istanbul ignore if */
@@ -72334,7 +72649,7 @@ function processEmit (ev, arg) {
 /* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(643);
+module.exports = __webpack_require__(644);
 
 /***/ }),
 /* 319 */
@@ -72351,7 +72666,7 @@ module.exports = {
 var assert = __webpack_require__(11);
 var crypto = __webpack_require__(8);
 var algs = __webpack_require__(22);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var ed;
 var nacl;
 
@@ -72388,7 +72703,7 @@ function DiffieHellman(key) {
 			if (ecdh === undefined)
 				ecdh = __webpack_require__(288);
 			if (ec === undefined)
-				ec = __webpack_require__(131);
+				ec = __webpack_require__(132);
 			if (jsbn === undefined)
 				jsbn = __webpack_require__(56).BigInteger;
 
@@ -72419,7 +72734,7 @@ function DiffieHellman(key) {
 
 	} else if (key.type === 'curve25519') {
 		if (ed === undefined)
-			ed = __webpack_require__(218);
+			ed = __webpack_require__(219);
 
 		if (this._isPriv) {
 			this._priv = key.part.r.data;
@@ -72659,7 +72974,7 @@ ECPrivate.prototype.deriveSharedSecret = function (pubKey) {
 
 function generateED25519() {
 	if (nacl === undefined)
-		nacl = __webpack_require__(147);
+		nacl = __webpack_require__(148);
 
 	var pair = nacl.sign.keyPair();
 	var priv = new Buffer(pair.secretKey);
@@ -72715,7 +73030,7 @@ function generateECDSA(curve) {
 		if (ecdh === undefined)
 			ecdh = __webpack_require__(288);
 		if (ec === undefined)
-			ec = __webpack_require__(131);
+			ec = __webpack_require__(132);
 		if (jsbn === undefined)
 			jsbn = __webpack_require__(56).BigInteger;
 
@@ -72771,7 +73086,7 @@ var Signature = __webpack_require__(46);
 
 function Verifier(key, hashAlgo) {
 	if (nacl === undefined)
-		nacl = __webpack_require__(147);
+		nacl = __webpack_require__(148);
 
 	if (hashAlgo.toLowerCase() !== 'sha512')
 		throw (new Error('ED25519 only supports the use of ' +
@@ -72819,7 +73134,7 @@ Verifier.prototype.verify = function (signature, fmt) {
 
 function Signer(key, hashAlgo) {
 	if (nacl === undefined)
-		nacl = __webpack_require__(147);
+		nacl = __webpack_require__(148);
 
 	if (hashAlgo.toLowerCase() !== 'sha512')
 		throw (new Error('ED25519 only supports the use of ' +
@@ -72866,7 +73181,7 @@ module.exports = {
 };
 
 var assert = __webpack_require__(11);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
 
@@ -72946,11 +73261,11 @@ module.exports = {
 
 var assert = __webpack_require__(11);
 var rfc4253 = __webpack_require__(75);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
 
-var sshpriv = __webpack_require__(144);
+var sshpriv = __webpack_require__(145);
 
 /*JSSTYLED*/
 var SSHKEY_RE = /^([a-z0-9-]+)[ \t]+([a-zA-Z0-9+\/]+[=]*)([\n \t]+([^\n]+))?$/;
@@ -73070,14 +73385,14 @@ module.exports = {
 var assert = __webpack_require__(11);
 var asn1 = __webpack_require__(50);
 var algs = __webpack_require__(22);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
 var pem = __webpack_require__(58);
-var Identity = __webpack_require__(118);
+var Identity = __webpack_require__(119);
 var Signature = __webpack_require__(46);
-var Certificate = __webpack_require__(115);
-var pkcs8 = __webpack_require__(117);
+var Certificate = __webpack_require__(116);
+var pkcs8 = __webpack_require__(118);
 
 /*
  * This file is based on RFC5280 (X.509).
@@ -74081,15 +74396,15 @@ exports.decode = function (buf) {
 /* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.extract = __webpack_require__(657)
-exports.pack = __webpack_require__(658)
+exports.extract = __webpack_require__(658)
+exports.pack = __webpack_require__(659)
 
 
 /***/ }),
 /* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Transform = __webpack_require__(613)
+var Transform = __webpack_require__(614)
   , inherits  = __webpack_require__(2).inherits
   , xtend     = __webpack_require__(333)
 
@@ -74883,7 +75198,7 @@ module.exports = function (log) {
 
 const fs = __webpack_require__(292);
 const path = __webpack_require__(0);
-const retry = __webpack_require__(630);
+const retry = __webpack_require__(631);
 const syncFs = __webpack_require__(603);
 
 const locks = {};
@@ -75272,7 +75587,7 @@ var compileSchema = __webpack_require__(347)
   , resolve = __webpack_require__(240)
   , Cache = __webpack_require__(343)
   , SchemaObject = __webpack_require__(241)
-  , stableStringify = __webpack_require__(220)
+  , stableStringify = __webpack_require__(221)
   , formats = __webpack_require__(346)
   , rules = __webpack_require__(348)
   , v5 = __webpack_require__(372)
@@ -75948,7 +76263,7 @@ function compareDateTime(dt1, dt2) {
 
 var resolve = __webpack_require__(240)
   , util = __webpack_require__(60)
-  , stableStringify = __webpack_require__(220)
+  , stableStringify = __webpack_require__(221)
   , async = __webpack_require__(238);
 
 var beautify;
@@ -80482,7 +80797,7 @@ function requestFlush() {
         if (!domain) {
             // Lazy execute the domain module.
             // Only employed if the user elects to use domains.
-            domain = __webpack_require__(673);
+            domain = __webpack_require__(674);
         }
         domain.active = process.domain = null;
     }
@@ -80511,8 +80826,8 @@ function requestFlush() {
 
 // Copyright 2011 Mark Cavage <mcavage@gmail.com> All rights reserved.
 
-var errors = __webpack_require__(155);
-var types = __webpack_require__(156);
+var errors = __webpack_require__(156);
+var types = __webpack_require__(157);
 
 var Reader = __webpack_require__(382);
 var Writer = __webpack_require__(383);
@@ -80544,10 +80859,10 @@ for (var e in errors) {
 
 // Copyright 2011 Mark Cavage <mcavage@gmail.com> All rights reserved.
 
-var assert = __webpack_require__(19);
+var assert = __webpack_require__(20);
 
-var ASN1 = __webpack_require__(156);
-var errors = __webpack_require__(155);
+var ASN1 = __webpack_require__(157);
+var errors = __webpack_require__(156);
 
 
 ///--- Globals
@@ -80811,9 +81126,9 @@ module.exports = Reader;
 
 // Copyright 2011 Mark Cavage <mcavage@gmail.com> All rights reserved.
 
-var assert = __webpack_require__(19);
-var ASN1 = __webpack_require__(156);
-var errors = __webpack_require__(155);
+var assert = __webpack_require__(20);
+var ASN1 = __webpack_require__(157);
+var errors = __webpack_require__(156);
 
 
 ///--- Globals
@@ -81467,7 +81782,7 @@ module.exports.canonicalizeResource = canonicalizeResource
 
 var aws4 = exports,
     url = __webpack_require__(14),
-    querystring = __webpack_require__(151),
+    querystring = __webpack_require__(152),
     crypto = __webpack_require__(8),
     lru = __webpack_require__(390),
     credentialsCache = lru(1000)
@@ -82034,7 +82349,7 @@ function run(config, reporter, flags, args) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.examples = exports.setFlags = exports.run = undefined;
+exports.examples = exports.run = undefined;
 
 var _asyncToGenerator2;
 
@@ -82069,6 +82384,9 @@ let list = (() => {
                   manifest = _ref3.package,
                   remote = _ref3.remote;
 
+            if (flags.pattern && !micromatch.contains(manifest.name, flags.pattern)) {
+              continue;
+            }
             packagesMetadata.push([manifest.name, manifest.version, registry, remote && remote.resolved || '']);
           }
         }
@@ -82092,6 +82410,7 @@ let list = (() => {
 })();
 
 exports.hasWrapper = hasWrapper;
+exports.setFlags = setFlags;
 
 var _buildSubCommands2;
 
@@ -82108,7 +82427,7 @@ function _load_fs() {
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -82116,6 +82435,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const path = __webpack_require__(0);
+
+const micromatch = __webpack_require__(114);
 
 function hasWrapper(flags, args) {
   return args[0] !== 'dir';
@@ -82209,11 +82530,14 @@ var _buildSubCommands = (0, (_buildSubCommands2 || _load_buildSubCommands()).def
 });
 
 const run = _buildSubCommands.run,
-      setFlags = _buildSubCommands.setFlags,
+      _setFlags = _buildSubCommands.setFlags,
       examples = _buildSubCommands.examples;
 exports.run = run;
-exports.setFlags = setFlags;
 exports.examples = examples;
+function setFlags(commander) {
+  _setFlags(commander);
+  commander.option('--pattern [pattern]', 'filter cached packages by pattern');
+}
 
 /***/ }),
 /* 395 */
@@ -82249,10 +82573,16 @@ function _load_buildSubCommands() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const CONFIG_KEYS = [
+// 'reporter',
+'rootModuleFolders', 'registryFolders', 'linkedModules',
+// 'registries',
+'cache', 'cwd', 'looseSemver', 'commandName', 'preferOffline', 'modulesFolder', 'globalFolder', 'linkFolder', 'offline', 'binLinks', 'ignorePlatform', 'ignoreScripts', 'disablePrepublish', 'nonInteractive', 'workspaceRootFolder', 'lockfileFolder', 'networkConcurrency', 'childConcurrency', 'networkTimeout', 'workspacesEnabled', 'pruneOfflineMirror', 'enableMetaFolder', 'enableLockfileVersions', 'linkFileDependencies', 'cacheFolder', 'tempFolder', 'production'];
+/* eslint object-shorthand: 0 */
+
 function hasWrapper(flags, args) {
   return args[0] !== 'get';
 }
-/* eslint object-shorthand: 0 */
 
 var _buildSubCommands = (0, (_buildSubCommands2 || _load_buildSubCommands()).default)('config', {
   set(config, reporter, flags, args) {
@@ -82313,6 +82643,16 @@ var _buildSubCommands = (0, (_buildSubCommands2 || _load_buildSubCommands()).def
     reporter.inspect(config.registries.npm.config);
 
     return true;
+  },
+
+  current(config, reporter, flags, args) {
+    if (args.length) {
+      return false;
+    }
+
+    reporter.log(JSON.stringify(config, CONFIG_KEYS, 2), { force: true });
+
+    return true;
   }
 });
 
@@ -82366,7 +82706,7 @@ let run = exports.run = (() => {
     const binFolder = yield (0, (_global || _load_global()).getBinFolder)(config, {});
     const command = path.resolve(binFolder, path.basename(commandName));
 
-    yield (_child || _load_child()).spawn(command, [...rest], { stdio: `inherit`, shell: true });
+    yield (_child || _load_child()).spawn(command, rest, { stdio: `inherit`, shell: true });
   });
 
   return function run(_x, _x2, _x3, _x4) {
@@ -82587,7 +82927,7 @@ function _load_index() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _misc;
@@ -82606,7 +82946,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const chalk = __webpack_require__(125);
+const chalk = __webpack_require__(126);
 
 function hasWrapper(flags, args) {
   return false;
@@ -82691,7 +83031,7 @@ exports.hasWrapper = hasWrapper;
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 var _check;
@@ -82709,7 +83049,7 @@ function _load_errors() {
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(35);
+  return _index = __webpack_require__(36);
 }
 
 var _baseResolver;
@@ -82721,25 +83061,25 @@ function _load_baseResolver() {
 var _hostedGitResolver;
 
 function _load_hostedGitResolver() {
-  return _hostedGitResolver = _interopRequireDefault(__webpack_require__(78));
+  return _hostedGitResolver = _interopRequireDefault(__webpack_require__(79));
 }
 
 var _hostedGitResolver2;
 
 function _load_hostedGitResolver2() {
-  return _hostedGitResolver2 = __webpack_require__(78);
+  return _hostedGitResolver2 = __webpack_require__(79);
 }
 
 var _gistResolver;
 
 function _load_gistResolver() {
-  return _gistResolver = _interopRequireDefault(__webpack_require__(164));
+  return _gistResolver = _interopRequireDefault(__webpack_require__(165));
 }
 
 var _gistResolver2;
 
 function _load_gistResolver2() {
-  return _gistResolver2 = __webpack_require__(164);
+  return _gistResolver2 = __webpack_require__(165);
 }
 
 var _gitResolver;
@@ -82751,7 +83091,7 @@ function _load_gitResolver() {
 var _fileResolver;
 
 function _load_fileResolver() {
-  return _fileResolver = _interopRequireDefault(__webpack_require__(163));
+  return _fileResolver = _interopRequireDefault(__webpack_require__(164));
 }
 
 var _packageResolver;
@@ -82775,7 +83115,7 @@ function _load_packageFetcher() {
 var _packageLinker;
 
 function _load_packageLinker() {
-  return _packageLinker = _interopRequireDefault(__webpack_require__(160));
+  return _packageLinker = _interopRequireDefault(__webpack_require__(161));
 }
 
 var _packageCompatibility;
@@ -82793,7 +83133,7 @@ function _load_lockfile() {
 var _normalizePattern6;
 
 function _load_normalizePattern() {
-  return _normalizePattern6 = __webpack_require__(29);
+  return _normalizePattern6 = __webpack_require__(31);
 }
 
 var _fs;
@@ -82811,7 +83151,7 @@ function _load_misc() {
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -82820,9 +83160,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const NPM_REGISTRY = /http[s]:\/\/registry.npmjs.org/g;
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 const path = __webpack_require__(0);
-const uuid = __webpack_require__(88);
+const uuid = __webpack_require__(89);
 
 const noArguments = exports.noArguments = true;
 
@@ -83192,7 +83532,7 @@ let run = exports.run = (() => {
     const versions = result.versions;
     // $FlowFixMe
     result.versions = Object.keys(versions).sort(semver.compareLoose);
-    result.version = version || result.versions[result.versions.length - 1];
+    result.version = version || result['dist-tags'].latest;
     result = Object.assign(result, versions[result.version]);
 
     const fieldPath = args.shift();
@@ -83231,7 +83571,7 @@ function _load_parsePackageName() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const semver = __webpack_require__(20);
+const semver = __webpack_require__(17);
 
 function clean(object) {
   if (Array.isArray(object)) {
@@ -83279,7 +83619,7 @@ function hasWrapper(commander, args) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getGitConfigInfo = exports.run = undefined;
+exports.getGitConfigInfo = exports.run = exports.shouldRunInCurrentCwd = undefined;
 
 var _asyncToGenerator2;
 
@@ -83352,7 +83692,7 @@ let run = exports.run = (() => {
     }, {
       key: 'private',
       question: 'private',
-      default: '',
+      default: config.getOption('init-private') || '',
       inputFormatter: yn
     }];
 
@@ -83388,7 +83728,7 @@ let run = exports.run = (() => {
       }
 
       if (def) {
-        question += ` (${def.toString()})`;
+        question += ` (${String(def)})`;
       }
 
       let answer;
@@ -83472,13 +83812,13 @@ exports.hasWrapper = hasWrapper;
 var _util;
 
 function _load_util() {
-  return _util = __webpack_require__(169);
+  return _util = __webpack_require__(170);
 }
 
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(34);
+  return _index = __webpack_require__(35);
 }
 
 var _githubResolver;
@@ -83511,7 +83851,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const objectPath = __webpack_require__(303);
 const path = __webpack_require__(0);
-const yn = __webpack_require__(670);
+const yn = __webpack_require__(671);
 
 function setFlags(commander) {
   commander.option('-y, --yes', 'use default options');
@@ -83521,6 +83861,8 @@ function setFlags(commander) {
 function hasWrapper(commander, args) {
   return true;
 }
+
+const shouldRunInCurrentCwd = exports.shouldRunInCurrentCwd = true;
 
 /***/ }),
 /* 403 */
@@ -83543,7 +83885,7 @@ function _load_slicedToArray() {
 var _extends2;
 
 function _load_extends() {
-  return _extends2 = _interopRequireDefault(__webpack_require__(36));
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
 }
 
 var _asyncToGenerator2;
@@ -83653,13 +83995,13 @@ exports.hasWrapper = hasWrapper;
 var _baseReporter;
 
 function _load_baseReporter() {
-  return _baseReporter = _interopRequireDefault(__webpack_require__(77));
+  return _baseReporter = _interopRequireDefault(__webpack_require__(78));
 }
 
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 var _lockfile;
@@ -83676,7 +84018,7 @@ function _load_buildSubCommands() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 function hasWrapper(flags, args) {
   return args[0] != 'generate-disclaimer';
@@ -83838,6 +84180,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.run = exports.requireLockfile = undefined;
 
+var _extends2;
+
+function _load_extends() {
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
+}
+
 var _asyncToGenerator2;
 
 function _load_asyncToGenerator() {
@@ -83846,8 +84194,8 @@ function _load_asyncToGenerator() {
 
 let run = exports.run = (() => {
   var _ref = (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* (config, reporter, flags, args) {
-    const lockfile = yield (_lockfile || _load_lockfile()).default.fromDirectory(config.cwd);
-    const install = new (_install || _load_install()).Install(flags, config, reporter, lockfile);
+    const lockfile = yield (_lockfile || _load_lockfile()).default.fromDirectory(config.lockfileFolder);
+    const install = new (_install || _load_install()).Install((0, (_extends2 || _load_extends()).default)({}, flags, { includeWorkspaceDeps: true }), config, reporter, lockfile);
     let deps = yield (_packageRequest || _load_packageRequest()).default.getOutdatedPackages(lockfile, install, config, reporter);
 
     if (args.length) {
@@ -83864,17 +84212,32 @@ let run = exports.run = (() => {
     };
     const colorizeName = function (_ref3) {
       let current = _ref3.current,
-          wanted = _ref3.wanted,
+          latest = _ref3.latest,
           name = _ref3.name;
-      return reporter.format[(0, (_colorForVersions || _load_colorForVersions()).default)(current, wanted)](name);
+      return reporter.format[(0, (_colorForVersions || _load_colorForVersions()).default)(current, latest)](name);
     };
 
     if (deps.length) {
+      const usesWorkspaces = !!config.workspaceRootFolder;
       const body = deps.map(function (info) {
-        return [colorizeName(info), info.current, (0, (_colorizeDiff || _load_colorizeDiff()).default)(info.current, info.wanted, reporter), reporter.format.magenta(info.latest), getNameFromHint(info.hint), reporter.format.cyan(info.url)];
+        const row = [colorizeName(info), info.current, (0, (_colorizeDiff || _load_colorizeDiff()).default)(info.current, info.wanted, reporter), reporter.format.magenta(info.latest), info.workspaceName || '', getNameFromHint(info.hint), reporter.format.cyan(info.url)];
+        if (!usesWorkspaces) {
+          row.splice(4, 1);
+        }
+        return row;
       });
 
-      reporter.table(['Package', 'Current', 'Wanted', 'Latest', 'Package Type', 'URL'], body);
+      const red = reporter.format.red('<red>');
+      const yellow = reporter.format.yellow('<yellow>');
+      const green = reporter.format.green('<green>');
+      reporter.info(reporter.lang('legendColorsForVersionUpdates', red, yellow, green));
+
+      const header = ['Package', 'Current', 'Wanted', 'Latest', 'Workspace', 'Package Type', 'URL'];
+      if (!usesWorkspaces) {
+        header.splice(4, 1);
+      }
+      reporter.table(header, body);
+
       return 1;
     }
     return 0;
@@ -83903,7 +84266,7 @@ function _load_lockfile() {
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 var _colorForVersions;
@@ -84191,6 +84554,11 @@ let publish = (() => {
       throw new (_errors || _load_errors()).MessageError(config.reporter.lang('invalidAccess'));
     }
 
+    // TODO this might modify package.json, do we need to reload it?
+    yield config.executeLifecycleScript('prepublish');
+    yield config.executeLifecycleScript('prepare');
+    yield config.executeLifecycleScript('prepublishOnly');
+
     // get tarball stream
     const stat = yield (_fs || _load_fs()).lstat(dir);
     let stream;
@@ -84220,11 +84588,6 @@ let publish = (() => {
     const tag = flags.tag || 'latest';
     const tbName = `${pkg.name}-${pkg.version}.tgz`;
     const tbURI = `${pkg.name}/-/${tbName}`;
-
-    // TODO this might modify package.json, do we need to reload it?
-    yield config.executeLifecycleScript('prepublish');
-    yield config.executeLifecycleScript('prepublishOnly');
-    yield config.executeLifecycleScript('prepare');
 
     // create body
     const root = {
@@ -84348,7 +84711,7 @@ function _load_fs() {
 var _pack;
 
 function _load_pack() {
-  return _pack = __webpack_require__(157);
+  return _pack = __webpack_require__(158);
 }
 
 var _login;
@@ -84361,7 +84724,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 const crypto = __webpack_require__(8);
 const url = __webpack_require__(14);
 const fs2 = __webpack_require__(5);
@@ -84427,8 +84790,8 @@ let run = exports.run = (() => {
         }
 
         if (cmds.length) {
-          // propagate YARN_SILENT env variable to executed commands
-          process.env.YARN_SILENT = '1';
+          // Disable wrapper in executed commands
+          process.env.YARN_WRAP_OUTPUT = 'false';
           for (const _ref3 of cmds) {
             var _ref4 = (0, (_slicedToArray2 || _load_slicedToArray()).default)(_ref3, 2);
 
@@ -84436,8 +84799,7 @@ let run = exports.run = (() => {
             const cmd = _ref4[1];
 
             // only tack on trailing arguments for default script, ignore for pre and post - #1595
-            const defaultScriptCmd = cmd + joinArgs(args);
-            const cmdWithArgs = stage === action ? defaultScriptCmd : cmd;
+            const cmdWithArgs = stage === action ? sh`${unquoted(cmd)} ${args}` : cmd;
             yield (0, (_executeLifecycleScript || _load_executeLifecycleScript()).execCommand)(stage, config, cmdWithArgs, config.cwd);
           }
         } else if (action === 'env') {
@@ -84480,7 +84842,7 @@ let run = exports.run = (() => {
         if (yield (_fs || _load_fs()).exists(binFolder)) {
           for (const name of yield (_fs || _load_fs()).readdir(binFolder)) {
             binCommands.push(name);
-            scripts[name] = `"${path.join(binFolder, name)}"`;
+            scripts[name] = quoteForShell(path.join(binFolder, name));
           }
         }
         visitedBinFolders.add(binFolder);
@@ -84539,7 +84901,7 @@ function _load_errors() {
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(35);
+  return _index = __webpack_require__(36);
 }
 
 var _fs;
@@ -84551,7 +84913,7 @@ function _load_fs() {
 var _map;
 
 function _load_map() {
-  return _map = _interopRequireDefault(__webpack_require__(17));
+  return _map = _interopRequireDefault(__webpack_require__(18));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -84562,11 +84924,11 @@ const leven = __webpack_require__(581);
 
 const path = __webpack_require__(0);
 
-// Copied from https://github.com/npm/npm/blob/63f153c743f9354376bfb9dad42bd028a320fd1f/lib/run-script.js#L175
-function joinArgs(args) {
-  return args.reduce((joinedArgs, arg) => joinedArgs + ' "' + arg.replace(/"/g, '\\"') + '"', '');
-}
+var _require = __webpack_require__(604);
 
+const quoteForShell = _require.quoteForShell,
+      sh = _require.sh,
+      unquoted = _require.unquoted;
 function setFlags(commander) {}
 
 function hasWrapper(commander, args) {
@@ -84588,7 +84950,7 @@ exports.examples = exports.hasWrapper = exports.setFlags = exports.run = undefin
 var _extends2;
 
 function _load_extends() {
-  return _extends2 = _interopRequireDefault(__webpack_require__(36));
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
 }
 
 var _asyncToGenerator2;
@@ -85246,13 +85608,13 @@ exports.hasWrapper = hasWrapper;
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 var _fs;
@@ -85279,7 +85641,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const requireLockfile = exports.requireLockfile = true;
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 const bytes = __webpack_require__(458);
 const emoji = __webpack_require__(301);
 const path = __webpack_require__(0);
@@ -85439,14 +85801,14 @@ function _load_child() {
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 function setFlags(commander) {}
 
@@ -85477,19 +85839,22 @@ let start = (() => {
     const rc = (0, (_rc || _load_rc()).getRcConfigForCwd)(process.cwd());
     const yarnPath = rc['yarn-path'];
 
-    if (yarnPath && process.env.YARN_IGNORE_PATH !== '1') {
+    if (yarnPath && !boolifyWithDefault(process.env.YARN_IGNORE_PATH, false)) {
       const argv = process.argv.slice(2);
       const opts = { stdio: 'inherit', env: Object.assign({}, process.env, { YARN_IGNORE_PATH: 1 }) };
+      let exitCode = 0;
 
       try {
-        yield (0, (_child || _load_child()).spawnp)(yarnPath, argv, opts);
+        exitCode = yield (0, (_child || _load_child()).spawnp)(yarnPath, argv, opts);
       } catch (firstError) {
         try {
-          yield (0, (_child || _load_child()).forkp)(yarnPath, argv, opts);
+          exitCode = yield (0, (_child || _load_child()).forkp)(yarnPath, argv, opts);
         } catch (error) {
           throw firstError;
         }
       }
+
+      process.exitCode = exitCode;
     } else {
       // ignore all arguments after a --
       const doubleDashIndex = process.argv.findIndex(function (element) {
@@ -85547,7 +85912,7 @@ function _load_fs() {
 var _invariant;
 
 function _load_invariant() {
-  return _invariant = _interopRequireDefault(__webpack_require__(7));
+  return _invariant = _interopRequireDefault(__webpack_require__(6));
 }
 
 var _properLockfile;
@@ -85571,19 +85936,19 @@ function _load_death() {
 var _semver;
 
 function _load_semver() {
-  return _semver = _interopRequireDefault(__webpack_require__(20));
+  return _semver = _interopRequireDefault(__webpack_require__(17));
 }
 
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(154);
+  return _index = __webpack_require__(155);
 }
 
 var _index2;
 
 function _load_index2() {
-  return _index2 = __webpack_require__(34);
+  return _index2 = __webpack_require__(35);
 }
 
 var _index3;
@@ -85595,7 +85960,7 @@ function _load_index3() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _network;
@@ -85662,6 +86027,14 @@ function findProjectRoot(base) {
 
 const boolify = val => val.toString().toLowerCase() !== 'false' && val !== '0';
 
+function boolifyWithDefault(val, defaultResult) {
+  if (val === undefined || val === null || val === '') {
+    return defaultResult;
+  } else {
+    return boolify(val);
+  }
+}
+
 function main(_ref) {
   let startArgs = _ref.startArgs,
       args = _ref.args,
@@ -85704,6 +86077,7 @@ function main(_ref) {
   (_commander || _load_commander()).default.option('--cwd <cwd>', 'working directory to use', process.cwd());
   (_commander || _load_commander()).default.option('--proxy <host>', '');
   (_commander || _load_commander()).default.option('--https-proxy <host>', '');
+  (_commander || _load_commander()).default.option('--registry <url>', 'override configuration registry');
   (_commander || _load_commander()).default.option('--no-progress', 'disable progress bar');
   (_commander || _load_commander()).default.option('--network-concurrency <number>', 'maximum number of concurrent network requests', parseInt);
   (_commander || _load_commander()).default.option('--network-timeout <milliseconds>', 'TCP timeout for network requests', parseInt);
@@ -85772,7 +86146,7 @@ function main(_ref) {
 
   let warnAboutRunDashDash = false;
   // we are using "yarn <script> -abc" or "yarn run <script> -abc", we want -abc to be script options, not yarn options
-  if (command === (_index3 || _load_index3()).default.run) {
+  if (command === (_index3 || _load_index3()).default.run || command === (_index3 || _load_index3()).default.create) {
     if (endArgs.length === 0) {
       endArgs = ['--', ...args.splice(1)];
     } else {
@@ -85800,7 +86174,7 @@ function main(_ref) {
     emoji: process.stdout.isTTY && (_commander || _load_commander()).default.emoji,
     verbose: (_commander || _load_commander()).default.verbose,
     noProgress: !(_commander || _load_commander()).default.progress,
-    isSilent: process.env.YARN_SILENT === '1' || (_commander || _load_commander()).default.silent
+    isSilent: boolifyWithDefault(process.env.YARN_SILENT, false) || (_commander || _load_commander()).default.silent
   });
 
   const exit = exitCode => {
@@ -85811,9 +86185,10 @@ function main(_ref) {
   reporter.initPeakMemoryCounter();
 
   const config = new (_config || _load_config()).default(reporter);
-  const outputWrapper = !(_commander || _load_commander()).default.json && command.hasWrapper((_commander || _load_commander()).default, (_commander || _load_commander()).default.args);
+  const outputWrapperEnabled = boolifyWithDefault(process.env.YARN_WRAP_OUTPUT, true);
+  const shouldWrapOutput = outputWrapperEnabled && !(_commander || _load_commander()).default.json && command.hasWrapper((_commander || _load_commander()).default, (_commander || _load_commander()).default.args);
 
-  if (outputWrapper) {
+  if (shouldWrapOutput) {
     reporter.header(commandName, { name: 'yarn', version: (_yarnVersion || _load_yarnVersion()).version });
   }
 
@@ -85839,13 +86214,6 @@ function main(_ref) {
   }
 
   //
-  if (command.requireLockfile && !(_fs || _load_fs()).default.existsSync((_path || _load_path()).default.join(config.cwd, (_constants || _load_constants()).LOCKFILE_FILENAME))) {
-    reporter.error(reporter.lang('noRequiredLockfile'));
-    exit(1);
-    return;
-  }
-
-  //
   const run = () => {
     (0, (_invariant || _load_invariant()).default)(command, 'missing command');
 
@@ -85854,7 +86222,7 @@ function main(_ref) {
     }
 
     return command.run(config, reporter, (_commander || _load_commander()).default, (_commander || _load_commander()).default.args).then(exitCode => {
-      if (outputWrapper) {
+      if (shouldWrapOutput) {
         reporter.footer(false);
       }
       return exitCode;
@@ -86030,7 +86398,8 @@ function main(_ref) {
     }
 
     // lockfile
-    const lockLoc = (_path || _load_path()).default.join(config.cwd, (_constants || _load_constants()).LOCKFILE_FILENAME);
+    const lockLoc = (_path || _load_path()).default.join(config.lockfileFolder || config.cwd, // lockfileFolder might not be set at this point
+    (_constants || _load_constants()).LOCKFILE_FILENAME);
     const lockfile = (_fs || _load_fs()).default.existsSync(lockLoc) ? (_fs || _load_fs()).default.readFileSync(lockLoc, 'utf8') : 'No lockfile';
     log.push(`Lockfile: ${indent(lockfile)}`);
 
@@ -86058,7 +86427,7 @@ function main(_ref) {
     return errorReportLoc;
   }
 
-  const cwd = findProjectRoot((_commander || _load_commander()).default.cwd);
+  const cwd = command.shouldRunInCurrentCwd ? (_commander || _load_commander()).default.cwd : findProjectRoot((_commander || _load_commander()).default.cwd);
 
   config.init({
     cwd,
@@ -86080,11 +86449,17 @@ function main(_ref) {
     production: (_commander || _load_commander()).default.production,
     httpProxy: (_commander || _load_commander()).default.proxy,
     httpsProxy: (_commander || _load_commander()).default.httpsProxy,
+    registry: (_commander || _load_commander()).default.registry,
     networkConcurrency: (_commander || _load_commander()).default.networkConcurrency,
     networkTimeout: (_commander || _load_commander()).default.networkTimeout,
     nonInteractive: (_commander || _load_commander()).default.nonInteractive,
     scriptsPrependNodePath: (_commander || _load_commander()).default.scriptsPrependNodePath
   }).then(() => {
+    // lockfile check must happen after config.init sets lockfileFolder
+    if (command.requireLockfile && !(_fs || _load_fs()).default.existsSync((_path || _load_path()).default.join(config.lockfileFolder, (_constants || _load_constants()).LOCKFILE_FILENAME))) {
+      throw new (_errors || _load_errors()).MessageError(reporter.lang('noRequiredLockfile'));
+    }
+
     // option "no-progress" stored in yarn config
     const noProgressConfig = config.registries.yarn.getOption('no-progress');
 
@@ -86164,7 +86539,7 @@ function _load_asyncToGenerator() {
 var _baseFetcher;
 
 function _load_baseFetcher() {
-  return _baseFetcher = _interopRequireDefault(__webpack_require__(122));
+  return _baseFetcher = _interopRequireDefault(__webpack_require__(123));
 }
 
 var _fs;
@@ -86224,13 +86599,13 @@ function _load_errors() {
 var _baseFetcher;
 
 function _load_baseFetcher() {
-  return _baseFetcher = _interopRequireDefault(__webpack_require__(122));
+  return _baseFetcher = _interopRequireDefault(__webpack_require__(123));
 }
 
 var _git;
 
 function _load_git() {
-  return _git = _interopRequireDefault(__webpack_require__(166));
+  return _git = _interopRequireDefault(__webpack_require__(167));
 }
 
 var _fs;
@@ -86242,19 +86617,19 @@ function _load_fs() {
 var _constants;
 
 function _load_constants() {
-  return _constants = _interopRequireWildcard(__webpack_require__(6));
+  return _constants = _interopRequireWildcard(__webpack_require__(7));
 }
 
 var _crypto;
 
 function _load_crypto() {
-  return _crypto = _interopRequireWildcard(__webpack_require__(123));
+  return _crypto = _interopRequireWildcard(__webpack_require__(124));
 }
 
 var _install;
 
 function _load_install() {
-  return _install = __webpack_require__(30);
+  return _install = __webpack_require__(28);
 }
 
 var _lockfile;
@@ -86272,19 +86647,19 @@ function _load_config() {
 var _pack;
 
 function _load_pack() {
-  return _pack = __webpack_require__(157);
+  return _pack = __webpack_require__(158);
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const tarFs = __webpack_require__(146);
+const tarFs = __webpack_require__(147);
 const url = __webpack_require__(14);
 const path = __webpack_require__(0);
 const fs = __webpack_require__(5);
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 const PACKED_FLAG = '1';
 
@@ -86574,7 +86949,7 @@ exports.workspace = exports.tarball = exports.git = exports.copy = exports.base 
 var _baseFetcher;
 
 function _load_baseFetcher() {
-  return _baseFetcher = _interopRequireDefault(__webpack_require__(122));
+  return _baseFetcher = _interopRequireDefault(__webpack_require__(123));
 }
 
 var _copyFetcher;
@@ -86623,7 +86998,7 @@ Object.defineProperty(exports, "__esModule", {
 var _extends2;
 
 function _load_extends() {
-  return _extends2 = _interopRequireDefault(__webpack_require__(36));
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
 }
 
 var _asyncToGenerator2;
@@ -86676,7 +87051,7 @@ exports.default = WorkspaceFetcher;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-const semver = __webpack_require__(20);
+const semver = __webpack_require__(17);
 
 // This isn't really a "proper" constraint resolver. We just return the highest semver
 // version in the versions passed that satisfies the input range. This vastly reduces
@@ -86725,7 +87100,7 @@ function _load_misc() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 const path = __webpack_require__(0);
 
 let historyCounter = 0;
@@ -87406,7 +87781,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 const INSTALL_STAGES = ['preinstall', 'install', 'postinstall'];
 
@@ -87775,13 +88150,7 @@ class PackageReference {
   addRequest(request) {
     this.requests.push(request);
 
-    let requestLevel = -1;
-    let currentRequest = request;
-    while (currentRequest && requestLevel < this.level) {
-      requestLevel += 1;
-      currentRequest = currentRequest.parentRequest;
-    }
-    this.level = requestLevel;
+    this.level = Math.min(this.level, request.parentNames.length);
   }
 
   prune() {
@@ -87858,7 +88227,7 @@ function _load_asyncToGenerator() {
 var _extends2;
 
 function _load_extends() {
-  return _extends2 = _interopRequireDefault(__webpack_require__(36));
+  return _extends2 = _interopRequireDefault(__webpack_require__(29));
 }
 
 var _misc;
@@ -87952,9 +88321,18 @@ class BaseRegistry {
   init() {
     var _this = this;
 
+    let overrides = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     return (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
       _this.mergeEnv('yarn_');
       yield _this.loadConfig();
+
+      for (const override of Object.keys(overrides)) {
+        const val = overrides[override];
+
+        if (val !== undefined) {
+          _this.config[override] = val;
+        }
+      }
       _this.loc = path.join(_this.cwd, _this.folder);
     })();
   }
@@ -88031,7 +88409,7 @@ function _load_asyncToGenerator() {
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 var _npmRegistry;
@@ -88203,7 +88581,7 @@ Object.defineProperty(exports, "__esModule", {
 var _jsonReporter;
 
 function _load_jsonReporter() {
-  return _jsonReporter = _interopRequireDefault(__webpack_require__(162));
+  return _jsonReporter = _interopRequireDefault(__webpack_require__(163));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -88248,7 +88626,7 @@ function _load_asyncToGenerator() {
 var _baseReporter;
 
 function _load_baseReporter() {
-  return _baseReporter = _interopRequireDefault(__webpack_require__(77));
+  return _baseReporter = _interopRequireDefault(__webpack_require__(78));
 }
 
 var _progressBar;
@@ -88266,7 +88644,7 @@ function _load_spinnerProgress() {
 var _util;
 
 function _load_util() {
-  return _util = __webpack_require__(161);
+  return _util = __webpack_require__(162);
 }
 
 var _misc;
@@ -88284,7 +88662,7 @@ function _load_treeHelper() {
 var _inquirer;
 
 function _load_inquirer() {
-  return _inquirer = _interopRequireDefault(__webpack_require__(214));
+  return _inquirer = _interopRequireDefault(__webpack_require__(215));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -88293,14 +88671,14 @@ var _require = __webpack_require__(2);
 
 const inspect = _require.inspect;
 
-const readline = __webpack_require__(152);
-const chalk = __webpack_require__(125);
-const stripAnsi = __webpack_require__(655);
-const read = __webpack_require__(609);
-const tty = __webpack_require__(90);
+const readline = __webpack_require__(153);
+const chalk = __webpack_require__(126);
+const stripAnsi = __webpack_require__(656);
+const read = __webpack_require__(610);
+const tty = __webpack_require__(76);
 
 // fixes bold on windows
-if (process.platform === 'win32' && process.env.TERM && !/^xterm/i.test(process.env.TERM)) {
+if (process.platform === 'win32' && !(process.env.TERM && /^xterm/i.test(process.env.TERM))) {
   chalk.bold._styles[0].close += '\u001b[m';
 }
 
@@ -88825,7 +89203,7 @@ Object.defineProperty(exports, "__esModule", {
 var _util;
 
 function _load_util() {
-  return _util = __webpack_require__(161);
+  return _util = __webpack_require__(162);
 }
 
 class ProgressBar {
@@ -88913,7 +89291,7 @@ Object.defineProperty(exports, "__esModule", {
 var _util;
 
 function _load_util() {
-  return _util = __webpack_require__(161);
+  return _util = __webpack_require__(162);
 }
 
 class Spinner {
@@ -88978,7 +89356,7 @@ Object.defineProperty(exports, "__esModule", {
 var _jsonReporter;
 
 function _load_jsonReporter() {
-  return _jsonReporter = _interopRequireDefault(__webpack_require__(162));
+  return _jsonReporter = _interopRequireDefault(__webpack_require__(163));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -89081,6 +89459,7 @@ const messages = {
   couldntFindVersionThatMatchesRange: "Couldn't find any versions for $0 that matches $1",
   chooseVersionFromList: 'Please choose a version of $0 from this list:',
   moduleNotInManifest: "This module isn't specified in a manifest.",
+  moduleAlreadyInManifest: '$0 is already in $1. Please remove existing entry first before adding it to $2.',
   unknownFolderOrTarball: "Passed folder/tarball doesn't exist,",
   unknownPackage: "Couldn't find package $0.",
   unknownPackageName: "Couldn't find package name.",
@@ -89119,7 +89498,7 @@ const messages = {
   noPermission: 'Cannot create $0 due to insufficient permissions.',
   noGlobalFolder: 'Cannot find a suitable global folder. Tried these: $0',
   allDependenciesUpToDate: 'All of your dependencies are up to date.',
-  legendColorsForUpgradeInteractive: 'Color legend : \n $0    : Major Update backward-incompatible updates \n $1 : Minor Update backward-compatible features \n $2  : Patch Update backward-compatible bug fixes',
+  legendColorsForVersionUpdates: 'Color legend : \n $0    : Major Update backward-incompatible updates \n $1 : Minor Update backward-compatible features \n $2  : Patch Update backward-compatible bug fixes',
   frozenLockfileError: 'Your lockfile needs to be updated, but yarn was run with `--frozen-lockfile`.',
   fileWriteError: 'Could not write file $0: $1',
   multiplePackagesCantUnpackInSameDestination: 'Pattern $0 is trying to unpack in the same destination $1 as pattern $2. This could result in a non deterministic behavior, skipping.',
@@ -89171,11 +89550,12 @@ const messages = {
   linkUsing: 'Using linked module for $0.',
   linkDisusing: 'Removed linked module $0.',
   linkDisusingMessage: 'You will need to run `yarn` to re-install the package that was linked.',
+  linkTargetMissing: 'The target of linked module $0 is missing. Removing link.',
 
   createInvalidBin: 'Invalid bin entry found in package $0.',
   createMissingPackage: 'Package not found - this is probably an internal error, and should be reported at https://github.com/yarnpkg/yarn/issues.',
 
-  workspacesPreferDevDependencies: "You're trying to add a regular dependency to a workspace root, which is probably a mistake (do you want to run this command inside a workspace?). If this dependency really should be in your workspace root, use the --dev flag to add it to your devDependencies.",
+  workspacesAddRootCheck: 'Running this command will add the dependency to the workspace root rather than workspace itself, which might not be what you want - if you really meant it, make it explicit by running this command again with the -W flag (or --ignore-workspace-root-check).',
   workspacesRequirePrivateProjects: 'Workspaces can only be enabled in private projects',
   workspacesDisabled: 'Your project root defines workspaces but the feature is disabled in your Yarn config. Please check "workspaces-experimental" in your .yarnrc file.',
   workspaceRootNotFound: "Cannot find the root of your workspace - are you sure you're currently in a workspace?",
@@ -89346,8 +89726,14 @@ const messages = {
   scopeNotValid: 'The specified scope is not valid.',
 
   deprecatedCommand: '$0 is deprecated. Please use $1.',
-  implicitFileDeprecated: 'Using the "file:" protocol implicitly is deprecated. Please either the protocol or prepend the path $0 with "./".',
-  unsupportedNodeVersion: 'You are using Node $0 which is not supported and may encounter bugs or unexpected behavior. Yarn supports the following semver range: $1'
+  deprecatedListArgs: 'Filtering by arguments is deprecated. Please use the pattern option instead.',
+  implicitFileDeprecated: 'Using the "file:" protocol implicitly is deprecated. Please either prepend the protocol or prepend the path $0 with "./".',
+  unsupportedNodeVersion: 'You are using Node $0 which is not supported and may encounter bugs or unexpected behavior. Yarn supports the following semver range: $1',
+
+  verboseUpgradeBecauseRequested: 'Considering upgrade of $0 to $1 because it was directly requested.',
+  verboseUpgradeBecauseOutdated: 'Considering upgrade of $0 to $1 because a newer version exists in the registry.',
+  verboseUpgradeNotUnlocking: 'Not unlocking $0 in the lockfile because it is a new or direct dependency.',
+  verboseUpgradeUnlocking: 'Unlocking $0 in the lockfile.'
 };
 
 exports.default = messages;
@@ -89384,13 +89770,13 @@ function _load_index() {
 var _isCi;
 
 function _load_isCi() {
-  return _isCi = _interopRequireDefault(__webpack_require__(216));
+  return _isCi = _interopRequireDefault(__webpack_require__(217));
 }
 
 var _baseReporter;
 
 function _load_baseReporter() {
-  return _baseReporter = _interopRequireDefault(__webpack_require__(77));
+  return _baseReporter = _interopRequireDefault(__webpack_require__(78));
 }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -89504,12 +89890,12 @@ function _load_baseResolver() {
 var _workspaceLayout;
 
 function _load_workspaceLayout() {
-  return _workspaceLayout = _interopRequireDefault(__webpack_require__(80));
+  return _workspaceLayout = _interopRequireDefault(__webpack_require__(81));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 class WorkspaceResolver extends (_baseResolver || _load_baseResolver()).default {
   static isWorkspace(pattern, workspaceLayout) {
@@ -89555,10 +89941,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _asyncToGenerator2;
+
+function _load_asyncToGenerator() {
+  return _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(1));
+}
+
 var _hostedGitResolver;
 
 function _load_hostedGitResolver() {
-  return _hostedGitResolver = _interopRequireDefault(__webpack_require__(78));
+  return _hostedGitResolver = _interopRequireDefault(__webpack_require__(79));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -89584,6 +89976,24 @@ class BitbucketResolver extends (_hostedGitResolver || _load_hostedGitResolver()
   static getHTTPFileUrl(parts, filename, commit) {
     return `https://${this.hostname}/${parts.user}/${parts.repo}/raw/${commit}/${filename}`;
   }
+
+  hasHTTPCapability(url) {
+    var _this = this;
+
+    return (0, (_asyncToGenerator2 || _load_asyncToGenerator()).default)(function* () {
+      // We don't follow redirects and reject a 302 since this means BitBucket
+      // won't allow us to use the HTTP protocol for `git` access.
+      // Most probably a private repo and this 302 is to a login page.
+      const bitbucketHTTPSupport = yield _this.config.requestManager.request({
+        url,
+        method: 'HEAD',
+        queue: _this.resolver.fetchingQueue,
+        followRedirect: false,
+        rejectStatusCode: 302
+      });
+      return bitbucketHTTPSupport !== false;
+    })();
+  }
 }
 exports.default = BitbucketResolver;
 BitbucketResolver.hostname = 'bitbucket.org';
@@ -89603,7 +90013,7 @@ Object.defineProperty(exports, "__esModule", {
 var _hostedGitResolver;
 
 function _load_hostedGitResolver() {
-  return _hostedGitResolver = _interopRequireDefault(__webpack_require__(78));
+  return _hostedGitResolver = _interopRequireDefault(__webpack_require__(79));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -89719,19 +90129,19 @@ function _load_gitResolver() {
 var _guessName;
 
 function _load_guessName() {
-  return _guessName = _interopRequireDefault(__webpack_require__(167));
+  return _guessName = _interopRequireDefault(__webpack_require__(168));
 }
 
 var _version;
 
 function _load_version() {
-  return _version = _interopRequireWildcard(__webpack_require__(171));
+  return _version = _interopRequireWildcard(__webpack_require__(172));
 }
 
 var _crypto;
 
 function _load_crypto() {
-  return _crypto = _interopRequireWildcard(__webpack_require__(123));
+  return _crypto = _interopRequireWildcard(__webpack_require__(124));
 }
 
 var _fs;
@@ -89744,7 +90154,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const invariant = __webpack_require__(7);
+const invariant = __webpack_require__(6);
 
 class TarballResolver extends (_exoticResolver || _load_exoticResolver()).default {
   constructor(request, fragment) {
@@ -89984,7 +90394,7 @@ function _load_misc() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const semver = __webpack_require__(20);
+const semver = __webpack_require__(17);
 
 const REF_TAG_PREFIX = 'refs/tags/';
 const REF_BRANCH_PREFIX = 'refs/heads/';
@@ -90245,19 +90655,19 @@ function _load_asyncToGenerator() {
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 var _util;
 
 function _load_util() {
-  return _util = __webpack_require__(169);
+  return _util = __webpack_require__(170);
 }
 
 var _index;
 
 function _load_index() {
-  return _index = __webpack_require__(35);
+  return _index = __webpack_require__(36);
 }
 
 var _inferLicense;
@@ -90276,7 +90686,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const semver = __webpack_require__(20);
+const semver = __webpack_require__(17);
 const path = __webpack_require__(0);
 const url = __webpack_require__(14);
 
@@ -90569,7 +90979,7 @@ exports.default = (() => {
       }
     }
 
-    for (const dependencyType of (_constants || _load_constants()).DEPENDENCY_TYPES) {
+    for (const dependencyType of (_constants || _load_constants()).MANIFEST_FIELDS) {
       const dependencyList = info[dependencyType];
       if (dependencyList && typeof dependencyList === 'object') {
         delete dependencyList['//'];
@@ -90731,13 +91141,13 @@ exports.default = function (info, moduleLoc, lockfileFolder) {
 var _constants;
 
 function _load_constants() {
-  return _constants = __webpack_require__(6);
+  return _constants = __webpack_require__(7);
 }
 
 var _fileResolver;
 
 function _load_fileResolver() {
-  return _fileResolver = __webpack_require__(163);
+  return _fileResolver = __webpack_require__(164);
 }
 
 var _linkResolver;
@@ -90749,7 +91159,7 @@ function _load_linkResolver() {
 var _invariant;
 
 function _load_invariant() {
-  return _invariant = _interopRequireDefault(__webpack_require__(7));
+  return _invariant = _interopRequireDefault(__webpack_require__(6));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -90918,7 +91328,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.satisfiesWithPreleases = satisfiesWithPreleases;
-const semver = __webpack_require__(20);
+const semver = __webpack_require__(17);
 
 /**
  * Returns whether the given semver version satisfies the given range. Notably this supports
@@ -90994,7 +91404,7 @@ module.exports = { "default": __webpack_require__(472), __esModule: true };
 /* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DuplexStream = __webpack_require__(610)
+var DuplexStream = __webpack_require__(611)
   , util         = __webpack_require__(2)
 
 
@@ -92267,7 +92677,7 @@ function normalizeOpts(options) {
   var defaultOpts = {
     defaultWidth: 0,
     output: process.stdout,
-    tty: __webpack_require__(90)
+    tty: __webpack_require__(76)
   };
   if (!options) {
     return defaultOpts;
@@ -92329,7 +92739,7 @@ cmdShim.ifExists = cmdShimIfExists
 
 var fs = __webpack_require__(292)
 
-var mkdir = __webpack_require__(114)
+var mkdir = __webpack_require__(115)
   , path = __webpack_require__(0)
   , shebangExpr = /^#\!\s*(?:\/usr\/bin\/env)?\s*([^ \t]+)(.*)$/
 
@@ -92843,7 +93253,7 @@ module.exports = {
 /* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(85);
+__webpack_require__(86);
 __webpack_require__(479);
 module.exports = __webpack_require__(21).Array.from;
 
@@ -92852,7 +93262,7 @@ module.exports = __webpack_require__(21).Array.from;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(109);
-__webpack_require__(85);
+__webpack_require__(86);
 module.exports = __webpack_require__(477);
 
 /***/ }),
@@ -92860,7 +93270,7 @@ module.exports = __webpack_require__(477);
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(109);
-__webpack_require__(85);
+__webpack_require__(86);
 module.exports = __webpack_require__(478);
 
 /***/ }),
@@ -92877,7 +93287,7 @@ module.exports = __webpack_require__(21).Object.assign;
 "use strict";
 
 var $defineProperty = __webpack_require__(38)
-  , createDesc      = __webpack_require__(83);
+  , createDesc      = __webpack_require__(84);
 
 module.exports = function(object, index, value){
   if(index in object)$defineProperty.f(object, index, createDesc(0, value));
@@ -92891,15 +93301,15 @@ module.exports = function(object, index, value){
 "use strict";
 
 // 19.1.2.1 Object.assign(target, source, ...)
-var getKeys  = __webpack_require__(130)
+var getKeys  = __webpack_require__(131)
   , gOPS     = __webpack_require__(475)
   , pIE      = __webpack_require__(476)
   , toObject = __webpack_require__(106)
-  , IObject  = __webpack_require__(126)
+  , IObject  = __webpack_require__(127)
   , $assign  = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
-module.exports = !$assign || __webpack_require__(82)(function(){
+module.exports = !$assign || __webpack_require__(83)(function(){
   var A = {}
     , B = {}
     , S = Symbol()
@@ -92951,9 +93361,9 @@ module.exports = __webpack_require__(21).getIterator = function(it){
 /* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof   = __webpack_require__(81)
+var classof   = __webpack_require__(82)
   , ITERATOR  = __webpack_require__(9)('iterator')
-  , Iterators = __webpack_require__(31);
+  , Iterators = __webpack_require__(32);
 module.exports = __webpack_require__(21).isIterable = function(it){
   var O = Object(it);
   return O[ITERATOR] !== undefined
@@ -92970,13 +93380,13 @@ module.exports = __webpack_require__(21).isIterable = function(it){
 var ctx            = __webpack_require__(37)
   , $export        = __webpack_require__(66)
   , toObject       = __webpack_require__(106)
-  , call           = __webpack_require__(128)
-  , isArrayIter    = __webpack_require__(127)
-  , toLength       = __webpack_require__(84)
+  , call           = __webpack_require__(129)
+  , isArrayIter    = __webpack_require__(128)
+  , toLength       = __webpack_require__(85)
   , createProperty = __webpack_require__(473)
   , getIterFn      = __webpack_require__(108);
 
-$export($export.S + $export.F * !__webpack_require__(129)(function(iter){ Array.from(iter); }), 'Array', {
+$export($export.S + $export.F * !__webpack_require__(130)(function(iter){ Array.from(iter); }), 'Array', {
   // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
   from: function from(arrayLike/*, mapfn = undefined, thisArg = undefined*/){
     var O       = toObject(arrayLike)
@@ -93850,7 +94260,7 @@ module.exports = eos;
 /* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var wrappy = __webpack_require__(89)
+var wrappy = __webpack_require__(90)
 module.exports = wrappy(once)
 
 once.proto = once(function () {
@@ -93881,7 +94291,7 @@ function once (fn) {
 
 // Requires ec.js, jsbn.js, and jsbn2.js
 var BigInteger = __webpack_require__(56).BigInteger
-var ECCurveFp = __webpack_require__(131).ECCurveFp
+var ECCurveFp = __webpack_require__(132).ECCurveFp
 
 
 // ----------------
@@ -94427,11 +94837,11 @@ module.exports = function expandRange(str, options, fn) {
 
   FS = __webpack_require__(5);
 
-  Temp = __webpack_require__(660);
+  Temp = __webpack_require__(661);
 
-  SpawnSync = __webpack_require__(149).spawnSync;
+  SpawnSync = __webpack_require__(150).spawnSync;
 
-  Spawn = __webpack_require__(149).spawn;
+  Spawn = __webpack_require__(150).spawn;
 
   CreateFileError = __webpack_require__(492);
 
@@ -94641,7 +95051,7 @@ module.exports = function expandRange(str, options, fn) {
  * Module dependencies
  */
 
-var isExtglob = __webpack_require__(138);
+var isExtglob = __webpack_require__(139);
 var re, cache = {};
 
 /**
@@ -94840,8 +95250,8 @@ module.exports = function filenameRegex() {
 
 var isObject = __webpack_require__(572);
 var isNumber = __webpack_require__(295);
-var randomize = __webpack_require__(608);
-var repeatStr = __webpack_require__(616);
+var randomize = __webpack_require__(609);
+var repeatStr = __webpack_require__(617);
 var repeat = __webpack_require__(313);
 
 /**
@@ -95299,7 +95709,7 @@ var util = __webpack_require__(2)
   , Agent = __webpack_require__(49).Agent
   , net = __webpack_require__(59)
   , tls = __webpack_require__(336)
-  , AgentSSL = __webpack_require__(150).Agent
+  , AgentSSL = __webpack_require__(151).Agent
   
 function getConnectionName(host, port) {  
   var name = ''
@@ -95440,7 +95850,7 @@ var CombinedStream = __webpack_require__(285);
 var util = __webpack_require__(2);
 var path = __webpack_require__(0);
 var http = __webpack_require__(49);
-var https = __webpack_require__(150);
+var https = __webpack_require__(151);
 var parseUrl = __webpack_require__(14).parse;
 var fs = __webpack_require__(5);
 var mime = __webpack_require__(299);
@@ -95914,7 +96324,7 @@ module.exports = function(dst, src) {
 
 var path = __webpack_require__(0);
 var parent = __webpack_require__(506);
-var isGlob = __webpack_require__(139);
+var isGlob = __webpack_require__(140);
 
 module.exports = function globBase(pattern) {
   if (typeof pattern !== 'string') {
@@ -95964,7 +96374,7 @@ function dirname(glob) {
 
 
 var path = __webpack_require__(0);
-var isglob = __webpack_require__(139);
+var isglob = __webpack_require__(140);
 
 module.exports = function globParent(str) {
 	str += 'a'; // preserves full path in case of trailing path separator
@@ -96458,7 +96868,7 @@ exports.readlinkSync = function (p) {
 var zlib = __webpack_require__(232)
 var peek = __webpack_require__(599)
 var through = __webpack_require__(326)
-var pumpify = __webpack_require__(604)
+var pumpify = __webpack_require__(605)
 var isGzip = __webpack_require__(567)
 var isDeflate = __webpack_require__(563)
 
@@ -97360,10 +97770,10 @@ module.exports = re.test.bind(re);
 // Load modules
 
 var Url = __webpack_require__(14);
-var Hoek = __webpack_require__(133);
+var Hoek = __webpack_require__(134);
 var Cryptiles = __webpack_require__(286);
-var Crypto = __webpack_require__(211);
-var Utils = __webpack_require__(132);
+var Crypto = __webpack_require__(212);
+var Utils = __webpack_require__(133);
 
 
 // Declare internals
@@ -97734,13 +98144,13 @@ exports.message = function (host, port, message, options) {
 
 // Export sub-modules
 
-exports.error = exports.Error = __webpack_require__(124);
+exports.error = exports.Error = __webpack_require__(125);
 exports.sntp = __webpack_require__(318);
 
 exports.server = __webpack_require__(535);
 exports.client = __webpack_require__(533);
-exports.crypto = __webpack_require__(211);
-exports.utils = __webpack_require__(132);
+exports.crypto = __webpack_require__(212);
+exports.utils = __webpack_require__(133);
 
 exports.uri = {
     authenticate: exports.server.authenticateBewit,
@@ -97755,11 +98165,11 @@ exports.uri = {
 
 // Load modules
 
-var Boom = __webpack_require__(124);
-var Hoek = __webpack_require__(133);
+var Boom = __webpack_require__(125);
+var Hoek = __webpack_require__(134);
 var Cryptiles = __webpack_require__(286);
-var Crypto = __webpack_require__(211);
-var Utils = __webpack_require__(132);
+var Crypto = __webpack_require__(212);
+var Utils = __webpack_require__(133);
 
 
 // Declare internals
@@ -98489,7 +98899,7 @@ internals.safeCharCodes = (function () {
 var parser = __webpack_require__(539);
 var signer = __webpack_require__(540);
 var verify = __webpack_require__(541);
-var utils = __webpack_require__(134);
+var utils = __webpack_require__(135);
 
 
 
@@ -98521,9 +98931,9 @@ module.exports = {
 
 // Copyright 2012 Joyent, Inc.  All rights reserved.
 
-var assert = __webpack_require__(135);
+var assert = __webpack_require__(136);
 var util = __webpack_require__(2);
-var utils = __webpack_require__(134);
+var utils = __webpack_require__(135);
 
 
 
@@ -98845,13 +99255,13 @@ module.exports = {
 
 // Copyright 2012 Joyent, Inc.  All rights reserved.
 
-var assert = __webpack_require__(135);
+var assert = __webpack_require__(136);
 var crypto = __webpack_require__(8);
 var http = __webpack_require__(49);
 var util = __webpack_require__(2);
 var sshpk = __webpack_require__(229);
 var jsprim = __webpack_require__(580);
-var utils = __webpack_require__(134);
+var utils = __webpack_require__(135);
 
 var sprintf = __webpack_require__(2).format;
 
@@ -99250,10 +99660,10 @@ module.exports = {
 
 // Copyright 2015 Joyent, Inc.
 
-var assert = __webpack_require__(135);
+var assert = __webpack_require__(136);
 var crypto = __webpack_require__(8);
 var sshpk = __webpack_require__(229);
-var utils = __webpack_require__(134);
+var utils = __webpack_require__(135);
 
 var HASH_ALGOS = utils.HASH_ALGOS;
 var PK_ALGOS = utils.PK_ALGOS;
@@ -99582,9 +99992,9 @@ var Choice = module.exports = function (val, answers) {
 
 "use strict";
 
-var assert = __webpack_require__(19);
+var assert = __webpack_require__(20);
 var _ = __webpack_require__(27);
-var Separator = __webpack_require__(136);
+var Separator = __webpack_require__(137);
 var Choice = __webpack_require__(543);
 
 /**
@@ -99705,12 +100115,12 @@ Choices.prototype.push = function () {
 
 var _ = __webpack_require__(27);
 var util = __webpack_require__(2);
-var chalk = __webpack_require__(33);
+var chalk = __webpack_require__(34);
 var cliCursor = __webpack_require__(282);
-var figures = __webpack_require__(208);
+var figures = __webpack_require__(209);
 var Base = __webpack_require__(54);
 var observe = __webpack_require__(55);
-var Paginator = __webpack_require__(137);
+var Paginator = __webpack_require__(138);
 
 /**
  * Module exports
@@ -99947,7 +100357,7 @@ function getCheckbox(checked) {
 
 var _ = __webpack_require__(27);
 var util = __webpack_require__(2);
-var chalk = __webpack_require__(33);
+var chalk = __webpack_require__(34);
 var Base = __webpack_require__(54);
 var observe = __webpack_require__(55);
 
@@ -100058,11 +100468,11 @@ Prompt.prototype.onKeypress = function () {
  */
 
 var util = __webpack_require__(2);
-var chalk = __webpack_require__(33);
+var chalk = __webpack_require__(34);
 var ExternalEditor = __webpack_require__(496);
 var Base = __webpack_require__(54);
 var observe = __webpack_require__(55);
-var rx = __webpack_require__(143);
+var rx = __webpack_require__(144);
 
 /**
  * Module exports
@@ -100176,11 +100586,11 @@ Prompt.prototype.onError = function (state) {
 
 var _ = __webpack_require__(27);
 var util = __webpack_require__(2);
-var chalk = __webpack_require__(33);
+var chalk = __webpack_require__(34);
 var Base = __webpack_require__(54);
-var Separator = __webpack_require__(136);
+var Separator = __webpack_require__(137);
 var observe = __webpack_require__(55);
-var Paginator = __webpack_require__(137);
+var Paginator = __webpack_require__(138);
 
 /**
  * Module exports
@@ -100441,7 +100851,7 @@ function renderChoices(choices, pointer) {
  */
 
 var util = __webpack_require__(2);
-var chalk = __webpack_require__(33);
+var chalk = __webpack_require__(34);
 var Base = __webpack_require__(54);
 var observe = __webpack_require__(55);
 
@@ -100552,13 +100962,13 @@ Prompt.prototype.onKeypress = function () {
 
 var _ = __webpack_require__(27);
 var util = __webpack_require__(2);
-var chalk = __webpack_require__(33);
-var figures = __webpack_require__(208);
+var chalk = __webpack_require__(34);
+var figures = __webpack_require__(209);
 var cliCursor = __webpack_require__(282);
-var runAsync = __webpack_require__(142);
+var runAsync = __webpack_require__(143);
 var Base = __webpack_require__(54);
 var observe = __webpack_require__(55);
-var Paginator = __webpack_require__(137);
+var Paginator = __webpack_require__(138);
 
 /**
  * Module exports
@@ -100744,7 +101154,7 @@ function listRender(choices, pointer) {
  */
 
 var util = __webpack_require__(2);
-var chalk = __webpack_require__(33);
+var chalk = __webpack_require__(34);
 var Base = __webpack_require__(54);
 var observe = __webpack_require__(55);
 
@@ -100866,11 +101276,11 @@ Prompt.prototype.onKeypress = function () {
 
 var _ = __webpack_require__(27);
 var util = __webpack_require__(2);
-var chalk = __webpack_require__(33);
+var chalk = __webpack_require__(34);
 var Base = __webpack_require__(54);
-var Separator = __webpack_require__(136);
+var Separator = __webpack_require__(137);
 var observe = __webpack_require__(55);
-var Paginator = __webpack_require__(137);
+var Paginator = __webpack_require__(138);
 
 /**
  * Module exports
@@ -101050,7 +101460,7 @@ function renderChoices(choices, pointer) {
  */
 
 var util = __webpack_require__(2);
-var through = __webpack_require__(659);
+var through = __webpack_require__(660);
 var Base = __webpack_require__(293);
 var rlUtils = __webpack_require__(294);
 var _ = __webpack_require__(27);
@@ -101159,9 +101569,9 @@ Prompt.prototype.write = function (message) {
 "use strict";
 
 var _ = __webpack_require__(27);
-var rx = __webpack_require__(143);
+var rx = __webpack_require__(144);
 var util = __webpack_require__(2);
-var runAsync = __webpack_require__(142);
+var runAsync = __webpack_require__(143);
 var utils = __webpack_require__(556);
 var Base = __webpack_require__(293);
 
@@ -101283,7 +101693,7 @@ PromptUI.prototype.filterIfRunnable = function (question) {
 var _ = __webpack_require__(27);
 var util = __webpack_require__(294);
 var cliWidth = __webpack_require__(464);
-var stripAnsi = __webpack_require__(215);
+var stripAnsi = __webpack_require__(216);
 var stringWidth = __webpack_require__(559);
 
 function height(content) {
@@ -101423,8 +101833,8 @@ function forceLineReturn(content, width) {
 "use strict";
 
 var _ = __webpack_require__(27);
-var rx = __webpack_require__(143);
-var runAsync = __webpack_require__(142);
+var rx = __webpack_require__(144);
+var runAsync = __webpack_require__(143);
 
 /**
  * Resolve a question property value if it is passed as a function.
@@ -101581,7 +101991,7 @@ module.exports = x => {
 
 "use strict";
 
-const stripAnsi = __webpack_require__(215);
+const stripAnsi = __webpack_require__(216);
 const isFullwidthCodePoint = __webpack_require__(558);
 
 module.exports = str => {
@@ -101958,9 +102368,9 @@ module.exports = function isObject(val) {
  * You should have received a copy of the license along with this program.
  */
 
-var core = __webpack_require__(140);
-var utils = __webpack_require__(141);
-var curve255 = __webpack_require__(219);
+var core = __webpack_require__(141);
+var utils = __webpack_require__(142);
+var curve255 = __webpack_require__(220);
 
 
     /**
@@ -102077,9 +102487,9 @@ module.exports = ns;
  * You should have received a copy of the license along with this program.
  */
 
-var core = __webpack_require__(140);
-var curve255 = __webpack_require__(219);
-var utils = __webpack_require__(141);
+var core = __webpack_require__(141);
+var curve255 = __webpack_require__(220);
+var utils = __webpack_require__(142);
 var BigInteger = __webpack_require__(56).BigInteger;
 var crypto = __webpack_require__(8);
 
@@ -103408,7 +103818,7 @@ var mod_assert = __webpack_require__(11);
 var mod_util = __webpack_require__(2);
 
 var mod_extsprintf = __webpack_require__(290);
-var mod_verror = __webpack_require__(669);
+var mod_verror = __webpack_require__(670);
 var mod_jsonschema = __webpack_require__(575);
 
 /*
@@ -115388,7 +115798,7 @@ module.exports = (to, from) => {
 /***/ (function(module, exports, __webpack_require__) {
 
 /*jslint node: true*/
-__webpack_require__(653);
+__webpack_require__(654);
 
 "use strict";
 
@@ -116876,7 +117286,7 @@ module.exports = {
  * Released under the MIT License.
  */
 
-var removeTrailingSeparator = __webpack_require__(615);
+var removeTrailingSeparator = __webpack_require__(616);
 
 module.exports = function normalizePath(str, stripTrailing) {
   if (typeof str !== 'string') {
@@ -116898,9 +117308,9 @@ module.exports = function normalizePath(str, stripTrailing) {
 
 var url = __webpack_require__(14);
 var punycode = __webpack_require__(230);
-var queryString = __webpack_require__(607);
+var queryString = __webpack_require__(608);
 var prependHttp = __webpack_require__(601);
-var sortKeys = __webpack_require__(644);
+var sortKeys = __webpack_require__(645);
 var objectAssign = __webpack_require__(302);
 
 var DEFAULT_PORTS = {
@@ -117063,7 +117473,7 @@ module.exports = function (str, opts) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var crypto = __webpack_require__(8)
-  , qs = __webpack_require__(151)
+  , qs = __webpack_require__(152)
   ;
 
 function sha1 (key, body) {
@@ -117339,9 +117749,9 @@ module.exports = function () {
 
 
 
-var isGlob = __webpack_require__(139);
+var isGlob = __webpack_require__(140);
 var findBase = __webpack_require__(505);
-var extglob = __webpack_require__(138);
+var extglob = __webpack_require__(139);
 var dotfile = __webpack_require__(564);
 
 /**
@@ -117739,6 +118149,751 @@ module.exports = syncFs;
 /* 604 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/**
+ * Key a method on your object with this symbol and you can get special
+ * formatting for that value! See ShellStringText, ShellStringUnquoted, or
+ * shellStringSemicolon for examples.
+ * @ignore
+ */
+const formatSymbol = Symbol('format');
+/**
+ * This symbol is for implementing advanced behaviors like the need for extra
+ * carets in Windows shell strings that use pipes. If present, it's called in
+ * an earlier phase than formatSymbol, and is passed a mutable context that can
+ * be read during the format phase to influence formatting.
+ * @ignore
+ */
+const preformatSymbol = Symbol('preformat');
+
+// When minimum Node version becomes 6, replace calls to sticky with /.../y and
+// inline execFrom.
+let stickySupported = true;
+try {
+  new RegExp('', 'y');
+} catch (e) {
+  stickySupported = false;
+}
+const sticky = stickySupported ? source => new RegExp(source, 'y') : source => new RegExp(`^(?:${source})`);
+const execFrom = stickySupported ? (re, haystack, index) => (re.lastIndex = index, re.exec(haystack)) : (re, haystack, index) => re.exec(haystack.substr(index));
+
+function quoteForCmd(text, forceQuote) {
+  let caretDepth = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  // See the below blog post for an explanation of this function and
+  // quoteForWin32:
+  // https://blogs.msdn.microsoft.com/twistylittlepassagesallalike/2011/04/23/everyone-quotes-command-line-arguments-the-wrong-way/
+  if (!text.length) {
+    return '""';
+  }
+  if (/[\n\r]/.test(text)) {
+    throw new Error("Line breaks can't be quoted on Windows");
+  }
+  const caretEscape = /["%]/.test(text);
+  text = quoteForWin32(text, forceQuote || !caretEscape && /[&()<>^|]/.test(text));
+  if (caretEscape) {
+    // See Win32Context for explanation of what caretDepth is for.
+    do {
+      text = text.replace(/[\t "%&()<>^|]/g, '^$&');
+    } while (caretDepth--);
+  }
+  return text;
+}
+const quoteForWin32 = (text, forceQuote) => forceQuote || /[\t "]/.test(text) ? `"${text.replace(/\\+(?=$|")/g, '$&$&').replace(/"/g, '\\"')}"` : text;
+const cmdMetaChars = /[\t\n\r "%&()<>^|]/;
+class Win32Context {
+  constructor() {
+    this.currentScope = newScope(null);
+    this.scopesByObject = new Map();
+  }
+  read(text) {
+    // When cmd.exe pipes to or from a batch file, it spawns a second copy of
+    // itself to run the inner command. This necessitates doubling up on carets
+    // so that escaped characters survive both cmd.exe invocations. See:
+    // https://stackoverflow.com/questions/8192318/why-does-delayed-expansion-fail-when-inside-a-piped-block-of-code#8194279
+    // https://ss64.com/nt/syntax-redirection.html
+    //
+    // Parentheses can create an additional subshell, requiring additional
+    // escaping... it's a mess.
+    //
+    // So here's what we do about it: we read all unquoted text in a shell
+    // string and put it through this tiny parser that looks for pipes,
+    // sequence operators (&, &&, ||), and parentheses. This can't be part of
+    // the main Puka parsing, because it can be affected by `unquoted(...)`
+    // values provided at evaluation time.
+    //
+    // Then, after associating each thing that needs to be quoted with a scope
+    // (via `mark()`), we can determine the depth of caret escaping required
+    // in each scope and pass it (via `Formatter::quote()`) to `quoteForCmd()`.
+    //
+    // See also `ShellStringText`, which holds the logic for the previous
+    // paragraph.
+    const length = text.length;
+    for (let pos = 0, match; pos < length;) {
+      if (match = execFrom(reUnimportant, text, pos)) {
+        pos += match[0].length;
+      }
+      if (pos >= length) break;
+      if (match = execFrom(reSeqOp, text, pos)) {
+        this.seq();
+        pos += match[0].length;
+      } else {
+        const char = text.charCodeAt(pos);
+        if (char === CARET) {
+          pos += 2;
+        } else if (char === QUOTE) {
+          // If you were foolish enough to leave a dangling quotation mark in
+          // an unquoted span... you're likely to have bigger problems than
+          // incorrect escaping. So we just do the simplest thing of looking for
+          // the end quote only in this piece of text.
+          pos += execFrom(reNotQuote, text, pos + 1)[0].length + 2;
+        } else {
+          if (char === OPEN_PAREN) {
+            this.enterScope();
+          } else if (char === CLOSE_PAREN) {
+            this.exitScope();
+          } else {
+            // (char === '|')
+            this.currentScope.depthDelta = 1;
+          }
+          pos++;
+        }
+      }
+    }
+  }
+  enterScope() {
+    this.currentScope = newScope(this.currentScope);
+  }
+  exitScope() {
+    this.currentScope = this.currentScope.parent || (this.currentScope.parent = newScope(null));
+  }
+  seq() {
+    // | binds tighter than sequence operators, so the latter create new sibling
+    // scopes for future |s to mutate.
+    this.currentScope = newScope(this.currentScope.parent);
+  }
+  mark(obj) {
+    this.scopesByObject.set(obj, this.currentScope);
+  }
+  at(obj) {
+    return { depth: getDepth(this.scopesByObject.get(obj)) };
+  }
+}
+const getDepth = scope => scope === null ? 0 : scope.depth !== -1 ? scope.depth : scope.depth = getDepth(scope.parent) + scope.depthDelta;
+const newScope = parent => ({ parent, depthDelta: 0, depth: -1 });
+const CARET = '^'.charCodeAt();
+const QUOTE = '"'.charCodeAt();
+const OPEN_PAREN = '('.charCodeAt();
+const CLOSE_PAREN = ')'.charCodeAt();
+const reNotQuote = sticky('[^"]*');
+const reSeqOp = sticky('&&?|\\|\\|');
+const reUnimportant = sticky('(?:>&|[^"$&()^|])+');
+
+const quoteForSh = (text, forceQuote) => text.length ? forceQuote || shMetaChars.test(text) ? `'${text.replace(/'/g, "'\\''")}'`.replace(/^(?:'')+(?!$)/, '').replace(/\\'''/g, "\\'") : text : "''";
+const shMetaChars = /[\t\n\r "#$&'()*;<>?\\`|~]/;
+
+/**
+ * To get a Formatter, call `Formatter.for`.
+ *
+ * To create a new Formatter, pass an object to `Formatter.declare`.
+ *
+ * To set the global default Formatter, assign to `Formatter.default`.
+ *
+ * @class
+ * @property {Formatter} default - The Formatter to be used when no platform
+ * is provided—for example, when creating strings with `sh`.
+ * @ignore
+ */
+function Formatter() {}
+Object.assign(Formatter, /** @lends Formatter */{
+  /**
+   * Gets a Formatter that has been declared for the provided platform, or
+   * the base `'sh'` formatter if there is no Formatter specific to this
+   * platform, or the Formatter for the current platform if no specific platform
+   * is provided.
+   */
+  for(platform) {
+    return platform == null ? Formatter.default || (Formatter.default = Formatter.for(process.platform)) : Formatter._registry.get(platform) || Formatter._registry.get('sh');
+  },
+  /**
+   * Creates a new Formatter or mutates the properties on an existing
+   * Formatter. The `platform` key on the provided properties object determines
+   * when the Formatter is retrieved.
+   */
+  declare(props) {
+    const platform = props && props.platform || 'sh';
+    const existingFormatter = Formatter._registry.get(platform);
+    const formatter = Object.assign(existingFormatter || new Formatter(), props);
+    formatter.emptyString === void 0 && (formatter.emptyString = formatter.quote('', true));
+    existingFormatter || Formatter._registry.set(formatter.platform, formatter);
+  },
+  _registry: new Map(),
+  prototype: {
+    platform: 'sh',
+    quote: quoteForSh,
+    metaChars: shMetaChars,
+    hasExtraMetaChars: false,
+    statementSeparator: ';',
+    createContext() {
+      return defaultContext;
+    }
+  }
+});
+const defaultContext = {
+  at() {}
+};
+Formatter.declare();
+Formatter.declare({
+  platform: 'win32',
+  quote(text, forceQuote, opts) {
+    return quoteForCmd(text, forceQuote, opts && opts.depth || 0);
+  },
+  metaChars: cmdMetaChars,
+  hasExtraMetaChars: true,
+  statementSeparator: '&',
+  createContext(root) {
+    const context = new this.Context();
+    root[preformatSymbol](context);
+    return context;
+  },
+  Context: Win32Context
+});
+
+const isObject = any => any === Object(any);
+function memoize(f) {
+  const cache = new WeakMap();
+  return arg => {
+    let result = cache.get(arg);
+    if (result === void 0) {
+      result = f(arg);
+      cache.set(arg, result);
+    }
+    return result;
+  };
+}
+
+/**
+ * Represents a contiguous span of text that may or must be quoted. The contents
+ * may already contain quoted segments, which will always be quoted. If unquoted
+ * segments also require quoting, the entire span will be quoted together.
+ * @ignore
+ */
+class ShellStringText {
+  constructor(contents, untested) {
+    this.contents = contents;
+    this.untested = untested;
+  }
+  [formatSymbol](formatter, context) {
+    const unformattedContents = this.contents;
+    const length = unformattedContents.length;
+    const contents = new Array(length);
+    for (let i = 0; i < length; i++) {
+      const c = unformattedContents[i];
+      contents[i] = isObject(c) && formatSymbol in c ? c[formatSymbol](formatter) : c;
+    }
+    for (let unquoted = true, i = 0; i < length; i++) {
+      const content = contents[i];
+      if (content === null) {
+        unquoted = !unquoted;
+      } else {
+        if (unquoted && (formatter.hasExtraMetaChars || this.untested && this.untested.has(i)) && formatter.metaChars.test(content)) {
+          return formatter.quote(contents.join(''), false, context.at(this));
+        }
+      }
+    }
+    const parts = [];
+    for (let quoted = null, i = 0; i < length; i++) {
+      const content = contents[i];
+      if (content === null) {
+        quoted = quoted ? (parts.push(formatter.quote(quoted.join(''), true, context.at(this))), null) : [];
+      } else {
+        (quoted || parts).push(content);
+      }
+    }
+    const result = parts.join('');
+    return result.length ? result : formatter.emptyString;
+  }
+  [preformatSymbol](context) {
+    context.mark(this);
+  }
+}
+
+/**
+ * Represents a contiguous span of text that will not be quoted.
+ * @ignore
+ */
+class ShellStringUnquoted {
+  constructor(value) {
+    this.value = value;
+  }
+  [formatSymbol]() {
+    return this.value;
+  }
+  [preformatSymbol](context) {
+    context.read(this.value);
+  }
+}
+
+/**
+ * Represents a semicolon... or an ampersand, on Windows.
+ * @ignore
+ */
+const shellStringSemicolon = {
+  [formatSymbol](formatter) {
+    return formatter.statementSeparator;
+  },
+  [preformatSymbol](context) {
+    context.seq();
+  }
+};
+
+const PLACEHOLDER = {};
+const parse = memoize(templateSpans => {
+  // These are the token types our DSL can recognize. Their values won't escape
+  // this function.
+  const TOKEN_TEXT = 0;
+  const TOKEN_QUOTE = 1;
+  const TOKEN_SEMI = 2;
+  const TOKEN_UNQUOTED = 3;
+  const TOKEN_SPACE = 4;
+  const TOKEN_REDIRECT = 5;
+  const result = [];
+  let placeholderCount = 0;
+  let prefix = null;
+  let onlyPrefixOnce = false;
+  let contents = [];
+  let quote = 0;
+  const lastSpan = templateSpans.length - 1;
+  for (let spanIndex = 0; spanIndex <= lastSpan; spanIndex++) {
+    const templateSpan = templateSpans[spanIndex];
+    const posEnd = templateSpan.length;
+    let tokenStart = 0;
+    if (spanIndex) {
+      placeholderCount++;
+      contents.push(PLACEHOLDER);
+    }
+    // For each span, we first do a recognizing pass in which we use regular
+    // expressions to identify the positions of tokens in the text, and then
+    // a second pass that actually splits the text into the minimum number of
+    // substrings necessary.
+    const recognized = []; // [type1, index1, type2, index2...]
+    let firstWordBreak = -1;
+    let lastWordBreak = -1;
+    {
+      let pos = 0,
+          match;
+      while (pos < posEnd) {
+        if (quote) {
+          if (match = execFrom(quote === CHAR_SQUO ? reQuotation1 : reQuotation2, templateSpan, pos)) {
+            recognized.push(TOKEN_TEXT, pos);
+            pos += match[0].length;
+          }
+          if (pos < posEnd) {
+            recognized.push(TOKEN_QUOTE, pos++);
+            quote = 0;
+          }
+        } else {
+          if (match = execFrom(reText, templateSpan, pos)) {
+            const setBreaks = match[1] != null;
+            setBreaks && firstWordBreak < 0 && (firstWordBreak = pos);
+            recognized.push(setBreaks ? TOKEN_UNQUOTED : TOKEN_TEXT, pos);
+            pos += match[0].length;
+            setBreaks && (lastWordBreak = pos);
+          }
+          if (match = execFrom(reRedirectOrSpace, templateSpan, pos)) {
+            firstWordBreak < 0 && (firstWordBreak = pos);
+            lastWordBreak = pos;
+            recognized.push(match[1] ? TOKEN_REDIRECT : TOKEN_SPACE, pos);
+            pos += match[0].length;
+          }
+          const char = templateSpan.charCodeAt(pos);
+          if (char === CHAR_SEMI) {
+            firstWordBreak < 0 && (firstWordBreak = pos);
+            recognized.push(TOKEN_SEMI, pos++);
+            lastWordBreak = pos;
+          } else if (char === CHAR_SQUO || char === CHAR_DQUO) {
+            recognized.push(TOKEN_QUOTE, pos++);
+            quote = char;
+          }
+        }
+      }
+    }
+    // Word breaks are only important if they separate words with placeholders,
+    // so we can ignore the first/last break if this is the first/last span.
+    spanIndex === 0 && (firstWordBreak = -1);
+    spanIndex === lastSpan && (lastWordBreak = posEnd);
+    // Here begins the second pass mentioned above. This loop runs one more
+    // iteration than there are tokens in recognized, because it handles tokens
+    // on a one-iteration delay; hence the i <= iEnd instead of i < iEnd.
+    const iEnd = recognized.length;
+    for (let i = 0, type = -1; i <= iEnd; i += 2) {
+      let typeNext = -1,
+          pos;
+      if (i === iEnd) {
+        pos = posEnd;
+      } else {
+        typeNext = recognized[i];
+        pos = recognized[i + 1];
+        // If the next token is space or redirect, but there's another word
+        // break in this span, then we can handle that token the same way we
+        // would handle unquoted text because it isn't being attached to a
+        // placeholder.
+        typeNext >= TOKEN_SPACE && pos !== lastWordBreak && (typeNext = TOKEN_UNQUOTED);
+      }
+      const breakHere = pos === firstWordBreak || pos === lastWordBreak;
+      if (pos && (breakHere || typeNext !== type)) {
+        let value = type === TOKEN_QUOTE ? null : type === TOKEN_SEMI ? shellStringSemicolon : templateSpan.substring(tokenStart, pos);
+        if (type >= TOKEN_SEMI) {
+          // This branch handles semicolons, unquoted text, spaces, and
+          // redirects. shellStringSemicolon is already a formatSymbol object;
+          // the rest need to be wrapped.
+          type === TOKEN_SEMI || (value = new ShellStringUnquoted(value));
+          // We don't need to check placeholderCount here like we do below;
+          // that's only relevant during the first word break of the span, and
+          // because this iteration of the loop is processing the token that
+          // was checked for breaks in the previous iteration, it will have
+          // already been handled. For the same reason, prefix is guaranteed to
+          // be null.
+          if (contents.length) {
+            result.push(new ShellStringText(contents, null));
+            contents = [];
+          }
+          // Only spaces and redirects become prefixes, but not if they've been
+          // rewritten to unquoted above.
+          if (type >= TOKEN_SPACE) {
+            prefix = value;
+            onlyPrefixOnce = type === TOKEN_SPACE;
+          } else {
+            result.push(value);
+          }
+        } else {
+          contents.push(value);
+        }
+        tokenStart = pos;
+      }
+      if (breakHere) {
+        if (placeholderCount) {
+          result.push({ contents, placeholderCount, prefix, onlyPrefixOnce });
+        } else {
+          // There's no prefix to handle in this branch; a prefix prior to this
+          // span would mean placeholderCount > 0, and a prefix in this span
+          // can't be created because spaces and redirects get rewritten to
+          // unquoted before the last word break.
+          contents.length && result.push(new ShellStringText(contents, null));
+        }
+        placeholderCount = 0;prefix = null;onlyPrefixOnce = false;
+        contents = [];
+      }
+      type = typeNext;
+    }
+  }
+  if (quote) {
+    throw new SyntaxError(`String is missing a ${String.fromCharCode(quote)} character`);
+  }
+  return result;
+});
+const CHAR_SEMI = ';'.charCodeAt();
+const CHAR_SQUO = "'".charCodeAt();
+const CHAR_DQUO = '"'.charCodeAt();
+const reQuotation1 = sticky("[^']+");
+const reQuotation2 = sticky('[^"]+');
+const reText = sticky('[^\\s"#$&\'();<>\\\\`|]+|([#$&()\\\\`|]+)');
+const reRedirectOrSpace = sticky('((?:\\s+\\d+|\\s*)[<>]+\\s*)|\\s+');
+
+class BitSet {
+  constructor() {
+    this.vector = new Int32Array(1);
+  }
+  has(n) {
+    return (this.vector[n >>> 5] & 1 << n) !== 0;
+  }
+  add(n) {
+    const i = n >>> 5,
+          requiredLength = i + 1;
+    let vector = this.vector;var _vector = vector;
+    let length = _vector.length;
+    if (requiredLength > length) {
+      while (requiredLength > (length *= 2));
+      const oldValues = vector;
+      vector = new Int32Array(length);
+      vector.set(oldValues);
+      this.vector = vector;
+    }
+    vector[i] |= 1 << n;
+  }
+}
+
+function evaluate(template, values) {
+  values = values.map(toStringishArray);
+  const children = [];
+  let valuesStart = 0;
+  for (let i = 0, iMax = template.length; i < iMax; i++) {
+    const word = template[i];
+    if (formatSymbol in word) {
+      children.push(word);
+      continue;
+    }
+    const contents = word.contents,
+          placeholderCount = word.placeholderCount,
+          prefix = word.prefix,
+          onlyPrefixOnce = word.onlyPrefixOnce;
+    const kMax = contents.length;
+    const valuesEnd = valuesStart + placeholderCount;
+    const tuples = cartesianProduct(values, valuesStart, valuesEnd);
+    valuesStart = valuesEnd;
+    for (let j = 0, jMax = tuples.length; j < jMax; j++) {
+      const needSpace = j > 0;
+      const tuple = tuples[j];
+      (needSpace || prefix) && children.push(needSpace && (onlyPrefixOnce || !prefix) ? unquotedSpace : prefix);
+      let interpolatedContents = [];
+      let untested = null;
+      let quoting = false;
+      let tupleIndex = 0;
+      for (let k = 0; k < kMax; k++) {
+        const content = contents[k];
+        if (content === PLACEHOLDER) {
+          const value = tuple[tupleIndex++];
+          if (quoting) {
+            interpolatedContents.push(value);
+          } else {
+            if (isObject(value) && formatSymbol in value) {
+              if (interpolatedContents.length) {
+                children.push(new ShellStringText(interpolatedContents, untested));
+                interpolatedContents = [];
+                untested = null;
+              }
+              children.push(value);
+            } else {
+              (untested || (untested = new BitSet())).add(interpolatedContents.length);
+              interpolatedContents.push(value);
+            }
+          }
+        } else {
+          interpolatedContents.push(content);
+          content === null && (quoting = !quoting);
+        }
+      }
+      if (interpolatedContents.length) {
+        children.push(new ShellStringText(interpolatedContents, untested));
+      }
+    }
+  }
+  return children;
+}
+const primToStringish = value => value == null ? '' + value : value;
+function toStringishArray(value) {
+  let array;
+  switch (true) {
+    default:
+      if (isObject(value)) {
+        if (Array.isArray(value)) {
+          array = value;break;
+        }
+        if (Symbol.iterator in value) {
+          array = Array.from(value);break;
+        }
+      }
+      array = [value];
+  }
+  return array.map(primToStringish);
+}
+function cartesianProduct(arrs, start, end) {
+  const size = end - start;
+  let resultLength = 1;
+  for (let i = start; i < end; i++) {
+    resultLength *= arrs[i].length;
+  }
+  if (resultLength > 1e6) {
+    throw new RangeError("Far too many elements to interpolate");
+  }
+  const result = new Array(resultLength);
+  const indices = new Array(size).fill(0);
+  for (let i = 0; i < resultLength; i++) {
+    const value = result[i] = new Array(size);
+    for (let j = 0; j < size; j++) {
+      value[j] = arrs[j + start][indices[j]];
+    }
+    for (let j = size - 1; j >= 0; j--) {
+      if (++indices[j] < arrs[j + start].length) break;
+      indices[j] = 0;
+    }
+  }
+  return result;
+}
+const unquotedSpace = new ShellStringUnquoted(' ');
+
+/**
+ * A ShellString represents a shell command after it has been interpolated, but
+ * before it has been formatted for a particular platform. ShellStrings are
+ * useful if you want to prepare a command for a different platform than the
+ * current one, for instance.
+ *
+ * To create a ShellString, use `ShellString.sh` the same way you would use
+ * top-level `sh`.
+ */
+class ShellString {
+  /** @hideconstructor */
+  constructor(children) {
+    this.children = children;
+  }
+  /**
+   * `ShellString.sh` is a template tag just like `sh`; the only difference is
+   * that this function returns a ShellString which has not yet been formatted
+   * into a String.
+   * @returns {ShellString}
+   * @function sh
+   * @static
+   * @memberof ShellString
+   */
+  static sh(templateSpans) {
+    for (var _len = arguments.length, values = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      values[_key - 1] = arguments[_key];
+    }
+    return new ShellString(evaluate(parse(templateSpans), values));
+  }
+  /**
+   * A method to format a ShellString into a regular String formatted for a
+   * particular platform.
+   *
+   * @param {String} [platform] a value that `process.platform` might take:
+   * `'win32'`, `'linux'`, etc.; determines how the string is to be formatted.
+   * When omitted, effectively the same as `process.platform`.
+   * @returns {String}
+   */
+  toString(platform) {
+    return this[formatSymbol](Formatter.for(platform));
+  }
+  [formatSymbol](formatter) {
+    let context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : formatter.createContext(this);
+    return this.children.map(child => child[formatSymbol](formatter, context)).join('');
+  }
+  [preformatSymbol](context) {
+    const children = this.children;
+    for (let i = 0, iMax = children.length; i < iMax; i++) {
+      const child = children[i];
+      if (preformatSymbol in child) {
+        child[preformatSymbol](context);
+      }
+    }
+  }
+}
+
+/**
+ * A Windows-specific version of {@link quoteForShell}.
+ * @param {String} text to be quoted
+ * @param {Boolean} [forceQuote] whether to always add quotes even if the string
+ * is already safe. Defaults to `false`.
+ */
+
+/**
+ * A Unix-specific version of {@link quoteForShell}.
+ * @param {String} text to be quoted
+ * @param {Boolean} [forceQuote] whether to always add quotes even if the string
+ * is already safe. Defaults to `false`.
+ */
+
+/**
+ * Quotes a string for injecting into a shell command.
+ *
+ * This function is exposed for some hypothetical case when the `sh` DSL simply
+ * won't do; `sh` is expected to be the more convenient option almost always.
+ * Compare:
+ *
+ * ```javascript
+ * console.log('cmd' + args.map(a => ' ' + quoteForShell(a)).join(''));
+ * console.log(sh`cmd ${args}`); // same as above
+ *
+ * console.log('cmd' + args.map(a => ' ' + quoteForShell(a, true)).join(''));
+ * console.log(sh`cmd "${args}"`); // same as above
+ * ```
+ *
+ * Additionally, on Windows, `sh` checks the entire command string for pipes,
+ * which subtly change how arguments need to be quoted. If your commands may
+ * involve pipes, you are strongly encouraged to use `sh` and not try to roll
+ * your own with `quoteForShell`.
+ *
+ * @param {String} text to be quoted
+ * @param {Boolean} [forceQuote] whether to always add quotes even if the string
+ * is already safe. Defaults to `false`.
+ * @param {String} [platform] a value that `process.platform` might take:
+ * `'win32'`, `'linux'`, etc.; determines how the string is to be formatted.
+ * When omitted, effectively the same as `process.platform`.
+ *
+ * @returns {String} a string that is safe for the current (or specified)
+ * platform.
+ */
+function quoteForShell(text, forceQuote, platform) {
+  return Formatter.for(platform).quote(text, forceQuote);
+}
+
+/**
+ * A string template tag for safely constructing cross-platform shell commands.
+ *
+ * An `sh` template is not actually treated as a literal string to be
+ * interpolated; instead, it is a tiny DSL designed to make working with shell
+ * strings safe, simple, and straightforward. To get started quickly, see the
+ * examples below. {@link #the-sh-dsl More detailed documentation} is available
+ * further down.
+ *
+ * @name sh
+ * @example
+ * const title = '"this" & "that"';
+ * sh`script --title=${title}`; // => "script '--title=\"this\" & \"that\"'"
+ * // Note: these examples show results for non-Windows platforms.
+ * // On Windows, the above would instead be
+ * // 'script ^"--title=\\^"this\\^" ^& \\^"that\\^"^"'.
+ *
+ * const names = ['file1', 'file 2'];
+ * sh`rimraf ${names}.txt`; // => "rimraf file1.txt 'file 2.txt'"
+ *
+ * const cmd1 = ['cat', 'file 1.txt', 'file 2.txt'];
+ * const cmd2 = ['use-input', '-abc'];
+ * sh`${cmd1}|${cmd2}`; // => "cat 'file 1.txt' 'file 2.txt'|use-input -abc"
+ *
+ * @returns {String} - a string formatted for the platform Node is currently
+ * running on.
+ */
+const sh = function () {
+  return ShellString.sh.apply(ShellString, arguments).toString();
+};
+
+/**
+ * This function permits raw strings to be interpolated into a `sh` template.
+ *
+ * **IMPORTANT**: If you're using Puka due to security concerns, make sure you
+ * don't pass any untrusted content to `unquoted`. This may be obvious, but
+ * stray punctuation in an `unquoted` section can compromise the safety of the
+ * entire shell command.
+ *
+ * @param value - any value (it will be treated as a string)
+ *
+ * @example
+ * const both = true;
+ * sh`foo ${unquoted(both ? '&&' : '||')} bar`; // => 'foo && bar'
+ */
+const unquoted = value => new ShellStringUnquoted(value);
+
+exports.Formatter = Formatter;
+exports.ShellString = ShellString;
+exports.ShellStringText = ShellStringText;
+exports.ShellStringUnquoted = ShellStringUnquoted;
+exports.quoteForCmd = quoteForCmd;
+exports.quoteForSh = quoteForSh;
+exports.quoteForShell = quoteForShell;
+exports.sh = sh;
+exports.shellStringSemicolon = shellStringSemicolon;
+exports.formatSymbol = formatSymbol;
+exports.preformatSymbol = preformatSymbol;
+exports.unquoted = unquoted;
+
+
+/***/ }),
+/* 605 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var pump = __webpack_require__(304)
 var inherits = __webpack_require__(39)
 var Duplexify = __webpack_require__(287)
@@ -117797,7 +118952,7 @@ module.exports.obj = define({destroy:false, objectMode:true, highWaterMark:16})
 
 
 /***/ }),
-/* 605 */
+/* 606 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -117971,7 +119126,7 @@ module.exports = function (str, opts) {
 
 
 /***/ }),
-/* 606 */
+/* 607 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -118185,12 +119340,12 @@ module.exports = function (object, opts) {
 
 
 /***/ }),
-/* 607 */
+/* 608 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var strictUriEncode = __webpack_require__(652);
+var strictUriEncode = __webpack_require__(653);
 var objectAssign = __webpack_require__(302);
 
 function encoderForArrayFormat(opts) {
@@ -118397,7 +119552,7 @@ exports.stringify = function (obj, opts) {
 
 
 /***/ }),
-/* 608 */
+/* 609 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -118412,7 +119567,7 @@ exports.stringify = function (obj, opts) {
 
 
 var isNumber = __webpack_require__(295);
-var typeOf = __webpack_require__(221);
+var typeOf = __webpack_require__(222);
 
 /**
  * Expose `randomatic`
@@ -118487,13 +119642,13 @@ function randomatic(pattern, length, options) {
 
 
 /***/ }),
-/* 609 */
+/* 610 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 module.exports = read
 
-var readline = __webpack_require__(152)
+var readline = __webpack_require__(153)
 var Mute = __webpack_require__(300)
 
 function read (opts, cb) {
@@ -118606,14 +119761,14 @@ function read (opts, cb) {
 
 
 /***/ }),
-/* 610 */
+/* 611 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(74).Duplex
 
 
 /***/ }),
-/* 611 */
+/* 612 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -118645,15 +119800,15 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 612 */
+/* 613 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Buffer = __webpack_require__(120).Buffer;
+var Buffer = __webpack_require__(121).Buffer;
 /*<replacement>*/
-var bufferShim = __webpack_require__(175);
+var bufferShim = __webpack_require__(176);
 /*</replacement>*/
 
 module.exports = BufferList;
@@ -118715,14 +119870,14 @@ BufferList.prototype.concat = function (n) {
 };
 
 /***/ }),
-/* 613 */
+/* 614 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(74).Transform
 
 
 /***/ }),
-/* 614 */
+/* 615 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -118798,7 +119953,7 @@ module.exports.basic = basic;
 
 
 /***/ }),
-/* 615 */
+/* 616 */
 /***/ (function(module, exports) {
 
 const isWin = process.platform === 'win32';
@@ -118817,7 +119972,7 @@ function endsInSeparator(str) {
 
 
 /***/ }),
-/* 616 */
+/* 617 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -118894,7 +120049,7 @@ function repeat(str, num) {
 
 
 /***/ }),
-/* 617 */
+/* 618 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -118930,11 +120085,11 @@ module.exports = {
 };
 
 /***/ }),
-/* 618 */
+/* 619 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var fs = __webpack_require__(5);
-var pkg = __webpack_require__(617);
+var pkg = __webpack_require__(618);
 
 function buildHarHeaders (headers) {
   return headers ? Object.keys(headers).map(function (key) {
@@ -119078,7 +120233,7 @@ module.exports = HarWrapper;
 
 
 /***/ }),
-/* 619 */
+/* 620 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -119098,7 +120253,7 @@ module.exports = HarWrapper;
 
 
 
-var extend                = __webpack_require__(207)
+var extend                = __webpack_require__(208)
   , cookies               = __webpack_require__(314)
   , helpers               = __webpack_require__(226)
 
@@ -119225,7 +120380,7 @@ request.forever = function (agentOptions, optionsArg) {
 // Exports
 
 module.exports = request
-request.Request = __webpack_require__(628)
+request.Request = __webpack_require__(629)
 request.initParams = initParams
 
 // Backwards compatibility for request.debug
@@ -119241,14 +120396,14 @@ Object.defineProperty(request, 'debug', {
 
 
 /***/ }),
-/* 620 */
+/* 621 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var caseless = __webpack_require__(177)
-  , uuid = __webpack_require__(88)
+var caseless = __webpack_require__(178)
+  , uuid = __webpack_require__(89)
   , helpers = __webpack_require__(226)
 
 var md5 = helpers.md5
@@ -119416,7 +120571,7 @@ exports.Auth = Auth
 
 
 /***/ }),
-/* 621 */
+/* 622 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -119502,16 +120657,16 @@ module.exports = getProxyFromURI
 
 
 /***/ }),
-/* 622 */
+/* 623 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var fs = __webpack_require__(5)
-var qs = __webpack_require__(151)
+var qs = __webpack_require__(152)
 var validate = __webpack_require__(531)
-var extend = __webpack_require__(207)
+var extend = __webpack_require__(208)
 
 function Har (request) {
   this.request = request
@@ -119724,16 +120879,16 @@ exports.Har = Har
 
 
 /***/ }),
-/* 623 */
+/* 624 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var uuid = __webpack_require__(88)
+var uuid = __webpack_require__(89)
   , CombinedStream = __webpack_require__(285)
   , isstream = __webpack_require__(298)
-  , Buffer = __webpack_require__(87).Buffer
+  , Buffer = __webpack_require__(88).Buffer
 
 
 function Multipart (request) {
@@ -119844,7 +120999,7 @@ exports.Multipart = Multipart
 
 
 /***/ }),
-/* 624 */
+/* 625 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -119852,11 +121007,11 @@ exports.Multipart = Multipart
 
 var url = __webpack_require__(14)
   , qs = __webpack_require__(306)
-  , caseless = __webpack_require__(177)
-  , uuid = __webpack_require__(88)
+  , caseless = __webpack_require__(178)
+  , uuid = __webpack_require__(89)
   , oauth = __webpack_require__(594)
   , crypto = __webpack_require__(8)
-  , Buffer = __webpack_require__(87).Buffer
+  , Buffer = __webpack_require__(88).Buffer
 
 
 function OAuth (request) {
@@ -119999,14 +121154,14 @@ exports.OAuth = OAuth
 
 
 /***/ }),
-/* 625 */
+/* 626 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var qs = __webpack_require__(306)
-  , querystring = __webpack_require__(151)
+  , querystring = __webpack_require__(152)
 
 
 function Querystring (request) {
@@ -120057,7 +121212,7 @@ exports.Querystring = Querystring
 
 
 /***/ }),
-/* 626 */
+/* 627 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -120221,14 +121376,14 @@ exports.Redirect = Redirect
 
 
 /***/ }),
-/* 627 */
+/* 628 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var url = __webpack_require__(14)
-  , tunnel = __webpack_require__(664)
+  , tunnel = __webpack_require__(665)
 
 var defaultProxyHeaderWhiteList = [
   'accept',
@@ -120404,14 +121559,14 @@ exports.Tunnel = Tunnel
 
 
 /***/ }),
-/* 628 */
+/* 629 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var http = __webpack_require__(49)
-  , https = __webpack_require__(150)
+  , https = __webpack_require__(151)
   , url = __webpack_require__(14)
   , util = __webpack_require__(2)
   , stream = __webpack_require__(25)
@@ -120421,25 +121576,25 @@ var http = __webpack_require__(49)
   , aws4 = __webpack_require__(389)
   , httpSignature = __webpack_require__(538)
   , mime = __webpack_require__(299)
-  , stringstream = __webpack_require__(654)
-  , caseless = __webpack_require__(177)
+  , stringstream = __webpack_require__(655)
+  , caseless = __webpack_require__(178)
   , ForeverAgent = __webpack_require__(502)
   , FormData = __webpack_require__(503)
-  , extend = __webpack_require__(207)
+  , extend = __webpack_require__(208)
   , isstream = __webpack_require__(298)
   , isTypedArray = __webpack_require__(571).strict
   , helpers = __webpack_require__(226)
   , cookies = __webpack_require__(314)
-  , getProxyFromURI = __webpack_require__(621)
-  , Querystring = __webpack_require__(625).Querystring
-  , Har = __webpack_require__(622).Har
-  , Auth = __webpack_require__(620).Auth
-  , OAuth = __webpack_require__(624).OAuth
-  , Multipart = __webpack_require__(623).Multipart
-  , Redirect = __webpack_require__(626).Redirect
-  , Tunnel = __webpack_require__(627).Tunnel
+  , getProxyFromURI = __webpack_require__(622)
+  , Querystring = __webpack_require__(626).Querystring
+  , Har = __webpack_require__(623).Har
+  , Auth = __webpack_require__(621).Auth
+  , OAuth = __webpack_require__(625).OAuth
+  , Multipart = __webpack_require__(624).Multipart
+  , Redirect = __webpack_require__(627).Redirect
+  , Tunnel = __webpack_require__(628).Tunnel
   , now = __webpack_require__(600)
-  , Buffer = __webpack_require__(87).Buffer
+  , Buffer = __webpack_require__(88).Buffer
 
 var safeStringify = helpers.safeStringify
   , isReadStream = helpers.isReadStream
@@ -121976,7 +123131,7 @@ module.exports = Request
 
 
 /***/ }),
-/* 629 */
+/* 630 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -121992,16 +123147,16 @@ module.exports = onetime(() => {
 
 
 /***/ }),
-/* 630 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(631);
-
-/***/ }),
 /* 631 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var RetryOperation = __webpack_require__(632);
+module.exports = __webpack_require__(632);
+
+/***/ }),
+/* 632 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var RetryOperation = __webpack_require__(633);
 
 exports.operation = function(options) {
   var timeouts = exports.timeouts(options);
@@ -122103,7 +123258,7 @@ exports.wrap = function(obj, options, methods) {
 
 
 /***/ }),
-/* 632 */
+/* 633 */
 /***/ (function(module, exports) {
 
 function RetryOperation(timeouts, options) {
@@ -122252,7 +123407,7 @@ RetryOperation.prototype.mainError = function() {
 
 
 /***/ }),
-/* 633 */
+/* 634 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
@@ -123625,7 +124780,7 @@ RetryOperation.prototype.mainError = function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ }),
-/* 634 */
+/* 635 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
@@ -124165,7 +125320,7 @@ Observable.fromNodeCallback = function (fn, ctx, selector) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ }),
-/* 635 */
+/* 636 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
@@ -124789,7 +125944,7 @@ Observable.fromNodeCallback = function (fn, ctx, selector) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ }),
-/* 636 */
+/* 637 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
@@ -125420,7 +126575,7 @@ Observable.fromNodeCallback = function (fn, ctx, selector) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ }),
-/* 637 */
+/* 638 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
@@ -126018,7 +127173,7 @@ observableProto.flatMapWithMaxConcurrent = observableProto.flatMapMaxConcurrent 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ }),
-/* 638 */
+/* 639 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
@@ -126369,7 +127524,7 @@ observableProto.flatMapWithMaxConcurrent = observableProto.flatMapMaxConcurrent 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ }),
-/* 639 */
+/* 640 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
@@ -126448,7 +127603,7 @@ observableProto.flatMapWithMaxConcurrent = observableProto.flatMapMaxConcurrent 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ }),
-/* 640 */
+/* 641 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
@@ -126965,7 +128120,7 @@ var ReactiveTest = Rx.ReactiveTest = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ }),
-/* 641 */
+/* 642 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
@@ -128445,7 +129600,7 @@ var ReactiveTest = Rx.ReactiveTest = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ }),
-/* 642 */
+/* 643 */
 /***/ (function(module, exports) {
 
 // This is not the set of all possible signals.
@@ -128504,14 +129659,14 @@ if (process.platform === 'linux') {
 
 
 /***/ }),
-/* 643 */
+/* 644 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Load modules
 
-var Dgram = __webpack_require__(672);
+var Dgram = __webpack_require__(673);
 var Dns = __webpack_require__(335);
-var Hoek = __webpack_require__(133);
+var Hoek = __webpack_require__(134);
 
 
 // Declare internals
@@ -128922,7 +130077,7 @@ internals.ignore = function () {
 
 
 /***/ }),
-/* 644 */
+/* 645 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -128973,10 +130128,10 @@ module.exports = function (obj, opts) {
 
 
 /***/ }),
-/* 645 */
+/* 646 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var licenseIDs = __webpack_require__(648);
+var licenseIDs = __webpack_require__(649);
 
 function valid(string) {
   return licenseIDs.indexOf(string) > -1;
@@ -129216,10 +130371,10 @@ module.exports = function(identifier) {
 
 
 /***/ }),
-/* 646 */
+/* 647 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var parser = __webpack_require__(647).parser
+var parser = __webpack_require__(648).parser
 
 module.exports = function (argument) {
   return parser.parse(argument)
@@ -129227,7 +130382,7 @@ module.exports = function (argument) {
 
 
 /***/ }),
-/* 647 */
+/* 648 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {/* parser generated by jison 0.4.17 */
@@ -130591,7 +131746,7 @@ if (typeof module !== 'undefined' && __webpack_require__.c[__webpack_require__.s
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module)))
 
 /***/ }),
-/* 648 */
+/* 649 */
 /***/ (function(module, exports) {
 
 module.exports = [
@@ -130930,7 +132085,7 @@ module.exports = [
 ];
 
 /***/ }),
-/* 649 */
+/* 650 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright 2017 Joyent, Inc.
@@ -130948,16 +132103,16 @@ module.exports = {
 };
 
 var assert = __webpack_require__(11);
-var SSHBuffer = __webpack_require__(145);
+var SSHBuffer = __webpack_require__(146);
 var crypto = __webpack_require__(8);
 var algs = __webpack_require__(22);
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
-var Identity = __webpack_require__(118);
+var Identity = __webpack_require__(119);
 var rfc4253 = __webpack_require__(75);
 var Signature = __webpack_require__(46);
-var utils = __webpack_require__(18);
-var Certificate = __webpack_require__(115);
+var utils = __webpack_require__(19);
+var Certificate = __webpack_require__(116);
 
 function verify(cert, key) {
 	/*
@@ -131258,7 +132413,7 @@ function getCertType(key) {
 
 
 /***/ }),
-/* 650 */
+/* 651 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright 2016 Joyent, Inc.
@@ -131275,13 +132430,13 @@ module.exports = {
 var assert = __webpack_require__(11);
 var asn1 = __webpack_require__(50);
 var algs = __webpack_require__(22);
-var utils = __webpack_require__(18);
+var utils = __webpack_require__(19);
 var Key = __webpack_require__(23);
 var PrivateKey = __webpack_require__(24);
 var pem = __webpack_require__(58);
-var Identity = __webpack_require__(118);
+var Identity = __webpack_require__(119);
 var Signature = __webpack_require__(46);
-var Certificate = __webpack_require__(115);
+var Certificate = __webpack_require__(116);
 
 function read(buf, options) {
 	if (typeof (buf) !== 'string') {
@@ -131341,7 +132496,7 @@ function write(cert, options) {
 
 
 /***/ }),
-/* 651 */
+/* 652 */
 /***/ (function(module, exports) {
 
 module.exports = shift
@@ -131367,7 +132522,7 @@ function getStateLength (state) {
 
 
 /***/ }),
-/* 652 */
+/* 653 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -131380,7 +132535,7 @@ module.exports = function (str) {
 
 
 /***/ }),
-/* 653 */
+/* 654 */
 /***/ (function(module, exports) {
 
 /*! http://mths.be/codepointat v0.2.0 by @mathias */
@@ -131440,7 +132595,7 @@ if (!String.prototype.codePointAt) {
 
 
 /***/ }),
-/* 654 */
+/* 655 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var util = __webpack_require__(2)
@@ -131548,18 +132703,18 @@ function alignedWrite(buffer) {
 
 
 /***/ }),
-/* 655 */
+/* 656 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const ansiRegex = __webpack_require__(656);
+const ansiRegex = __webpack_require__(657);
 
 module.exports = input => typeof input === 'string' ? input.replace(ansiRegex(), '') : input;
 
 
 /***/ }),
-/* 656 */
+/* 657 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -131576,7 +132731,7 @@ module.exports = () => {
 
 
 /***/ }),
-/* 657 */
+/* 658 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var util = __webpack_require__(2)
@@ -131828,7 +132983,7 @@ module.exports = Extract
 
 
 /***/ }),
-/* 658 */
+/* 659 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var constants = __webpack_require__(334)
@@ -132088,7 +133243,7 @@ module.exports = Pack
 
 
 /***/ }),
-/* 659 */
+/* 660 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Stream = __webpack_require__(25)
@@ -132202,7 +133357,7 @@ function through (write, end, opts) {
 
 
 /***/ }),
-/* 660 */
+/* 661 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -132697,7 +133852,7 @@ module.exports.setGracefulCleanup = _setGracefulCleanup;
 
 
 /***/ }),
-/* 661 */
+/* 662 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -132736,9 +133891,9 @@ var net = __webpack_require__(59);
 var urlParse = __webpack_require__(14).parse;
 var pubsuffix = __webpack_require__(329);
 var Store = __webpack_require__(330).Store;
-var MemoryCookieStore = __webpack_require__(662).MemoryCookieStore;
+var MemoryCookieStore = __webpack_require__(663).MemoryCookieStore;
 var pathMatch = __webpack_require__(327).pathMatch;
-var VERSION = __webpack_require__(663).version;
+var VERSION = __webpack_require__(664).version;
 
 var punycode;
 try {
@@ -134040,7 +135195,7 @@ module.exports = {
 
 
 /***/ }),
-/* 662 */
+/* 663 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -134217,7 +135372,7 @@ MemoryCookieStore.prototype.getAllCookies = function(cb) {
 
 
 /***/ }),
-/* 663 */
+/* 664 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -134296,7 +135451,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 664 */
+/* 665 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -134305,11 +135460,11 @@ module.exports = {
 var net = __webpack_require__(59)
   , tls = __webpack_require__(336)
   , http = __webpack_require__(49)
-  , https = __webpack_require__(150)
+  , https = __webpack_require__(151)
   , events = __webpack_require__(47)
-  , assert = __webpack_require__(19)
+  , assert = __webpack_require__(20)
   , util = __webpack_require__(2)
-  , Buffer = __webpack_require__(87).Buffer
+  , Buffer = __webpack_require__(88).Buffer
   ;
 
 exports.httpOverHttp = httpOverHttp
@@ -134547,7 +135702,7 @@ exports.debug = debug // for test
 
 
 /***/ }),
-/* 665 */
+/* 666 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -134559,7 +135714,7 @@ module.exports = __webpack_require__(2).deprecate;
 
 
 /***/ }),
-/* 666 */
+/* 667 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Unique ID creation requires a high quality random # generator.  We feature
@@ -134668,7 +135823,7 @@ module.exports = v1;
 
 
 /***/ }),
-/* 667 */
+/* 668 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var rng = __webpack_require__(332);
@@ -134703,11 +135858,11 @@ module.exports = v4;
 
 
 /***/ }),
-/* 668 */
+/* 669 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var parse = __webpack_require__(646);
-var correct = __webpack_require__(645);
+var parse = __webpack_require__(647);
+var correct = __webpack_require__(646);
 
 var genericWarning = (
   'license should be ' +
@@ -134793,14 +135948,14 @@ module.exports = function(argument) {
 
 
 /***/ }),
-/* 669 */
+/* 670 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
  * verror.js: richer JavaScript errors
  */
 
-var mod_assert = __webpack_require__(19);
+var mod_assert = __webpack_require__(20);
 var mod_util = __webpack_require__(2);
 
 var mod_extsprintf = __webpack_require__(290);
@@ -134956,12 +136111,12 @@ WError.prototype.cause = function we_cause(c)
 
 
 /***/ }),
-/* 670 */
+/* 671 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const lenient = __webpack_require__(671);
+const lenient = __webpack_require__(672);
 
 module.exports = (val, opts) => {
 	val = String(val).trim();
@@ -134991,7 +136146,7 @@ module.exports = (val, opts) => {
 
 
 /***/ }),
-/* 671 */
+/* 672 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -135106,13 +136261,13 @@ module.exports = (val, opts) => {
 
 
 /***/ }),
-/* 672 */
+/* 673 */
 /***/ (function(module, exports) {
 
 module.exports = require("dgram");
 
 /***/ }),
-/* 673 */
+/* 674 */
 /***/ (function(module, exports) {
 
 module.exports = require("domain");

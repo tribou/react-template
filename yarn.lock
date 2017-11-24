@@ -5449,8 +5449,8 @@ jest-runtime@^21.2.1:
     yargs "^9.0.0"
 
 jest-serializer-path@^0.1.2:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/jest-serializer-path/-/jest-serializer-path-0.1.3.tgz#022bd32dc2a47c4cf7905dad5e2bf6bc85e4d125"
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/jest-serializer-path/-/jest-serializer-path-0.1.4.tgz#6c121b226728df494ae874e7f37135fa7990aa5b"
 
 jest-snapshot@^21.2.1:
   version "21.2.1"
