@@ -5,9 +5,9 @@ import {
   getTodos,
   setFilterCurrent,
   setFilterDone,
-} from 'src/redux/modules/examples/todos'
+} from 'src/redux/modules/examples/todos/actions'
 import getVisibleTodos from 'src/selectors/getVisibleTodos'
-import type { Todo } from 'src/redux/modules/examples/todos'
+import type { Todo } from 'src/redux/modules/examples/todos/types'
 import type { RootReducerState } from 'src/redux/modules'
 import Todos from './Todos'
 

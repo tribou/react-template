@@ -1,21 +1,12 @@
 // @flow
 import { post, mock } from 'src/helpers/api'
 import env from 'config/env'
+import userMock from './mocks'
+import type { LoginParams } from './types'
 
 const { API_URL, USE_MOCK_API } = env
 
-type LoginParams = {
-  username: string,
-  password: string,
-}
-
-export const loginMock = ({ username, password }: LoginParams) => mock({
-  account: {
-    id: '1',
-    email: 'email@example.com',
-    jwt: 'tokenabc123',
-  },
-})
+export const loginMock = ({ username, password }: LoginParams) => mock(userMock)
 
 export const login = ({ username, password }: LoginParams) => (
   USE_MOCK_API

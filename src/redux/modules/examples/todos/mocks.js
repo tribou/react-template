@@ -1,11 +1,13 @@
 // @flow
-import { get, mock } from 'src/helpers/api'
-import env from 'config/env'
 
-const { API_URL, USE_MOCK_API } = env
+export const todo = {
+  text: 'This is a single todo',
+  date: '2017-11-11T11:11:11Z',
+  done: false,
+}
 
-export const getTodosMock = () => mock({
-  data: [
+export const todoList = {
+  list: [
     {
       text: 'This is the first todo',
       date: '2016-12-12T20:22:54Z',
@@ -28,8 +30,4 @@ export const getTodosMock = () => mock({
       done: true,
     },
   ],
-})
-
-export const getTodos = () => (USE_MOCK_API
-  ? getTodosMock()
-  : get(`${API_URL}/todos`))
+}

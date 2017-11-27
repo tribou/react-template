@@ -1,10 +1,9 @@
 // @flow
 import { connect } from 'react-redux'
-import { fetchProfile } from 'src/redux/modules/examples/profile'
-import type { Profile as ProfileModel } from 'src/redux/modules/examples/profile'
+import { fetchProfile } from 'src/redux/modules/examples/profile/actions'
+import type { Profile as ProfileModel } from 'src/redux/modules/examples/profile/types'
 import type { RootReducerState } from 'src/redux/modules'
 import Profile from './Profile'
-
 
 type StateProps = {
   me: ProfileModel,
@@ -17,7 +16,6 @@ const mapStateToProps = (
   me: profile.data,
   error: profile.error,
 })
-
 
 type DispatchProps = {
   fetchProfile: Function,

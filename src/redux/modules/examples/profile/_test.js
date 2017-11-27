@@ -1,6 +1,6 @@
 // @flow
-import reducer, { initialState } from './profile'
-
+import reducer from './reducer'
+import initialState from './initialState'
 
 it('reducer profile returns initialState by default', () => {
 

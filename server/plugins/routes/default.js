@@ -7,11 +7,11 @@ import { StaticRouter } from 'react-router'
 import { Base64 } from 'js-base64'
 import { getAssets, getCss } from 'server/utils'
 import configureStore from 'src/redux/store'
-import { initialState as authInitialState } from 'src/redux/modules/auth'
+import authInitialState from 'src/redux/modules/auth/initialState'
 import Routes from 'src/routes'
 import env from 'config/env'
 import vars from 'config/variables'
-import { getTodos } from 'src/redux/modules/examples/todos'
+import { getTodos } from 'src/redux/modules/examples/todos/actions'
 
 // Material-UI
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -32,7 +32,7 @@ export default {
           module.hot.accept([
             'src/routes',
             'src/redux/store',
-            'src/redux/modules/auth',
+            'src/redux/modules/auth/reducer',
             'config/env',
             'config/variables',
             'server/utils',
