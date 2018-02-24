@@ -34,7 +34,7 @@
   position: absolute;
   left: 0;
   padding: 0;
-  @mixin image-url static/images/icn_close_off.png, 22, 22;
+  @mixin image-url static/images/icn_close.svg, 24, 24;
   border: none;
 }
 

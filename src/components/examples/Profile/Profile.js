@@ -16,7 +16,10 @@ class Profile extends PureComponent<Props> {
 
   componentDidMount () {
 
-    this.props.fetchProfile()
+    // Normally, this would fetch the same profile each time (and be
+    // idempotent). For the random user API, we need to emulate browsing back
+    // to the same profile.
+    if (!this.props.me.firstName) this.props.fetchProfile()
 
   }
 

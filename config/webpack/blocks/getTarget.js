@@ -14,6 +14,11 @@ function getTarget (target/* : ?string */) {
       return { target: 'web' }
 
     }
+    else if (platform === 'desktop') {
+
+      return { target: 'electron-renderer' }
+
+    }
     else if (platform === 'server') {
 
       return { target: 'node' }

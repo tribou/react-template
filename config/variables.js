@@ -13,8 +13,8 @@ const variables = {
   appDescription: 'The best site ever.',
   appIcon: '/static/images/logo.png',
   appLogo: '/static/images/logo@2x.png',
-  appLogoWidth: '128',
-  appLogoHeight: '128',
+  appLogoWidth: '192',
+  appLogoHeight: '192',
 
   appAuthCookieKey: 'my-app-v1',
   appAuthExpirySeconds: 1209600, // 14 days in seconds

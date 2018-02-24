@@ -45,11 +45,9 @@ window.onload = () => {
   // Reset this handler when we're done
   window.onload = null
 
-
 }
 
-// $FlowFixMe
-const mountNode: Element = document.getElementById('react-mount')
+const mountNode = document.getElementById('react-mount')
 
 ReactDOM.hydrate(
 
