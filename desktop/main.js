@@ -10,35 +10,60 @@ const BrowserWindow = electron.BrowserWindow
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
+const installExtensions = () => {
+
+  if (process.env.NODE_ENV !== 'development') return Promise.resolve()
+
+  // eslint-disable-next-line global-require
+  const installer = require('electron-devtools-installer')
+  const forceDownload = !!process.env.UPGRADE_EXTENSIONS
+  const extensions = [
+    'REACT_DEVELOPER_TOOLS',
+    'REDUX_DEVTOOLS',
+  ]
+
+  return Promise
+    .all(extensions.map(
+      name => installer.default(installer[name], forceDownload))
+    )
+    .catch(console.log)
+
+}
+
 const createWindow = function createWindow () {
 
-  // Create the browser window.
-  win = new BrowserWindow({
-    width: 1600,
-    height: 900,
-  })
+  installExtensions()
+    .then(() => {
 
-  // and load the index.html of the app.
-  win.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true,
-  }))
+      // Create the browser window.
+      win = new BrowserWindow({
+        width: 1600,
+        height: 900,
+      })
 
-  // Open the DevTools.
-  // win.webContents.openDevTools()
+      // and load the index.html of the app.
+      win.loadURL(url.format({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true,
+      }))
 
-  win.maximize()
+      // Open the DevTools.
+      // win.webContents.openDevTools()
 
-  // Emitted when the window is closed.
-  win.on('closed', () => {
+      win.maximize()
 
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
+      // Emitted when the window is closed.
+      win.on('closed', () => {
 
-  })
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        win = null
+
+      })
+
+    })
 
 }
 

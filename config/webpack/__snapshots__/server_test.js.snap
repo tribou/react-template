@@ -123,9 +123,9 @@ Object {
       "static": "<PROJECT_ROOT>/static",
     },
     "extensions": Array [
+      ".web.js",
       ".js",
       ".json",
-      ".web.js",
     ],
   },
   "target": "node",
