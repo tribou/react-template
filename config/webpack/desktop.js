@@ -53,9 +53,9 @@ const config = createConfig.vanilla([
     new Webpack.HashedModuleIdsPlugin(),
     new WebpackChunkHash(),
     new CopyPlugin([
-      { from: 'static' },
-      { from: 'desktop/main.js' },
-      { from: 'desktop/package.json' },
+      'static',
+      'desktop/main.js',
+      'desktop/package.json',
     ]),
     new HtmlPlugin({
       inlineSource: '.css$',

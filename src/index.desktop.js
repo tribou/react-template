@@ -1,12 +1,12 @@
 // @flow
 import 'babel-polyfill'
-import Debug from 'debug'
-import OfflineRuntime from 'offline-plugin/runtime'
+// import Debug from 'debug'
+// import OfflineRuntime from 'offline-plugin/runtime'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Rollbar from 'rollbar/dist/rollbar.umd.min'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { HashRouter as Router } from 'react-router-dom'
 import configureStore from 'src/redux/store'
 import { loadSuccess } from 'src/redux/modules/init'
 import rollbarConfig from 'config/rollbar'
@@ -23,7 +23,7 @@ if (process.env.NODE_ENV !== 'development') {
 
 }
 
-const log = Debug('my-app:index:desktop')
+// const log = Debug('my-app:index:desktop')
 const store = configureStore({})
 
 window.onload = () => {
@@ -65,11 +65,11 @@ ReactDOM.render(
 // Progressively apply ServiceWorker updates so browser can simply be refreshed
 // to reflect changes with window.location.reload()
 // TODO: Fire redux action
-OfflineRuntime.install({
-  onUpdateReady: () => {
+// OfflineRuntime.install({
+//   onUpdateReady: () => {
 
-    log('onUpdateReady')
-    OfflineRuntime.applyUpdate()
+//     log('onUpdateReady')
+//     OfflineRuntime.applyUpdate()
 
-  },
-})
+//   },
+// })

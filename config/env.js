@@ -70,7 +70,11 @@ export const isBrowser = (): boolean => Boolean(
 const getEnv = (): EnvState => {
 
   if (NODE_ENV === 'test') return env
-  if (isBrowser()) return window[fobReduxStateVar].env
+  if (isBrowser() && window[fobReduxStateVar]) {
+
+    return window[fobReduxStateVar].env
+
+  }
   return env
 
 }
