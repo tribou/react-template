@@ -5,6 +5,7 @@
 
 .*/node_modules/react-event-listener/.*
 .*/node_modules/vision/test/templates/invalid/helpers/bad1.json
+.*/node_modules/electron-packager/test/fixtures/infer-malformed-json/.*
 
 
 ; React Native

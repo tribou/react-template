@@ -5,6 +5,7 @@ import React from 'react'
 import { json } from 'secure-filters'
 import vars from 'config/variables'
 
+const { fobReduxStateVar, fobWebpackManiVar } = vars
 
 type Props = {
   assets: BuildAssets,
@@ -23,7 +24,6 @@ export function generateScript (v: string, o: ?Object): string {
 const Html = (props: Props) => {
 
   const { assets, children, head, preloadedState } = props
-  const { fobReduxStateVar, fobWebpackManiVar } = vars
 
   const bundle = assets.bundle.js
   const manifest = assets.manifest.js

@@ -10,7 +10,7 @@ function wrapExtract ({ platform, use }
     use,
   })
 
-  return platform === 'browser'
+  return platform === 'browser' || platform === 'desktop'
     ? wrapped
     : use
 
@@ -88,7 +88,7 @@ function cssModules () {
       },
     }
 
-    if (platform === 'browser') {
+    if (platform === 'browser' || platform === 'desktop') {
 
       return Object.assign({}, config, {
         plugins: [

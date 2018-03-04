@@ -12,7 +12,7 @@ function getEntry (entry/* : ?(string | Object | Array<*>) */) {
 
     if (entry) return { entry }
 
-    if (platform === 'browser') {
+    if (platform === 'browser' || platform === 'desktop') {
 
       return {
         entry: {
@@ -28,7 +28,7 @@ function getEntry (entry/* : ?(string | Object | Array<*>) */) {
             'tachyons-widths',
             './src/styles/fonts.css',
             './src/styles/app.css',
-            './src/index.browser.js',
+            `./src/index.${platform}.js`,
           ],
         },
       }

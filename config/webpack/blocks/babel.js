@@ -16,9 +16,9 @@ function babel () {
             exclude: /node_modules/,
             use: {
               loader: 'babel-loader',
-              // Avoid React Native config preset since it affects HMR
+              // Override .babelrc to avoid React Native config preset since it
+              // affects HMR
               options: {
-                // cacheDirectory: 'node_modules/.cache/babel-loader',
                 cacheDirectory,
                 babelrc: false,
                 plugins: [

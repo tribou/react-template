@@ -1,3 +1,3 @@
 /* eslint-disable */
 
-type Platform = 'browser' | 'server' | 'electron'
+type Platform = 'browser' | 'server' | 'desktop'
