@@ -6,12 +6,6 @@ jobs:
       - image: circleci/node:8
     steps:
       - checkout
-      - run:
-          name: which-node
-          command: which node
-      - run:
-          name: node-version
-          command: node -v
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
@@ -25,14 +19,17 @@ jobs:
           name: lint
           command: npm run lint
       - run:
-          name: flow-ci
+          name: flow
           command: npm run flow-ci
       - run:
-          name: test-nsp
+          name: node security project
           command: npm run test-nsp
       - run:
-          name: test-jest
+          name: jest-react
           command: npm run test-jest -- --runInBand
+      - run:
+          name: jest-react-native
+          command: npm run test-rn -- --runInBand
 
   bump-minor:
     working_directory: ~/app
