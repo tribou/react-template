@@ -9,6 +9,7 @@ const {
   env,
   setOutput,
   sourceMaps,
+  // eslint-disable-next-line import/no-extraneous-dependencies
 } = require('@webpack-blocks/webpack2')
 
 const babel = require('./blocks/babel')

@@ -1,5 +1,5 @@
-// flow-typed signature: 13f98864b90331abb206dff9a8bb343e
-// flow-typed version: b43dff3e0e/nock_v9.x.x/flow_>=v0.31.x
+// flow-typed signature: 503ebcf814e9806dee53d5e219d04365
+// flow-typed version: ba5073b63e/nock_v9.x.x/flow_>=v0.31.x
 
 import EventEmitter from "eventemitter";
 
@@ -7,8 +7,9 @@ declare type $npm$nock$Path = string | RegExp | ((url: string) => boolean);
 declare type $npm$nock$Parameter =
   | string
   | RegExp
+  | Array<mixed>
   | Object
-  | ((body: Object) => boolean);
+  | ((body: Object | Array<mixed>) => boolean);
 
 declare type $npm$nock$RecordedCall = {
   scope: string,
