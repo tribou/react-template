@@ -48,12 +48,12 @@ Object {
   },
   "plugins": Array [
     ExtractTextPlugin {
-      "apply": [Function],
-      "applyAdditionalInformation": [Function],
-      "extract": [Function],
-      "loader": [Function],
-      "mergeNonInitialChunks": [Function],
-      "renderExtractedChunk": [Function],
+      "apply": [MockFunction],
+      "applyAdditionalInformation": [MockFunction],
+      "extract": [MockFunction],
+      "loader": [MockFunction],
+      "mergeNonInitialChunks": [MockFunction],
+      "renderExtractedChunk": [MockFunction],
     },
   ],
 }
@@ -107,12 +107,12 @@ Object {
   },
   "plugins": Array [
     ExtractTextPlugin {
-      "apply": [Function],
-      "applyAdditionalInformation": [Function],
-      "extract": [Function],
-      "loader": [Function],
-      "mergeNonInitialChunks": [Function],
-      "renderExtractedChunk": [Function],
+      "apply": [MockFunction],
+      "applyAdditionalInformation": [MockFunction],
+      "extract": [MockFunction],
+      "loader": [MockFunction],
+      "mergeNonInitialChunks": [MockFunction],
+      "renderExtractedChunk": [MockFunction],
     },
   ],
 }

@@ -25,7 +25,7 @@ exports[`<Login> renders the Login content 1`] = `
   <form
     className="loginForm"
     id="loginForm"
-    onSubmit={[Function]}
+    onSubmit={[MockFunction]}
   >
     <Field
       component={[Function]}
@@ -90,7 +90,7 @@ exports[`<Login> renders when form is submitting 1`] = `
   <form
     className="loginForm"
     id="loginForm"
-    onSubmit={[Function]}
+    onSubmit={[MockFunction]}
   >
     <Field
       component={[Function]}

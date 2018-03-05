@@ -21,12 +21,12 @@ exports[`<Todos> renders the Todos content 1`] = `
       Back
     </Link>
     <button
-      onClick={[Function]}
+      onClick={[MockFunction]}
     >
       Filter Done
     </button>
     <button
-      onClick={[Function]}
+      onClick={[MockFunction]}
     >
       Filter Current
     </button>
