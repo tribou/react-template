@@ -3,6 +3,7 @@
 // /health healthcheck route
 //
 
+// eslint-disable-next-line camelcase
 const { npm_package_name, npm_package_version } = process.env
 
 
