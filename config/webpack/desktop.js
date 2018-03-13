@@ -4,6 +4,7 @@ const Path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 const HtmlPlugin = require('html-webpack-plugin')
 const HtmlInlineSourcePlugin = require('html-webpack-inline-source-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 const WebpackChunkHash = require('webpack-chunk-hash')
 
@@ -75,11 +76,8 @@ const config = createConfig.vanilla([
   env('production', [
     sourceMaps('source-map'),
     addPlugins([
-      new Webpack.optimize.UglifyJsPlugin({
+      new UglifyJsPlugin({
         sourceMap: true,
-        output: {
-          comments: false,
-        },
       }),
       new Webpack.LoaderOptionsPlugin({
         debug: false,
