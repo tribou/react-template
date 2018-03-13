@@ -89,7 +89,7 @@
     "cookies-js": "^1.2.3",
     "core-js": "^2.5.1",
     "debug": "^3.0.1",
-    "fetch-ponyfill": "^6.0.0",
+    "fetch-ponyfill": "^4.1.0",
     "hapi": "^17.0.0",
     "hapi-react-views": "^10.0.0",
     "inert": "^5.0.1",
