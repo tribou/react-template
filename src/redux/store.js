@@ -3,8 +3,11 @@ import { applyMiddleware, createStore, compose } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { offline } from '@redux-offline/redux-offline'
 import devTools from 'src/redux/devtools'
 import errorDisplayMiddleware from 'src/redux/middleware/errorDisplay'
+import offlineConfig from './reduxOfflineConfig'
 import rootEpic from './epics'
 import rootReducer from './modules'
 
@@ -34,6 +37,7 @@ function configureStore (preloadedState?: Object = {}): Object {
 
   const enhancer = compose(
     applyMiddleware(...middleware),
+    offline(offlineConfig),
     devTools()
   )
 
