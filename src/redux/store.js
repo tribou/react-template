@@ -1,4 +1,5 @@
 // @flow
+import env from 'config/env'
 import { applyMiddleware, createStore, compose } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import thunk from 'redux-thunk'
@@ -10,6 +11,8 @@ import errorDisplayMiddleware from 'src/redux/middleware/errorDisplay'
 import offlineConfig from './reduxOfflineConfig'
 import rootEpic from './epics'
 import rootReducer from './modules'
+
+const { NODE_ENV } = env
 
 
 function configureStore (preloadedState?: Object = {}): Object {
@@ -24,7 +27,7 @@ function configureStore (preloadedState?: Object = {}): Object {
   ]
 
   // only log redux actions in development
-  if (process.env.NODE_ENV === 'development') {
+  if (NODE_ENV === 'development') {
 
     // logger needs to be last
     // uncomment if needed
@@ -35,11 +38,17 @@ function configureStore (preloadedState?: Object = {}): Object {
   // https://github.com/zalmoxisus/redux-devtools-extension
   // https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
-  const enhancer = compose(
-    applyMiddleware(...middleware),
-    offline(offlineConfig),
-    devTools()
-  )
+  // Avoid leak during testing with redux-offline
+  const enhancer = NODE_ENV === 'test'
+    ? compose(
+      applyMiddleware(...middleware),
+    )
+    : compose(
+      applyMiddleware(...middleware),
+      offline(offlineConfig),
+      devTools()
+    )
+
 
   const store = createStore(rootReducer, preloadedState, enhancer)
 
