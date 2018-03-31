@@ -3,8 +3,9 @@ root = true
 
 [*]
 # Essential for clean git diffs
-indent_style = space
-indent_size = 2
+indent_style = tab
+indent_size = 4
+tab_width = 4
 # Essential for Windows-Unix compatible git diffs
 end_of_line = lf
 charset = utf-8
@@ -22,3 +23,4 @@ indent_size = 4
 indent_style = tab
 # Four-spaced indents are more readable for Makefile targets
 indent_size = 4
+tab_width = 4
