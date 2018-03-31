@@ -20,13 +20,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'config/muiTheme'
 
 if (process.env.NODE_ENV !== 'development') {
-
-  window.Rollbar = Rollbar.init(rollbarConfig)
-
+	window.Rollbar = Rollbar.init(rollbarConfig)
 }
 
 const { fobReduxStateVar } = vars
-
 
 InjectTapEventPlugin()
 
@@ -34,44 +31,39 @@ const log = Debug('my-app:index:browser')
 const store = configureStore(window[fobReduxStateVar])
 
 window.onload = () => {
+	store.dispatch(loadSuccess())
+	// Can replace with API/store call checks in the future:
+	// {
+	//   loadedChannels: true,
+	//   loadedMessages: true,
+	// }
 
-  store.dispatch(loadSuccess())
-  // Can replace with API/store call checks in the future:
-  // {
-  //   loadedChannels: true,
-  //   loadedMessages: true,
-  // }
-
-  // Reset this handler when we're done
-  window.onload = null
-
+	// Reset this handler when we're done
+	window.onload = null
 }
 
 const mountNode = document.getElementById('react-mount')
 
 ReactDOM.hydrate(
+	<Provider store={store}>
+		<MuiThemeProvider muiTheme={getMuiTheme()}>
+			<Router>
+				<Routes />
+			</Router>
+		</MuiThemeProvider>
+	</Provider>,
 
-  <Provider store={store}>
-    <MuiThemeProvider muiTheme={getMuiTheme()}>
-      <Router>
-        <Routes />
-      </Router>
-    </MuiThemeProvider>
-  </Provider>,
-
-  mountNode
+	mountNode
 )
 
 // Progressively apply ServiceWorker updates so browser can simply be refreshed
 // to reflect changes with window.location.reload()
 // TODO: Fire redux action
 OfflineRuntime.install({
-  onUpdateReady: () => {
-
-    log('onUpdateReady')
-    OfflineRuntime.applyUpdate()
-
-  },
+	onUpdateReady: () => {
+		log('onUpdateReady')
+		OfflineRuntime.applyUpdate()
+	},
 })
 
 // No worky in React 16

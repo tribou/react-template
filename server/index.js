@@ -14,63 +14,57 @@ import Robots from 'server/plugins/routes/robots'
 import StaticContent from 'server/plugins/routes/staticContent'
 import DefaultRoute from 'server/plugins/routes/default'
 
-
 const { NODE_ENV, PORT } = process.env
-
 
 // Register Hapi plugins
 const plugins = [
-  Inert,
-  Vision,
-  HttpsRedirectPlugin,
-  HealthCheckPlugin,
-  Logger,
-  Robots,
-  StaticContent,
-  DefaultRoute,
+	Inert,
+	Vision,
+	HttpsRedirectPlugin,
+	HealthCheckPlugin,
+	Logger,
+	Robots,
+	StaticContent,
+	DefaultRoute,
 ]
 
+async function startServer() {
+	const server = new Hapi.Server({
+		host: '0.0.0.0',
+		port: PORT || 8000,
+		routes: {
+			cors: true,
+			security: {
+				xframe: 'sameorigin',
+			},
+		},
+	})
 
-async function startServer () {
+	await server.register(plugins)
 
-  const server = new Hapi.Server({
-    host: '0.0.0.0',
-    port: PORT || 8000,
-    routes: {
-      cors: true,
-      security: {
-        xframe: 'sameorigin',
-      },
-    },
-  })
+	server.views({
+		engines: {
+			js: HapiReactViews,
+		},
+		// relative to output file in build/ directory
+		relativeTo: __dirname,
+		// path: 'components',
+		path: 'views',
+		compileOptions: {
+			// layout: 'Html.js',
+			// layoutPath: Path.resolve(__dirname, 'layouts'),
+			renderMethod: 'renderToString',
+		},
+	})
 
-  await server.register(plugins)
+	await server.start()
 
-  server.views({
-    engines: {
-      js: HapiReactViews,
-    },
-    // relative to output file in build/ directory
-    relativeTo: __dirname,
-    // path: 'components',
-    path: 'views',
-    compileOptions: {
-      // layout: 'Html.js',
-      // layoutPath: Path.resolve(__dirname, 'layouts'),
-      renderMethod: 'renderToString',
-    },
-  })
-
-  await server.start()
-
-  console.log('\n')
-  console.log(`Server running at ${server.info.uri}`)
-  if (NODE_ENV) console.log(`NODE_ENV: ${NODE_ENV}`)
-  console.log('\n')
-
+	console.log('\n')
+	console.log(`Server running at ${server.info.uri}`)
+	if (NODE_ENV) console.log(`NODE_ENV: ${NODE_ENV}`)
+	console.log('\n')
 }
 
 startServer()
-
 
 export default startServer

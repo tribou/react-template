@@ -29,25 +29,21 @@ const store = configureStore()
 /* END HTTP DEBUG */
 
 class ReactTemplate extends Component<void> {
+	// componentDidMount () {
 
-  // componentDidMount () {
+	//   StatusBar.setHidden(true)
 
-  //   StatusBar.setHidden(true)
+	// }
 
-  // }
-
-  render () {
-
-    return (
-      <Provider store={store}>
-        <NativeRouter>
-          <Routes />
-        </NativeRouter>
-      </Provider>
-    )
-
-  }
-
+	render() {
+		return (
+			<Provider store={store}>
+				<NativeRouter>
+					<Routes />
+				</NativeRouter>
+			</Provider>
+		)
+	}
 }
 
 // export default codePush(codePushOptions)(ProductionCliq)

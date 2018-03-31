@@ -4,19 +4,19 @@
 
 ##### Flexbox first.
 
-- Approach each layout thinking "What would Flexbox do?"
-- Prefer using flexible boxes to determine layout instead of redline `px`.
+*   Approach each layout thinking "What would Flexbox do?"
+*   Prefer using flexible boxes to determine layout instead of redline `px`.
 
 ##### REM first.
 
-- Prefer using `rem` over `px`.
-- Font size is okay using `px` from redlines. However, prefer the `font-size`
-  mixin.
+*   Prefer using `rem` over `px`.
+*   Font size is okay using `px` from redlines. However, prefer the `font-size`
+    mixin.
 
 ##### Use Backup Background Colors.
 
-- When using background-image for large, above-the-fold content, also set a
-  background-color that closely matches the image tone.
+*   When using background-image for large, above-the-fold content, also set a
+    background-color that closely matches the image tone.
 
 This provides a softer introduction to larger images that may not arrive until
 after the page has started loading.
@@ -24,17 +24,18 @@ after the page has started loading.
 ##### Put mixins at the top, media queries at the bottom.
 
 Order summary:
-1. mixins
-1. self properties
-1. media queries
-1. nested classes/ids/elements
 
-- Declare mixins at the top of the CSS sections. This keeps the mixin from
-  accidentally overwriting other styles and give a better at-a-glance
-  understanding when reviewing CSS classes.
-- Declare media queries at the bottom or end of the CSS property. Since they
-  are more specific, they will override existing properties no matter the
-  order. For readability, lets standardize on keeping them last.
+1.  mixins
+1.  self properties
+1.  media queries
+1.  nested classes/ids/elements
+
+*   Declare mixins at the top of the CSS sections. This keeps the mixin from
+    accidentally overwriting other styles and give a better at-a-glance
+    understanding when reviewing CSS classes.
+*   Declare media queries at the bottom or end of the CSS property. Since they
+    are more specific, they will override existing properties no matter the
+    order. For readability, lets standardize on keeping them last.
 
 ```scss
 /* BAD */
@@ -69,14 +70,14 @@ Order summary:
 
 ##### Approach large splash images/scenes as "fluid"/aspect-ratio-driven by default.
 
-- *Aspect Ratio should be a first-class citizen.*
-- Height is dynamically determined by width.
-- Condense the layout for different widths according to aspect-ratio
-  "shrinking" with *ONE* mobile/desktop breakpoint at iPad portrait width (<=
-  768px).
-- If you're using a lot of media queries, you probably didn't do this right.
+*   _Aspect Ratio should be a first-class citizen._
+*   Height is dynamically determined by width.
+*   Condense the layout for different widths according to aspect-ratio
+    "shrinking" with _ONE_ mobile/desktop breakpoint at iPad portrait width (<=
+    768px).
+*   If you're using a lot of media queries, you probably didn't do this right.
 
-Flexible aspect-ratio-driven images:  
+Flexible aspect-ratio-driven images:
 
 TODO: provide code examples
 
@@ -102,13 +103,12 @@ that only require basic CSS styles easier.
 
 [This style reference sheet][4] can be used to search for specific properties.
 
-
 ### Processing/Compilation
 
 CSS styles are processed by:
 
-1. Webpack `css-loader` which converts class names imported in JS into [CSS Modules][1]
-1. [PostCSS][2] plugins as specified in the `config/postcss.js`.
+1.  Webpack `css-loader` which converts class names imported in JS into [CSS Modules][1]
+1.  [PostCSS][2] plugins as specified in the `config/postcss.js`.
 
 ### SASS-like Markup
 
@@ -116,7 +116,6 @@ Instead of using SASS directly, this project uses the PostCSS presets defined
 by [PreCSS][3]. This allows easy pluggability and customization that the
 project can easily pull in or drop out when needed. It also provides the
 SASS-like markup familiar to most front-end devs.
-
 
 [1]: https://github.com/css-modules/css-modules
 [2]: https://github.com/postcss/postcss

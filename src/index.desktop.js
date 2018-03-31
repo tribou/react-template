@@ -18,48 +18,41 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'config/muiTheme'
 
 if (process.env.NODE_ENV !== 'development') {
-
-  window.Rollbar = Rollbar.init(rollbarConfig)
-
+	window.Rollbar = Rollbar.init(rollbarConfig)
 }
 
 // const log = Debug('my-app:index:desktop')
 const store = configureStore({})
 
 window.onload = () => {
+	store.dispatch(loadSuccess())
+	// Can replace with API/store call checks in the future:
+	// {
+	//   loadedChannels: true,
+	//   loadedMessages: true,
+	// }
 
-  store.dispatch(loadSuccess())
-  // Can replace with API/store call checks in the future:
-  // {
-  //   loadedChannels: true,
-  //   loadedMessages: true,
-  // }
-
-  // Reset this handler when we're done
-  window.onload = null
-
+	// Reset this handler when we're done
+	window.onload = null
 }
 
 window.onunload = () => {
-
-  // May be needed for Cognito sessions
-  // Storage.Clear()
-
+	// May be needed for Cognito sessions
+	// Storage.Clear()
 }
 
 const mountNode = document.getElementById('react-mount')
 
 ReactDOM.render(
+	<Provider store={store}>
+		<MuiThemeProvider muiTheme={getMuiTheme()}>
+			<Router>
+				<Routes />
+			</Router>
+		</MuiThemeProvider>
+	</Provider>,
 
-  <Provider store={store}>
-    <MuiThemeProvider muiTheme={getMuiTheme()}>
-      <Router>
-        <Routes />
-      </Router>
-    </MuiThemeProvider>
-  </Provider>,
-
-  mountNode
+	mountNode
 )
 
 // Progressively apply ServiceWorker updates so browser can simply be refreshed
