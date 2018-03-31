@@ -1,6 +1,9 @@
 ---
 extends:
   - plugin:tribou/recommended
+  - prettier
+  - prettier/flowtype
+  - prettier/react
 
 plugins:
   - tribou
