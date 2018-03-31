@@ -1,93 +1,87 @@
 // @flow
 // import Debug from 'debug'
-import get from 'lodash/get'
-import { removeAuthToken, setAuthToken } from 'src/helpers/auth'
+import get from "lodash/get";
+import { removeAuthToken, setAuthToken } from "src/helpers/auth";
 import {
   loginMock as loginAPI,
-  logoutMock as logoutAPI,
-} from 'src/helpers/api/auth'
+  logoutMock as logoutAPI
+} from "src/helpers/api/auth";
 
 // const log = Debug('my-app:redux:modules:auth')
 
-export const LOGIN = 'my-app/auth/LOGIN'
-export const LOGOUT = 'my-app/auth/LOGOUT'
+export const LOGIN = "my-app/auth/LOGIN";
+export const LOGOUT = "my-app/auth/LOGOUT";
 
 // Flow type for this reducer's initial state
 export type AuthState = {
   token: ?string,
   user: Object,
   error: ?string,
-  isFetching: boolean,
-}
+  isFetching: boolean
+};
 
 // Initial state with default values
 export const initialState: AuthState = {
-  token: '',
+  token: "",
   user: {},
-  error: '',
-  isFetching: false,
-}
-
+  error: "",
+  isFetching: false
+};
 
 // REDUCER
-function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
-
+function reducer(state: AuthState = initialState, action: GlobalFSA<*>) {
   switch (action.type) {
-
     case `${LOGIN}_PENDING`:
       return {
         ...state,
-        isFetching: true,
-      }
+        isFetching: true
+      };
 
     case `${LOGIN}_FULFILLED`:
       return {
         ...state,
-        token: get(action, 'payload.data.account.jwt'),
-        error: '',
-        isFetching: false,
-      }
+        token: get(action, "payload.data.account.jwt"),
+        error: "",
+        isFetching: false
+      };
 
     case `${LOGIN}_REJECTED`:
       return {
         ...state,
-        token: '',
+        token: "",
         error: action.payload,
-        isFetching: false,
-      }
+        isFetching: false
+      };
 
     case `${LOGOUT}_PENDING`:
       return {
         ...state,
         // Optimistic
-        token: '',
-        isFetching: true,
-      }
+        token: "",
+        isFetching: true
+      };
 
     case `${LOGOUT}_FULFILLED`:
       return {
         ...state,
-        token: '',
-        error: '',
-        isFetching: false,
-      }
+        token: "",
+        error: "",
+        isFetching: false
+      };
 
     case `${LOGOUT}_REJECTED`:
       return {
         ...state,
         // Always logout!
-        token: '',
+        token: "",
         error: action.payload,
-        isFetching: false,
-      }
+        isFetching: false
+      };
 
     default:
-      return state
-
+      return state;
   }
-
 }
-
 
 // ACTION CREATORS
 // Use redux-promise-middleware
@@ -96,42 +90,41 @@ function reducer (state: AuthState = initialState, action: GlobalFSA<*>) {
 // https://github.com/acdlite/flux-standard-action
 type LoginParams = {
   username: string,
-  password: string,
-}
+  password: string
+};
 
-export const login = (
-  { username, password }: LoginParams,
-): GlobalThunkAction =>
-  (dispatch: GlobalDispatch<*>) => dispatch({
+export const login = ({
+  username,
+  password
+}: LoginParams): GlobalThunkAction => (dispatch: GlobalDispatch<*>) =>
+  dispatch({
     type: LOGIN,
-    payload: loginAPI({ username, password })
-      .then(response => setAuthToken(response.data.account.jwt)
-        .then(() => response)
-      ),
-  })
+    payload: loginAPI({ username, password }).then(response =>
+      setAuthToken(response.data.account.jwt).then(() => response)
+    )
+  });
 
-export const logout = (history: Object, redirect: ?string): GlobalThunkAction =>
-  (dispatch: GlobalDispatch<*>) => {
-
-    // Always do optimistic logout
-    removeAuthToken()
-    redirect
-      ? history.push({
-        pathname: redirect,
+export const logout = (
+  history: Object,
+  redirect: ?string
+): GlobalThunkAction => (dispatch: GlobalDispatch<*>) => {
+  // Always do optimistic logout
+  removeAuthToken();
+  redirect
+    ? history.push({
+        pathname: redirect
       })
-      : history.push({
-        pathname: '/',
+    : history.push({
+        pathname: "/",
         query: {
-          login: null,
-        },
-      })
+          login: null
+        }
+      });
 
-    return dispatch({
-      type: LOGOUT,
-      payload: logoutAPI(),
-    })
+  return dispatch({
+    type: LOGOUT,
+    payload: logoutAPI()
+  });
+};
 
-  }
-
-
-export default reducer
+export default reducer;

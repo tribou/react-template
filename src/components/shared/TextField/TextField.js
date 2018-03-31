@@ -1,8 +1,7 @@
 // @flow
-import React, { PureComponent } from 'react'
-import MuiTextField from 'material-ui/TextField'
-import vars from 'config/variables'
-
+import React, { PureComponent } from "react";
+import MuiTextField from "material-ui/TextField";
+import vars from "config/variables";
 
 type Props = {
   input: Object,
@@ -10,21 +9,19 @@ type Props = {
   label: string,
   meta: Object,
   customStyles: Object,
-  dispatch: Function,
-}
+  dispatch: Function
+};
 
 // http://redux-form.com/6.4.3/examples/material-ui/
 class TextField extends PureComponent<Props> {
-
-  getInputNode = () => this.input
+  getInputNode = () => this.input;
 
   // TODO: watch for resolution of
   // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props
-  input: HTMLElement
+  props: Props;
+  input: HTMLElement;
 
-  render () {
-
+  render() {
     /* eslint-disable no-unused-vars */
     const {
       input,
@@ -34,52 +31,47 @@ class TextField extends PureComponent<Props> {
       meta: { touched, error },
       dispatch,
       ...props
-    } = this.props
+    } = this.props;
     /* eslint-enable */
 
     const customStyle = {
-      width: '100%',
-      ...style,
-    }
+      width: "100%",
+      ...style
+    };
 
     // http://www.material-ui.com/#/components/text-field
     return (
       <MuiTextField
         ref={ref => {
-
-          this.input = ref
-
+          this.input = ref;
         }}
         errorText={touched && error}
         floatingLabelText={label}
         floatingLabelStyle={{
           color: vars.colorDark,
           fontWeight: 500,
-          fontSize: '14px',
+          fontSize: "14px"
         }}
         floatingLabelShrinkStyle={{
-          color: vars.colorGray,
+          color: vars.colorGray
         }}
         floatingLabelFocusStyle={{
-          color: vars.colorGray,
+          color: vars.colorGray
         }}
         underlineFocusStyle={{
-          borderColor: vars.colorGray,
+          borderColor: vars.colorGray
         }}
         style={customStyle}
         errorStyle={{
-          position: 'absolute',
-          bottom: '-.7em',
+          position: "absolute",
+          bottom: "-.7em"
         }}
         {...customStyles}
         {...input}
         {...props}
       />
-    )
-
+    );
   }
-
 }
 
-
-export default TextField
+export default TextField;

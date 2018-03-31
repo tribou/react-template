@@ -1,4 +1,4 @@
 // @flow
-import RequireAuth from './RequireAuth'
+import RequireAuth from "./RequireAuth";
 
-export default RequireAuth
+export default RequireAuth;

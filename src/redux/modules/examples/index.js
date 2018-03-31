@@ -1,21 +1,21 @@
 // @flow
 //
 // Example nested reducer
-import { combineReducers } from 'redux'
-import profile from './profile'
-import todos from './todos'
+import { combineReducers } from "redux";
+import profile from "./profile";
+import todos from "./todos";
 
-import type { ProfileState } from './profile'
-import type { TodosState } from './todos'
+import type { ProfileState } from "./profile";
+import type { TodosState } from "./todos";
 
 export type ExamplesState = {
   profile: ProfileState,
-  todos: TodosState,
-}
+  todos: TodosState
+};
 
 const examples = combineReducers({
   profile,
-  todos,
-})
+  todos
+});
 
-export default examples
+export default examples;

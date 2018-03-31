@@ -1,14 +1,14 @@
 // @flow
-import React, { Component } from 'react'
+import React, { Component } from "react";
 // import { StatusBar } from 'react-native'
-import { Provider } from 'react-redux'
-import { NativeRouter } from 'react-router-native'
+import { Provider } from "react-redux";
+import { NativeRouter } from "react-router-native";
 // import codePush from 'react-native-code-push'
-import configureStore from 'src/redux/store'
+import configureStore from "src/redux/store";
 
-import Routes from 'src/routes'
+import Routes from "src/routes";
 
-const store = configureStore()
+const store = configureStore();
 
 // const codePushOptions = {
 //   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
@@ -29,26 +29,22 @@ const store = configureStore()
 /* END HTTP DEBUG */
 
 class ReactTemplate extends Component<void> {
-
   // componentDidMount () {
 
   //   StatusBar.setHidden(true)
 
   // }
 
-  render () {
-
+  render() {
     return (
       <Provider store={store}>
         <NativeRouter>
           <Routes />
         </NativeRouter>
       </Provider>
-    )
-
+    );
   }
-
 }
 
 // export default codePush(codePushOptions)(ProductionCliq)
-export default ReactTemplate
+export default ReactTemplate;

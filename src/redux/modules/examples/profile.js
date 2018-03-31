@@ -1,17 +1,15 @@
 // @flow
 // Non-shallow reducer state example needs nested reducers
 // import Debug from 'debug'
-import get from 'lodash/get'
-import type { APIError } from 'src/helpers/api'
+import get from "lodash/get";
+import type { APIError } from "src/helpers/api";
 
 // const log = Debug('my-app:redux:modules:profile')
 
-
 // ACTION TYPES
-export const GET_PROFILE = 'my-app/examples/profile/GET_PROFILE'
-export const GET_PROFILE_FULFILLED = `${GET_PROFILE}_FULFILLED`
-export const GET_PROFILE_REJECTED = `${GET_PROFILE}_REJECTED`
-
+export const GET_PROFILE = "my-app/examples/profile/GET_PROFILE";
+export const GET_PROFILE_FULFILLED = `${GET_PROFILE}_FULFILLED`;
+export const GET_PROFILE_REJECTED = `${GET_PROFILE}_REJECTED`;
 
 // MODEL
 // Profile model with default values
@@ -23,93 +21,83 @@ export type Profile = {
   city: string,
   dob: string,
   notifications: boolean,
-  picture: string,
-}
+  picture: string
+};
 
 const profile = {
   id: 1,
-  firstName: '',
-  lastName: '',
-  email: '',
-  city: 'nashville',
-  dob: '1970-01-01T00:00:00.000Z',
+  firstName: "",
+  lastName: "",
+  email: "",
+  city: "nashville",
+  dob: "1970-01-01T00:00:00.000Z",
   notifications: true,
-  picture: '',
-}
-
+  picture: ""
+};
 
 // Flow type for this reducer's initial state
 export type ProfileState = {
   data: Profile,
   isFetching: boolean,
-  error: ?string,
-}
+  error: ?string
+};
 
 // Initial state with default values
 export const initialState: ProfileState = {
   data: profile,
-  error: '',
-  isFetching: false,
-}
-
+  error: "",
+  isFetching: false
+};
 
 // REDUCER
-function reducer (state: ProfileState = initialState, action: GlobalFSA<*>) {
-
+function reducer(state: ProfileState = initialState, action: GlobalFSA<*>) {
   switch (action.type) {
-
     case GET_PROFILE:
       return {
         ...state,
-        isFetching: true,
-      }
+        isFetching: true
+      };
 
     case GET_PROFILE_FULFILLED:
       return {
         ...state,
-        data: get(action, 'payload.me'),
-        error: '',
-        isFetching: false,
-      }
+        data: get(action, "payload.me"),
+        error: "",
+        isFetching: false
+      };
 
     case GET_PROFILE_REJECTED:
       return {
         ...state,
         data: initialState.data,
-        error: get(action, 'payload.statusCode'),
-        isFetching: false,
-      }
+        error: get(action, "payload.statusCode"),
+        isFetching: false
+      };
 
     default:
-      return state
-
+      return state;
   }
-
 }
-
 
 // ACTION CREATORS
 // Use Flux Standard Action (FSA) notation
 // https://github.com/acdlite/flux-standard-action
 export const fetchProfile = () => ({
-  type: GET_PROFILE,
-})
-
+  type: GET_PROFILE
+});
 
 export const fetchProfileSuccess = (me: Object) => ({
   type: GET_PROFILE_FULFILLED,
   payload: {
-    me,
-  },
-})
-
+    me
+  }
+});
 
 export const fetchProfileError = (error: APIError) => ({
   type: GET_PROFILE_REJECTED,
   payload: error,
-  error: true,
-})
+  error: true
+});
 // Always append { error: true } for redux action error types
 
-
-export default reducer
+export default reducer;

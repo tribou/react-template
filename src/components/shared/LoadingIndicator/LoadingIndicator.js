@@ -1,34 +1,23 @@
 // @flow
-import React, { PureComponent } from 'react'
-import css from './LoadingIndicator.style.css'
+import React, { PureComponent } from "react";
+import css from "./LoadingIndicator.style.css";
 
-import type { ReduxProps } from './'
+import type { ReduxProps } from "./";
 
-
-type Props = ReduxProps & {
-}
+type Props = ReduxProps & {};
 
 class LoadingIndicator extends PureComponent<Props> {
-
   // TODO: watch for resolution of
   // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props
+  props: Props;
 
-  render () {
+  render() {
+    const { weAreLoading } = this.props;
 
-    const { weAreLoading } = this.props
+    if (!weAreLoading) return null;
 
-    if (!weAreLoading) return null
-
-    return (
-      <div className={css.loading}>
-        Loading...
-      </div>
-    )
-
+    return <div className={css.loading}>Loading...</div>;
   }
-
 }
 
-
-export default LoadingIndicator
+export default LoadingIndicator;

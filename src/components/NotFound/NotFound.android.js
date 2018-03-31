@@ -1,4 +1,4 @@
 // @flow
-import NotFound from './NotFound.ios'
+import NotFound from "./NotFound.ios";
 
-export default NotFound
+export default NotFound;

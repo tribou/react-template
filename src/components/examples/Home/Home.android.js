@@ -1,4 +1,4 @@
 // @flow
-import Home from './Home.ios'
+import Home from "./Home.ios";
 
-export default Home
+export default Home;

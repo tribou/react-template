@@ -1,4 +1,4 @@
 // @flow
-import Template from './Template.ios'
+import Template from "./Template.ios";
 
-export default Template
+export default Template;

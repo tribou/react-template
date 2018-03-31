@@ -3,24 +3,16 @@
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html
 
-import React from 'react'
-import { shallow } from 'enzyme'
-import ErrorMessage from './ErrorMessage'
-
+import React from "react";
+import { shallow } from "enzyme";
+import ErrorMessage from "./ErrorMessage";
 
 const mockProps = {
-  error: { message: 'This is the error' },
-}
+  error: { message: "This is the error" }
+};
 
+it("<ErrorMessage> renders the ErrorMessage content", () => {
+  const wrapper = shallow(<ErrorMessage {...mockProps} />);
 
-it('<ErrorMessage> renders the ErrorMessage content', () => {
-
-  const wrapper = shallow(
-    <ErrorMessage
-      {...mockProps}
-    />
-  )
-
-  expect(wrapper).toMatchSnapshot()
-
-})
+  expect(wrapper).toMatchSnapshot();
+});

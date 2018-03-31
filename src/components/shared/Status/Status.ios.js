@@ -1,4 +1,4 @@
 // @flow
-import Status from './Status'
+import Status from "./Status";
 
-export default Status
+export default Status;

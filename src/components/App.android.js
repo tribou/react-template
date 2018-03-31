@@ -1,4 +1,4 @@
 // @flow
-import App from './App.ios'
+import App from "./App.ios";
 
-export default App
+export default App;

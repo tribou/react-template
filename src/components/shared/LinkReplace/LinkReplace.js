@@ -1,5 +1,5 @@
 // @flow
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react";
 
 type ReactProps = {
   location: Object,
@@ -8,65 +8,44 @@ type ReactProps = {
   staticContext: ?Object,
   to: Object,
   className: any,
-  children: React$Element<any> | string,
-}
+  children: React$Element<any> | string
+};
 
-type Props = ReactProps
+type Props = ReactProps;
 
 class LinkReplace extends PureComponent<Props> {
-
   // TODO: watch for resolution of
   // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props
+  props: Props;
 
   handleClick = () => {
-
-    const {
-      history,
-      to,
-    } = this.props
+    const { history, to } = this.props;
 
     if (to.state && to.query) {
-
       history.replace({
         pathname: to.pathname,
         state: to.state,
-        query: to.query,
-      })
-
-    }
-
-    else if (to.state) {
-
+        query: to.query
+      });
+    } else if (to.state) {
       history.replace({
         pathname: to.pathname,
-        state: to.state,
-      })
-
-    }
-
-    else if (to.query) {
-
+        state: to.state
+      });
+    } else if (to.query) {
       history.replace({
         pathname: to.pathname,
-        query: to.query,
-      })
-
-    }
-
-    else {
-
+        query: to.query
+      });
+    } else {
       history.replace({
         pathname: to,
-        state: { modal: '' },
-      })
-
+        state: { modal: "" }
+      });
     }
+  };
 
-  }
-
-  render () {
-
+  render() {
     return (
       <div
         role="button"
@@ -76,11 +55,8 @@ class LinkReplace extends PureComponent<Props> {
       >
         {this.props.children}
       </div>
-    )
-
-
+    );
   }
-
 }
 
-export default LinkReplace
+export default LinkReplace;

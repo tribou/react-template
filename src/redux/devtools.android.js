@@ -1,4 +1,4 @@
 // @flow
-import devtools from './devtools.ios'
+import devtools from "./devtools.ios";
 
-export default devtools
+export default devtools;
