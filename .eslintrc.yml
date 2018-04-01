@@ -9,6 +9,14 @@ plugins:
 settings:
   import/resolver: webpack
 
+rules:
+  react/jsx-indent:
+    - 2
+    - tab
+  react/jsx-indent-props:
+    - 2
+    - tab
+
 globals:
   # Global Flow Types
   # https://github.com/babel/babel-eslint/issues/130#issuecomment-111216872

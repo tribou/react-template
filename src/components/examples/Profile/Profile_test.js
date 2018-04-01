@@ -8,35 +8,29 @@ import { shallow } from 'enzyme'
 import Profile from './Profile'
 
 type OverrideProps = {
-  me: Object,
-  error: string,
-  location: Object,
-  history: Object,
-  fetchProfile: Function,
-  token: ?string,
+	me: Object,
+	error: string,
+	location: Object,
+	history: Object,
+	fetchProfile: Function,
+	token: ?string,
 }
 
 const mockProps: OverrideProps = {
-  me: {
-    get: () => null,
-  },
-  token: 'test',
-  error: '',
-  location: {},
-  history: {
-    replace: () => {},
-  },
-  fetchProfile: () => {},
+	me: {
+		get: () => null,
+	},
+	token: 'test',
+	error: '',
+	location: {},
+	history: {
+		replace: () => {},
+	},
+	fetchProfile: () => {},
 }
 
 it('<Profile> renders the Profile content', () => {
+	const wrapper = shallow(<Profile {...mockProps} />)
 
-  const wrapper = shallow(
-    <Profile
-      {...mockProps}
-    />
-  )
-
-  expect(wrapper).toMatchSnapshot()
-
+	expect(wrapper).toMatchSnapshot()
 })

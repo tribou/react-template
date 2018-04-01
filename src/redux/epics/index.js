@@ -6,12 +6,8 @@
 import { combineEpics } from 'redux-observable'
 import fetchProfileEpic from './fetchProfile'
 
-
 // redux-observable
 // Full example: http://jsbin.com/jexomi/edit?js,output
-const rootEpic = combineEpics(
-  fetchProfileEpic,
-)
-
+const rootEpic = combineEpics(fetchProfileEpic)
 
 export default rootEpic

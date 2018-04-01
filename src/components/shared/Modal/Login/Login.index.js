@@ -8,56 +8,47 @@ import type { RootReducerState } from 'src/redux/modules'
 import Login from './Login'
 
 const validate = values => {
-
-  const errors = {}
-  const requiredFields = [
-    'usernameInput',
-    'passwordInput',
-  ]
-  requiredFields.forEach(field => {
-
-    if (!values[field]) errors[field] = 'Required'
-
-  })
-  return errors
-
+	const errors = {}
+	const requiredFields = ['usernameInput', 'passwordInput']
+	requiredFields.forEach(field => {
+		if (!values[field]) errors[field] = 'Required'
+	})
+	return errors
 }
 
 const onSubmit = (values, dispatch, props): Promise<*> => {
+	const { usernameInput, passwordInput } = values
+	const { history } = props
+	const search = parse(props.location.search.substr(1))
 
-  const { usernameInput, passwordInput } = values
-  const { history } = props
-  const search = parse(props.location.search.substr(1))
-
-  return dispatch(login({
-    username: usernameInput,
-    password: passwordInput,
-  }))
-    .then(() => history.push({ pathname: search.redirect }))
-
+	return dispatch(
+		login({
+			username: usernameInput,
+			password: passwordInput,
+		})
+	).then(() => history.push({ pathname: search.redirect }))
 }
 
 const reduxFormConfig = {
-  form: 'loginModalForm',
-  initialValues: {
-    // TODO: remove these
-    usernameInput: 'test@example.com',
-    passwordInput: 'secret',
-  },
-  validate,
-  onSubmit,
+	form: 'loginModalForm',
+	initialValues: {
+		// TODO: remove these
+		usernameInput: 'test@example.com',
+		passwordInput: 'secret',
+	},
+	validate,
+	onSubmit,
 }
-
 
 type StateProps = {
-  error: ?string,
+	error: ?string,
 }
 
-const mapStateToProps = ({ auth: { error } }: RootReducerState): StateProps =>
-  ({ error })
+const mapStateToProps = ({
+	auth: { error },
+}: RootReducerState): StateProps => ({ error })
 
-
-export default withRouter(connect(mapStateToProps)(
-  reduxForm(reduxFormConfig)(Login)
-))
+export default withRouter(
+	connect(mapStateToProps)(reduxForm(reduxFormConfig)(Login))
+)
 export type ReduxProps = StateProps

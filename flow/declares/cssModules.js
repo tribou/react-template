@@ -1,6 +1,6 @@
 // @flow
 
 declare type CssLoaders = {
-  modules: string,
-  vendor: string,
+	modules: string,
+	vendor: string,
 }

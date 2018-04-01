@@ -188,7 +188,7 @@
     "flow-ci": "flow check .",
     "lint": "eslint --ignore-path .gitignore flow src server config",
     "lint-cache": "eslint --cache --ignore-path .gitignore flow src server config",
-	"prettier": "prettier **/*.{js,md,json} --write",
+	"prettier": "prettier '**/*.{js,md,json}' --write",
     "test": "concurrently -n 'LINT,FLOW,NSP,JEST,RN' -p '[{name}]' 'npm run lint' 'npm run --silent flow-ci' 'npm run --silent test-nsp; exit 0 # For React Native libs :(' && npm run --silent test-jest && npm run --silent test-rn",
     "test-jest": "cross-env NODE_ENV=test jest --coverage",
     "test-rn": "cross-env NODE_ENV=test jest --coverage --preset react-native --testRegex '/(config|src)/.*_test.(ios|android)\\.js$'",

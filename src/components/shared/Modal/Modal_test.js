@@ -16,124 +16,112 @@ import Modal from './'
 
 InjectTapEventPlugin()
 
-
 it('renders null if no modal state or query', () => {
+	const store = configureStore()
+	const wrapper = mount(
+		<Provider store={store}>
+			<MuiThemeProvider muiTheme={getMuiTheme()}>
+				<MemoryRouter initialEntries={['/']}>
+					<Modal />
+				</MemoryRouter>
+			</MuiThemeProvider>
+		</Provider>
+	)
 
-  const store = configureStore()
-  const wrapper = mount(
-    <Provider store={store}>
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <MemoryRouter initialEntries={['/']}>
-          <Modal />
-        </MemoryRouter>
-      </MuiThemeProvider>
-    </Provider>
-  )
-
-  expect(wrapper.find('Login').exists()).toEqual(false)
-
+	expect(wrapper.find('Login').exists()).toEqual(false)
 })
-
 
 it('renders <Login> if query m=login', () => {
+	const store = configureStore()
+	const wrapper = mount(
+		<Provider store={store}>
+			<MuiThemeProvider muiTheme={getMuiTheme()}>
+				<MemoryRouter initialEntries={['/?m=login']}>
+					<Modal />
+				</MemoryRouter>
+			</MuiThemeProvider>
+		</Provider>
+	)
 
-  const store = configureStore()
-  const wrapper = mount(
-    <Provider store={store}>
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <MemoryRouter initialEntries={['/?m=login']}>
-          <Modal />
-        </MemoryRouter>
-      </MuiThemeProvider>
-    </Provider>
-  )
-
-  expect(wrapper.find('Login').exists()).toEqual(true)
-
+	expect(wrapper.find('Login').exists()).toEqual(true)
 })
-
 
 it('renders <Login> if location.state = { modal: "login" }', () => {
+	const body = get(document, 'body')
 
-  const body = get(document, 'body')
+	const div = document.createElement('div')
+	div.id = 'test'
+	body.appendChild(div)
 
-  const div = document.createElement('div')
-  div.id = 'test'
-  body.appendChild(div)
+	const store = configureStore()
+	const wrapper = mount(
+		<Provider store={store}>
+			<MuiThemeProvider muiTheme={getMuiTheme()}>
+				<MemoryRouter initialEntries={[{ state: { modal: 'login' } }]}>
+					<Modal />
+				</MemoryRouter>
+			</MuiThemeProvider>
+		</Provider>,
+		{ attachTo: div }
+	)
 
-  const store = configureStore()
-  const wrapper = mount(
-    <Provider store={store}>
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <MemoryRouter initialEntries={[{ state: { modal: 'login' } }]}>
-          <Modal />
-        </MemoryRouter>
-      </MuiThemeProvider>
-    </Provider>,
-    { attachTo: div })
+	expect(wrapper.find('Login').exists()).toEqual(true)
 
-  expect(wrapper.find('Login').exists()).toEqual(true)
-
-  // cleanup
-  wrapper.detach()
-  body.removeChild(div)
-
+	// cleanup
+	wrapper.detach()
+	body.removeChild(div)
 })
-
 
 it('renders sets overflow to hidden when shown and visible when unmounting', () => {
+	const body = get(document, 'body')
 
-  const body = get(document, 'body')
+	const div = document.createElement('div')
+	div.id = 'test'
+	body.appendChild(div)
 
-  const div = document.createElement('div')
-  div.id = 'test'
-  body.appendChild(div)
+	const store = configureStore()
+	const wrapper = mount(
+		<Provider store={store}>
+			<MuiThemeProvider muiTheme={getMuiTheme()}>
+				<MemoryRouter initialEntries={[{ state: { modal: 'login' } }]}>
+					<Modal />
+				</MemoryRouter>
+			</MuiThemeProvider>
+		</Provider>,
+		{ attachTo: div }
+	)
 
-  const store = configureStore()
-  const wrapper = mount(
-    <Provider store={store}>
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <MemoryRouter initialEntries={[{ state: { modal: 'login' } }]}>
-          <Modal />
-        </MemoryRouter>
-      </MuiThemeProvider>
-    </Provider>,
-    { attachTo: div })
+	const hidden = get(document, 'body.style.overflow')
+	expect(hidden).toEqual('hidden')
 
-  const hidden = get(document, 'body.style.overflow')
-  expect(hidden).toEqual('hidden')
-
-  // cleanup
-  wrapper.detach()
-  body.removeChild(div)
-
+	// cleanup
+	wrapper.detach()
+	body.removeChild(div)
 })
 
-
 it('sets overflow to visible when rendering null', () => {
+	const body = get(document, 'body')
 
-  const body = get(document, 'body')
+	const div = document.createElement('div')
+	div.id = 'test'
+	body.appendChild(div)
 
-  const div = document.createElement('div')
-  div.id = 'test'
-  body.appendChild(div)
+	const store = configureStore()
+	const wrapper = mount(
+		<Provider store={store}>
+			<MuiThemeProvider muiTheme={getMuiTheme()}>
+				<MemoryRouter initialEntries={[{ pathname: '/' }]}>
+					<Modal />
+				</MemoryRouter>
+			</MuiThemeProvider>
+		</Provider>,
+		{ attachTo: div }
+	)
 
-  const store = configureStore()
-  const wrapper = mount(
-    <Provider store={store}>
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <MemoryRouter initialEntries={[{ pathname: '/' }]}>
-          <Modal />
-        </MemoryRouter>
-      </MuiThemeProvider>
-    </Provider>,
-    { attachTo: div })
+	const visible = get(document, 'body.style.overflow')
+	expect(visible).toEqual('visible')
 
-  const visible = get(document, 'body.style.overflow')
-  expect(visible).toEqual('visible')
-
-  // cleanup
-  wrapper.detach()
-  body.removeChild(div)
-
+	// cleanup
+	wrapper.detach()
+	body.removeChild(div)
 })

@@ -4,9 +4,6 @@ const config = require('./browser')
 
 expect.addSnapshotSerializer(serializer)
 
-
 it('webpack config matches snapshot', () => {
-
-  expect(config).toMatchSnapshot()
-
+	expect(config).toMatchSnapshot()
 })

@@ -4,9 +4,6 @@ const config = require('./server')
 
 expect.addSnapshotSerializer(serializer)
 
-
 it('matches snapshot', () => {
-
-  expect(config).toMatchSnapshot()
-
+	expect(config).toMatchSnapshot()
 })

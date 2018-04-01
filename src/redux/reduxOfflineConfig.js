@@ -6,16 +6,10 @@ import { isBrowser } from 'config/env'
 const noop = (s: any) => {}
 
 export default {
-  ...offlineConfig,
-  persist: isBrowser()
-    ? offlineConfig.persist
-    : noop,
-  persistOptions: {
-    ...offlineConfig.persistOptions,
-    blacklist: [
-      'form',
-      'init',
-      'ui',
-    ],
-  },
+	...offlineConfig,
+	persist: isBrowser() ? offlineConfig.persist : noop,
+	persistOptions: {
+		...offlineConfig.persistOptions,
+		blacklist: ['form', 'init', 'ui'],
+	},
 }

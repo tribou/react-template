@@ -7,34 +7,18 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import LoadingIndicator from './LoadingIndicator'
 
-
-const mockProps = {
-}
-
+const mockProps = {}
 
 it('<LoadingIndicator> renders the LoadingIndicator content', () => {
+	const wrapper = shallow(<LoadingIndicator {...mockProps} weAreLoading />)
 
-  const wrapper = shallow(
-    <LoadingIndicator
-      {...mockProps}
-      weAreLoading
-    />
-  )
-
-  expect(wrapper).toMatchSnapshot()
-
+	expect(wrapper).toMatchSnapshot()
 })
 
-
 it('<LoadingIndicator> returns null when not loading', () => {
+	const wrapper = shallow(
+		<LoadingIndicator {...mockProps} weAreLoading={false} />
+	)
 
-  const wrapper = shallow(
-    <LoadingIndicator
-      {...mockProps}
-      weAreLoading={false}
-    />
-  )
-
-  expect(wrapper.html()).toBe(null)
-
+	expect(wrapper.html()).toBe(null)
 })

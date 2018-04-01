@@ -9,13 +9,13 @@ import type { ProfileState } from './profile'
 import type { TodosState } from './todos'
 
 export type ExamplesState = {
-  profile: ProfileState,
-  todos: TodosState,
+	profile: ProfileState,
+	todos: TodosState,
 }
 
 const examples = combineReducers({
-  profile,
-  todos,
+	profile,
+	todos,
 })
 
 export default examples
