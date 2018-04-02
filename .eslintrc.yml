@@ -1,12 +1,21 @@
 ---
 extends:
   - plugin:tribou/recommended
+  - prettier
 
 plugins:
   - tribou
 
 settings:
   import/resolver: webpack
+
+rules:
+  react/jsx-indent:
+    - 2
+    - tab
+  react/jsx-indent-props:
+    - 2
+    - tab
 
 globals:
   # Global Flow Types

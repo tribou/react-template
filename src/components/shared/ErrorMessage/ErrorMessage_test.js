@@ -7,20 +7,12 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import ErrorMessage from './ErrorMessage'
 
-
 const mockProps = {
-  error: { message: 'This is the error' },
+	error: { message: 'This is the error' },
 }
 
-
 it('<ErrorMessage> renders the ErrorMessage content', () => {
+	const wrapper = shallow(<ErrorMessage {...mockProps} />)
 
-  const wrapper = shallow(
-    <ErrorMessage
-      {...mockProps}
-    />
-  )
-
-  expect(wrapper).toMatchSnapshot()
-
+	expect(wrapper).toMatchSnapshot()
 })

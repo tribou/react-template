@@ -18,122 +18,111 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'config/muiTheme'
 
 export default {
-  name: 'defaultReactRoute',
-  version: '1.0.0',
-  register: (server: Object) => {
+	name: 'defaultReactRoute',
+	version: '1.0.0',
+	register: (server: Object) => {
+		server.route({
+			method: 'GET',
+			path: '/{param*}',
+			handler: async (request: Object, h: Function) => {
+				if (module.hot) {
+					module.hot.accept(
+						[
+							'src/routes',
+							'src/redux/store',
+							'src/redux/modules/auth',
+							'config/env',
+							'config/variables',
+							'server/utils',
+						],
+						() => {}
+					)
+				}
 
-    server.route({
-      method: 'GET',
-      path: '/{param*}',
-      handler: async (request: Object, h: Function) => {
+				// Inject server request info
+				const _request = { userAgent: request.headers['user-agent'] }
 
-        if (module.hot) {
+				const muiTheme = getMuiTheme(_request.userAgent)
 
-          module.hot.accept([
-            'src/routes',
-            'src/redux/store',
-            'src/redux/modules/auth',
-            'config/env',
-            'config/variables',
-            'server/utils',
-          ], () => {})
+				const cookie = request.state[vars.appAuthCookieKey]
+				const token = cookie ? Base64.decode(cookie) : ''
 
-        }
+				// Pass initial state to store along with server ENV vars
+				const store = configureStore({
+					auth: {
+						...authInitialState,
+						token,
+					},
+					env,
+					request: _request,
+				})
 
-        // Inject server request info
-        const _request = { userAgent: request.headers['user-agent'] }
+				// DISPATCH ASYNC SERVER-SIDE CALLS HERE
+				//
+				// SEO, meta tags, etc
+				//
+				// Can simply await any redux-promise-middleware action
+				await store.dispatch(getTodos())
+				// If you're getting meta tags info, be sure to set using react-helmet
+				// inside the respective component. (Don't mess with it here)
 
-        const muiTheme = getMuiTheme(_request.userAgent)
+				// Let react-router match the raw URL to generate the
+				// RouterContext here on the server
+				const context = {}
 
-        const cookie = request.state[vars.appAuthCookieKey]
-        const token = cookie
-          ? Base64.decode(cookie)
-          : ''
+				// Get rendered router context
+				const children = renderToString(
+					<Provider store={store}>
+						<MuiThemeProvider muiTheme={muiTheme}>
+							<StaticRouter
+								location={request.url.href}
+								context={context}
+							>
+								<Routes />
+							</StaticRouter>
+						</MuiThemeProvider>
+					</Provider>
+				)
 
-        // Pass initial state to store along with server ENV vars
-        const store = configureStore({
-          auth: {
-            ...authInitialState,
-            token,
-          },
-          env,
-          request: _request,
-        })
+				// Redirects that can return early
+				//
+				// Only redirect, no code
+				if (context.url && !context.code) {
+					return h
+						.response()
+						.redirect(context.url)
+						.temporary()
+				} else if (context.url && context.code) {
+					// Both redirect and code! ZOMG!
+					return h
+						.response()
+						.redirect(context.url)
+						.code(context.code)
+				}
 
+				// Get resulting store state
+				const preloadedState = store.getState()
 
-        // DISPATCH ASYNC SERVER-SIDE CALLS HERE
-        //
-        // SEO, meta tags, etc
-        //
-        // Can simply await any redux-promise-middleware action
-        await store.dispatch(getTodos())
-        // If you're getting meta tags info, be sure to set using react-helmet
-        // inside the respective component. (Don't mess with it here)
+				// Get resulting head info
+				const head = Helmet.rewind()
 
+				const htmlProps = {
+					assets: getAssets(),
+					children,
+					css: getCss(),
+					head,
+					preloadedState,
+				}
 
-        // Let react-router match the raw URL to generate the
-        // RouterContext here on the server
-        const context = {}
+				// Render the layout with props
+				const response = h.view('Html', htmlProps)
 
-        // Get rendered router context
-        const children = renderToString(
-          <Provider store={store}>
-            <MuiThemeProvider muiTheme={muiTheme}>
-              <StaticRouter
-                location={request.url.href}
-                context={context}
-              >
-                <Routes />
-              </StaticRouter>
-            </MuiThemeProvider>
-          </Provider>
-        )
+				// If code but no redirect (e.g. 4xx page, 5xx page...)
+				if (!context.url && context.code)
+					return response.code(context.code)
 
-
-        // Redirects that can return early
-        //
-        // Only redirect, no code
-        if (context.url && !context.code) {
-
-          return h.response()
-            .redirect(context.url)
-            .temporary()
-
-        }
-        // Both redirect and code! ZOMG!
-        else if (context.url && context.code) {
-
-          return h.response()
-            .redirect(context.url)
-            .code(context.code)
-
-        }
-
-
-        // Get resulting store state
-        const preloadedState = store.getState()
-
-        // Get resulting head info
-        const head = Helmet.rewind()
-
-        const htmlProps = {
-          assets: getAssets(),
-          children,
-          css: getCss(),
-          head,
-          preloadedState,
-        }
-
-        // Render the layout with props
-        const response = h.view('Html', htmlProps)
-
-        // If code but no redirect (e.g. 4xx page, 5xx page...)
-        if (!context.url && context.code) return response.code(context.code)
-
-        return response
-
-      },
-    })
-
-  },
+				return response
+			},
+		})
+	},
 }

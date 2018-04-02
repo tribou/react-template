@@ -11,20 +11,18 @@ import Profile from 'src/components/examples/Profile'
 import Todos from 'src/components/examples/Todos'
 
 const Routes = () => (
-  <App>
-    <Switch>
+	<App>
+		<Switch>
+			{/* Example Routes */}
+			<Route exact path="/home" component={Home} />
+			<Route exact path="/profile" component={Profile} />
+			<Route exact path="/todos" component={Todos} />
+			<Redirect exact from="/" to="/home" />
 
-      {/* Example Routes */}
-      <Route exact path="/home" component={Home} />
-      <Route exact path="/profile" component={Profile} />
-      <Route exact path="/todos" component={Todos} />
-      <Redirect exact from="/" to="/home" />
-
-      {/* 404 */}
-      <Route component={NotFound} />
-
-    </Switch>
-  </App>
+			{/* 404 */}
+			<Route component={NotFound} />
+		</Switch>
+	</App>
 )
 
 export default Routes

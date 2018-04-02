@@ -46,6 +46,7 @@
     "enzyme-adapter-react-16": "^1.0.4",
     "enzyme-to-json": "^3.2.2",
     "eslint": "^4.19.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-import-resolver-webpack": "^0.8.3",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-tribou": "^1.2.2",
@@ -70,6 +71,8 @@
     "postcss-calc": "^6.0.0",
     "postcss-loader": "^2.0.6",
     "precss": "^2.0.0",
+    "prettier": "^1.11.1",
+    "pretty-quick": "^1.4.1",
     "raf": "^3.4.0",
     "react-addons-perf": "^15.4.1",
     "react-router-native": "^4.2.0",
@@ -155,8 +158,17 @@
     "ie > 10",
     "ie_mob > 10"
   ],
+  "prettier": {
+    "semi": false,
+    "useTabs": true,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "arrowParens": "avoid"
+  },
   "scripts": {
     "prepush": "npm run --silent commitlint && npm test",
+	"precommit": "pretty-quick --staged",
     "heroku-postbuild": "npm run build",
     "commitlint": "VALID_COMMIT=$(git log --pretty=format:\"%s\" master..head | grep \\#[0-9]); [[ ! -z \"$VALID_COMMIT\" ]] && (echo 'commitlint: Valid commit found 👍 ' && exit 0) || (echo 'commitlint: Valid issue number required in at least one commit message 👎 ' && exit 1)",
     "desktop": "npm run desktop-build && electron build/desktop/",
@@ -178,6 +190,7 @@
     "flow-ci": "flow check .",
     "lint": "eslint --ignore-path .gitignore flow src server config",
     "lint-cache": "eslint --cache --ignore-path .gitignore flow src server config",
+    "prettier": "prettier '**/*.{js,md,json}' --write",
     "test": "concurrently -n 'LINT,FLOW,NSP,JEST,RN' -p '[{name}]' 'npm run lint' 'npm run --silent flow-ci' 'npm run --silent test-nsp; exit 0 # For React Native libs :(' && npm run --silent test-jest && npm run --silent test-rn",
     "test-jest": "cross-env NODE_ENV=test jest --coverage",
     "test-rn": "cross-env NODE_ENV=test jest --coverage --preset react-native --testRegex '/(config|src)/.*_test.(ios|android)\\.js$'",

@@ -12,24 +12,21 @@ const variables = require('../config/variables')
 // Get context at startup
 const mixinsFiles = Path.join(__dirname, '../src/styles/mixins', '*.css')
 
-
-module.exports = function postcss () {
-
-  return {
-    plugins: [
-      PreCSS({
-        variables: {
-          variables,
-        },
-        mixins: {
-          mixinsFiles,
-        },
-      }),
-      Calc(),
-      Autoprefixer({
-        flexbox: 'no-2009',
-      }),
-    ],
-  }
-
+module.exports = function postcss() {
+	return {
+		plugins: [
+			PreCSS({
+				variables: {
+					variables,
+				},
+				mixins: {
+					mixinsFiles,
+				},
+			}),
+			Calc(),
+			Autoprefixer({
+				flexbox: 'no-2009',
+			}),
+		],
+	}
 }

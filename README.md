@@ -68,11 +68,13 @@ make component NAME=Sample TARGET_DIR=src/components/Dashboard
 
 CircleCI is setup to automatically bump patch versions on master.
 If you need a minor or major bump specifically, run either:
+
 ```sh
 npm version preminor
 ```
 
 or
+
 ```sh
 npm version premajor
 ```
@@ -81,10 +83,12 @@ before you merge your PR to master. CircleCI will then automatically bump a
 minor or major version respectively. See `bin/bump_version.sh` for details.
 
 ###### Staging Deployment
+
 Afterwards, Heroku is setup to automatically deploy the `master` branch to
 staging.
 
 ###### Production Deployment
+
 Login to Heroku or use the CLI to promote a staging build to production via the
 Heroku pipelines feature.
 
@@ -116,7 +120,7 @@ npm run flow
 ```
 
 This project uses [Flow](https://flowtype.org/) static type checking for
-JavaScript. There is plugin support for most code editors.  A [Flow Quick
+JavaScript. There is plugin support for most code editors. A [Flow Quick
 Reference](https://flowtype.org/docs/quick-reference.html) is available for a
 type cheat sheet.
 
@@ -128,11 +132,11 @@ npm run lint
 
 [ESLint](http://eslint.org/) is used heavily to control edge-case JS errors
 before they make it to production and to keep a unified structure throughout
-the codebase.  ES6-7 features are compiled down using `babel-eslint`.
+the codebase. ES6-7 features are compiled down using `babel-eslint`.
 
 #### Browser-Sync
 
-The Browser-Sync Proxy watches files and auto-reloads.  Webpack watches changed
+The Browser-Sync Proxy watches files and auto-reloads. Webpack watches changed
 files and rebuilds as necessary while Browser-Sync auto-reloads the page.
 However, some PostCSS assets like the `src/styles/variables.js` may not get
 rebuilt unless you restart the dev server.
@@ -214,14 +218,14 @@ web.
 The `postcss.config.js` returns the PostCSS config and currently includes the
 following transforms in this order:
 
-- [PreCSS](https://github.com/jonathantneal/precss) applies a collection of
-  PostCSS configurations for SASS-like markup.
-- [postcss-calc](https://github.com/postcss/postcss-calc) reduces the number of
-  `calc()` operations performed by the browser by precalculating values when
-  possible.
-- [autoprefixer](https://github.com/postcss/autoprefixer) automatically adds
-  vendor prefixes according to [Can I Use](http://caniuse.com/) rules and the
-  [Browserslist](https://github.com/ai/browserslist#queries) defaults.
+*   [PreCSS](https://github.com/jonathantneal/precss) applies a collection of
+    PostCSS configurations for SASS-like markup.
+*   [postcss-calc](https://github.com/postcss/postcss-calc) reduces the number of
+    `calc()` operations performed by the browser by precalculating values when
+    possible.
+*   [autoprefixer](https://github.com/postcss/autoprefixer) automatically adds
+    vendor prefixes according to [Can I Use](http://caniuse.com/) rules and the
+    [Browserslist](https://github.com/ai/browserslist#queries) defaults.
 
 #### Static Files
 

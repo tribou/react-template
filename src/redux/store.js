@@ -14,55 +14,47 @@ import rootReducer from './modules'
 
 const { NODE_ENV } = env
 
+function configureStore(preloadedState?: Object = {}): Object {
+	const epicMiddleware = createEpicMiddleware(rootEpic)
 
-function configureStore (preloadedState?: Object = {}): Object {
+	const middleware = [
+		epicMiddleware,
+		thunk,
+		promiseMiddleware(),
+		errorDisplayMiddleware,
+	]
 
-  const epicMiddleware = createEpicMiddleware(rootEpic)
+	// only log redux actions in development
+	if (NODE_ENV === 'development') {
+		// logger needs to be last
+		// uncomment if needed
+		// middleware.push(require('redux-logger').createLogger())
+	}
 
-  const middleware = [
-    epicMiddleware,
-    thunk,
-    promiseMiddleware(),
-    errorDisplayMiddleware,
-  ]
+	// https://github.com/zalmoxisus/redux-devtools-extension
+	// https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
-  // only log redux actions in development
-  if (NODE_ENV === 'development') {
+	// Avoid leak during testing with redux-offline
+	const enhancer =
+		NODE_ENV === 'test'
+			? compose(applyMiddleware(...middleware))
+			: compose(
+					applyMiddleware(...middleware),
+					offline(offlineConfig),
+					devTools()
+			  )
 
-    // logger needs to be last
-    // uncomment if needed
-    // middleware.push(require('redux-logger').createLogger())
+	const store = createStore(rootReducer, preloadedState, enhancer)
 
-  }
+	// HMR in React Native
+	if (module.hot) {
+		module.hot.accept(() =>
+			// eslint-disable-next-line
+			store.replaceReducer(require('./modules').default)
+		)
+	}
 
-  // https://github.com/zalmoxisus/redux-devtools-extension
-  // https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
-
-  // Avoid leak during testing with redux-offline
-  const enhancer = NODE_ENV === 'test'
-    ? compose(
-      applyMiddleware(...middleware),
-    )
-    : compose(
-      applyMiddleware(...middleware),
-      offline(offlineConfig),
-      devTools()
-    )
-
-
-  const store = createStore(rootReducer, preloadedState, enhancer)
-
-  // HMR in React Native
-  if (module.hot) {
-
-    module.hot.accept(() =>
-      store.replaceReducer(require('./modules').default)) // eslint-disable-line
-
-  }
-
-  return store
-
+	return store
 }
-
 
 export default configureStore

@@ -8,40 +8,31 @@ const getUiLoading = (state: RootReducerState) => state.ui.showLoading
 
 // Examples
 const getProfileFetching = (state: RootReducerState) =>
-  state.examples.profile.isFetching
+	state.examples.profile.isFetching
 const getTodosFetching = (state: RootReducerState) =>
-  state.examples.todos.isFetching
+	state.examples.todos.isFetching
 
-
-const areWeLoading = createSelector([
-  getAuthFetching,
-  getInitLoading,
-  getUiLoading,
-  getProfileFetching,
-  getTodosFetching,
-], (
-  authFetching,
-  initLoading,
-  uiLoading,
-  profileFetching,
-  todosFetching,
-) => {
-
-  if (
-    authFetching
-    || initLoading
-    || uiLoading
-    || profileFetching
-    || todosFetching
-  ) {
-
-    return true
-
-  }
-  // default
-  return false
-
-})
-
+const areWeLoading = createSelector(
+	[
+		getAuthFetching,
+		getInitLoading,
+		getUiLoading,
+		getProfileFetching,
+		getTodosFetching,
+	],
+	(authFetching, initLoading, uiLoading, profileFetching, todosFetching) => {
+		if (
+			authFetching ||
+			initLoading ||
+			uiLoading ||
+			profileFetching ||
+			todosFetching
+		) {
+			return true
+		}
+		// default
+		return false
+	}
+)
 
 export default areWeLoading

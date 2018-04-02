@@ -58,32 +58,28 @@ import Todos from './Todos'
 import { setFilterCurrent, setFilterDone } from 'src/redux/modules/todos'
 import visibleTodos from 'src/selectors/visibleTodos'
 
-
 type StateProps = {
-  +todos: Array<*>,
-  +filter: string,
+	+todos: Array<*>,
+	+filter: string,
 }
 
-function mapStateToProps (state: RootReducerState): StateProps {
+function mapStateToProps(state: RootReducerState): StateProps {
+	const { todos } = state
 
-  const { todos } = state
-
-  return {
-    todos: visibleTodos(state),
-    filter: todos.get('filter'),
-  }
-
+	return {
+		todos: visibleTodos(state),
+		filter: todos.get('filter'),
+	}
 }
 
 type ActionProps = {
-  setFilterCurrent: Function,
-  setFilterDone: Function,
+	setFilterCurrent: Function,
+	setFilterDone: Function,
 }
 
-
 export default connect(mapStateToProps, {
-  setFilterCurrent,
-  setFilterDone,
+	setFilterCurrent,
+	setFilterDone,
 })(Todos)
 
 export type ReduxProps = StateProps & ActionProps
@@ -95,7 +91,6 @@ simply exports the view component:
 ```js
 // @flow
 import NotFound from './NotFound'
-
 
 export default NotFound
 ```
@@ -175,15 +170,10 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Template from './Template'
 
-
 it('<Template> renders the Template content', () => {
+	const wrapper = shallow(<Template API_URL="" />)
 
-  const wrapper = shallow(
-    <Template API_URL="" />
-  )
-
-  expect(wrapper).toMatchSnapshot()
-
+	expect(wrapper).toMatchSnapshot()
 })
 ```
 
@@ -196,7 +186,7 @@ exports[`test <Template> renders the Template content 1`] = `
   className="template">
   Template
 </div>
-`;
+`
 ```
 
 #### Component CSS Module Styles

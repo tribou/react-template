@@ -4,14 +4,11 @@ import vars from 'config/variables'
 
 const { appAuthCookieKey, appAuthExpirySeconds } = vars
 
-
 export type AuthToken = string
 
-export const getAuthToken = (): Promise<?AuthToken> =>
-  getItem(appAuthCookieKey)
+export const getAuthToken = (): Promise<?AuthToken> => getItem(appAuthCookieKey)
 
 export const setAuthToken = (token: string) =>
-  setItem(appAuthCookieKey, token, appAuthExpirySeconds)
+	setItem(appAuthCookieKey, token, appAuthExpirySeconds)
 
-export const removeAuthToken = () =>
-  removeItem(appAuthCookieKey)
+export const removeAuthToken = () => removeItem(appAuthCookieKey)

@@ -21,36 +21,34 @@ import ui from './ui'
 // Examples
 import examples from './examples'
 
-
 export type RootReducerState = {
-  env: EnvState,
-  request: RequestState,
-  init: InitState,
-  auth: AuthState,
-  ui: UIState,
+	env: EnvState,
+	request: RequestState,
+	init: InitState,
+	auth: AuthState,
+	ui: UIState,
 
-  // Examples
-  examples: ExamplesState,
+	// Examples
+	examples: ExamplesState,
 
-  // redux-form
-  form: Object,
-  // react-router-redux
-  routing: Object,
+	// redux-form
+	form: Object,
+	// react-router-redux
+	routing: Object,
 }
 
 const rootReducer = combineReducers({
-  env,
-  request,
-  init,
-  auth,
-  ui,
+	env,
+	request,
+	init,
+	auth,
+	ui,
 
-  // Examples
-  examples,
+	// Examples
+	examples,
 
-  // redux-form
-  form,
+	// redux-form
+	form,
 })
-
 
 export default rootReducer
