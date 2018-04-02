@@ -58,37 +58,41 @@ function getRule(
 }
 
 function cssModules() {
-  return ({ fileType, platform, webpack }) =>
-    /* : { fileType: Function, platform: Platform, webpack: Object } */
+  return (
     {
-      const { NODE_ENV } = process.env;
+      fileType,
+      platform,
+      webpack
+    } /* : { fileType: Function, platform: Platform, webpack: Object } */
+  ) => {
+    const { NODE_ENV } = process.env;
 
-      fileType.add({
-        "text/x-css-vendor": /node_modules.*\.css$/
-      });
+    fileType.add({
+      "text/x-css-vendor": /node_modules.*\.css$/
+    });
 
-      const config = {
-        module: {
-          rules: [
-            getRule({ fileType, platform, NODE_ENV, modules: true }),
-            getRule({ fileType, platform, NODE_ENV, modules: false })
-          ]
-        }
-      };
-
-      if (platform === "browser" || platform === "desktop") {
-        return Object.assign({}, config, {
-          plugins: [
-            new ExtractTextPlugin({
-              filename: "styles.css",
-              allChunks: true
-            })
-          ]
-        });
+    const config = {
+      module: {
+        rules: [
+          getRule({ fileType, platform, NODE_ENV, modules: true }),
+          getRule({ fileType, platform, NODE_ENV, modules: false })
+        ]
       }
-
-      return config;
     };
+
+    if (platform === "browser" || platform === "desktop") {
+      return Object.assign({}, config, {
+        plugins: [
+          new ExtractTextPlugin({
+            filename: "styles.css",
+            allChunks: true
+          })
+        ]
+      });
+    }
+
+    return config;
+  };
 }
 
 module.exports = cssModules;
