@@ -52,41 +52,37 @@ Here is an example Container with example state and action mappings:
 
 ```js
 // @flow
-import { connect } from 'react-redux'
-import type { RootReducerState } from 'src/redux/modules'
-import Todos from './Todos'
-import { setFilterCurrent, setFilterDone } from 'src/redux/modules/todos'
-import visibleTodos from 'src/selectors/visibleTodos'
-
+import { connect } from "react-redux";
+import type { RootReducerState } from "src/redux/modules";
+import Todos from "./Todos";
+import { setFilterCurrent, setFilterDone } from "src/redux/modules/todos";
+import visibleTodos from "src/selectors/visibleTodos";
 
 type StateProps = {
-  +todos: Array<*>,
-  +filter: string,
-}
+    +todos: Array<*>,
+    +filter: string
+};
 
-function mapStateToProps (state: RootReducerState): StateProps {
+function mapStateToProps(state: RootReducerState): StateProps {
+    const { todos } = state;
 
-  const { todos } = state
-
-  return {
-    todos: visibleTodos(state),
-    filter: todos.get('filter'),
-  }
-
+    return {
+        todos: visibleTodos(state),
+        filter: todos.get("filter")
+    };
 }
 
 type ActionProps = {
-  setFilterCurrent: Function,
-  setFilterDone: Function,
-}
-
+    setFilterCurrent: Function,
+    setFilterDone: Function
+};
 
 export default connect(mapStateToProps, {
-  setFilterCurrent,
-  setFilterDone,
-})(Todos)
+    setFilterCurrent,
+    setFilterDone
+})(Todos);
 
-export type ReduxProps = StateProps & ActionProps
+export type ReduxProps = StateProps & ActionProps;
 ```
 
 If there is no state/container logic needed, here is an example container that
@@ -94,10 +90,9 @@ simply exports the view component:
 
 ```js
 // @flow
-import NotFound from './NotFound'
+import NotFound from "./NotFound";
 
-
-export default NotFound
+export default NotFound;
 ```
 
 This ensures that all components are imported uniformly by `react-router` and
@@ -171,20 +166,15 @@ Here is an example snapshot test that can assert the view component handles its 
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html
 
-import React from 'react'
-import { shallow } from 'enzyme'
-import Template from './Template'
+import React from "react";
+import { shallow } from "enzyme";
+import Template from "./Template";
 
+it("<Template> renders the Template content", () => {
+    const wrapper = shallow(<Template API_URL="" />);
 
-it('<Template> renders the Template content', () => {
-
-  const wrapper = shallow(
-    <Template API_URL="" />
-  )
-
-  expect(wrapper).toMatchSnapshot()
-
-})
+    expect(wrapper).toMatchSnapshot();
+});
 ```
 
 Which produces the following snapshot that is saved in a `__snapshot__`

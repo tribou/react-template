@@ -1,17 +1,6 @@
 {
   "ext": "css js json",
-  "watch": [
-    "config/",
-    "server/",
-    "src/routes.js",
-    "src/styles/mixins/"
-  ],
-  "ignore": [
-    ".eslintcache",
-    "build/",
-    "~*",
-    "config/env.js",
-    "src/"
-  ],
+  "watch": ["config/", "server/", "src/routes.js", "src/styles/mixins/"],
+  "ignore": [".eslintcache", "build/", "~*", "config/env.js", "src/"],
   "verbose": true
 }
