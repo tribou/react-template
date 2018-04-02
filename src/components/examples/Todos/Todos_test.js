@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import { initialState } from 'src/redux/modules/examples/todos'
+import initialState from 'src/redux/modules/examples/todos/initialState'
 import Todos from './Todos'
 
 const mockProps = {

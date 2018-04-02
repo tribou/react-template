@@ -6,11 +6,11 @@ import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/do'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/mergeMap'
+import { GET_PROFILE } from 'src/redux/modules/examples/profile/consts'
 import {
-  GET_PROFILE,
   fetchProfileSuccess,
   fetchProfileError,
-} from 'src/redux/modules/examples/profile'
+} from 'src/redux/modules/examples/profile/actions'
 import API from 'src/helpers/observableApi'
 
 const api = new API()

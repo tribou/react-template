@@ -1,8 +1,7 @@
 // @flow
 import Nock from 'nock'
 import _get from 'lodash/get'
-import { get, post, patch, put, del, mock } from './'
-
+import { get, post, patch, put, del, mock } from './api'
 
 it('get fetches via GET', async () => {
 

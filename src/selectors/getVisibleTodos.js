@@ -1,6 +1,6 @@
 // @flow
 import { createSelector } from 'reselect'
-import { FILTER_CURRENT, FILTER_DONE } from 'src/redux/modules/examples/todos'
+import { FILTER_CURRENT, FILTER_DONE } from 'src/redux/modules/examples/todos/consts'
 import type { RootReducerState } from 'src/redux/modules'
 
 

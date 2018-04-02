@@ -9,7 +9,7 @@ import Rollbar from 'rollbar/dist/rollbar.umd.min'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import configureStore from 'src/redux/store'
-import { loadSuccess } from 'src/redux/modules/init'
+import { loadSuccess } from 'src/redux/modules/init/actions'
 import rollbarConfig from 'config/rollbar'
 import vars from 'config/variables'
 
