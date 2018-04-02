@@ -151,7 +151,8 @@
   "browserslist": ["ie > 10", "ie_mob > 10"],
   "scripts": {
     "precommit": "pretty-quick --staged",
-    "prepush": "npm run --silent commitlint && npm test",
+	"prepush": "npm run --silent commitlint && npm test",
+	"prettier": "prettier '**/*.{js,md,json}' --write",
     "heroku-postbuild": "npm run build",
     "commitlint":
       "VALID_COMMIT=$(git log --pretty=format:\"%s\" master...HEAD | grep \\#[0-9]); [ ! -z \"$VALID_COMMIT\" ] && (echo 'commitlint: Valid commit found 👍 ' && exit 0) || (echo 'commitlint: Valid issue number required in at least one commit message 👎 ' && exit 1)",
