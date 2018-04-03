@@ -1,7 +1,7 @@
 // @flow
 
-'use strict'
+"use strict";
 
-const config = require('./config/postcss')
+const config = require("./config/postcss");
 
-module.exports = config
+module.exports = config;

@@ -1,5 +1,5 @@
 // @flow
-import { withRouter } from 'react-router'
-import Modal from './Modal'
+import { withRouter } from "react-router";
+import Modal from "./Modal";
 
-export default withRouter(Modal)
+export default withRouter(Modal);

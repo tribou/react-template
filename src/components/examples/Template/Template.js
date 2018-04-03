@@ -1,31 +1,21 @@
 // @flow
-import React, { PureComponent } from 'react'
-import css from './Template.style.css'
+import React, { PureComponent } from "react";
+import css from "./Template.style.css";
 
-import type { ReduxProps } from './'
+import type { ReduxProps } from "./";
 
-
-type Props = ReduxProps & {
-}
+type Props = ReduxProps & {};
 
 class Template extends PureComponent<Props> {
-
   // TODO: watch for resolution of
   // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props
+  props: Props;
 
-  render () {
+  render() {
+    const { url } = this.props;
 
-    const { url } = this.props
-
-    return (
-      <div className={css.template}>
-        {url}
-      </div>
-    )
-
+    return <div className={css.template}>{url}</div>;
   }
-
 }
 
-export default Template
+export default Template;

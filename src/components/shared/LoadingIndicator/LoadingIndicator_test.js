@@ -3,38 +3,22 @@
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html
 
-import React from 'react'
-import { shallow } from 'enzyme'
-import LoadingIndicator from './LoadingIndicator'
+import React from "react";
+import { shallow } from "enzyme";
+import LoadingIndicator from "./LoadingIndicator";
 
+const mockProps = {};
 
-const mockProps = {
-}
+it("<LoadingIndicator> renders the LoadingIndicator content", () => {
+  const wrapper = shallow(<LoadingIndicator {...mockProps} weAreLoading />);
 
+  expect(wrapper).toMatchSnapshot();
+});
 
-it('<LoadingIndicator> renders the LoadingIndicator content', () => {
-
+it("<LoadingIndicator> returns null when not loading", () => {
   const wrapper = shallow(
-    <LoadingIndicator
-      {...mockProps}
-      weAreLoading
-    />
-  )
+    <LoadingIndicator {...mockProps} weAreLoading={false} />
+  );
 
-  expect(wrapper).toMatchSnapshot()
-
-})
-
-
-it('<LoadingIndicator> returns null when not loading', () => {
-
-  const wrapper = shallow(
-    <LoadingIndicator
-      {...mockProps}
-      weAreLoading={false}
-    />
-  )
-
-  expect(wrapper.html()).toBe(null)
-
-})
+  expect(wrapper.html()).toBe(null);
+});

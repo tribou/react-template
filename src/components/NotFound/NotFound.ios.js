@@ -1,23 +1,15 @@
 // @flow
-import Debug from 'debug'
-import React, { PureComponent } from 'react'
-import { Redirect } from 'react-router'
+import Debug from "debug";
+import React, { PureComponent } from "react";
+import { Redirect } from "react-router";
 
-const log = Debug('my-app:components:NotFound')
-
+const log = Debug("my-app:components:NotFound");
 
 class NotFound extends PureComponent<void> {
-
-  render () {
-
-    log('Route not found. Redirecting to /')
-    return (
-      <Redirect to="/" />
-    )
-
+  render() {
+    log("Route not found. Redirecting to /");
+    return <Redirect to="/" />;
   }
-
 }
 
-
-export default NotFound
+export default NotFound;

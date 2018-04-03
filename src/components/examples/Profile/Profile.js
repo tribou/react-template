@@ -1,35 +1,30 @@
 // @flow
-import React, { PureComponent } from 'react'
-import { Link } from 'react-router-dom'
-import Helmet from 'react-helmet'
-import RequireAuth from 'src/components/shared/RequireAuth'
-import css from './Profile.style.css'
+import React, { PureComponent } from "react";
+import { Link } from "react-router-dom";
+import Helmet from "react-helmet";
+import RequireAuth from "src/components/shared/RequireAuth";
+import css from "./Profile.style.css";
 
-import type { ReduxProps } from './'
+import type { ReduxProps } from "./";
 
 type Props = ReduxProps & {
-  history: Object,
-}
-
+  history: Object
+};
 
 class Profile extends PureComponent<Props> {
-
-  componentDidMount () {
-
+  componentDidMount() {
     // Normally, this would fetch the same profile each time (and be
     // idempotent). For the random user API, we need to emulate browsing back
     // to the same profile.
-    if (!this.props.me.firstName) this.props.fetchProfile()
-
+    if (!this.props.me.firstName) this.props.fetchProfile();
   }
 
   // TODO: watch for resolution of
   // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props
+  props: Props;
 
-  render () {
-
-    const { error, me } = this.props
+  render() {
+    const { error, me } = this.props;
 
     return (
       <div className={css.profile}>
@@ -43,21 +38,12 @@ class Profile extends PureComponent<Props> {
             <li>{me.city}</li>
           </ul>
           <Link to="/home">Back</Link>
-          <button
-            onClick={this.props.fetchProfile}
-          >
-            Refresh
-          </button>
-          <div className={css.error}>
-            {error}
-          </div>
+          <button onClick={this.props.fetchProfile}>Refresh</button>
+          <div className={css.error}>{error}</div>
         </div>
       </div>
-    )
-
+    );
   }
-
 }
 
-
-export default Profile
+export default Profile;

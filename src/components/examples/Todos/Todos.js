@@ -1,61 +1,40 @@
 // @flow
-import React, { PureComponent } from 'react'
-import Helmet from 'react-helmet'
-import { Link } from 'react-router-dom'
-import css from './Todos.style.css'
+import React, { PureComponent } from "react";
+import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
+import css from "./Todos.style.css";
 
-import type { ReduxProps } from './'
+import type { ReduxProps } from "./";
 
-
-type Props = ReduxProps
-
+type Props = ReduxProps;
 
 class Todos extends PureComponent<Props> {
-
-  componentDidMount () {
-
-    this.props.getTodos()
-
+  componentDidMount() {
+    this.props.getTodos();
   }
 
   // TODO: watch for resolution of
   // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props
+  props: Props;
 
-  render () {
+  render() {
+    const { setFilterCurrent, setFilterDone, todos } = this.props;
 
-    const { setFilterCurrent, setFilterDone, todos } = this.props
-
-    const todoList = todos.map(todo =>
-      <li key={todo.text}>{todo.text}</li>
-    )
+    const todoList = todos.map(todo => <li key={todo.text}>{todo.text}</li>);
 
     return (
       <div className={css.todos}>
         <Helmet title="Todos" />
         <div className={css.content}>
           Todos page
-          <ul>
-            {todoList}
-          </ul>
+          <ul>{todoList}</ul>
           <Link to="/home">Back</Link>
-          <button
-            onClick={setFilterDone}
-          >
-            Filter Done
-          </button>
-          <button
-            onClick={setFilterCurrent}
-          >
-            Filter Current
-          </button>
+          <button onClick={setFilterDone}>Filter Done</button>
+          <button onClick={setFilterCurrent}>Filter Current</button>
         </div>
       </div>
-    )
-
+    );
   }
-
 }
 
-
-export default Todos
+export default Todos;

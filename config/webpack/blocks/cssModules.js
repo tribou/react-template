@@ -1,111 +1,98 @@
 // @flow
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-
-function wrapExtract ({ platform, use }
-  /* { platform: Platform, use: Array<Object> } */
+function wrapExtract(
+  { platform, use } /* { platform: Platform, use: Array<Object> } */
 ) {
-
   const wrapped = ExtractTextPlugin.extract({
-    use,
-  })
+    use
+  });
 
-  return platform === 'browser' || platform === 'desktop'
-    ? wrapped
-    : use
-
+  return platform === "browser" || platform === "desktop" ? wrapped : use;
 }
 
-function getRule ({ fileType, platform, modules, NODE_ENV }
-  /* {
+function getRule(
+  {
+    fileType,
+    platform,
+    modules,
+    NODE_ENV
+  } /* {
    * fileType: Function,
    * platform: Platform,
    * modules: boolean,
    * NODE_ENV: 'development' | 'production',
    * } */
 ) {
+  const test = modules ? fileType("text/css") : fileType("text/x-css-vendor");
 
-  const test = modules
-    ? fileType('text/css')
-    : fileType('text/x-css-vendor')
+  const exclude = modules ? /node_modules/ : undefined;
 
-  const exclude = modules
-    ? /node_modules/
-    : undefined
+  const loader = platform === "server" ? "css-loader/locals" : "css-loader";
 
-  const loader = platform === 'server'
-    ? 'css-loader/locals'
-    : 'css-loader'
+  const localIdentName =
+    NODE_ENV === "production"
+      ? "[hash:base64:8]"
+      : "[path][name]__[local]__[hash:base64:3]";
 
-  const localIdentName = NODE_ENV === 'production'
-    ? '[hash:base64:8]'
-    : '[path][name]__[local]__[hash:base64:3]'
-
-  const importLoaders = platform === 'server'
-    ? 0
-    : 1
+  const importLoaders = platform === "server" ? 0 : 1;
 
   const use = [
     {
       loader,
       options: {
         importLoaders,
-        minimize: NODE_ENV === 'production',
+        minimize: NODE_ENV === "production",
         modules,
-        localIdentName,
-      },
+        localIdentName
+      }
     },
-    'postcss-loader',
-  ]
+    "postcss-loader"
+  ];
 
   return {
     test,
     use: wrapExtract({ platform, use }),
-    exclude,
-  }
-
+    exclude
+  };
 }
 
-function cssModules () {
-
-  return ({ fileType, platform, webpack }
-  /* : { fileType: Function, platform: Platform, webpack: Object } */
+function cssModules() {
+  return (
+    {
+      fileType,
+      platform,
+      webpack
+    } /* : { fileType: Function, platform: Platform, webpack: Object } */
   ) => {
-
-    const { NODE_ENV } = process.env
+    const { NODE_ENV } = process.env;
 
     fileType.add({
-      'text/x-css-vendor': /node_modules.*\.css$/,
-    })
+      "text/x-css-vendor": /node_modules.*\.css$/
+    });
 
     const config = {
-
       module: {
         rules: [
           getRule({ fileType, platform, NODE_ENV, modules: true }),
-          getRule({ fileType, platform, NODE_ENV, modules: false }),
-        ],
-      },
-    }
+          getRule({ fileType, platform, NODE_ENV, modules: false })
+        ]
+      }
+    };
 
-    if (platform === 'browser' || platform === 'desktop') {
-
+    if (platform === "browser" || platform === "desktop") {
       return Object.assign({}, config, {
         plugins: [
           new ExtractTextPlugin({
-            filename: 'styles.css',
-            allChunks: true,
-          }),
-        ],
-      })
-
+            filename: "styles.css",
+            allChunks: true
+          })
+        ]
+      });
     }
 
-    return config
-
-  }
-
+    return config;
+  };
 }
 
-
-module.exports = cssModules
+module.exports = cssModules;

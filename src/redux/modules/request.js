@@ -2,23 +2,21 @@
 // Empty reducer for now since we probably don't want to change
 // it in the browser
 
-type EnvAction = GlobalFSA<*>
+type EnvAction = GlobalFSA<*>;
 
 export type RequestState = {
-  userAgent: string,
-}
+  userAgent: string
+};
 
 export const initialState = {
-  userAgent: '',
-}
+  userAgent: ""
+};
 
-function reducer (
-  state: Object = initialState, action: EnvAction
+function reducer(
+  state: Object = initialState,
+  action: EnvAction
 ): RequestState {
-
-  return state
-
+  return state;
 }
 
-
-export default reducer
+export default reducer;

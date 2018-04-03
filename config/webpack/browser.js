@@ -1,162 +1,152 @@
 // @flow
 
-const Path = require('path')
-const AssetsPlugin = require('assets-webpack-plugin')
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
-const CompressionPlugin = require('compression-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
+const Path = require("path");
+const AssetsPlugin = require("assets-webpack-plugin");
+const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 // const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
-const OfflinePlugin = require('offline-plugin')
-const WebpackChunkHash = require('webpack-chunk-hash')
-const Webpack = require('webpack')
-const vars = require('../../config/variables')
+const OfflinePlugin = require("offline-plugin");
+const WebpackChunkHash = require("webpack-chunk-hash");
+const Webpack = require("webpack");
+const vars = require("../../config/variables");
 
 const {
   addPlugins,
   createConfig,
   env,
   setOutput,
-  sourceMaps,
+  sourceMaps
   // eslint-disable-next-line import/no-extraneous-dependencies
-} = require('@webpack-blocks/webpack2')
+} = require("@webpack-blocks/webpack2");
 
-const babel = require('./blocks/babel')
-const cssModules = require('./blocks/cssModules')
+const babel = require("./blocks/babel");
+const cssModules = require("./blocks/cssModules");
 
 // TODO
 // Relative paths not working after React Native relative paths were resolved
-const eslint = require('./blocks/eslint')
+const eslint = require("./blocks/eslint");
 
-const getEntry = require('./blocks/getEntry')
-const getResolve = require('./blocks/getResolve')
-const getTarget = require('./blocks/getTarget')
-const setPlatform = require('./blocks/setPlatform')
+const getEntry = require("./blocks/getEntry");
+const getResolve = require("./blocks/getResolve");
+const getTarget = require("./blocks/getTarget");
+const setPlatform = require("./blocks/setPlatform");
 
-const offlinePluginConfig = require('../offline')
-const splitVendor = require('webpack-blocks-split-vendor')
+const offlinePluginConfig = require("../offline");
+const splitVendor = require("webpack-blocks-split-vendor");
 
-const { NODE_ENV } = process.env
+const { NODE_ENV } = process.env;
 
 const config = createConfig.vanilla([
-  setPlatform('browser'),
+  setPlatform("browser"),
   getEntry(),
   getTarget(),
   setOutput({
-    path: Path.resolve(__dirname, '../../build/public/'),
-    chunkFilename: '[name]-[chunkhash].js',
-    filename: '[name]-[chunkhash].js',
-    publicPath: '/static/',
+    path: Path.resolve(__dirname, "../../build/public/"),
+    chunkFilename: "[name]-[chunkhash].js",
+    filename: "[name]-[chunkhash].js",
+    publicPath: "/static/"
   }),
   babel(),
   getResolve(),
   cssModules(),
   splitVendor({
-    name: 'vendor',
-    exclude: /(\/webpack\/hot\/|offline-plugin\/runtime\.js$)/,
+    name: "vendor",
+    exclude: /(\/webpack\/hot\/|offline-plugin\/runtime\.js$)/
   }),
   addPlugins([
     new Webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(NODE_ENV || 'development'),
-      },
+      "process.env": {
+        NODE_ENV: JSON.stringify(NODE_ENV || "development")
+      }
     }),
     new Webpack.HashedModuleIdsPlugin(),
     new WebpackChunkHash(),
     new CopyPlugin([
-      { from: 'static', ignore: ['**/package.json', '**/.eslintrc*'] },
+      { from: "static", ignore: ["**/package.json", "**/.eslintrc*"] }
     ]),
     new AssetsPlugin({
-      filename: 'assets.json',
-      path: Path.resolve(__dirname, '../../build'),
+      filename: "assets.json",
+      path: Path.resolve(__dirname, "../../build")
     }),
     new Webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity,
+      name: "manifest",
+      minChunks: Infinity
     }),
     new ChunkManifestPlugin({
-      filename: '../chunk-manifest.json',
-      manifestVariable: vars.fobWebpackManiVar,
-    }),
+      filename: "../chunk-manifest.json",
+      manifestVariable: vars.fobWebpackManiVar
+    })
     // relative to project root
     // new FaviconsWebpackPlugin('static/images/logo@2x.png'),
   ]),
 
-  env('development', [
-    sourceMaps(),
-    eslint(),
-  ]),
+  env("development", [sourceMaps(), eslint()]),
 
-  env('production', [
-    sourceMaps('source-map'),
+  env("production", [
+    sourceMaps("source-map"),
     addPlugins([
       new Webpack.optimize.ModuleConcatenationPlugin(),
       new CompressionPlugin({
-        asset: '[path].gz[query]',
-        algorithm: 'gzip',
-        test:
-          /\.(js|css|html|json|ico|map|xml|txt|svg|eot|otf|ttf|woff|woff2)$/,
+        asset: "[path].gz[query]",
+        algorithm: "gzip",
+        test: /\.(js|css|html|json|ico|map|xml|txt|svg|eot|otf|ttf|woff|woff2)$/,
         threshold: 10240,
-        minRatio: 0.8,
+        minRatio: 0.8
       }),
       new Webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
         output: {
-          comments: false,
-        },
+          comments: false
+        }
       }),
       new Webpack.LoaderOptionsPlugin({
         debug: false,
-        minimize: true,
+        minimize: true
       }),
 
       // Keep OfflinePlugin last
-      new OfflinePlugin(offlinePluginConfig),
-    ]),
+      new OfflinePlugin(offlinePluginConfig)
+    ])
   ]),
 
   // custom configs
-  (function getCustomLoadersBlock () {
-
+  (function getCustomLoadersBlock() {
     return context => {
-
       context.fileType.add({
-        'application/x-misc-files': /\.(eot|otf)$/,
-        'application/font-woff': /\.(woff|woff2)$/,
-        'application/x-font-ttf': /\.(ttf)$/,
-      })
+        "application/x-misc-files": /\.(eot|otf)$/,
+        "application/font-woff": /\.(woff|woff2)$/,
+        "application/x-font-ttf": /\.(ttf)$/
+      });
 
       return {
-
         module: {
           rules: [
             {
-              test: context.fileType('application/x-misc-files'),
-              use: 'file-loader',
+              test: context.fileType("application/x-misc-files"),
+              use: "file-loader"
             },
             {
-              test: context.fileType('video'),
-              use: 'file-loader',
+              test: context.fileType("video"),
+              use: "file-loader"
             },
             {
-              test: context.fileType('image'),
-              use: 'url-loader?limit=10000',
+              test: context.fileType("image"),
+              use: "url-loader?limit=10000"
             },
             {
-              test: context.fileType('application/font-woff'),
-              use: 'url-loader?limit=10000&mimetype=application/font-woff',
+              test: context.fileType("application/font-woff"),
+              use: "url-loader?limit=10000&mimetype=application/font-woff"
             },
             {
-              test: context.fileType('application/x-font-ttf'),
-              use: 'url-loader?limit=10000&mimetype=application/octet-stream',
-            },
-          ],
-        },
-      }
+              test: context.fileType("application/x-font-ttf"),
+              use: "url-loader?limit=10000&mimetype=application/octet-stream"
+            }
+          ]
+        }
+      };
+    };
+  })()
+]);
 
-    }
-
-  })(),
-])
-
-
-module.exports = config
+module.exports = config;

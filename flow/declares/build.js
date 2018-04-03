@@ -2,24 +2,25 @@
 
 declare type BuildAssets = {
   vendor: {
-    js: string,
+    js: string
   },
   manifest: {
-    js: string,
+    js: string
   },
   bundle: {
     js: string,
-    css: string,
+    css: string
   },
-  webpackMani: Object,
-}
+  webpackMani: Object
+};
 
 // webpack hmr
 declare var module: {
   hot: {
     accept(
-      path: string | Array<string> | Function, callback?: () => void
+      path: string | Array<string> | Function,
+      callback?: () => void
     ): void,
-    status: () => string,
+    status: () => string
   }
-}
+};

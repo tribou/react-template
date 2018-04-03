@@ -1,38 +1,31 @@
 // @flow
-import React, { PureComponent } from 'react'
-import Helmet from 'react-helmet'
-import { Link } from 'react-router-dom'
-import Cn from 'classnames'
+import React, { PureComponent } from "react";
+import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
+import Cn from "classnames";
 
-import RequireAuth from 'src/components/shared/RequireAuth'
-import img from 'src/styles/images.css'
-import sprites from 'src/styles/sprites.css'
-import css from './Home.style.css'
-import type { ReduxProps } from './'
+import RequireAuth from "src/components/shared/RequireAuth";
+import img from "src/styles/images.css";
+import sprites from "src/styles/sprites.css";
+import css from "./Home.style.css";
+import type { ReduxProps } from "./";
 
 type Props = ReduxProps & {
-  history: Object,
-}
+  history: Object
+};
 
 class Home extends PureComponent<Props> {
-
   // TODO: watch for resolution of
   // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props
+  props: Props;
 
   handleLogout = () => {
+    const { logout, history } = this.props;
 
-    const {
-      logout,
-      history,
-    } = this.props
+    logout(history);
+  };
 
-    logout(history)
-
-  }
-
-  render () {
-
+  render() {
     return (
       <div className={css.home}>
         <Helmet title="Home" />
@@ -50,11 +43,8 @@ class Home extends PureComponent<Props> {
           <button onClick={this.handleLogout}>Logout</button>
         </RequireAuth>
       </div>
-    )
-
+    );
   }
-
 }
 
-
-export default Home
+export default Home;

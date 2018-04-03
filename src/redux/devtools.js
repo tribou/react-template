@@ -1,8 +1,9 @@
 // @flow
-import { devToolsEnhancer } from 'redux-devtools-extension/logOnlyInProduction'
+import { devToolsEnhancer } from "redux-devtools-extension/logOnlyInProduction";
 
-const devtools = () => devToolsEnhancer({
-  maxAge: 100,
-})
+const devtools = () =>
+  devToolsEnhancer({
+    maxAge: 100
+  });
 
-export default devtools
+export default devtools;

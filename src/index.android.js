@@ -1,4 +1,4 @@
 // @flow
-import ReactTemplate from './index.ios'
+import ReactTemplate from "./index.ios";
 
-export default ReactTemplate
+export default ReactTemplate;

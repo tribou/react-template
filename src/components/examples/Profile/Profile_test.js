@@ -3,9 +3,9 @@
 // Enzyme docs:
 // http://airbnb.io/enzyme/docs/api/index.html
 
-import React from 'react'
-import { shallow } from 'enzyme'
-import Profile from './Profile'
+import React from "react";
+import { shallow } from "enzyme";
+import Profile from "./Profile";
 
 type OverrideProps = {
   me: Object,
@@ -13,30 +13,24 @@ type OverrideProps = {
   location: Object,
   history: Object,
   fetchProfile: Function,
-  token: ?string,
-}
+  token: ?string
+};
 
 const mockProps: OverrideProps = {
   me: {
-    get: () => null,
+    get: () => null
   },
-  token: 'test',
-  error: '',
+  token: "test",
+  error: "",
   location: {},
   history: {
-    replace: () => {},
+    replace: () => {}
   },
-  fetchProfile: () => {},
-}
+  fetchProfile: () => {}
+};
 
-it('<Profile> renders the Profile content', () => {
+it("<Profile> renders the Profile content", () => {
+  const wrapper = shallow(<Profile {...mockProps} />);
 
-  const wrapper = shallow(
-    <Profile
-      {...mockProps}
-    />
-  )
-
-  expect(wrapper).toMatchSnapshot()
-
-})
+  expect(wrapper).toMatchSnapshot();
+});

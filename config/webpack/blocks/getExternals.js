@@ -1,26 +1,16 @@
 // @flow
-const NodeExternals = require('webpack-node-externals')
+const NodeExternals = require("webpack-node-externals");
 
-
-function getExternals () {
-
-  return ({ platform }/* : { platform: Platform } */) => {
-
+function getExternals() {
+  return ({ platform } /* : { platform: Platform } */) => {
     const externals = [
       NodeExternals({
-        whitelist: [
-          /^webpack\/hot/,
-        ],
-      }),
-    ]
+        whitelist: [/^webpack\/hot/]
+      })
+    ];
 
-    return platform === 'server'
-      ? { externals }
-      : {}
-
-  }
-
+    return platform === "server" ? { externals } : {};
+  };
 }
 
-
-module.exports = getExternals
+module.exports = getExternals;

@@ -1,4 +1,4 @@
 // @flow
-import Todos from './Todos.ios'
+import Todos from "./Todos.ios";
 
-export default Todos
+export default Todos;

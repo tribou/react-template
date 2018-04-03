@@ -4,40 +4,30 @@
  * @flow
  */
 
-import React, { PureComponent } from 'react'
-import {
-  Text,
-  View,
-} from 'react-native'
-import styles from './Home.style'
-import type { ReduxProps } from './'
+import React, { PureComponent } from "react";
+import { Text, View } from "react-native";
+import styles from "./Home.style";
+import type { ReduxProps } from "./";
 
 type Props = ReduxProps & {
-  history: Object,
-}
+  history: Object
+};
 
 class Home extends PureComponent<Props> {
-
-  render () {
-
+  render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
+        <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>
           To get started, edit index.ios.js
         </Text>
         <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
+          Press Cmd+R to reload,{"\n"}
           Cmd+D or shake for dev menu
         </Text>
       </View>
-    )
-
+    );
   }
-
 }
 
-
-export default Home
+export default Home;

@@ -1,10 +1,9 @@
 // @flow
 
-const ExtractTextPlugin = jest.genMockFromModule('extract-text-webpack-plugin')
+const ExtractTextPlugin = jest.genMockFromModule("extract-text-webpack-plugin");
 
 ExtractTextPlugin.extract = extract =>
-
   // return the extract object to store in snapshot
-   ({ extract })
+  ({ extract });
 
-module.exports = ExtractTextPlugin
+module.exports = ExtractTextPlugin;
