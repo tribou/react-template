@@ -1,6 +1,6 @@
 {
   "name": "reactTemplate",
-  "version": "5.4.0",
+  "version": "5.5.0",
   "private": true,
   "description": "",
   "engines": {
@@ -139,62 +139,56 @@
     "verbose": true,
     "testRegex": "/(config|src|server)/.*_test\\.js$",
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-        "<rootDir>/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css)$": "identity-obj-proxy"
     },
-    "moduleDirectories": ["node_modules", "<rootDir>"],
-    "snapshotSerializers": ["enzyme-to-json/serializer"],
-    "watchPathIgnorePatterns": ["build"],
+    "moduleDirectories": [
+      "node_modules",
+      "<rootDir>"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "watchPathIgnorePatterns": [
+      "build"
+    ],
     "setupTestFrameworkScriptFile": "./testSetup.js"
   },
-  "browserslist": ["ie > 10", "ie_mob > 10"],
+  "browserslist": [
+    "ie > 10",
+    "ie_mob > 10"
+  ],
   "scripts": {
     "precommit": "pretty-quick --staged",
-	"prepush": "npm run --silent commitlint && npm test",
-	"prettier": "prettier '**/*.{js,md,json}' --write",
+    "prepush": "npm run --silent commitlint && npm test",
+    "prettier": "prettier '**/*.{js,md,json}' --write",
     "heroku-postbuild": "npm run build",
-    "commitlint":
-      "VALID_COMMIT=$(git log --pretty=format:\"%s\" master...HEAD | grep \\#[0-9]); [ ! -z \"$VALID_COMMIT\" ] && (echo 'commitlint: Valid commit found 👍 ' && exit 0) || (echo 'commitlint: Valid issue number required in at least one commit message 👎 ' && exit 1)",
+    "commitlint": "VALID_COMMIT=$(git log --pretty=format:\"%s\" master...HEAD | grep \\#[0-9]); [ ! -z \"$VALID_COMMIT\" ] && (echo 'commitlint: Valid commit found 👍 ' && exit 0) || (echo 'commitlint: Valid issue number required in at least one commit message 👎 ' && exit 1)",
     "desktop": "npm run desktop-build && electron build/desktop/",
-    "desktop-build":
-      "rimraf build/desktop && cross-env NODE_ENV=production webpack --config config/webpack/desktop.js",
-    "desktop-package":
-      "npm run desktop-build && electron-packager build/desktop/ \"React Template\" --overwrite --asar --all --out build --prune false --icon desktop/icon/icon --appVersion ${npm_package_version}",
+    "desktop-build": "rimraf build/desktop && cross-env NODE_ENV=production webpack --config config/webpack/desktop.js",
+    "desktop-package": "npm run desktop-build && electron-packager build/desktop/ \"React Template\" --overwrite --asar --all --out build --prune false --icon desktop/icon/icon --appVersion ${npm_package_version}",
     "desktop-dev": "cross-env NODE_ENV=development electron build/desktop/",
-    "notify-optimize":
-      "notify --icon 'https://imageoptim.com/icon.png' -t 'ImageOptim' -m 'Image optimization complete'",
-    "optimize-images":
-      "IMAGE_FILES=$(git diff --name-only $(git describe --abbrev=0 --tags)..HEAD static/images/); if [ $(echo \"$IMAGE_FILES\" | grep . | wc -l) -ne 0 ]; then echo \"$IMAGE_FILES\" | imageOptim && git add --all static/images && npm run --silent notify-optimize; fi",
-    "upgrade-deps":
-      "npm run yarn-bin -- cache clean && rm -rf node_modules .npm-packages-offline-cache flow-typed && rm yarn.lock && npm run yarn && flow-typed install && cat yarn.lock | grep registry",
+    "notify-optimize": "notify --icon 'https://imageoptim.com/icon.png' -t 'ImageOptim' -m 'Image optimization complete'",
+    "optimize-images": "IMAGE_FILES=$(git diff --name-only $(git describe --abbrev=0 --tags)..HEAD static/images/); if [ $(echo \"$IMAGE_FILES\" | grep . | wc -l) -ne 0 ]; then echo \"$IMAGE_FILES\" | imageOptim && git add --all static/images && npm run --silent notify-optimize; fi",
+    "upgrade-deps": "npm run yarn-bin -- cache clean && rm -rf node_modules .npm-packages-offline-cache flow-typed && rm yarn.lock && npm run yarn && flow-typed install && cat yarn.lock | grep registry",
     "start": "node build/server.js",
-    "start-prod":
-      "time npm run --silent build && date && cross-env NODE_ENV=production npm start",
+    "start-prod": "time npm run --silent build && date && cross-env NODE_ENV=production npm start",
     "build": "rimraf build && cross-env NODE_ENV=production webpack",
-    "devtools-server":
-      "echo; echo; echo 'Hit Cmd+Ctrl+ArrowUp to open remote monitoring in Chrome'; echo; echo; remotedev --hostname=localhost --port=8001",
-    "dev":
-      "npm run yarn && rimraf build && concurrently --kill-others -n 'APP,FLOW' -p '[{name}]' 'cross-env DEBUG=my-app* DEBUG_COLORS=true SHOW_ERRORS=true NODE_ENV=development nodemon -x node server/index.dev.js' 'npm run --silent watch-flow'",
-    "dev-mock":
-      "npm run yarn && rimraf build && concurrently --kill-others -n 'APP,FLOW' -p '[{name}]' 'cross-env USE_MOCK_API=true DEBUG=my-app* DEBUG_COLORS=true SHOW_ERRORS=true NODE_ENV=development nodemon -x node server/index.dev.js' 'npm run --silent watch-flow'",
-    "dev-a":
-      "npm run yarn && react-native run-android && npm run devtools-server",
+    "devtools-server": "echo; echo; echo 'Hit Cmd+Ctrl+ArrowUp to open remote monitoring in Chrome'; echo; echo; remotedev --hostname=localhost --port=8001",
+    "dev": "npm run yarn && rimraf build && concurrently --kill-others -n 'APP,FLOW' -p '[{name}]' 'cross-env DEBUG=my-app* DEBUG_COLORS=true SHOW_ERRORS=true NODE_ENV=development nodemon -x node server/index.dev.js' 'npm run --silent watch-flow'",
+    "dev-mock": "npm run yarn && rimraf build && concurrently --kill-others -n 'APP,FLOW' -p '[{name}]' 'cross-env USE_MOCK_API=true DEBUG=my-app* DEBUG_COLORS=true SHOW_ERRORS=true NODE_ENV=development nodemon -x node server/index.dev.js' 'npm run --silent watch-flow'",
+    "dev-a": "npm run yarn && react-native run-android && npm run devtools-server",
     "dev-i": "npm run yarn && react-native run-ios && npm run devtools-server",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "flow-ci": "flow check .",
     "lint": "eslint --ignore-path .gitignore flow src server config",
-    "lint-cache":
-      "eslint --cache --ignore-path .gitignore flow src server config",
-    "test":
-      "concurrently -n 'LINT,FLOW,NSP,JEST,RN' -p '[{name}]' 'npm run lint' 'npm run --silent flow-ci' 'npm run --silent test-nsp; exit 0 # For React Native libs :(' && npm run --silent test-jest && npm run --silent test-rn",
+    "lint-cache": "eslint --cache --ignore-path .gitignore flow src server config",
+    "test": "concurrently -n 'LINT,FLOW,NSP,JEST,RN' -p '[{name}]' 'npm run lint' 'npm run --silent flow-ci' 'npm run --silent test-nsp; exit 0 # For React Native libs :(' && npm run --silent test-jest && npm run --silent test-rn",
     "test-jest": "cross-env NODE_ENV=test jest --coverage",
-    "test-rn":
-      "cross-env NODE_ENV=test jest --coverage --preset react-native --testRegex '/(config|src)/.*_test.(ios|android)\\.js$'",
+    "test-rn": "cross-env NODE_ENV=test jest --coverage --preset react-native --testRegex '/(config|src)/.*_test.(ios|android)\\.js$'",
     "test-nsp": "nsp check; true",
     "watch": "nodemon -i .eslintcache -x npm run --silent test",
-    "watch-flow":
-      "nodemon -w . -i .eslintcache -i build -x npm run --silent flow",
+    "watch-flow": "nodemon -w . -i .eslintcache -i build -x npm run --silent flow",
     "watch-lint": "nodemon -w . -i .eslintcache -x npm run --silent lint-cache",
     "watch-test": "cross-env NODE_ENV=test jest --watch --notify --watchman",
     "yarn": "npm run --silent yarn-bin -- install --prefer-offline",
