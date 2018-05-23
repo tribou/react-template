@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from "react";
-import { Button, Text, View, Image } from "react-native";
+import { Text, View, Image } from "react-native";
 import { Link } from "react-router-native";
 import imgLogo from "static/images/logo.png";
 import styles from "./Home.style";
