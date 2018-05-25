@@ -6,7 +6,7 @@
   "engines": {
     "node": ">=8.11.x <9",
     "npm": ">=5",
-    "yarn": "1.6.0"
+    "yarn": "^1.6.0"
   },
   "repository": {
     "type": "git",
@@ -190,6 +190,6 @@
     "watch-lint": "nodemon -w . -i .eslintcache -x npm run --silent lint-cache",
     "watch-test": "cross-env NODE_ENV=test jest --watch --notify --watchman",
     "yarn": "npm run --silent yarn-bin -- install --prefer-offline",
-    "yarn-bin": "node bin/yarn-${npm_package_engines_yarn}.js"
+    "yarn-bin": "node bin/yarn-1.7.0.js"
   }
 }
