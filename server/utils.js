@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable import/prefer-default-export */
 import Debug from "debug";
 import Fs from "fs";
 import Path from "path";
@@ -63,6 +62,8 @@ export function getCss(file: string = "styles.css"): ?string {
   try {
     css = Fs.readFileSync(cssFile, "utf-8");
   } catch (error) {
+    // TODO: test if the `debug` package preserves stacktrace of Error
+    // eslint-disable-next-line no-console
     console.error(error);
   }
 

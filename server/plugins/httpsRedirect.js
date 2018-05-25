@@ -17,6 +17,8 @@ export default {
       const path = `https://${host}${request.url.path}`;
 
       if (redirect) {
+        // Using console.log for server logs for simplicity
+        /* eslint-disable-next-line no-console */
         console.log(["http_redirect"], path);
         return h
           .response()
