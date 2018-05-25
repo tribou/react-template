@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 // import { StatusBar } from 'react-native'
 import { Provider } from "react-redux";
 import { NativeRouter } from "react-router-native";
@@ -28,7 +28,7 @@ const store = configureStore();
 // }
 /* END HTTP DEBUG */
 
-class ReactTemplate extends Component<void> {
+class ReactTemplate extends PureComponent<void> {
   // componentDidMount () {
 
   //   StatusBar.setHidden(true)
