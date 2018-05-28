@@ -52,7 +52,7 @@
     "eslint-plugin-tribou": "^2.0.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
-    "flow-bin": "^0.72.0",
+    "flow-bin": "^0.73.0",
     "glob": "^7.1.2",
     "html-webpack-inline-source-plugin": "^0.0.10",
     "html-webpack-plugin": "^3.0.4",

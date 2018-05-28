@@ -4742,9 +4742,9 @@ flora-colossus@^1.0.0:
     debug "^3.1.0"
     fs-extra "^4.0.0"
 
-flow-bin@^0.72.0:
-  version "0.72.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.72.0.tgz#12051180fb2db7ccb728fefe67c77e955e92a44d"
+flow-bin@^0.73.0:
+  version "0.73.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.73.0.tgz#da1b90a02b0ef9c439f068c2fc14968db83be425"
 
 flush-write-stream@^1.0.0:
   version "1.0.3"
@@ -9453,8 +9453,8 @@ redux-promise-middleware@^5.0.0:
   resolved "https://registry.yarnpkg.com/redux-promise-middleware/-/redux-promise-middleware-5.1.1.tgz#37689339a58a33d1fda675ed1ba2053a2d196b8d"
 
 redux-thunk@^2.1.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
 
 redux@^4.0.0:
   version "4.0.0"
