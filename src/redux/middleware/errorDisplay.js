@@ -17,7 +17,7 @@ const errorDisplay = (store: Object) => (next: Function) => (
 
     // If error instance
     if (action.payload instanceof Error) {
-      message = action.payload.message;
+      ({ message } = action.payload);
     } else if (typeof action.payload === "string") {
       message = action.payload;
     } else if (action.payload && action.payload.error) {

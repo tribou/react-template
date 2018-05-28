@@ -15,11 +15,10 @@ const mockProps = {
 };
 
 it("<Todos> renders the Todos content", () => {
-  const todos = initialState.list;
-  const filter = initialState.filter;
+  const { filter, list } = initialState;
 
   const wrapper = shallow(
-    <Todos {...mockProps} todos={todos} filter={filter} />
+    <Todos {...mockProps} todos={list} filter={filter} />
   );
 
   expect(wrapper).toMatchSnapshot();
