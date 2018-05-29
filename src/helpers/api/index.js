@@ -45,8 +45,10 @@ const getClient = (opts?: FetchOpts): Promise<*> =>
         },
         ...opts
       }).then(
-        response => _parseResponse(response),
-        error => Promise.reject(_parseError(error))
+        // response => _parseResponse(response),
+        // error => Promise.reject(_parseError(error))
+        response => console.log(response),
+        error => console.error(error)
       );
     }
   );
@@ -61,35 +63,35 @@ export type APIError = {
 
 // Standardize API error format across the app
 // Decouple from implementation (here using axios)
-const _parseError = (error: FetchResponse | FetchError): APIError => {
-  // DEBUG: Print implementation-specific error information
-  log("_parseError: %s \n %o", error);
+// const _parseError = (error: FetchResponse | FetchError): APIError => {
+//   // DEBUG: Print implementation-specific error information
+//   log("_parseError: %s \n %o", error);
 
-  if (
-    error &&
-    error.status &&
-    typeof error.status === "number" &&
-    !(error instanceof Error)
-  ) {
-    return {
-      statusCode: error.status,
-      data: error.json(),
-      error: true
-    };
-  } else if (error instanceof Error) {
-    return {
-      statusCode: 501,
-      data: error.message,
-      error: true
-    };
-  }
+//   if (
+//     error &&
+//     error.status &&
+//     typeof error.status === "number" &&
+//     !(error instanceof Error)
+//   ) {
+//     return {
+//       statusCode: error.status,
+//       data: error.json(),
+//       error: true
+//     };
+//   } else if (error instanceof Error) {
+//     return {
+//       statusCode: 501,
+//       data: error.message,
+//       error: true
+//     };
+//   }
 
-  return {
-    statusCode: 501,
-    data: error.toString(),
-    error: true
-  };
-};
+//   return {
+//     statusCode: 501,
+//     data: error.toString(),
+//     error: true
+//   };
+// };
 
 export type APIResponse = {
   statusCode: number,
@@ -123,7 +125,9 @@ export const get = (
   endpoint: string,
   opts?: FetchOpts
 ): Promise<APIResponse | APIError> =>
-  getClient(opts).then(client => client(endpoint));
+  getClient(opts)
+    .then(client => client(endpoint))
+    .catch(error => console.error(error));
 
 // POST request factories
 export const post = (

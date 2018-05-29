@@ -163,7 +163,7 @@
     "heroku-postbuild": "npm run build",
     "commitlint": "VALID_COMMIT=$(git log --pretty=format:\"%B\" master...HEAD | grep \\#[0-9]); [ ! -z \"$VALID_COMMIT\" ] && (echo 'commitlint: Valid commit found 👍 ' && exit 0) || (echo 'commitlint: Valid issue number required in at least one commit message 👎 ' && exit 1)",
     "desktop": "npm run desktop-build && electron build/desktop/",
-    "desktop-build": "rimraf build/desktop && cross-env NODE_ENV=production webpack --config config/webpack/desktop.js",
+    "desktop-build": "rimraf build/desktop && cross-env NODE_ENV=development webpack --config config/webpack/desktop.js",
     "desktop-package": "npm run desktop-build && electron-packager build/desktop/ \"React Template\" --overwrite --asar --all --out build --prune false --icon desktop/icon/icon --appVersion ${npm_package_version}",
     "desktop-dev": "cross-env NODE_ENV=development electron build/desktop/",
     "notify-optimize": "notify --icon 'https://imageoptim.com/icon.png' -t 'ImageOptim' -m 'Image optimization complete'",
