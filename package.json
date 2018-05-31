@@ -147,9 +147,6 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    "transformIgnorePatterns": [
-      "node_modules/?!(react-router-native)"
-    ],
     "watchPathIgnorePatterns": [
       "build"
     ],
@@ -186,7 +183,7 @@
     "lint-cache": "eslint --cache --ignore-path .gitignore flow src server config",
     "test": "concurrently -n 'LINT,FLOW,NSP,JEST,RN' -p '[{name}]' 'npm run lint' 'npm run --silent flow-ci' 'npm run --silent test-nsp; exit 0 # For React Native libs :(' && npm run --silent test-jest && npm run --silent test-rn",
     "test-jest": "cross-env NODE_ENV=test jest --coverage",
-    "test-rn": "cross-env NODE_ENV=test jest --coverage --preset react-native --testRegex '/(config|src)/.*_test.(ios|android)\\.js$'",
+    "test-rn": "cross-env NODE_ENV=test jest --coverage --preset react-native --testRegex '/(config|src)/.*_test.(ios|android)\\.js$' --transformIgnorePatterns 'node_modules/?!(react-router-native)'",
     "test-nsp": "nsp check; true",
     "watch": "nodemon -i .eslintcache -x npm run --silent test",
     "watch-flow": "nodemon -w . -i .eslintcache -i build -x npm run --silent flow",
