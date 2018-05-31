@@ -8,7 +8,7 @@ import promiseMiddleware from "redux-promise-middleware";
 import { offline } from "@redux-offline/redux-offline";
 import devTools from "src/redux/devtools";
 import errorDisplayMiddleware from "src/redux/middleware/errorDisplay";
-import offlineConfig from "./reduxOfflineConfig";
+import offlineConfig from "config/reduxOffline";
 import rootEpic from "./epics";
 import rootReducer from "./modules";
 
@@ -23,13 +23,6 @@ function configureStore(preloadedState?: Object = {}): Object {
     promiseMiddleware(),
     errorDisplayMiddleware
   ];
-
-  // only log redux actions in development
-  if (NODE_ENV === "development") {
-    // logger needs to be last
-    // uncomment if needed
-    // middleware.push(require('redux-logger').createLogger())
-  }
 
   // https://github.com/zalmoxisus/redux-devtools-extension
   // https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
@@ -48,7 +41,8 @@ function configureStore(preloadedState?: Object = {}): Object {
 
   // HMR in React Native
   if (module.hot) {
-    module.hot.accept(() => store.replaceReducer(require("./modules").default)); // eslint-disable-line
+    // eslint-disable-next-line global-require
+    module.hot.accept(() => store.replaceReducer(require("./modules").default));
   }
 
   return store;
