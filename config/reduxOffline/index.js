@@ -1,15 +1,16 @@
 // @flow
 // eslint-disable-next-line import/no-extraneous-dependencies
 import offlineConfig from "@redux-offline/redux-offline/lib/defaults";
+import localForage from "localforage";
 import { isBrowser } from "config/env";
-
-const noop = (s: any) => {};
+import blacklist from "./blacklist";
 
 export default {
   ...offlineConfig,
-  persist: isBrowser() ? offlineConfig.persist : noop,
+  persist: isBrowser() ? offlineConfig.persist : false,
   persistOptions: {
     ...offlineConfig.persistOptions,
-    blacklist: ["form", "init", "ui"]
+    blacklist,
+    storage: localForage
   }
 };

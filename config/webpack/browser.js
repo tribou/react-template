@@ -32,7 +32,7 @@ const getResolve = require("./blocks/getResolve");
 const getTarget = require("./blocks/getTarget");
 const setPlatform = require("./blocks/setPlatform");
 
-const offlinePluginConfig = require("../offline");
+const offlinePluginConfig = require("../offlinePlugin.js");
 const splitVendor = require("webpack-blocks-split-vendor");
 
 const { NODE_ENV } = process.env;
