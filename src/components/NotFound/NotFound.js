@@ -13,7 +13,7 @@ class NotFound extends PureComponent<void> {
           <Helmet title="Oops!" />
           <h2>The page you are looking for was not found.</h2>
           <p>
-            ( Hint: try <Link to={"/"}> this one.</Link> ;-)
+            ( Hint: try <Link to="/"> this one.</Link> ;-)
           </p>
         </div>
       </Status>

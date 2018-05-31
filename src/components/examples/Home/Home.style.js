@@ -1,21 +1,18 @@
 // @flow
 import { StyleSheet } from "react-native";
+import $ from "config/variables";
 
 const styles = StyleSheet.create({
-  container: {
+  home: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#F5FCFF"
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
+  homeText: {
+    color: $.colorTheme
   },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
+  link: {
     marginBottom: 5
   }
 });

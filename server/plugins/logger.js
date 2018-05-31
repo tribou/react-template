@@ -11,7 +11,11 @@ export default {
     server.ext("onRequest", (request: Object, h: Object) => {
       const time = new Date().toISOString();
       const method = request.method.toUpperCase();
+
+      // Using console.log for server logs for simplicity
+      /* eslint-disable-next-line no-console */
       console.log(`${time} ${method} ${request.url.path}`);
+
       return h.continue;
     })
 };

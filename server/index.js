@@ -59,10 +59,13 @@ async function startServer() {
 
   await server.start();
 
+  // Using console.log for server logs for simplicity
+  /* eslint-disable no-console */
   console.log("\n");
   console.log(`Server running at ${server.info.uri}`);
   if (NODE_ENV) console.log(`NODE_ENV: ${NODE_ENV}`);
   console.log("\n");
+  /* eslint-enable no-console */
 }
 
 startServer();

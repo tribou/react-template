@@ -52,6 +52,7 @@ class LinkReplace extends PureComponent<Props> {
         tabIndex={-1}
         className={this.props.className}
         onClick={this.handleClick}
+        onKeyDown={this.handleClick}
       >
         {this.props.children}
       </div>
