@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<AnimatedChild> renders the AnimatedChild content 1`] = `
-<div
-  className="template"
->
-  http://www.example.com
-</div>
-`;
