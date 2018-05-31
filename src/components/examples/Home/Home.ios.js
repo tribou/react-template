@@ -37,21 +37,14 @@ class Home extends PureComponent<Props> {
         </RequireAuth>
         </div>
         */}
-        <Text>This is the app...</Text>
-        <Text>This is a test item</Text>
+        <Text style={styles.homeText}>This is the app...</Text>
+        <Text style={styles.homeText}>This is a test item</Text>
         <Link to="/profile">
           <Image style={styles.link} source={imgLogo} />
         </Link>
         <Link to="/todos">
           <Image style={styles.link} source={imgLogo} />
         </Link>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{"\n"}
-          Cmd+D or shake for dev menu
-        </Text>
       </View>
     );
   }

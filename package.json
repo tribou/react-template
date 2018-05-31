@@ -147,6 +147,9 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
+    "transformIgnorePatterns": [
+      "node_modules/?!(react-router-native)"
+    ],
     "watchPathIgnorePatterns": [
       "build"
     ],
