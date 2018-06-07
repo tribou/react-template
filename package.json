@@ -159,6 +159,7 @@
     "ie_mob > 10"
   ],
   "scripts": {
+    "postinstall": "cp vendor/attachWebsocketServer.js node_modules/react-native/local-cli/server/util/",
     "precommit": "pretty-quick --staged",
     "prepush": "npm run --silent commitlint && npm test",
     "prettier": "prettier '**/*.{js,md,json}' --write",
