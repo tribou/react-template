@@ -3,12 +3,12 @@ import React from "react";
 import { Route, Redirect, Switch } from "react-router";
 
 import App from "src/components";
-import NotFound from "src/components/NotFound";
+import NotFound from "src/components/routes/NotFound";
 
 // Examples
-import Home from "src/components/examples/Home";
-import Profile from "src/components/examples/Profile";
-import Todos from "src/components/examples/Todos";
+import Home from "src/components/routes/examples/Home";
+import Profile from "src/components/routes/examples/Profile";
+import Todos from "src/components/routes/examples/Todos";
 
 const Routes = () => (
   <App>

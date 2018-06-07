@@ -38,5 +38,8 @@ const mapDispatchToProps = (dispatch: any): DispatchProps =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todos);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Todos);
 export type ReduxProps = StateProps & DispatchProps;

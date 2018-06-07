@@ -31,10 +31,6 @@ class Modal extends PureComponent<Props> {
     return modals[modal];
   };
 
-  // TODO: watch for resolution of
-  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props;
-
   render() {
     const modal = this.getModal();
 

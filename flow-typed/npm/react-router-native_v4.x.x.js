@@ -1,5 +1,5 @@
-// flow-typed signature: d0158fabd91bbe44b56623ffb670cb3e
-// flow-typed version: 65d85ac2c3/react-router-native_v4.x.x/flow_>=v0.53.x
+// flow-typed signature: 8d2893a8361566fa990eb747873f37d8
+// flow-typed version: 5589e585e3/react-router-native_v4.x.x/flow_>=v0.53.x
 
 declare module "react-router-native" {
   declare export class NativeRouter extends React$Component<{
@@ -15,6 +15,10 @@ declare module "react-router-native" {
   }> {}
 
   declare export class DeepLinking extends React$Component<{
+    children?: React$Node
+  }> {}
+  
+  declare export class BackButton extends React$Component<{
     children?: React$Node
   }> {}
 

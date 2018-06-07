@@ -19,10 +19,6 @@ class Profile extends PureComponent<Props> {
     if (!this.props.me.firstName) this.props.fetchProfile();
   }
 
-  // TODO: watch for resolution of
-  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props;
-
   render() {
     const { error, me } = this.props;
 

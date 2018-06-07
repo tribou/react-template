@@ -16,5 +16,10 @@ type DispatchProps = {
 const mapDispatchToProps = (dispatch: GlobalDispatch<*>): DispatchProps =>
   bindActionCreators({ logout }, dispatch);
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Home)
+);
 export type ReduxProps = StateProps & DispatchProps;

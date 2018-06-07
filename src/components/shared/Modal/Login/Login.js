@@ -16,10 +16,6 @@ type Props = ReduxProps & {
 };
 
 class Login extends PureComponent<Props> {
-  // TODO: watch for resolution of
-  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props;
-
   handleClose = () => this.props.history.goBack();
 
   render() {
