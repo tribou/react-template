@@ -17,7 +17,7 @@ class Profile extends PureComponent<Props> {
     return (
       <View style={styles.container}>
         <Button title="Back" onPress={history.goBack} />
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
+        <Text style={styles.welcome}>Welcome to the Profile!</Text>
         <Text style={styles.instructions}>
           To get started, edit index.ios.js
         </Text>
