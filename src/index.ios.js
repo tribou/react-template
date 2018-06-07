@@ -3,6 +3,7 @@ import React, { PureComponent } from "react";
 // import { StatusBar } from 'react-native'
 import { Provider } from "react-redux";
 import { NativeRouter } from "react-router-native";
+import SplashScreen from "react-native-splash-screen";
 // import codePush from 'react-native-code-push'
 import configureStore from "src/redux/store";
 
@@ -29,11 +30,10 @@ const store = configureStore();
 /* END HTTP DEBUG */
 
 class ReactTemplate extends PureComponent<void> {
-  // componentDidMount () {
-
-  //   StatusBar.setHidden(true)
-
-  // }
+  componentDidMount() {
+    SplashScreen.hide();
+    // StatusBar.setHidden(true)
+  }
 
   render() {
     return (
