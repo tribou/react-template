@@ -111,6 +111,7 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-router-native-stack": "^0.0.11",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.0",
@@ -158,6 +159,7 @@
     "ie_mob > 10"
   ],
   "scripts": {
+    "postinstall": "cp vendor/attachWebsocketServer.js node_modules/react-native/local-cli/server/util/",
     "precommit": "pretty-quick --staged",
     "prepush": "npm run --silent commitlint && npm test",
     "prettier": "prettier '**/*.{js,md,json}' --write",

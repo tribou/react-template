@@ -13,10 +13,6 @@ class Todos extends PureComponent<Props> {
     this.props.getTodos();
   }
 
-  // TODO: watch for resolution of
-  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props;
-
   render() {
     const { setFilterCurrent, setFilterDone, todos } = this.props;
 

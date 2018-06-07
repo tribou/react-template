@@ -15,10 +15,6 @@ type Props = ReduxProps & {
 };
 
 class Home extends PureComponent<Props> {
-  // TODO: watch for resolution of
-  // https://github.com/yannickcr/eslint-plugin-react/issues/1376
-  props: Props;
-
   handleLogout = () => {
     const { logout, history } = this.props;
 

@@ -5,13 +5,19 @@
  */
 
 import React, { PureComponent } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
+import type { ContextRouter } from "react-router-native";
+import type { ReduxProps } from "./";
 
-class Home extends PureComponent<void> {
+type Props = ReduxProps & ContextRouter;
+
+class Profile extends PureComponent<Props> {
   render() {
+    const { history } = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
+        <Button title="Back" onPress={history.goBack} />
+        <Text style={styles.welcome}>Welcome to the Profile!</Text>
         <Text style={styles.instructions}>
           To get started, edit index.ios.js
         </Text>
@@ -43,4 +49,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Home;
+export default Profile;

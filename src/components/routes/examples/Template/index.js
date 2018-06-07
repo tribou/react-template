@@ -15,5 +15,8 @@ type DispatchProps = {};
 
 const mapDispatchToProps = (dispatch: GlobalDispatch<*>): DispatchProps => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Template);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Template);
 export type ReduxProps = StateProps & DispatchProps;
