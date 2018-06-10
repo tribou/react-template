@@ -1,4 +1,7 @@
 // @flow
+//
+// This file allows styles to be shared across iOS and Android even if the
+// logic needs to be different
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({

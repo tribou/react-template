@@ -4,11 +4,14 @@
  * @flow
  */
 
-import React, { PureComponent } from "react";
+import React from "react";
 import { Text, View } from "react-native";
 import styles from "./Template.style";
 
-class Home extends PureComponent<void> {
+type Props = {};
+type State = {};
+
+export default class Template extends React.PureComponent<Props, State> {
   render() {
     return (
       <View style={styles.container}>
@@ -24,5 +27,3 @@ class Home extends PureComponent<void> {
     );
   }
 }
-
-export default Home;
