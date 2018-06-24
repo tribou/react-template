@@ -2,20 +2,18 @@
 import React from "react";
 import css from "./Template.style.css";
 
-import type { ReduxProps } from "./";
+import type { ContainerProps } from "./";
 
-type Props = ReduxProps & {};
+type Props = ContainerProps & {};
 type State = {};
 
 // For performance optimization, PureComponent is better than stateless
 export default class Template extends React.PureComponent<Props, State> {
   render() {
-    const { url } = this.props;
-
     return (
       <div className={css.template}>
-        This is the url: <br />
-        {url}
+        This is the test: <br />
+        Test
       </div>
     );
   }

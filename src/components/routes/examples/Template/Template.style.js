@@ -3,13 +3,14 @@
 // This file allows styles to be shared across iOS and Android even if the
 // logic needs to be different
 import { StyleSheet } from "react-native";
+import $ from "config/variables";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: $.colorWhite
   },
   welcome: {
     fontSize: 20,
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
   },
   instructions: {
     textAlign: "center",
-    color: "#333333",
+    color: $.colorDark,
     marginBottom: 5
   }
 });

@@ -6,9 +6,10 @@
 
 import React from "react";
 import { Text, View } from "react-native";
+import type { ContainerProps } from "./";
 import styles from "./Template.style";
 
-type Props = {};
+type Props = ContainerProps & {};
 type State = {};
 
 export default class Template extends React.PureComponent<Props, State> {
