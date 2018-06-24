@@ -9,9 +9,9 @@ import { Text, View, Image } from "react-native";
 import { Link } from "react-router-native";
 import imgLogo from "static/images/logo.png";
 import styles from "./Home.style";
-import type { ReduxProps } from "./";
+import type { ContainerProps } from "./";
 
-type Props = ReduxProps & {
+type Props = ContainerProps & {
   history: Object
 };
 

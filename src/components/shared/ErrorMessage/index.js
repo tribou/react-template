@@ -12,4 +12,4 @@ const mapStateToProps = ({ ui: { error } }: RootReducerState): StateProps => ({
 });
 
 export default connect(mapStateToProps)(ErrorMessage);
-export type ReduxProps = StateProps;
+export type ContainerProps = StateProps;

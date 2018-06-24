@@ -22,4 +22,4 @@ export default withRouter(
     mapDispatchToProps
   )(Home)
 );
-export type ReduxProps = StateProps & DispatchProps;
+export type ContainerProps = StateProps & DispatchProps;

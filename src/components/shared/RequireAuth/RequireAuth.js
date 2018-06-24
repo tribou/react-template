@@ -4,9 +4,9 @@ import { Redirect } from "react-router";
 import type { Location } from "react-router";
 import type { Node } from "react";
 
-import type { ReduxProps } from "./";
+import type { ContainerProps } from "./";
 
-type Props = ReduxProps & {
+type Props = ContainerProps & {
   children?: Node,
   location: Location,
   to?: string

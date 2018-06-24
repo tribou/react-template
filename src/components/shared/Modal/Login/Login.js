@@ -6,9 +6,9 @@ import { Field } from "redux-form";
 import TextField from "src/components/shared/TextField";
 import css from "./Login.style.css";
 
-import type { ReduxProps } from "./Login.index";
+import type { ContainerProps } from "./Login.index";
 
-type Props = ReduxProps & {
+type Props = ContainerProps & {
   history: Object,
   handleSubmit: Function,
   submitting: boolean,

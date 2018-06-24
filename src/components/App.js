@@ -6,9 +6,9 @@ import Modal from "src/components/shared/Modal";
 import LoadingIndicator from "src/components/shared/LoadingIndicator";
 import ErrorMessage from "src/components/shared/ErrorMessage";
 import vars from "config/variables";
-import type { ReduxProps } from "./";
+import type { ContainerProps } from "./";
 
-type Props = ReduxProps & {
+type Props = ContainerProps & {
   children: React$Element<*>
 };
 
