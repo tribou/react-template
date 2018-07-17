@@ -3,7 +3,7 @@
 // Example of how to apply react-router types
 // import { withRouter, type ContextRouter } from "react-router";
 // import { connect } from "react-redux";
-import { type RootReducerState } from "src/redux/modules";
+// import { type RootReducerState } from "src/redux/modules";
 import Template from "./Template";
 
 /**
