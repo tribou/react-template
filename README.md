@@ -1,11 +1,94 @@
 # React Template
 
 React boilerplate with Hapi server-side rendering. Uses browser-sync refreshing
-with server-side HMR until react-hot-loader v3 stabilizes.
+with server-side HMR until client-side HMR becomes more reliable.
 
-#### Quick Start
+## Features
 
-Runs on Node v6+
+#### Universal Platform App
+
+-   Server-rendered React web app
+-   React Native app (iOS and Android)
+-   Electron app
+-   Storage abstraction across platforms
+-   Container-component model for shared React containers to share business logic across all platforms (web, iOS, Android, Windows, Mac, Linux)
+
+#### Performance
+
+-   Custom webpack image/JS/CSS/font/etc support for optimizing and cache-busting assets
+-   Offline asset caching via Service Worker and offline-plugin lifecycle hooks
+-   Webpack manifest support to prevent unnecessary network calls
+-   Webpack split vendor dependency chunk extracted for all node modules
+-   CSS minified (in production) and injected into the head of server-rendered web pages for best performance
+-   An ImageOptim script for compressing new image assets
+
+#### Styling
+
+-   Material UI integration
+-   Electron, web, iOS, Android icon support
+-   PostCSS with PreCSS for SASS-like syntax including mixins
+-   CSS modules to avoid CSS global scoping conflicts
+-   Config properties including colors etc. shared across JS and CSS
+-   Sanitize.css defaults for web
+
+#### Routing
+
+-   React router with centralized routes file
+-   Pluggable support for react-navigation if desired for React Native
+-   Modal standardization support for URL params and location.state
+-   Authentication
+-   RequireAuth helper component for redirects and protected content on a public page
+-   Authentication helpers including login/logout and cookie storage of the auth token for server rendering
+
+#### SEO
+
+-   Server-side rendering for web
+-   React helmet with server-side support
+-   Easy server-side API call support for SEO metadata via async/await
+
+#### Application State
+
+-   Redux
+-   Selectors via reselect for memoized views
+-   Redux Form for form state management
+-   Redux promise middleware for easy network/API side-effect management
+-   Redux Observable to isolate more complex side-effects
+-   Dynamic env support for rehydrating Node.js runtime environment variables in the browser
+
+#### Dev Experience
+
+-   Server-side HMR for optimal server-rendering dev/prod parity
+-   Babel transformation
+-   Redux Devtools for all platforms
+-   API helpers to abstract the networking library implementation and domain-specific backend calls
+-   API mock data available to enable/disable to keep frontend developers productive if the backend is down or doesn't exist yet (resourcing!)
+-   Yarn for package management with offline dependency caching to remove the Internet dependency for builds or deployments
+-   Local Yarn script to avoid a global install and synchronize yarn version
+
+#### Continuous Delivery
+
+-   Jest testing with example tests for React web and React Native
+-   Code coverage reports
+-   ESLint with plugins for JS + React best practices
+-   ESLint custom rules including encouraging PureComponents over functional for optimal performance
+-   FlowType for type inference, static typing, and easier refactoring
+-   CircleCI config for automatic building, testing
+-   CircleCI config for NPM versioning for protected master branch support
+-   Electron packaging script to ship Mac, Windows, and Linux builds
+-   Dockerfile with Alpine Linux build and dev dependency removal
+-   Rollbar client-side error reporting for production error insight
+-   Health check server route for monitoring or zero-downtime Kubernetes or similar deployments
+-   Robots.txt control via env vars
+
+#### Security
+
+-   HTTPS redirect support for Heroku and AWS EBS
+-   Cross-site scripting and other protection via security headers
+-   NPM module security scans and reporting
+
+## Quick Start
+
+Runs on Node v8+
 
 ```sh
 # Install dependencies and build assets
@@ -18,7 +101,7 @@ NODE_ENV=production npm start
 
 The server should start at http://localhost:8000/.
 
-#### Development
+## Development
 
 ```sh
 # Start dev server
@@ -36,7 +119,7 @@ http://localhost:8000/
 Browser-Sync Proxy:  
 http://localhost:3000/
 
-##### Clone Component Script
+#### Clone Component Script
 
 Shortcut script to bootstrap new components. Requires `make` to be installed.
 
@@ -64,7 +147,7 @@ make component NAME=Sample TARGET_DIR=src/components/Dashboard
 #     └── Sample.style.css
 ```
 
-#### Deployment
+## Deployment
 
 CircleCI is setup to automatically bump patch versions on master.
 If you need a minor or major bump specifically, run either:
@@ -82,17 +165,17 @@ npm version premajor
 before you merge your PR to master. CircleCI will then automatically bump a
 minor or major version respectively. See `bin/bump_version.sh` for details.
 
-###### Staging Deployment
+#### Staging Deployment
 
-Afterwards, Heroku is setup to automatically deploy the `master` branch to
-staging.
+Afterwards, Heroku Pipelines is setup to automatically deploy the `master`
+branch to staging.
 
-###### Production Deployment
+#### Production Deployment
 
-Login to Heroku or use the CLI to promote a staging build to production via the
-Heroku pipelines feature.
+Login to Heroku or use the CLI to promote a staging build artifact to
+production via the Heroku pipelines feature.
 
-#### Testing
+## Testing
 
 ```sh
 # Run all tests (lint, type, unit)
@@ -218,12 +301,12 @@ web.
 The `postcss.config.js` returns the PostCSS config and currently includes the
 following transforms in this order:
 
-*   [PreCSS](https://github.com/jonathantneal/precss) applies a collection of
+-   [PreCSS](https://github.com/jonathantneal/precss) applies a collection of
     PostCSS configurations for SASS-like markup.
-*   [postcss-calc](https://github.com/postcss/postcss-calc) reduces the number of
+-   [postcss-calc](https://github.com/postcss/postcss-calc) reduces the number of
     `calc()` operations performed by the browser by precalculating values when
     possible.
-*   [autoprefixer](https://github.com/postcss/autoprefixer) automatically adds
+-   [autoprefixer](https://github.com/postcss/autoprefixer) automatically adds
     vendor prefixes according to [Can I Use](http://caniuse.com/) rules and the
     [Browserslist](https://github.com/ai/browserslist#queries) defaults.
 
