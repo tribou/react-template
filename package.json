@@ -4,9 +4,9 @@
   "private": true,
   "description": "",
   "engines": {
-    "node": ">=8.11.x <9",
-    "npm": ">=5",
-    "yarn": "^1.6.0"
+    "node": ">=12.18.0 <13",
+    "npm": ">=6.14.5",
+    "yarn": "^1.13.0"
   },
   "repository": {
     "type": "git",
@@ -155,8 +155,7 @@
     "setupTestFrameworkScriptFile": "./testSetup.js"
   },
   "browserslist": [
-    "ie > 10",
-    "ie_mob > 10"
+    "defaults"
   ],
   "scripts": {
     "postinstall": "cp vendor/attachWebsocketServer.js node_modules/react-native/local-cli/server/util/",
