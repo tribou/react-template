@@ -161,7 +161,6 @@
   "scripts": {
     "postinstall": "cp vendor/attachWebsocketServer.js node_modules/react-native/local-cli/server/util/",
     "precommit": "pretty-quick --staged",
-    "prepush": "npm run --silent commitlint && npm test",
     "prettier": "prettier '**/*.{js,md,json}' --write",
     "heroku-postbuild": "npm run build",
     "commitlint": "VALID_COMMIT=$(git log --pretty=format:\"%B\" master...HEAD | grep \\#[0-9]); [ ! -z \"$VALID_COMMIT\" ] && (echo 'commitlint: Valid commit found 👍 ' && exit 0) || (echo 'commitlint: Valid issue number required in at least one commit message 👎 ' && exit 1)",
