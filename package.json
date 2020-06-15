@@ -193,6 +193,6 @@
     "watch-lint": "nodemon -w . -i .eslintcache -x npm run --silent lint-cache",
     "watch-test": "cross-env NODE_ENV=test jest --watch --notify --watchman",
     "yarn": "npm run --silent yarn-bin -- install --prefer-offline",
-    "yarn-bin": "node bin/yarn-1.7.0.js"
+    "yarn-bin": "node .yarn/releases/yarn-1.22.4.js"
   }
 }

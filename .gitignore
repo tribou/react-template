@@ -71,6 +71,11 @@ build/
 local.properties
 *.iml
 
+# Vim
+#
+.exrc
+.vim
+
 # node.js
 #
 node_modules/
