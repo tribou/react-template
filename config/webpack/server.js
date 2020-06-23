@@ -7,10 +7,11 @@ const {
   addPlugins,
   createConfig,
   env,
+  setMode,
   setOutput,
   sourceMaps
   // eslint-disable-next-line import/no-extraneous-dependencies
-} = require("@webpack-blocks/webpack2");
+} = require("webpack-blocks");
 
 const babel = require("./blocks/babel");
 const cssModules = require("./blocks/cssModules");
@@ -20,7 +21,10 @@ const getResolve = require("./blocks/getResolve");
 const getTarget = require("./blocks/getTarget");
 const setPlatform = require("./blocks/setPlatform");
 
-const config = createConfig.vanilla([
+const { NODE_ENV } = process.env;
+
+const config = createConfig([
+  setMode(NODE_ENV || "development"),
   setPlatform("server"),
   getTarget(),
   getEntry(),
@@ -44,23 +48,12 @@ const config = createConfig.vanilla([
 
   env("development", [
     sourceMaps(),
-    addPlugins([
-      new Webpack.HotModuleReplacementPlugin(),
-      new Webpack.NoEmitOnErrorsPlugin(),
-      new Webpack.NamedModulesPlugin()
-    ])
+    addPlugins([new Webpack.HotModuleReplacementPlugin()])
   ]),
 
   env("production", [
     sourceMaps("source-map"),
     addPlugins([
-      new Webpack.optimize.ModuleConcatenationPlugin(),
-      new Webpack.optimize.UglifyJsPlugin({
-        sourceMap: true,
-        output: {
-          comments: false
-        }
-      }),
       new Webpack.LoaderOptionsPlugin({
         debug: false,
         minimize: true

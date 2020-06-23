@@ -12,10 +12,11 @@ const {
   addPlugins,
   createConfig,
   env,
+  setMode,
   setOutput,
   sourceMaps
   // eslint-disable-next-line import/no-extraneous-dependencies
-} = require("@webpack-blocks/webpack2");
+} = require("webpack-blocks");
 
 const babel = require("./blocks/babel");
 const cssModules = require("./blocks/cssModules");
@@ -25,18 +26,13 @@ const getResolve = require("./blocks/getResolve");
 const getTarget = require("./blocks/getTarget");
 const setPlatform = require("./blocks/setPlatform");
 
-const splitVendor = require("webpack-blocks-split-vendor");
-
 const { NODE_ENV } = process.env;
 
-const config = createConfig.vanilla([
+const config = createConfig([
+  setMode(NODE_ENV || "development"),
   setPlatform("desktop"),
   getEntry(),
   getTarget(),
-  splitVendor({
-    name: "vendor",
-    exclude: /(\/webpack\/hot\/|offline-plugin\/runtime\.js$)/
-  }),
   setOutput({
     path: Path.resolve(__dirname, "../../build/desktop/"),
     chunkFilename: "[name]-[chunkhash].js",
@@ -47,14 +43,11 @@ const config = createConfig.vanilla([
   getResolve(),
   cssModules(),
   addPlugins([
-    new Webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify(NODE_ENV || "development")
-      }
-    }),
     new Webpack.HashedModuleIdsPlugin(),
     new WebpackChunkHash(),
-    new CopyPlugin(["static", "desktop/main.js", "desktop/package.json"]),
+    new CopyPlugin({
+      patterns: ["static", "desktop/main.js", "desktop/package.json"]
+    }),
     new HtmlPlugin({
       inlineSource: ".css$",
       template: "desktop/index.html",
@@ -69,9 +62,6 @@ const config = createConfig.vanilla([
   env("production", [
     sourceMaps("source-map"),
     addPlugins([
-      new UglifyJsPlugin({
-        sourceMap: true
-      }),
       new Webpack.LoaderOptionsPlugin({
         debug: false,
         minimize: true
