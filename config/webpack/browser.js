@@ -102,18 +102,19 @@ const config = {
           options: {
             cacheDirectory,
             babelrc: false,
-            plugins: ["transform-class-properties", "transform-object-assign"],
+            plugins: ["@babel/plugin-proposal-class-properties"],
             presets: [
               [
-                "env",
+                "@babel/preset-env",
                 {
                   loose: true,
                   modules: false,
-                  useBuiltIns: "entry"
+                  useBuiltIns: "entry",
+                  corejs: "3.6"
                 }
               ],
-              "react",
-              "stage-3"
+              "@babel/preset-react",
+              "@babel/preset-flow"
             ]
           }
         }
@@ -158,11 +159,15 @@ const config = {
         use: "file-loader"
       },
       {
+        test: /\.(svg)$/,
+        use: "svg-inline-loader"
+      },
+      {
         test: /\.(mp4|webm)$/,
         use: "file-loader"
       },
       {
-        test: /\.(gif|ico|jpg|jpeg|png|svg|webp)$/,
+        test: /\.(gif|ico|jpg|jpeg|png|webp)$/,
         use: "url-loader?limit=10000"
       },
       {
