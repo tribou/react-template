@@ -8,14 +8,14 @@
 
 @mixin image($name, $width, $height) {
   @media (max-resolution: 1dppx) {
-    background-image: url(static/images/#{name}.png);
+    background-image: url(/static/images/#{$name}.png);
   }
-  background-image: url(static/images/#{name}@2x.png);
+  background-image: url(/static/images/#{$name}@2x.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: #{width} px;
-  height: #{height} px;
+  width: #{$width}px;
+  height: #{$height}px;
   display: inline-block;
 }
 
@@ -25,13 +25,13 @@
 
   & > div {
     @media (max-resolution: 1dppx) {
-      background-image: url(static/images/#{name}.png);
+      background-image: url(/static/images/#{$name}.png);
     }
-    background-image: url(static/images/#{name}@2x.png);
+    background-image: url(/static/images/#{$name}@2x.png);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
-    // height: #{height}px;
+    // height: #{$height}px;
     width: 100%;
     padding-bottom: $height / $width * 100%;
   }
@@ -39,14 +39,14 @@
 
 @mixin image-jpg($name, $width, $height) {
   @media (max-resolution: 1dppx) {
-    background-image: url(static/images/#{name}.jpg);
+    background-image: url(/static/images/#{$name}.jpg);
   }
-  background-image: url(static/images/#{name}@2x.jpg);
+  background-image: url(/static/images/#{$name}@2x.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: #{width} px;
-  height: #{height} px;
+  width: #{$width}px;
+  height: #{$height}px;
   display: inline-block;
 }
 
@@ -55,16 +55,16 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: #{width}px;
-  height: #{height}px;
+  width: #{$width}px;
+  height: #{$height}px;
   display: inline-block;
 }
 
 @mixin splash($name) {
   @media (max-resolution: 1dppx) {
-    background-image: url(static/images/#{name}.png);
+    background-image: url(/static/images/#{$name}.png);
   }
-  background-image: url(static/images/#{name}@2x.png);
+  background-image: url(/static/images/#{$name}@2x.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

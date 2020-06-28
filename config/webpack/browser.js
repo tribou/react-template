@@ -38,6 +38,9 @@ const plugins = [
   new ChunkManifestPlugin({
     filename: "../chunk-manifest.json",
     manifestVariable: vars.fobWebpackManiVar
+  }),
+  new Webpack.LoaderOptionsPlugin({
+    debug: NODE_ENV === "development"
   })
   // relative to project root
   // new FaviconsWebpackPlugin('static/images/logo@2x.png'),
@@ -51,11 +54,6 @@ if (NODE_ENV === "production") {
       test: /\.(js|css|html|json|ico|map|xml|txt|svg|eot|otf|ttf|woff|woff2)$/,
       threshold: 10240,
       minRatio: 0.8
-    })
-  );
-  plugins.push(
-    new Webpack.LoaderOptionsPlugin({
-      debug: NODE_ENV === "development"
     })
   );
   // Keep OfflinePlugin last

@@ -1,0 +1,27 @@
+@import "variables";
+@import "mixins/sprite";
+
+/* Sprites */
+.facebookIcon {
+  @include sprite("facebook-icon", 45, 90);
+
+  /* Extra visibility just for this example: */
+  background-color: $colorTheme;
+  border-radius: 100%;
+}
+
+.instagramIcon {
+  @include sprite("instagram-icon", 45, 90);
+}
+
+.pinterestIcon {
+  @include sprite("pinterest-icon", 45, 90);
+}
+
+.twitterIcon {
+  @include sprite("twitter-icon", 45, 90);
+}
+
+.youtubeIcon {
+  @include sprite("youtube-icon", 45, 90);
+}
