@@ -79,8 +79,7 @@ const config = {
       "tachyons-text-align",
       "tachyons-vertical-align",
       "tachyons-widths",
-      "./src/styles/fonts.css",
-      "./src/styles/app.css",
+      "./src/styles/index.scss",
       "./src/index.browser.js"
     ]
   },
@@ -96,27 +95,27 @@ const config = {
         test: /\.jsx?/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: "babel-loader"
           // Override .babelrc to avoid React Native config preset since it
           // affects HMR
-          options: {
-            cacheDirectory,
-            babelrc: false,
-            plugins: ["@babel/plugin-proposal-class-properties"],
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  loose: true,
-                  modules: false,
-                  useBuiltIns: "entry",
-                  corejs: "3.6"
-                }
-              ],
-              "@babel/preset-react",
-              "@babel/preset-flow"
-            ]
-          }
+          // options: {
+          //   cacheDirectory,
+          //   babelrc: false,
+          //   plugins: ["@babel/plugin-proposal-class-properties"],
+          //   presets: [
+          //     [
+          //       "@babel/preset-env",
+          //       {
+          //         loose: true,
+          //         modules: false,
+          //         useBuiltIns: "entry",
+          //         corejs: "3.6"
+          //       }
+          //     ],
+          //     "@babel/preset-react",
+          //     "@babel/preset-flow"
+          //   ]
+          // }
         }
       },
       {
@@ -137,6 +136,19 @@ const config = {
             }
           },
           "postcss-loader"
+        ]
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          // Creates `style` nodes from JS strings
+          // 'style-loader',
+          // Translates CSS into CommonJS
+          "css-loader",
+          "postcss-loader",
+          // Compiles Sass to CSS
+          "sass-loader"
         ]
       },
       {

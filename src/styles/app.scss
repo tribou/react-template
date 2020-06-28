@@ -1,0 +1,152 @@
+// GLOBAL STYLES
+html {
+  // Change font-size dynamically across screen widths? Maybe XS/4K only...
+  // @media (max-width: $screenMdMax) {
+  //   font-size: 18px;
+  // }
+  // @media (max-width: $screenSmMax) {
+  //   font-size: 16px;
+  // }
+  // @media (max-width: $screenXsMax) {
+  //   font-size: 16px;
+  // }
+
+  box-sizing: border-box;
+
+  // CAUTION!
+  // This is the base pixel size for all 'rem' measurements.
+  font-size: #{baseRemSize}px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  outline: none;
+  font-family: $fontFamily;
+  font-weight: $fontWeight;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+}
+
+button {
+  cursor: pointer;
+  // Apply design guideline
+  background-color: transparent;
+  border: solid 2px $colorTheme;
+  border-radius: $borderRadius;
+  color: $colorTheme;
+  padding: $s3;
+}
+
+body {
+  color: $colorDark;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: 1.25em;
+  color: $colorDark;
+}
+
+h1 {
+  @include font-size(64);
+}
+
+h2 {
+  @include font-size(40);
+}
+
+h3 {
+  @include font-size(30);
+}
+
+h4 {
+  @include font-size(12);
+}
+
+h5 {
+  @include font-size(12);
+  color: $colorGray;
+}
+
+p {
+  @include font-size(16);
+  line-height: 1.5em;
+
+  @media (max-width: $screenSmMax) {
+    @include font-size(14);
+  }
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+
+  // Example of keeping text indented for bullet-list:
+  // padding-right: 1em;
+  // li {
+  //   list-style-position: inside;
+  //   text-indent: -1.5em;
+  //   padding-left: 1em;
+  //   padding-bottom: 1em;
+  // }
+
+  // li:before {
+  //   padding-right: .5em;
+  //   content: '\2022';
+  //   color: $colorDark;
+  //   fill: $colorDark;
+  // }
+}
+
+a {
+  cursor: pointer;
+  color: $colorTheme;
+  text-decoration: none;
+
+  &:hover {
+    color: $colorThemeSecondary;
+  }
+
+  &:focus,
+  &:active {
+    color: $colorTheme;
+    outline: none;
+    text-decoration: none;
+  }
+}
+
+input {
+  border: none;
+
+  &::placeholder {
+    // IE equivalent
+    opacity: 0.5;
+  }
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+}
+
+// Remove Chrome Yellow auto-complete background
+input:-webkit-autofill {
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+  transition-delay: background-color 5000s, color 5000s;
+
+  &:hover,
+  &:focus,
+  &:active {
+    transition: background-color 5000s ease-in-out 0s,
+      color 5000s ease-in-out 0s;
+    transition-delay: background-color 5000s, color 5000s;
+  }
+}

@@ -1,5 +1,4 @@
-@define-mixin page-padding-sides {
-
+@mixin page-padding-sides {
   @media (max-width: $screenLgMax) {
     padding-left: 2rem;
     padding-right: 2rem;

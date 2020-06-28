@@ -1,9 +1,7 @@
-@define-mixin video {
-  /*
-    Parent element needs:
-    position: relative;
-    overflow: hidden;
-  */
+@mixin video {
+  // Parent element needs:
+  // position: relative;
+  // overflow: hidden;
 
   @media (max-width: 1025px) {
     display: none;

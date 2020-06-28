@@ -33,7 +33,7 @@ module.exports = function(api) {
         }
       ],
       "@babel/preset-react",
-      "react-native",
+      // "react-native",
       "@babel/preset-flow"
     ]
   };

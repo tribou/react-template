@@ -4,18 +4,18 @@
 
 ##### Flexbox first.
 
-*   Approach each layout thinking "What would Flexbox do?"
-*   Prefer using flexible boxes to determine layout instead of redline `px`.
+-   Approach each layout thinking "What would Flexbox do?"
+-   Prefer using flexible boxes to determine layout instead of redline `px`.
 
 ##### REM first.
 
-*   Prefer using `rem` over `px`.
-*   Font size is okay using `px` from redlines. However, prefer the `font-size`
+-   Prefer using `rem` over `px`.
+-   Font size is okay using `px` from redlines. However, prefer the `font-size`
     mixin.
 
 ##### Use Backup Background Colors.
 
-*   When using background-image for large, above-the-fold content, also set a
+-   When using background-image for large, above-the-fold content, also set a
     background-color that closely matches the image tone.
 
 This provides a softer introduction to larger images that may not arrive until
@@ -30,10 +30,10 @@ Order summary:
 1.  media queries
 1.  nested classes/ids/elements
 
-*   Declare mixins at the top of the CSS sections. This keeps the mixin from
+-   Declare mixins at the top of the CSS sections. This keeps the mixin from
     accidentally overwriting other styles and give a better at-a-glance
     understanding when reviewing CSS classes.
-*   Declare media queries at the bottom or end of the CSS property. Since they
+-   Declare media queries at the bottom or end of the CSS property. Since they
     are more specific, they will override existing properties no matter the
     order. For readability, lets standardize on keeping them last.
 
@@ -70,12 +70,12 @@ Order summary:
 
 ##### Approach large splash images/scenes as "fluid"/aspect-ratio-driven by default.
 
-*   _Aspect Ratio should be a first-class citizen._
-*   Height is dynamically determined by width.
-*   Condense the layout for different widths according to aspect-ratio
+-   _Aspect Ratio should be a first-class citizen._
+-   Height is dynamically determined by width.
+-   Condense the layout for different widths according to aspect-ratio
     "shrinking" with _ONE_ mobile/desktop breakpoint at iPad portrait width (<=
     768px).
-*   If you're using a lot of media queries, you probably didn't do this right.
+-   If you're using a lot of media queries, you probably didn't do this right.
 
 Flexible aspect-ratio-driven images:
 
@@ -88,8 +88,8 @@ For now, reference https://flashmobile-mx.herokuapp.com/ for a good example.
 Preferably defined in `src/styles/images.css` if there are no special CSS styling needs.
 
 ```scss
-@mixin image image_file_name, width, height;
-@mixin image-url images/image_file_name.png, width, height;
+@include image(image_file_name, width, height);
+@include image-url(images/image_file_name.png, width, height);
 ```
 
 ##### Use Tachyons before inline styles.
