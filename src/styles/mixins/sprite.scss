@@ -1,0 +1,37 @@
+// Sprite mixins
+
+// Enables you to declare with actual image dimensions and base filename:
+// @mixin sprite facebook-icon, 45, 90; (filename, width, height)
+
+@mixin sprite($name, $width, $height) {
+  @media (max-resolution: 1dppx) {
+    background-image: url(/static/sprites/#{$name}.png);
+  }
+  background-image: url(/static/sprites/#{$name}@2x.png);
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  background-size: #{width}px #{height}px;
+  width: #{width}px;
+  height: #{height}px / 2px;
+
+  &:hover {
+    background-position: 0px ($height / 2) * -1px;
+  }
+}
+
+/* TODO: Untested */
+@mixin horizontal-sprite($name, $width, $height) {
+  @media (max-resolution: 1dppx) {
+    background-image: url(/static/sprites/#{$name}.png);
+  }
+  background-image: url(/static/sprites/#{$name}@2x.png);
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  background-size: #{width}px #{height}px;
+  width: $width / 2px;
+  height: #{height}px;
+
+  &:hover {
+    background-position: ($width / 2) * -1px 0px;
+  }
+}

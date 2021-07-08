@@ -1,0 +1,3 @@
+@function font-size($count: 1) {
+  @return $base-unit * $count;
+}

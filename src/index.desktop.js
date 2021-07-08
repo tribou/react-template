@@ -1,5 +1,6 @@
 // @flow
-import "babel-polyfill";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 // import Debug from 'debug'
 // import OfflineRuntime from 'offline-plugin/runtime'
 import React from "react";

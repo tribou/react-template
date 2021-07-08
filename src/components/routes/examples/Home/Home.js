@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import Cn from "classnames";
 
 import RequireAuth from "src/components/shared/RequireAuth";
-import img from "src/styles/images.css";
-import sprites from "src/styles/sprites.css";
+import img from "src/styles/images.scss";
+import sprites from "src/styles/sprites.scss";
 import css from "./Home.style.css";
 import type { ReduxProps } from "./";
 

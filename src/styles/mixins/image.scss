@@ -1,0 +1,78 @@
+/*
+  Image mixins
+
+  Enables you to declare with actual image dimensions and base filename:
+  @include image(logo, 256, 256);  (filename, width, height)
+
+*/
+
+@mixin image($name, $width, $height) {
+  @media (max-resolution: 1dppx) {
+    background-image: url(/static/images/#{$name}.png);
+  }
+  background-image: url(/static/images/#{$name}@2x.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: #{$width}px;
+  height: #{$height}px;
+  display: inline-block;
+}
+
+/* Aspect Ratio-driven ...Work-in-Progress */
+@mixin fluid-image($name, $width, $height) {
+  position: relative;
+
+  & > div {
+    @media (max-resolution: 1dppx) {
+      background-image: url(/static/images/#{$name}.png);
+    }
+    background-image: url(/static/images/#{$name}@2x.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    // height: #{$height}px;
+    width: 100%;
+    padding-bottom: $height / $width * 100%;
+  }
+}
+
+@mixin image-jpg($name, $width, $height) {
+  @media (max-resolution: 1dppx) {
+    background-image: url(/static/images/#{$name}.jpg);
+  }
+  background-image: url(/static/images/#{$name}@2x.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: #{$width}px;
+  height: #{$height}px;
+  display: inline-block;
+}
+
+@mixin image-url($url, $width, $height) {
+  background-image: url($url);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: #{$width}px;
+  height: #{$height}px;
+  display: inline-block;
+}
+
+@mixin splash($name) {
+  @media (max-resolution: 1dppx) {
+    background-image: url(/static/images/#{$name}.png);
+  }
+  background-image: url(/static/images/#{$name}@2x.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@mixin splash-url($url) {
+  background-image: url($url);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

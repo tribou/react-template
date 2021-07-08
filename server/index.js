@@ -1,5 +1,7 @@
 // @flow
-import "babel-polyfill";
+
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import "make-promises-safe";
 import Hapi from "hapi";
 import HapiReactViews from "hapi-react-views";

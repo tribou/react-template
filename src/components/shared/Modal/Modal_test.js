@@ -11,10 +11,7 @@ import configureStore from "src/redux/store";
 import { MemoryRouter } from "react-router";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import getMuiTheme from "config/muiTheme";
-import InjectTapEventPlugin from "react-tap-event-plugin";
 import Modal from "./";
-
-InjectTapEventPlugin();
 
 it("renders null if no modal state or query", () => {
   const store = configureStore();

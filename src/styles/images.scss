@@ -1,0 +1,22 @@
+@import "mixins/image";
+// Requires images to be named according to mixins
+
+// PNGs
+.logo {
+  @include image("logo", 64, 64);
+}
+
+// JPGs
+// .jpgImage {
+//   @include image-jpg(jpg-image, 2560, 1786);
+
+//   @media (max-width: $screenSmMax) {
+//     @include image-jpg(jpg-image-mobile, 827, 1786);
+//     background-size: cover;
+//   }
+// }
+
+// One-off (no @2x version)
+// .logo {
+//   @include image-url(images/logo.png, 64, 64);
+// }
