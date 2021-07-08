@@ -13,4 +13,4 @@ const mapStateToProps = (state: RootReducerState): StateProps => ({
 });
 
 export default connect(mapStateToProps)(LoadingIndicator);
-export type ReduxProps = StateProps;
+export type ContainerProps = StateProps;

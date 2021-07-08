@@ -12,4 +12,4 @@ const mapStateToProps = ({
 }: RootReducerState): StateProps => ({ ROOT_URL });
 
 export default connect(mapStateToProps)(App);
-export type ReduxProps = StateProps;
+export type ContainerProps = StateProps;

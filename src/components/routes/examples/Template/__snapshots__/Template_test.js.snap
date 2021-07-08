@@ -4,6 +4,8 @@ exports[`<Template> renders the Template content 1`] = `
 <div
   className="template"
 >
-  http://www.example.com
+  This is the test: 
+  <br />
+  Test
 </div>
 `;

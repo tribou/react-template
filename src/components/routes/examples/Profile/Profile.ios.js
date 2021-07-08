@@ -7,9 +7,9 @@
 import React, { PureComponent } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import type { ContextRouter } from "react-router-native";
-import type { ReduxProps } from "./";
+import type { ContainerProps } from "./";
 
-type Props = ReduxProps & ContextRouter;
+type Props = ContainerProps & ContextRouter;
 
 class Profile extends PureComponent<Props> {
   render() {

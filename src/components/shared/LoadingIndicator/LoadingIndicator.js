@@ -2,9 +2,9 @@
 import React, { PureComponent } from "react";
 import css from "./LoadingIndicator.style.css";
 
-import type { ReduxProps } from "./";
+import type { ContainerProps } from "./";
 
-type Props = ReduxProps & {};
+type Props = ContainerProps & {};
 
 class LoadingIndicator extends PureComponent<Props> {
   render() {

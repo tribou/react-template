@@ -29,4 +29,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Profile);
-export type ReduxProps = StateProps & DispatchProps;
+export type ContainerProps = StateProps & DispatchProps;

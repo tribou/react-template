@@ -4,9 +4,9 @@ import Helmet from "react-helmet";
 import { Link } from "react-router-dom";
 import css from "./Todos.style.css";
 
-import type { ReduxProps } from "./";
+import type { ContainerProps } from "./";
 
-type Props = ReduxProps;
+type Props = ContainerProps;
 
 class Todos extends PureComponent<Props> {
   componentDidMount() {

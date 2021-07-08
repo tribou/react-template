@@ -4,9 +4,7 @@ import { applyMiddleware, createStore, compose } from "redux";
 import { createEpicMiddleware } from "redux-observable";
 import thunk from "redux-thunk";
 import promiseMiddleware from "redux-promise-middleware";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { offline } from "@redux-offline/redux-offline";
-import devTools from "src/redux/devtools";
 import errorDisplayMiddleware from "src/redux/middleware/errorDisplay";
 import offlineConfig from "config/reduxOffline";
 import rootEpic from "./epics";
@@ -16,6 +14,10 @@ const { NODE_ENV } = env;
 
 function configureStore(preloadedState?: Object = {}): Object {
   const epicMiddleware = createEpicMiddleware(rootEpic);
+  const composeEnhancers =
+    typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      : compose;
 
   const middleware = [
     epicMiddleware,
@@ -31,10 +33,9 @@ function configureStore(preloadedState?: Object = {}): Object {
   const enhancer =
     NODE_ENV === "test"
       ? compose(applyMiddleware(...middleware))
-      : compose(
+      : composeEnhancers(
           applyMiddleware(...middleware),
-          offline(offlineConfig),
-          devTools()
+          offline(offlineConfig)
         );
 
   const store = createStore(rootReducer, preloadedState, enhancer);

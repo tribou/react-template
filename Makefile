@@ -20,7 +20,7 @@ GC_PUBSUB_CMD = gcloud alpha pubsub
 # Organizational vars
 NAME ?= Component
 TEMPLATE_NAME ?= Template
-TEMPLATES_DIR ?= src/components/examples/$(TEMPLATE_NAME)
+TEMPLATES_DIR ?= src/components/routes/examples/$(TEMPLATE_NAME)
 TEMPLATES = $(shell find $(TEMPLATES_DIR) -type f)
 TARGET_DIR ?= src/components/shared
 TARGET_DIR_NAME = $(TARGET_DIR)/$(NAME)

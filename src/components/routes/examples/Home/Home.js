@@ -8,9 +8,9 @@ import RequireAuth from "src/components/shared/RequireAuth";
 import img from "src/styles/images.css";
 import sprites from "src/styles/sprites.css";
 import css from "./Home.style.css";
-import type { ReduxProps } from "./";
+import type { ContainerProps } from "./";
 
-type Props = ReduxProps & {
+type Props = ContainerProps & {
   history: Object
 };
 

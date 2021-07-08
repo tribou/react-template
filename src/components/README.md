@@ -77,12 +77,15 @@ type ActionProps = {
     setFilterDone: Function
 };
 
-export default connect(mapStateToProps, {
-    setFilterCurrent,
-    setFilterDone
-})(Todos);
+export default connect(
+    mapStateToProps,
+    {
+        setFilterCurrent,
+        setFilterDone
+    }
+)(Todos);
 
-export type ReduxProps = StateProps & ActionProps;
+export type ContainerProps = StateProps & ActionProps;
 ```
 
 If there is no state/container logic needed, here is an example container that

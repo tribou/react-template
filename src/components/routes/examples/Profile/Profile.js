@@ -5,9 +5,9 @@ import Helmet from "react-helmet";
 import RequireAuth from "src/components/shared/RequireAuth";
 import css from "./Profile.style.css";
 
-import type { ReduxProps } from "./";
+import type { ContainerProps } from "./";
 
-type Props = ReduxProps & {
+type Props = ContainerProps & {
   history: Object
 };
 

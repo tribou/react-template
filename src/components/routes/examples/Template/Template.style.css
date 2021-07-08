@@ -1,2 +1,5 @@
+/* These CSS module styles should not be nested like other SASS implementations
+ * since the classnames will be atomic after compilation
+ */
 .template {
 }

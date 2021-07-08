@@ -42,4 +42,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Todos);
-export type ReduxProps = StateProps & DispatchProps;
+export type ContainerProps = StateProps & DispatchProps;

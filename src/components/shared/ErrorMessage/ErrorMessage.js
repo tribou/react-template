@@ -2,11 +2,11 @@
 import React from "react";
 import Snackbar from "material-ui/Snackbar";
 
-import type { ReduxProps } from "./";
+import type { ContainerProps } from "./";
 
 const autoHideDuration = 10000;
 
-type Props = ReduxProps & {};
+type Props = ContainerProps & {};
 
 const ErrorMessage = (props: Props) => {
   const { error } = props;

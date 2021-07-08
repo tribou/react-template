@@ -1,16 +1,3 @@
 {
-  "plugins": [
-    "transform-class-properties",
-    "transform-object-assign"
-  ],
-  "presets": [
-    ["env", {
-      "loose": true,
-      "modules": false,
-      "useBuiltIns": "entry"
-    }],
-    "react",
-    "stage-3",
-    "react-native"
-  ]
+  "presets": ["react-native"]
 }

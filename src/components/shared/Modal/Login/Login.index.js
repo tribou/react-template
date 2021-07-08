@@ -51,4 +51,4 @@ const mapStateToProps = ({
 export default withRouter(
   connect(mapStateToProps)(reduxForm(reduxFormConfig)(Login))
 );
-export type ReduxProps = StateProps;
+export type ContainerProps = StateProps;

@@ -1,22 +1,35 @@
 // @flow
-import { connect } from "react-redux";
-import type { RootReducerState } from "src/redux/modules";
+//
+// Example of how to apply react-router types
+// import { withRouter, type ContextRouter } from "react-router";
+// import { connect } from "react-redux";
+// import { type RootReducerState } from "src/redux/modules";
 import Template from "./Template";
 
-type StateProps = {
-  url: string
+/**
+ * OwnProps are injected by react router.
+ */
+type OwnProps = {
+  // ...ContextRouter
 };
 
-const mapStateToProps = ({
-  env: { ROOT_URL }
-}: RootReducerState): StateProps => ({ url: ROOT_URL });
+/**
+ * StateProps provide a read-only view of the state.
+ */
+type StateProps = {};
 
+// const mapStateToProps = (state: RootReducerState): StateProps => ({});
+
+/**
+ * DispatchProps inject actions to mutate the state.
+ */
 type DispatchProps = {};
 
-const mapDispatchToProps = (dispatch: GlobalDispatch<*>): DispatchProps => ({});
+// const mapDispatchToProps = (dispatch: GlobalDispatch<*>): DispatchProps => ({});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Template);
-export type ReduxProps = StateProps & DispatchProps;
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps,
+// )(Template);
+export default Template;
+export type ContainerProps = StateProps & DispatchProps & OwnProps;

@@ -13,4 +13,4 @@ const mapStateToProps = ({
 }: RootReducerState): StateProps => ({ token });
 
 export default withRouter(connect(mapStateToProps)(RequireAuth));
-export type ReduxProps = StateProps;
+export type ContainerProps = StateProps;
